@@ -1,24 +1,21 @@
 ﻿unit fmMenu;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, CustomizeDlg, DB, ADODB, ComCtrls, ImgList, Grids,
-  DBGrids, IniFiles, Menus, ExtCtrls, IdBaseComponent, IdIPWatch,
-  IdAntiFreeze, DBClient, IdHTTP, AppEvnts, ValEdit, Mask, MPlayer, DateUtils,
-  ActiveX, ShellApi, DBCtrls, OleCtrls, WinInet, OleCtnrs, CheckLst, pngimage,
-  ToolWin, jpeg, IdCoder, IdCoderMIME,Vcl.DBCGrids, ClipBrd, urlmon, RichEdit,
-  IdAntiFreezeBase, System.Zip, System.UITypes,
-  MidasLib, IdStack, System.Types, Bass, Generics.Collections,
-  Generics.Defaults, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  System.RegularExpressions, System.NetEncoding, System.IOUtils,
-  BusinessSkinForm, bsSkinMenus, bsSkinCtrls, bsSkinTabs, bsButtonGroup,
-  bsSkinBoxCtrls, bsSkinExCtrls, bsribbon, bsdbctrls, bsSkinShellCtrls,
-  bsSkinGrids, bsDBGrids, bsColorCtrls, bsPngImageList;
-  (*"MidasLib" NECESSÁRIA PARA EVITAR ERRO DE ACCESS VIOLATION NO DM.cds*)
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/MPlayer/ADODB/MidasLib}
+  {LAZARUS: TbsRibbon→TPageControl(RibbonPC), TbsSkin*→LCL equivalentes}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, DB, ComCtrls, ImgList, Grids,
+  DBGrids, IniFiles, Menus, ExtCtrls, ValEdit, MaskEdit, DateUtils,
+  DBCtrls, CheckLst, ClipBrd, Math,
+  LCLIntf, LCLType, LMessages, BufDataset,
+  FPHTTPClient, opensslsockets, zipper, regexpr, base64,
+  FileUtil, LazFileUtils, Process,
+  Bass, Generics.Collections, Generics.Defaults,
+  RichMemo, FileCtrl, EditBtn, Spin, ColorBox, Calendar,
+  ZDataset;
 
 type
   TMonitorInfo = record
@@ -27,484 +24,485 @@ type
     Width: Integer;
     Height: Integer;
   end;
+  TMonitorInfoArray = array of TMonitorInfo; {LAZARUS: TArray<TMonitorInfo>}
   TParamItem = record
     Grupo: string;
     Param: string;
     Valor: string;
   end;
   TfmIndex = class(TForm)
-    IdAntiFreeze1: TIdAntiFreeze;
-    bsRibbon1: TbsRibbon;
-    bsColetaneas: TbsRibbonPage;
-    bsBiblia: TbsRibbonPage;
-    bsHinario: TbsRibbonPage;
+    {LAZARUS: IdAntiFreeze1 removido — não necessário no LCL}
+    RibbonPC: TPageControl {LAZARUS: TbsRibbon};
+    tsColetaneas: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsBiblia: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsHinario: TTabSheet {LAZARUS: TbsRibbonPage};
     pnlImagemCapa: TPanel;
     imgImagemCapa: TImage;
-    PageControl1: TbsSkinPageControl;
-    TabSheet14: TbsSkinTabSheet;
-    tsJA: TbsSkinTabSheet;
-    sbColJA: TbsSkinScrollBox;
-    tsDiversas: TbsSkinTabSheet;
-    sbColDIV: TbsSkinScrollBox;
-    tsPersonalizadas: TbsSkinTabSheet;
-    tsHinario: TbsSkinTabSheet;
-    DBGrid1: TbsSkinDBGrid;
-    tsBuscaMusica: TbsSkinTabSheet;
-    tsBiblia: TbsSkinTabSheet;
-    tsBuscaBiblica: TbsSkinTabSheet;
-    tsCronoCulto: TbsSkinTabSheet;
-    mpMusica: TMediaPlayer;
-    tsSorteio: TbsSkinTabSheet;
+    PageControl1: TPageControl {LAZARUS: TbsSkinPageControl};
+    TabSheet14: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    tsJA: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sbColJA: TScrollBox {LAZARUS: TbsSkinScrollBox};
+    tsDiversas: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sbColDIV: TScrollBox {LAZARUS: TbsSkinScrollBox};
+    tsPersonalizadas: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    tsHinario: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    DBGrid1: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    tsBuscaMusica: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    tsBiblia: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    tsBuscaBiblica: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    tsCronoCulto: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    {LAZARUS: mpMusica (TMediaPlayer) removido — audio via BASS (BassPreviewChannel)}
+    tsSorteio: TTabSheet {LAZARUS: TbsSkinTabSheet};
     pnlSorteio: TPanel;
     lmdSorteio: TLabel;
-    gSorteio: TbsSkinGauge;
-    opNumSorteado: TbsSkinEdit;
-    opNumIndice: TbsSkinEdit;
-    tsCronometro: TbsSkinTabSheet;
+    gSorteio: TProgressBar {LAZARUS: TbsSkinGauge};
+    opNumSorteado: TEdit {LAZARUS: TbsSkinEdit};
+    opNumIndice: TEdit {LAZARUS: TbsSkinEdit};
+    tsCronometro: TTabSheet {LAZARUS: TbsSkinTabSheet};
     pnlCrono: TPanel;
     lmdCrono: TLabel;
-    gCrono: TbsSkinGauge;
-    bsButtonModel: TbsSkinButtonEx;
-    bsPopupMenuRibon: TbsSkinPopupMenu;
+    gCrono: TProgressBar {LAZARUS: TbsSkinGauge};
+    bsButtonModel: TSpeedButton {LAZARUS: TbsSkinButtonEx};
+    bsPopupMenuRibon: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     mnFechaAba: TMenuItem;
     mnFechaTodasAbas: TMenuItem;
     N1: TMenuItem;
-    bsSkinScrollBar1: TbsSkinScrollBar;
-    bsSkinScrollBar2: TbsSkinScrollBar;
-    bsSkinScrollBar7: TbsSkinScrollBar;
-    bsRibbonGroup5: TbsRibbonGroup;
-    bsBuscaMusica: TbsRibbonPage;
-    bsSkinPanel1: TbsSkinPanel;
-    bsSkinStdLabel2: TbsSkinStdLabel;
-    bsRibbonGroup7: TbsRibbonGroup;
-    btAbreColJA: TbsSkinSpeedButton;
-    bsRibbonGroup8: TbsRibbonGroup;
-    bsSkinSpeedButton14: TbsSkinSpeedButton;
-    bsSkinDBText1: TbsSkinDBText;
-    bsRibbonGroup11: TbsRibbonGroup;
-    ckgFiltros: TbsSkinCheckGroup;
-    bsRibbonGroup2: TbsRibbonGroup;
-    bsSkinSpeedButton10: TbsSkinSpeedButton;
-    bsSkinSpeedButton9: TbsSkinSpeedButton;
-    bsConfBiblia: TbsRibbonPage;
-    bsRibbonGroup3: TbsRibbonGroup;
-    btLimpar: TbsSkinSpeedButton;
-    bsRibbonGroup10: TbsRibbonGroup;
-    btExp_Biblia: TbsSkinMenuSpeedButton;
-    bsRibbonGroup14: TbsRibbonGroup;
-    sButton7: TbsSkinSpeedButton;
-    bsUtilitarios: TbsRibbonPage;
-    bsConfBuscaBiblica: TbsRibbonPage;
-    bsRibbonGroup15: TbsRibbonGroup;
-    btLimparBBusca: TbsSkinSpeedButton;
-    bsRibbonGroup17: TbsRibbonGroup;
-    bsSkinSpeedButton19: TbsSkinSpeedButton;
-    bsRibbonGroup18: TbsRibbonGroup;
-    btExp_BibliaBusca: TbsSkinMenuSpeedButton;
-    bsRibbonGroup19: TbsRibbonGroup;
-    ckLivros: TbsSkinCheckListBox;
-    bsRibbonGroup20: TbsRibbonGroup;
-    bsSkinSpeedButton20: TbsSkinSpeedButton;
-    bsColetPerso: TbsRibbonPage;
-    ppColetaneasPerso: TbsSkinPopupMenu;
+    bsSkinScrollBar1: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar2: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar7: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsRibbonGroup5: TPanel {LAZARUS: TbsRibbonGroup};
+    bsBuscaMusica: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel2: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonGroup7: TPanel {LAZARUS: TbsRibbonGroup};
+    btAbreColJA: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup8: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton14: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinDBText1: TDBText {LAZARUS: TbsSkinDBText};
+    bsRibbonGroup11: TPanel {LAZARUS: TbsRibbonGroup};
+    ckgFiltros: TCheckGroup {LAZARUS: TbsSkinCheckGroup};
+    bsRibbonGroup2: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton10: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton9: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsConfBiblia: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup3: TPanel {LAZARUS: TbsRibbonGroup};
+    btLimpar: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup10: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_Biblia: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup14: TPanel {LAZARUS: TbsRibbonGroup};
+    sButton7: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsUtilitarios: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsConfBuscaBiblica: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup15: TPanel {LAZARUS: TbsRibbonGroup};
+    btLimparBBusca: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup17: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton19: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup18: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_BibliaBusca: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup19: TPanel {LAZARUS: TbsRibbonGroup};
+    ckLivros: TCheckListBox {LAZARUS: TbsSkinCheckListBox};
+    bsRibbonGroup20: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton20: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsColetPerso: TTabSheet {LAZARUS: TbsRibbonPage};
+    ppColetaneasPerso: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     Modificar1: TMenuItem;
     Excluir1: TMenuItem;
-    bsRibbonGroup22: TbsRibbonGroup;
-    btAddColPerso: TbsSkinSpeedButton;
-    btAltColPerso: TbsSkinSpeedButton;
-    bsSkinSpeedButton24: TbsSkinSpeedButton;
-    txtUrlInfoColetV: TbsSkinEdit;
-    pnlreHino: TbsSkinPanel;
-    bsSkinScrollBar11: TbsSkinScrollBar;
-    reHino: TbsSkinRichEdit;
-    bsRibbonGroup23: TbsRibbonGroup;
-    bsSkinSpeedButton25: TbsSkinSpeedButton;
-    bsSkinSpeedButton26: TbsSkinSpeedButton;
-    bsRibbonGroup24: TbsRibbonGroup;
-    bsSkinSpeedButton28: TbsSkinSpeedButton;
-    bsSkinSpeedButton30: TbsSkinSpeedButton;
-    GridPanel2: TGridPanel;
-    txtHino: TbsSkinEdit;
-    bsSkinStdLabel3: TbsSkinStdLabel;
-    bsLiturgia: TbsRibbonPage;
-    bsRibbonGroup25: TbsRibbonGroup;
-    bsRibbonGroup27: TbsRibbonGroup;
-    cbMarcarConc: TbsSkinCheckBox;
-    pnLivros: TbsSkinExPanel;
-    GridPanel15: TGridPanel;
-    Button5: TbsSkinButton;
-    Button6: TbsSkinButton;
-    Button9: TbsSkinButton;
-    GridPanel14: TGridPanel;
-    Button7: TbsSkinButton;
-    Button8: TbsSkinButton;
-    GridPanel13: TGridPanel;
-    ckLivros2: TbsSkinCheckListBox;
-    pnlAltColPerso: TbsSkinExPanel;
-    pnlAddColPerso: TbsSkinExPanel;
-    GridPanel18: TGridPanel;
-    bsSkinStdLabel24: TbsSkinStdLabel;
-    txtAbrirColet: TbsSkinFileEdit;
-    bsSkinStdLabel25: TbsSkinStdLabel;
-    bsSkinStdLabel26: TbsSkinStdLabel;
-    txtCapaColet: TbsSkinFileEdit;
-    txtImgInfoColet: TbsSkinEdit;
-    txtColetanea: TbsSkinEdit;
-    txtUrlInfoColet: TbsSkinEdit;
-    GridPanel19: TGridPanel;
-    btAddColetPerso: TbsSkinButton;
-    GridPanel22: TGridPanel;
-    bsSkinStdLabel28: TbsSkinStdLabel;
-    txtAbrirColet2: TbsSkinFileEdit;
-    bsSkinStdLabel29: TbsSkinStdLabel;
-    bsSkinStdLabel30: TbsSkinStdLabel;
-    txtCapaColet2: TbsSkinFileEdit;
-    txtImgInfoColet2: TbsSkinEdit;
-    txtColetanea2: TbsSkinEdit;
-    txtUrlInfoColet2: TbsSkinEdit;
-    bsSkinStdLabel31: TbsSkinStdLabel;
-    cbColetaneasPerso: TbsSkinDBLookupComboBox;
-    GridPanel17: TGridPanel;
-    bsSkinButton1: TbsSkinButton;
-    bsCronoCulto: TbsRibbonPage;
-    bsRibbonGroup28: TbsRibbonGroup;
-    btLigar: TbsSkinSpeedButton;
-    bsRibbonGroup30: TbsRibbonGroup;
-    bsSkinSpeedButton33: TbsSkinSpeedButton;
-    bsRibbonGroup31: TbsRibbonGroup;
-    btExp_EscolaSabatina: TbsSkinMenuSpeedButton;
-    rbgAudioES: TbsRibbonGroup;
-    cgEscSBAudio: TbsSkinCheckGroup;
-    bsRibbonDivider11: TbsRibbonDivider;
-    GridPanel21: TGridPanel;
-    cbMusica: TbsSkinComboBox;
-    btOuvir: TbsSkinSpeedButton;
-    bsRibbonGroup33: TbsRibbonGroup;
-    bsRibbonGroup34: TbsRibbonGroup;
-    bsSkinSpeedButton31: TbsSkinSpeedButton;
-    bsSkinSpeedButton27: TbsSkinSpeedButton;
-    bsSorteio: TbsRibbonPage;
-    bsRibbonGroup35: TbsRibbonGroup;
-    btLimpaSorteio: TbsSkinSpeedButton;
-    bsRibbonDivider14: TbsRibbonDivider;
-    GridPanel25: TGridPanel;
-    btLimpaSorteioReinicia: TbsSkinSpeedButton;
-    btLimpaSorteioLimpa: TbsSkinSpeedButton;
-    bsRibbonGroup36: TbsRibbonGroup;
-    btAddSorteio: TbsSkinSpeedButton;
-    pnlSorteioE: TbsSkinExPanel;
-    lbSorteio: TbsSkinOfficeListBox;
-    pnlSorteioD: TbsSkinExPanel;
-    lbSorteado: TbsSkinOfficeListBox;
-    GridPanel26: TGridPanel;
-    bsSkinStdLabel41: TbsSkinStdLabel;
-    bsSkinStdLabel42: TbsSkinStdLabel;
-    opSort_Ini: TbsSkinEdit;
-    opSort_Fin: TbsSkinEdit;
-    bsRibbonGroup37: TbsRibbonGroup;
-    btExp_Sorteio: TbsSkinMenuSpeedButton;
-    bsRibbonGroup38: TbsRibbonGroup;
-    btSortear: TbsSkinSpeedButton;
-    bsRibbonGroup39: TbsRibbonGroup;
-    bsRibbonDivider16: TbsRibbonDivider;
-    GridPanel29: TGridPanel;
-    lblNumSortDisp: TbsSkinStdLabel;
-    lblNumSortSort: TbsSkinStdLabel;
-    bsRibbonDivider18: TbsRibbonDivider;
-    ckSorteioExp: TbsSkinCheckGroup;
-    bsRibbonGroup41: TbsRibbonGroup;
-    bsSkinSpeedButton32: TbsSkinSpeedButton;
-    btFormatBiblia: TbsSkinSpeedButton;
-    pnlFormatBibliaB: TbsSkinExPanel;
-    bsSkinScrollPanel2: TbsSkinScrollPanel;
-    bsSkinDivider2: TbsSkinDivider;
-    bsSkinPanel5: TbsSkinPanel;
-    btFormatBibliaB: TbsSkinSpeedButton;
-    btFormatEscSB: TbsSkinSpeedButton;
-    pnlFormatEscSB: TbsSkinExPanel;
-    bsSkinScrollPanel3: TbsSkinScrollPanel;
-    bsSkinDivider7: TbsSkinDivider;
-    bsSkinPanel6: TbsSkinPanel;
-    gEscSbR: TbsSkinGauge;
+    bsRibbonGroup22: TPanel {LAZARUS: TbsRibbonGroup};
+    btAddColPerso: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btAltColPerso: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton24: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    txtUrlInfoColetV: TEdit {LAZARUS: TbsSkinEdit};
+    pnlreHino: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinScrollBar11: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    reHino: TRichMemo {LAZARUS: TbsSkinRichEdit};
+    bsRibbonGroup23: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton25: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton26: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup24: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton28: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton30: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    txtHino: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel3: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsLiturgia: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup25: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonGroup27: TPanel {LAZARUS: TbsRibbonGroup};
+    cbMarcarConc: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    pnLivros: TPanel {LAZARUS: TbsSkinExPanel};
+    GridPanel15: TPanel {LAZARUS: TGridPanel};
+    Button5: TButton {LAZARUS: TbsSkinButton};
+    Button6: TButton {LAZARUS: TbsSkinButton};
+    Button9: TButton {LAZARUS: TbsSkinButton};
+    GridPanel14: TPanel {LAZARUS: TGridPanel};
+    Button7: TButton {LAZARUS: TbsSkinButton};
+    Button8: TButton {LAZARUS: TbsSkinButton};
+    GridPanel13: TPanel {LAZARUS: TGridPanel};
+    ckLivros2: TCheckListBox {LAZARUS: TbsSkinCheckListBox};
+    pnlAltColPerso: TPanel {LAZARUS: TbsSkinExPanel};
+    pnlAddColPerso: TPanel {LAZARUS: TbsSkinExPanel};
+    GridPanel18: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel24: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtAbrirColet: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    bsSkinStdLabel25: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel26: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtCapaColet: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    txtImgInfoColet: TEdit {LAZARUS: TbsSkinEdit};
+    txtColetanea: TEdit {LAZARUS: TbsSkinEdit};
+    txtUrlInfoColet: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel19: TPanel {LAZARUS: TGridPanel};
+    btAddColetPerso: TButton {LAZARUS: TbsSkinButton};
+    GridPanel22: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel28: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtAbrirColet2: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    bsSkinStdLabel29: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel30: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtCapaColet2: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    txtImgInfoColet2: TEdit {LAZARUS: TbsSkinEdit};
+    txtColetanea2: TEdit {LAZARUS: TbsSkinEdit};
+    txtUrlInfoColet2: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel31: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbColetaneasPerso: TDBLookupComboBox {LAZARUS: TbsSkinDBLookupComboBox};
+    GridPanel17: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton1: TButton {LAZARUS: TbsSkinButton};
+    bsCronoCulto: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup28: TPanel {LAZARUS: TbsRibbonGroup};
+    btLigar: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup30: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton33: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup31: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_EscolaSabatina: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    rbgAudioES: TPanel {LAZARUS: TbsRibbonGroup};
+    cgEscSBAudio: TCheckGroup {LAZARUS: TbsSkinCheckGroup};
+    bsRibbonDivider11: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel21: TPanel {LAZARUS: TGridPanel};
+    cbMusica: TComboBox {LAZARUS: TbsSkinComboBox};
+    btOuvir: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup33: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonGroup34: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton31: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton27: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSorteio: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup35: TPanel {LAZARUS: TbsRibbonGroup};
+    btLimpaSorteio: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider14: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel25: TPanel {LAZARUS: TGridPanel};
+    btLimpaSorteioReinicia: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btLimpaSorteioLimpa: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup36: TPanel {LAZARUS: TbsRibbonGroup};
+    btAddSorteio: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    pnlSorteioE: TPanel {LAZARUS: TbsSkinExPanel};
+    lbSorteio: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
+    pnlSorteioD: TPanel {LAZARUS: TbsSkinExPanel};
+    lbSorteado: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
+    GridPanel26: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel41: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel42: TLabel {LAZARUS: TbsSkinStdLabel};
+    opSort_Ini: TEdit {LAZARUS: TbsSkinEdit};
+    opSort_Fin: TEdit {LAZARUS: TbsSkinEdit};
+    bsRibbonGroup37: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_Sorteio: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup38: TPanel {LAZARUS: TbsRibbonGroup};
+    btSortear: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup39: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonDivider16: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel29: TPanel {LAZARUS: TGridPanel};
+    lblNumSortDisp: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblNumSortSort: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider18: TBevel {LAZARUS: TbsRibbonDivider};
+    ckSorteioExp: TCheckGroup {LAZARUS: TbsSkinCheckGroup};
+    bsRibbonGroup41: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton32: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btFormatBiblia: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    pnlFormatBibliaB: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel2: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider2: TBevel {LAZARUS: TbsSkinDivider};
+    bsSkinPanel5: TPanel {LAZARUS: TbsSkinPanel};
+    btFormatBibliaB: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btFormatEscSB: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    pnlFormatEscSB: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel3: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider7: TBevel {LAZARUS: TbsSkinDivider};
+    bsSkinPanel6: TPanel {LAZARUS: TbsSkinPanel};
+    gEscSbR: TProgressBar {LAZARUS: TbsSkinGauge};
     pnlEscSB: TPanel;
-    pnlFormatSorteio: TbsSkinExPanel;
-    bsSkinScrollPanel4: TbsSkinScrollPanel;
-    bsSkinGroupBox8: TbsSkinGroupBox;
-    bsSkinGroupBox9: TbsSkinGroupBox;
-    btFormatSorteio: TbsSkinSpeedButton;
-    bsRibbonGroup13: TbsRibbonGroup;
-    bsSkinSpeedButton29: TbsSkinSpeedButton;
-    tsSorteioNM: TbsSkinTabSheet;
-    pnlFormatSorteioNM: TbsSkinExPanel;
-    bsSkinScrollPanel5: TbsSkinScrollPanel;
-    bsSkinDivider13: TbsSkinDivider;
-    pnlSorteioNME: TbsSkinExPanel;
-    lbSorteioNM: TbsSkinOfficeListBox;
-    pnlSorteioNMD: TbsSkinExPanel;
-    lbSorteadoNM: TbsSkinOfficeListBox;
+    pnlFormatSorteio: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel4: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinGroupBox8: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinGroupBox9: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    btFormatSorteio: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup13: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton29: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    tsSorteioNM: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    pnlFormatSorteioNM: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel5: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider13: TBevel {LAZARUS: TbsSkinDivider};
+    pnlSorteioNME: TPanel {LAZARUS: TbsSkinExPanel};
+    lbSorteioNM: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
+    pnlSorteioNMD: TPanel {LAZARUS: TbsSkinExPanel};
+    lbSorteadoNM: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
     pnlSorteioNM: TPanel;
     lmdSorteioNM: TLabel;
-    gSorteioNM: TbsSkinGauge;
-    opNumSorteadoNM: TbsSkinEdit;
-    opNumIndiceNM: TbsSkinEdit;
-    bsSorteioNM: TbsRibbonPage;
-    bsRibbonGroup16: TbsRibbonGroup;
-    btLimpaSorteioNM: TbsSkinSpeedButton;
-    bsRibbonDivider1: TbsRibbonDivider;
-    GridPanel44: TGridPanel;
-    btLimpaSorteioReiniciaNM: TbsSkinSpeedButton;
-    btLimpaSorteioLimpaNM: TbsSkinSpeedButton;
-    bsRibbonGroup29: TbsRibbonGroup;
-    bsRibbonDivider5: TbsRibbonDivider;
-    GridPanel46: TGridPanel;
-    lblNumSortDispNM: TbsSkinStdLabel;
-    lblNumSortSortNM: TbsSkinStdLabel;
-    bsRibbonGroup40: TbsRibbonGroup;
-    btSortearNM: TbsSkinSpeedButton;
-    bsRibbonGroup42: TbsRibbonGroup;
-    bsSkinSpeedButton40: TbsSkinSpeedButton;
-    btFormatSorteioNM: TbsSkinSpeedButton;
-    bsRibbonGroup43: TbsRibbonGroup;
-    bsRibbonGroup44: TbsRibbonGroup;
-    btExp_SorteioNM: TbsSkinMenuSpeedButton;
-    bsRibbonDivider6: TbsRibbonDivider;
-    ckSorteioExpNM: TbsSkinCheckGroup;
-    GridPanel47: TGridPanel;
-    bsSkinButton3: TbsSkinButton;
-    bsSkinButton4: TbsSkinButton;
-    bsSkinButton5: TbsSkinButton;
-    bsSkinButton6: TbsSkinButton;
-    GridPanel48: TGridPanel;
-    bsSkinButton9: TbsSkinButton;
-    GridPanel49: TGridPanel;
-    bsSkinButton7: TbsSkinButton;
-    GridPanel50: TGridPanel;
-    bsSkinButton8: TbsSkinButton;
-    bsSkinButton10: TbsSkinButton;
-    bsSkinButton11: TbsSkinButton;
-    bsSkinButton12: TbsSkinButton;
-    GridPanel51: TGridPanel;
-    bsSkinStdLabel48: TbsSkinStdLabel;
-    opSort_Nm: TbsSkinEdit;
-    btAddSorteioNM: TbsSkinSpeedButton;
-    bsRibbonDivider7: TbsRibbonDivider;
-    btImpSorteioNM: TbsSkinSpeedButton;
-    bsCronometro: TbsRibbonPage;
-    pnlFormatCrono: TbsSkinExPanel;
-    bsSkinScrollPanel6: TbsSkinScrollPanel;
-    bsSkinDivider18: TbsSkinDivider;
-    pnlTempoGravado: TbsSkinExPanel;
-    GridPanel56: TGridPanel;
-    bsSkinButton13: TbsSkinButton;
-    lbCrono: TbsSkinOfficeListBox;
-    bsRibbonGroup46: TbsRibbonGroup;
-    btExp_Cronometro: TbsSkinMenuSpeedButton;
-    bsRibbonDivider12: TbsRibbonDivider;
-    cbCronoEl: TbsSkinCheckGroup;
-    bsRibbonGroup45: TbsRibbonGroup;
-    bsSkinSpeedButton35: TbsSkinSpeedButton;
-    btFormatCrono: TbsSkinSpeedButton;
-    bsRibbonGroup47: TbsRibbonGroup;
-    btIniciarCrono: TbsSkinSpeedButton;
-    btZerarCrono: TbsSkinSpeedButton;
-    bsRibbonGroup48: TbsRibbonGroup;
-    rbDirecao: TbsSkinRadioGroup;
-    GridPanel57: TGridPanel;
-    txtDecr: TbsSkinMaskEdit;
-    bsRibbonDivider20: TbsRibbonDivider;
-    btAnotTempo: TbsSkinSpeedButton;
-    tsPainelD: TbsSkinTabSheet;
-    pnlFormatPainelD: TbsSkinExPanel;
-    bsSkinScrollPanel7: TbsSkinScrollPanel;
-    bsSkinDivider21: TbsSkinDivider;
+    gSorteioNM: TProgressBar {LAZARUS: TbsSkinGauge};
+    opNumSorteadoNM: TEdit {LAZARUS: TbsSkinEdit};
+    opNumIndiceNM: TEdit {LAZARUS: TbsSkinEdit};
+    bsSorteioNM: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup16: TPanel {LAZARUS: TbsRibbonGroup};
+    btLimpaSorteioNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider1: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel44: TPanel {LAZARUS: TGridPanel};
+    btLimpaSorteioReiniciaNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btLimpaSorteioLimpaNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup29: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonDivider5: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel46: TPanel {LAZARUS: TGridPanel};
+    lblNumSortDispNM: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblNumSortSortNM: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonGroup40: TPanel {LAZARUS: TbsRibbonGroup};
+    btSortearNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup42: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton40: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btFormatSorteioNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup43: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonGroup44: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_SorteioNM: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonDivider6: TBevel {LAZARUS: TbsRibbonDivider};
+    ckSorteioExpNM: TCheckGroup {LAZARUS: TbsSkinCheckGroup};
+    GridPanel47: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton3: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton4: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton5: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton6: TButton {LAZARUS: TbsSkinButton};
+    GridPanel48: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton9: TButton {LAZARUS: TbsSkinButton};
+    GridPanel49: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton7: TButton {LAZARUS: TbsSkinButton};
+    GridPanel50: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton8: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton10: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton11: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton12: TButton {LAZARUS: TbsSkinButton};
+    GridPanel51: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel48: TLabel {LAZARUS: TbsSkinStdLabel};
+    opSort_Nm: TEdit {LAZARUS: TbsSkinEdit};
+    btAddSorteioNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider7: TBevel {LAZARUS: TbsRibbonDivider};
+    btImpSorteioNM: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsCronometro: TTabSheet {LAZARUS: TbsRibbonPage};
+    pnlFormatCrono: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel6: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider18: TBevel {LAZARUS: TbsSkinDivider};
+    pnlTempoGravado: TPanel {LAZARUS: TbsSkinExPanel};
+    GridPanel56: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton13: TButton {LAZARUS: TbsSkinButton};
+    lbCrono: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
+    bsRibbonGroup46: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_Cronometro: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonDivider12: TBevel {LAZARUS: TbsRibbonDivider};
+    cbCronoEl: TCheckGroup {LAZARUS: TbsSkinCheckGroup};
+    bsRibbonGroup45: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton35: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btFormatCrono: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup47: TPanel {LAZARUS: TbsRibbonGroup};
+    btIniciarCrono: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btZerarCrono: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup48: TPanel {LAZARUS: TbsRibbonGroup};
+    rbDirecao: TRadioGroup {LAZARUS: TbsSkinRadioGroup};
+    GridPanel57: TPanel {LAZARUS: TGridPanel};
+    txtDecr: TMaskEdit {LAZARUS: TbsSkinMaskEdit};
+    bsRibbonDivider20: TBevel {LAZARUS: TbsRibbonDivider};
+    btAnotTempo: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    tsPainelD: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    pnlFormatPainelD: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel7: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider21: TBevel {LAZARUS: TbsSkinDivider};
     pnlTxtPainelD: TPanel;
     lmdTxtPainelD: TLabel;
-    bsPainelD: TbsRibbonPage;
-    bsRibbonGroup49: TbsRibbonGroup;
-    bsSkinSpeedButton36: TbsSkinSpeedButton;
-    btFormatPainelD: TbsSkinSpeedButton;
-    bsRibbonGroup50: TbsRibbonGroup;
-    btExp_PainelD: TbsSkinMenuSpeedButton;
-    bsRibbonGroup51: TbsRibbonGroup;
-    btExibeTxtPainelD: TbsSkinSpeedButton;
-    bsSkinPanel7: TbsSkinPanel;
-    mmPainelD: TbsSkinMemo;
-    tsTextoInterativo: TbsSkinTabSheet;
-    RichEdit0: TbsSkinRichEdit;
-    bsTextoInterativo: TbsRibbonPage;
-    bsRibbonGroup52: TbsRibbonGroup;
-    btExp_TextoInterativo: TbsSkinMenuSpeedButton;
-    bsRibbonGroup53: TbsRibbonGroup;
-    GridPanel62: TGridPanel;
-    fcTxtI0: TbsSkinFontComboBox;
-    btfsBold0: TbsSkinSpeedButton;
-    btfsItalic0: TbsSkinSpeedButton;
-    btfsUnderline0: TbsSkinSpeedButton;
-    btfsStrikeOut0: TbsSkinSpeedButton;
-    cbFontSizeModel: TbsSkinComboBox;
-    GridPanel63: TGridPanel;
-    seTxtITamanho0: TbsSkinComboBox;
-    bsRibbonDivider22: TbsRibbonDivider;
-    cbColorTxtI0: TbsSkinColorButton;
-    cbColorFTxtI0: TbsSkinColorButton;
-    bsRibbonGroup54: TbsRibbonGroup;
-    GridPanel64: TGridPanel;
-    bsSkinSpeedButton39: TbsSkinSpeedButton;
-    bsSkinSpeedButton41: TbsSkinSpeedButton;
-    bsSkinSpeedButton42: TbsSkinSpeedButton;
-    bsRibbonGroup55: TbsRibbonGroup;
-    bsSkinSpeedButton38: TbsSkinSpeedButton;
-    bsSkinSpeedButton43: TbsSkinSpeedButton;
-    bsSkinScrollBar12: TbsSkinScrollBar;
-    bsSkinScrollBar13: TbsSkinScrollBar;
-    cbColorRTxtI0: TbsSkinColorButton;
-    bsSkinSpeedButton44: TbsSkinSpeedButton;
-    bsRibbonDivider23: TbsRibbonDivider;
-    bsRibbonGroup56: TbsRibbonGroup;
-    bsSkinSpeedButton45: TbsSkinSpeedButton;
-    bsRibbonDivider24: TbsRibbonDivider;
-    GridPanel65: TGridPanel;
-    bttaLeftJustify0: TbsSkinSpeedButton;
-    bttaRightJustify0: TbsSkinSpeedButton;
-    bttaCenter0: TbsSkinSpeedButton;
-    bsAppMenu1: TbsAppMenu;
-    bsSkinTabSheet3: TbsSkinTabSheet;
-    ampAbout: TbsAppMenuPage;
-    ampOpcoes: TbsAppMenuPage;
-    bsSkinPanel8: TbsSkinPanel;
-    bsSkinPanel9: TbsSkinPanel;
-    Image19: TbsPngImageView;
-    bsSkinStdLabel75: TbsSkinStdLabel;
-    bsSkinPanel28: TbsSkinPanel;
-    bsSkinPanel29: TbsSkinPanel;
-    bsSkinStdLabel77: TbsSkinStdLabel;
+    bsPainelD: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup49: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton36: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btFormatPainelD: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup50: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_PainelD: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup51: TPanel {LAZARUS: TbsRibbonGroup};
+    btExibeTxtPainelD: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel7: TPanel {LAZARUS: TbsSkinPanel};
+    mmPainelD: TMemo {LAZARUS: TbsSkinMemo};
+    tsTextoInterativo: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    RichEdit0: TRichMemo {LAZARUS: TbsSkinRichEdit};
+    bsTextoInterativo: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup52: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_TextoInterativo: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup53: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel62: TPanel {LAZARUS: TGridPanel};
+    fcTxtI0: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    btfsBold0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btfsItalic0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btfsUnderline0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btfsStrikeOut0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    cbFontSizeModel: TComboBox {LAZARUS: TbsSkinComboBox};
+    GridPanel63: TPanel {LAZARUS: TGridPanel};
+    seTxtITamanho0: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsRibbonDivider22: TBevel {LAZARUS: TbsRibbonDivider};
+    cbColorTxtI0: TColorButton {LAZARUS: TbsSkinColorButton};
+    cbColorFTxtI0: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsRibbonGroup54: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel64: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton39: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton41: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton42: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup55: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton38: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton43: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinScrollBar12: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar13: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    cbColorRTxtI0: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinSpeedButton44: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider23: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonGroup56: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton45: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider24: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel65: TPanel {LAZARUS: TGridPanel};
+    bttaLeftJustify0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bttaRightJustify0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bttaCenter0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsAppMenu1: TPageControl {LAZARUS: TbsAppMenu removido};
+    bsSkinTabSheet3: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    ampAbout: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    ampOpcoes: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    bsSkinPanel8: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel9: TPanel {LAZARUS: TbsSkinPanel};
+    Image19: TImage {LAZARUS: TbsPngImageView};
+    bsSkinStdLabel75: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel28: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel29: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel77: TLabel {LAZARUS: TbsSkinStdLabel};
     ScrollBox2: TScrollBox;
-    bsSkinPanel46: TbsSkinPanel;
-    ckMonitorJanela: TbsSkinCheckBox;
-    ampDesenvolvedor: TbsAppMenuPage;
-    bsSkinPanel34: TbsSkinPanel;
-    bsSkinStdLabel82: TbsSkinStdLabel;
-    ScrollBox4: TbsSkinPanel;
-    PageControl5: TbsSkinPageControl;
-    sTabSheet9: TbsSkinTabSheet;
+    bsSkinPanel46: TPanel {LAZARUS: TbsSkinPanel};
+    ckMonitorJanela: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    ampDesenvolvedor: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    bsSkinPanel34: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel82: TLabel {LAZARUS: TbsSkinStdLabel};
+    ScrollBox4: TPanel {LAZARUS: TbsSkinPanel};
+    PageControl5: TPageControl {LAZARUS: TbsSkinPageControl};
+    sTabSheet9: TTabSheet {LAZARUS: TbsSkinTabSheet};
     loadCol: TValueListEditor;
-    sTabSheet10: TbsSkinTabSheet;
+    sTabSheet10: TTabSheet {LAZARUS: TbsSkinTabSheet};
     param: TValueListEditor;
-    sTabSheet11: TbsSkinTabSheet;
+    sTabSheet11: TTabSheet {LAZARUS: TbsSkinTabSheet};
     paramAtualiz: TValueListEditor;
-    sTabSheet16: TbsSkinTabSheet;
-    sTabSheet13: TbsSkinTabSheet;
-    mmConfigJA: TbsSkinMemo;
-    sPanel22: TbsSkinPanel;
-    sTabSheet12: TbsSkinTabSheet;
-    sTabSheet14: TbsSkinTabSheet;
-    sTabSheet15: TbsSkinTabSheet;
-    lvMonitores: TbsSkinListView;
-    sTabSheet17: TbsSkinTabSheet;
-    sTabSheet18: TbsSkinTabSheet;
+    sTabSheet16: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sTabSheet13: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    mmConfigJA: TMemo {LAZARUS: TbsSkinMemo};
+    sPanel22: TPanel {LAZARUS: TbsSkinPanel};
+    sTabSheet12: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sTabSheet14: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sTabSheet15: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    lvMonitores: TListView {LAZARUS: TbsSkinListView};
+    sTabSheet17: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sTabSheet18: TTabSheet {LAZARUS: TbsSkinTabSheet};
     Splitter1: TSplitter;
-    slbTabelas: TbsSkinListBox;
-    bsSkinTabSheet1: TbsSkinTabSheet;
-    bsSkinTabSheet2: TbsSkinTabSheet;
-    bsSkinPanel36: TbsSkinPanel;
-    lblVersao: TbsSkinStdLabel;
-    bsSkinStdLabel85: TbsSkinStdLabel;
-    bsRibbonDivider33: TbsRibbonDivider;
-    gpSobre: TGridPanel;
+    slbTabelas: TListBox {LAZARUS: TbsSkinListBox};
+    bsSkinTabSheet1: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinTabSheet2: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinPanel36: TPanel {LAZARUS: TbsSkinPanel};
+    lblVersao: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel85: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider33: TBevel {LAZARUS: TbsRibbonDivider};
+    gpSobre: TPanel {LAZARUS: TGridPanel};
     ScrollBox1: TScrollBox;
-    bsSkinPanel37: TbsSkinPanel;
-    bsSkinStdLabel86: TbsSkinStdLabel;
-    bsSkinPanel38: TbsSkinPanel;
-    Image29: TbsPngImageView;
-    bsSkinLinkLabel10: TbsSkinLinkLabel;
-    bsSkinPanel39: TbsSkinPanel;
-    bsSkinLinkLabel11: TbsSkinLinkLabel;
-    Image30: TbsPngImageView;
-    bsSkinPanel40: TbsSkinPanel;
-    bsSkinStdLabel89: TbsSkinStdLabel;
-    bsSkinPanel41: TbsSkinPanel;
-    bsSkinLinkLabel12: TbsSkinLinkLabel;
-    Image31: TbsPngImageView;
-    bsSkinPanel42: TbsSkinPanel;
-    bsSkinLinkLabel13: TbsSkinLinkLabel;
-    Image32: TbsPngImageView;
-    bsSkinPanel43: TbsSkinPanel;
-    bsSkinStdLabel92: TbsSkinStdLabel;
+    bsSkinPanel37: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel86: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel38: TPanel {LAZARUS: TbsSkinPanel};
+    Image29: TImage {LAZARUS: TbsPngImageView};
+    bsSkinLinkLabel10: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsSkinPanel39: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel11: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image30: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel40: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel89: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel41: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel12: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image31: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel42: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel13: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image32: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel43: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel92: TLabel {LAZARUS: TbsSkinStdLabel};
     ScrollBox5: TScrollBox;
-    bsSkinPanel22: TbsSkinPanel;
-    bsSkinStdLabel69: TbsSkinStdLabel;
-    bsSkinPanel23: TbsSkinPanel;
-    bsSkinStdLabel70: TbsSkinStdLabel;
-    bsSkinPanel24: TbsSkinPanel;
-    bsSkinLinkLabel7: TbsSkinLinkLabel;
-    Image25: TbsPngImageView;
-    bsSkinPanel25: TbsSkinPanel;
-    bsSkinLinkLabel8: TbsSkinLinkLabel;
-    Image20: TbsPngImageView;
-    bsSkinPanel10: TbsSkinPanel;
-    bsSkinLinkLabel1: TbsSkinLinkLabel;
-    Image21: TbsPngImageView;
-    bsErroHino: TbsRibbonGroup;
-    bsSkinSpeedButton23: TbsSkinSpeedButton;
-    bsErroMusica: TbsRibbonGroup;
-    bsSkinSpeedButton37: TbsSkinSpeedButton;
-    sButton10: TbsSkinButton;
-    bsSkinButton14: TbsSkinButton;
-    mmParam: TbsSkinMemo;
-    DBGrid3: TbsSkinDBGrid;
-    bsSkinScrollBar16: TbsSkinScrollBar;
-    bsSkinScrollBar17: TbsSkinScrollBar;
-    paramtemp: TbsSkinMemo;
-    bsSkinPanel11: TbsSkinPanel;
-    bsSkinScrollBar20: TbsSkinScrollBar;
-    bsSkinScrollBar21: TbsSkinScrollBar;
-    bsSkinDBGrid2: TbsSkinDBGrid;
-    bsSkinPanel12: TbsSkinPanel;
-    bsSkinButton15: TbsSkinButton;
-    bsSkinTabSheet4: TbsSkinTabSheet;
-    mmLog: TbsSkinMemo;
-    bsSkinScrollBar22: TbsSkinScrollBar;
-    bsRibbonDivider40: TbsRibbonDivider;
-    ppExcluirPersonalizadas: TbsSkinPopupMenu;
+    bsSkinPanel22: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel69: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel23: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel70: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel24: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel7: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image25: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel25: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel8: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image20: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel10: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel1: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image21: TImage {LAZARUS: TbsPngImageView};
+    bsErroHino: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton23: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsErroMusica: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton37: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    sButton10: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton14: TButton {LAZARUS: TbsSkinButton};
+    mmParam: TMemo {LAZARUS: TbsSkinMemo};
+    DBGrid3: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar16: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar17: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    paramtemp: TMemo {LAZARUS: TbsSkinMemo};
+    bsSkinPanel11: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinScrollBar20: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar21: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinDBGrid2: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinPanel12: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton15: TButton {LAZARUS: TbsSkinButton};
+    bsSkinTabSheet4: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    mmLog: TMemo {LAZARUS: TbsSkinMemo};
+    bsSkinScrollBar22: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsRibbonDivider40: TBevel {LAZARUS: TbsRibbonDivider};
+    ppExcluirPersonalizadas: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     Excluir2: TMenuItem;
     ExcluirTodas1: TMenuItem;
-    bsSkinSpeedButton46: TbsSkinMenuSpeedButton;
-    bsRibbonGroup26: TbsRibbonGroup;
-    cbBibliaHistorico: TbsSkinCheckBox;
-    bsSkinTabSheet5: TbsSkinTabSheet;
-    bsSkinSpeedButton50: TbsSkinSpeedButton;
-    tsRelogio: TbsSkinTabSheet;
-    pnlFormatRelogio: TbsSkinExPanel;
-    bsSkinScrollPanel8: TbsSkinScrollPanel;
-    bsSkinDivider24: TbsSkinDivider;
+    bsSkinSpeedButton46: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup26: TPanel {LAZARUS: TbsRibbonGroup};
+    cbBibliaHistorico: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinTabSheet5: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinSpeedButton50: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    tsRelogio: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    pnlFormatRelogio: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel8: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider24: TBevel {LAZARUS: TbsSkinDivider};
     pnlRelogio: TPanel;
     lmdRelogio: TLabel;
-    bsRelogio: TbsRibbonPage;
-    bsRibbonGroup57: TbsRibbonGroup;
-    bsSkinSpeedButton51: TbsSkinSpeedButton;
-    btFormatRelogio: TbsSkinSpeedButton;
-    bsRibbonGroup58: TbsRibbonGroup;
-    btExp_Relogio: TbsSkinMenuSpeedButton;
+    bsRelogio: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup57: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton51: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btFormatRelogio: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup58: TPanel {LAZARUS: TbsRibbonGroup};
+    btExp_Relogio: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
     pnlImagemCapaModel: TPanel;
     imgImagemCapaModel: TImage;
-    bsSkinPanel18: TbsSkinPanel;
-    bsSkinStdLabel59: TbsSkinStdLabel;
-    corCapaPrograma: TbsSkinColorButton;
-    bsSkinPanel19: TbsSkinPanel;
-    bsSkinStdLabel63: TbsSkinStdLabel;
-    imgCapaPrograma: TbsSkinFileEdit;
-    bsSkinPanel21: TbsSkinPanel;
-    bsSkinStdLabel60: TbsSkinStdLabel;
-    cbAlinhamentoCapaPrograma: TbsSkinComboBox;
-    btRestaurarCapaPrograma: TbsSkinButton;
-    txtImgCapaProgramaInfo: TbsSkinEdit;
-    bsRibbonGroup59: TbsRibbonGroup;
-    GridPanel75: TGridPanel;
-    bsSkinSpeedButton53: TbsSkinSpeedButton;
-    bsSkinSpeedButton54: TbsSkinSpeedButton;
-    bsSkinSpeedButton55: TbsSkinSpeedButton;
-    bsRibbonDivider43: TbsRibbonDivider;
-    btApagaLitSel: TbsSkinSpeedButton;
+    bsSkinPanel18: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel59: TLabel {LAZARUS: TbsSkinStdLabel};
+    corCapaPrograma: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinPanel19: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel63: TLabel {LAZARUS: TbsSkinStdLabel};
+    imgCapaPrograma: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    bsSkinPanel21: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel60: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbAlinhamentoCapaPrograma: TComboBox {LAZARUS: TbsSkinComboBox};
+    btRestaurarCapaPrograma: TButton {LAZARUS: TbsSkinButton};
+    txtImgCapaProgramaInfo: TEdit {LAZARUS: TbsSkinEdit};
+    bsRibbonGroup59: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel75: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton53: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton54: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton55: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider43: TBevel {LAZARUS: TbsRibbonDivider};
+    btApagaLitSel: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     imgCrono: TImage;
     imgEscSB: TImage;
     lmdEscSb: TLabel;
@@ -513,471 +511,471 @@ type
     imgSorteioNM: TImage;
     imgTxtPainelD: TImage;
     imgRelogio: TImage;
-    bsColetaneasOnline: TbsRibbonPage;
-    bsRibbonGroup60: TbsRibbonGroup;
-    bsSkinSpeedButton58: TbsSkinSpeedButton;
-    tsColetaneasOnline: TbsSkinTabSheet;
-    bsSkinExPanel6: TbsSkinExPanel;
-    bsSkinButton25: TbsSkinButton;
-    bgOnlCanais: TbsSkinButtonGroup;
+    bsColetaneasOnline: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup60: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton58: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    tsColetaneasOnline: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinExPanel6: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinButton25: TButton {LAZARUS: TbsSkinButton};
+    bgOnlCanais: TToolBar {LAZARUS: TbsButtonGroup};
     imgYoutubeCapa: TImage;
-    pnlOnlPlaylists: TbsSkinExPanel;
-    bsSkinButton24: TbsSkinButton;
-    bgOnlPlaylists: TbsSkinButtonGroup;
-    pnlOnlVideos: TbsSkinExPanel;
-    GridPanel81: TGridPanel;
-    bsSkinButton26: TbsSkinButton;
-    lbbgOnlCanais: TbsSkinListBox;
-    lbbgOnlPlaylists: TbsSkinListBox;
-    lbbgOnlVideos: TbsSkinListBox;
-    gaOnlVideos: TbsSkinGauge;
-    bgOnlVideos: TbsSkinButtonGroup;
-    bsSkinPanel13: TbsSkinPanel;
-    bsSkinStdLabel96: TbsSkinStdLabel;
-    sbVideoOnAreaExtendida: TbsSkinComboBox;
-    bsSkinPanel48: TbsSkinPanel;
-    ckVideoOnJanela: TbsSkinCheckBox;
-    bsConfigColetaneasOnline: TbsRibbonPage;
-    bsRibbonGroup61: TbsRibbonGroup;
-    bsSkinSpeedButton60: TbsSkinSpeedButton;
-    bsRibbonGroup62: TbsRibbonGroup;
-    bsSkinSpeedButton62: TbsSkinSpeedButton;
-    btUrlVideoOn: TbsSkinSpeedButton;
-    bsRibbonDivider42: TbsRibbonDivider;
-    GridPanel82: TGridPanel;
-    bsSkinStdLabel97: TbsSkinStdLabel;
-    txtUrlVideoOn: TbsSkinEdit;
-    Image37: TbsPngImageView;
-    bsSkinPanel49: TbsSkinPanel;
-    bsSkinStdLabel98: TbsSkinStdLabel;
-    sbVideoOnAbreLiturgia: TbsSkinComboBox;
-    bsRibbonGroup63: TbsRibbonGroup;
-    bsRibbonGroup64: TbsRibbonGroup;
-    bsSkinSpeedButton59: TbsSkinSpeedButton;
-    bsSkinSpeedButton61: TbsSkinSpeedButton;
-    bsRibbonGroup65: TbsRibbonGroup;
-    btColetaneasOnlinePerso: TbsSkinSpeedButton;
-    bsRibbonGroup66: TbsRibbonGroup;
-    btUrlVideoOn2: TbsSkinSpeedButton;
-    bsSkinSpeedButton66: TbsSkinSpeedButton;
-    GridPanel83: TGridPanel;
-    bsSkinStdLabel99: TbsSkinStdLabel;
-    txtUrlVideoOn2: TbsSkinEdit;
-    Image23: TbsPngImageView;
-    tsColetaneasOnlinePerso: TbsSkinTabSheet;
-    bsConfigColetaneasOnlinePerso: TbsRibbonPage;
-    DBGrid4: TbsSkinDBGrid;
-    bsSkinScrollBar24: TbsSkinScrollBar;
-    stVideosOnPerso: TbsSkinStatusBar;
-    bsRibbonGroup67: TbsRibbonGroup;
-    btAddVideoOn3: TbsSkinSpeedButton;
-    GridPanel84: TGridPanel;
-    bsSkinStdLabel100: TbsSkinStdLabel;
-    txtUrlVideoOn3: TbsSkinEdit;
-    txtNomeVideoOn3: TbsSkinEdit;
-    bsSkinStdLabel101: TbsSkinStdLabel;
-    bsSkinSpeedButton68: TbsSkinSpeedButton;
-    bsSkinTabSheet6: TbsSkinTabSheet;
-    bsSkinDBGrid3: TbsSkinDBGrid;
-    bsSkinScrollBar25: TbsSkinScrollBar;
-    ppVideosOnPerso: TbsSkinPopupMenu;
+    pnlOnlPlaylists: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinButton24: TButton {LAZARUS: TbsSkinButton};
+    bgOnlPlaylists: TToolBar {LAZARUS: TbsButtonGroup};
+    pnlOnlVideos: TPanel {LAZARUS: TbsSkinExPanel};
+    GridPanel81: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton26: TButton {LAZARUS: TbsSkinButton};
+    lbbgOnlCanais: TListBox {LAZARUS: TbsSkinListBox};
+    lbbgOnlPlaylists: TListBox {LAZARUS: TbsSkinListBox};
+    lbbgOnlVideos: TListBox {LAZARUS: TbsSkinListBox};
+    gaOnlVideos: TProgressBar {LAZARUS: TbsSkinGauge};
+    bgOnlVideos: TToolBar {LAZARUS: TbsButtonGroup};
+    bsSkinPanel13: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel96: TLabel {LAZARUS: TbsSkinStdLabel};
+    sbVideoOnAreaExtendida: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinPanel48: TPanel {LAZARUS: TbsSkinPanel};
+    ckVideoOnJanela: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsConfigColetaneasOnline: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup61: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton60: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup62: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton62: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btUrlVideoOn: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider42: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel82: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel97: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtUrlVideoOn: TEdit {LAZARUS: TbsSkinEdit};
+    Image37: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel49: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel98: TLabel {LAZARUS: TbsSkinStdLabel};
+    sbVideoOnAbreLiturgia: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsRibbonGroup63: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonGroup64: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton59: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton61: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup65: TPanel {LAZARUS: TbsRibbonGroup};
+    btColetaneasOnlinePerso: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup66: TPanel {LAZARUS: TbsRibbonGroup};
+    btUrlVideoOn2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton66: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    GridPanel83: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel99: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtUrlVideoOn2: TEdit {LAZARUS: TbsSkinEdit};
+    Image23: TImage {LAZARUS: TbsPngImageView};
+    tsColetaneasOnlinePerso: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsConfigColetaneasOnlinePerso: TTabSheet {LAZARUS: TbsRibbonPage};
+    DBGrid4: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar24: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    stVideosOnPerso: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    bsRibbonGroup67: TPanel {LAZARUS: TbsRibbonGroup};
+    btAddVideoOn3: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    GridPanel84: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel100: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtUrlVideoOn3: TEdit {LAZARUS: TbsSkinEdit};
+    txtNomeVideoOn3: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel101: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinSpeedButton68: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinTabSheet6: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinDBGrid3: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar25: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    ppVideosOnPerso: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     Excluir3: TMenuItem;
     N3: TMenuItem;
     Executar1: TMenuItem;
     CopiarLink1: TMenuItem;
     AbrirnoNavegador1: TMenuItem;
     pnlfmBarraTituloForm: TPanel;
-    bsFmIndex: TbsBusinessSkinForm;
-    btwsformBotoes: TbsSkinToolBar;
-    btwsMinimize: TbsSkinSpeedButton;
-    btwsMaximized: TbsSkinSpeedButton;
-    btwsClose: TbsSkinSpeedButton;
+    bsFmIndex: TForm {LAZARUS: TbsBusinessSkinForm removido};
+    btwsformBotoes: TToolBar {LAZARUS: TbsSkinToolBar};
+    btwsMinimize: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btwsMaximized: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btwsClose: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     pnlfmTituloRib: TPanel;
     pnlTitForm: TPanel;
-    btwsspDownload: TbsSkinBevel;
-    btwsDownload: TbsSkinSpeedButton;
-    lblfmTituloRib: TbsSkinStdLabel;
-    bsFavoritos: TbsRibbonPage;
-    bsRibbonGroup68: TbsRibbonGroup;
-    ogFavoritos: TbsSkinOfficeGallery;
-    bsRibbonGroup69: TbsRibbonGroup;
-    btAddFav: TbsSkinSpeedButton;
-    bsSkinTabSheet7: TbsSkinTabSheet;
-    bsSkinDBGrid4: TbsSkinDBGrid;
-    bsPopupMenuFavoritos: TbsSkinPopupMenu;
+    btwsspDownload: TBevel {LAZARUS: TbsSkinBevel};
+    btwsDownload: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lblfmTituloRib: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsFavoritos: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup68: TPanel {LAZARUS: TbsRibbonGroup};
+    ogFavoritos: TListView {LAZARUS: TbsSkinOfficeGallery};
+    bsRibbonGroup69: TPanel {LAZARUS: TbsRibbonGroup};
+    btAddFav: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinTabSheet7: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinDBGrid4: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsPopupMenuFavoritos: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     MenuItem1: TMenuItem;
     miAddFav: TMenuItem;
     miDelFav: TMenuItem;
-    GridPanel85: TGridPanel;
-    btDelFav: TbsSkinSpeedButton;
-    btOrdFav: TbsSkinSpeedButton;
+    GridPanel85: TPanel {LAZARUS: TGridPanel};
+    btDelFav: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btOrdFav: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     AlterarOrdem1: TMenuItem;
     pnlfmSubTituloRib: TPanel;
     pnlModDes: TPanel;
-    bsSkinPanel15: TbsSkinPanel;
-    bsSkinLinkLabel2: TbsSkinLinkLabel;
-    bsPngImageView1: TbsPngImageView;
-    bsRibbonDivider44: TbsRibbonDivider;
-    bsSkinSpeedButton63: TbsSkinSpeedButton;
-    bsSkinSpeedButton64: TbsSkinSpeedButton;
-    bsRibbonDivider45: TbsRibbonDivider;
-    bsSkinPanel16: TbsSkinPanel;
-    bsSkinScrollBar9: TbsSkinScrollBar;
-    sbColPERSO: TbsSkinScrollBox;
-    GridPanel86: TGridPanel;
-    txtBuscaColetPeso: TbsSkinEdit;
-    bsSkinStdLabel57: TbsSkinStdLabel;
-    stColetPerso: TbsSkinStatusBar;
-    bsSkinScrollBar14: TbsSkinScrollBar;
-    bsSkinScrollBar15: TbsSkinScrollBar;
-    bsSkinPanel14: TbsSkinPanel;
-    bsSkinStdLabel71: TbsSkinStdLabel;
-    bsSkinPanel17: TbsSkinPanel;
-    bsSkinLinkLabel3: TbsSkinLinkLabel;
-    bsPngImageView2: TbsPngImageView;
-    bsSkinPanel50: TbsSkinPanel;
-    bsSkinLinkLabel4: TbsSkinLinkLabel;
-    bsPngImageView3: TbsPngImageView;
-    bsSkinPanel20: TbsSkinPanel;
-    bsRibbonDivider30: TbsRibbonDivider;
-    bsSkinPanel52: TbsSkinPanel;
-    bsSkinStdLabel72: TbsSkinStdLabel;
-    sbMusicaAreaExtendida: TbsSkinComboBox;
-    bsSkinPanel53: TbsSkinPanel;
-    ckMusicaJanela: TbsSkinCheckBox;
-    bsRibbonGroup21: TbsRibbonGroup;
-    btAbreHinos: TbsSkinSpeedButton;
-    bsSkinSpeedButton4: TbsSkinSpeedButton;
-    bsSkinPanel54: TbsSkinPanel;
-    ckMusicaOperador: TbsSkinCheckBox;
-    btAddItemLiturgia: TbsSkinSpeedButton;
-    ampImpExp: TbsAppMenuPage;
-    bsSkinPanel31: TbsSkinPanel;
-    bsSkinPanel32: TbsSkinPanel;
-    bsSkinStdLabel1: TbsSkinStdLabel;
+    bsSkinPanel15: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel2: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView1: TImage {LAZARUS: TbsPngImageView};
+    bsRibbonDivider44: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinSpeedButton63: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton64: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider45: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel16: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinScrollBar9: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    sbColPERSO: TScrollBox {LAZARUS: TbsSkinScrollBox};
+    GridPanel86: TPanel {LAZARUS: TGridPanel};
+    txtBuscaColetPeso: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel57: TLabel {LAZARUS: TbsSkinStdLabel};
+    stColetPerso: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    bsSkinScrollBar14: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar15: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinPanel14: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel71: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel17: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel3: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView2: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel50: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel4: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView3: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel20: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider30: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel52: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel72: TLabel {LAZARUS: TbsSkinStdLabel};
+    sbMusicaAreaExtendida: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinPanel53: TPanel {LAZARUS: TbsSkinPanel};
+    ckMusicaJanela: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsRibbonGroup21: TPanel {LAZARUS: TbsRibbonGroup};
+    btAbreHinos: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton4: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel54: TPanel {LAZARUS: TbsSkinPanel};
+    ckMusicaOperador: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    btAddItemLiturgia: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    ampImpExp: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    bsSkinPanel31: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel32: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel1: TLabel {LAZARUS: TbsSkinStdLabel};
     ScrollBox3: TScrollBox;
-    bsSkinPanel62: TbsSkinPanel;
-    bsSkinButton17: TbsSkinButton;
-    bsSkinButton18: TbsSkinButton;
-    bsSkinPanel56: TbsSkinPanel;
-    bsSkinButton16: TbsSkinButton;
-    bsSkinButton19: TbsSkinButton;
-    bsSkinPanel57: TbsSkinPanel;
-    bsSkinButton28: TbsSkinButton;
-    bsSkinButton29: TbsSkinButton;
-    bsSkinPanel58: TbsSkinPanel;
-    bsSkinButton30: TbsSkinButton;
-    bsSkinButton31: TbsSkinButton;
-    bsSkinPanel60: TbsSkinPanel;
-    bsSkinButton32: TbsSkinButton;
-    bsSkinButton33: TbsSkinButton;
-    ampDoe: TbsAppMenuPage;
-    bsSkinPanel33: TbsSkinPanel;
-    bsSkinStdLabel6: TbsSkinStdLabel;
+    bsSkinPanel62: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton17: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton18: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel56: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton16: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton19: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel57: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton28: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton29: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel58: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton30: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton31: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel60: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton32: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton33: TButton {LAZARUS: TbsSkinButton};
+    ampDoe: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    bsSkinPanel33: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel6: TLabel {LAZARUS: TbsSkinStdLabel};
     ScrollBox6: TScrollBox;
-    bsSkinPanel61: TbsSkinPanel;
-    bsSkinStdLabel83: TbsSkinStdLabel;
-    tsDoxologia: TbsSkinTabSheet;
-    bsSkinExPanel1: TbsSkinExPanel;
-    bgDoxologiaCate: TbsSkinButtonGroup;
-    lbbgDoxologiaCate: TbsSkinListBox;
-    pnlDoxologiaMusicas: TbsSkinExPanel;
-    dbctrlDoxologiaMusicas: TbsSkinDBCtrlGrid;
+    bsSkinPanel61: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel83: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsDoxologia: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinExPanel1: TPanel {LAZARUS: TbsSkinExPanel};
+    bgDoxologiaCate: TToolBar {LAZARUS: TbsButtonGroup};
+    lbbgDoxologiaCate: TListBox {LAZARUS: TbsSkinListBox};
+    pnlDoxologiaMusicas: TPanel {LAZARUS: TbsSkinExPanel};
+    dbctrlDoxologiaMusicas: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
     Panel6: TPanel;
-    bsSkinDBText4: TbsSkinDBText;
-    bsSkinPanel64: TbsSkinPanel;
+    bsSkinDBText4: TDBText {LAZARUS: TbsSkinDBText};
+    bsSkinPanel64: TPanel {LAZARUS: TbsSkinPanel};
     imgDoxologiaCate: TImage;
-    lblDoxologiaCate: TbsSkinLabel;
-    btErro: TbsSkinButton;
-    tsLiturgia: TbsSkinTabSheet;
-    sbLiturgia: TbsSkinScrollBox;
-    bsSkinScrollBar3: TbsSkinScrollBar;
-    GridPanel23: TGridPanel;
-    lcal_2: TbsSkinSpeedButton;
-    lcal_3: TbsSkinSpeedButton;
-    lcal_4: TbsSkinSpeedButton;
-    lcal_5: TbsSkinSpeedButton;
-    lcal_6: TbsSkinSpeedButton;
-    lcal_7: TbsSkinSpeedButton;
-    lcal_1: TbsSkinSpeedButton;
-    bsRibbonDivider9: TbsRibbonDivider;
-    bsRibbonDivider13: TbsRibbonDivider;
-    bsRibbonDivider15: TbsRibbonDivider;
-    bsRibbonDivider17: TbsRibbonDivider;
-    bsRibbonDivider19: TbsRibbonDivider;
-    bsRibbonDivider21: TbsRibbonDivider;
-    lit_modItem: TbsSkinPanel;
-    lit_modItem_icomus6: TbsPngImageView;
-    lit_modItem_icomus4: TbsPngImageView;
-    lit_modItem_icomus3: TbsPngImageView;
-    lit_modItem_icomus1: TbsPngImageView;
-    lit_modItem_btedit: TbsPngImageView;
-    lit_modItem_divider: TbsRibbonDivider;
+    lblDoxologiaCate: TLabel {LAZARUS: TbsSkinLabel};
+    btErro: TButton {LAZARUS: TbsSkinButton};
+    tsLiturgia: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    sbLiturgia: TScrollBox {LAZARUS: TbsSkinScrollBox};
+    bsSkinScrollBar3: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    GridPanel23: TPanel {LAZARUS: TGridPanel};
+    lcal_2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lcal_3: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lcal_4: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lcal_5: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lcal_6: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lcal_7: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lcal_1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider9: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonDivider13: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonDivider15: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonDivider17: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonDivider19: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonDivider21: TBevel {LAZARUS: TbsRibbonDivider};
+    lit_modItem: TPanel {LAZARUS: TbsSkinPanel};
+    lit_modItem_icomus6: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_icomus4: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_icomus3: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_icomus1: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_btedit: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_divider: TBevel {LAZARUS: TbsRibbonDivider};
     lit_modItem_btmove: TPanel;
     lit_modItem_bticon: TPanel;
-    lit_modItem_bticon_img: TbsPngImageView;
-    lit_modItem_checkb: TbsSkinCheckBox;
-    lit_modItem_texto: TbsSkinPanel;
-    lit_modItem_subtitulo: TbsSkinStdLabel;
-    lit_modItem_titulo: TbsSkinStdLabel;
-    lit_modItem_btmove_img: TbsPngImageView;
-    mmLiturgia: TbsSkinMemo;
-    bsSkinPanel3: TbsSkinPanel;
-    bsSkinButton34: TbsSkinButton;
-    bsSkinButton35: TbsSkinButton;
-    bsSkinPanel65: TbsSkinPanel;
-    ckMusicaTituloSlide: TbsSkinCheckBox;
-    ampSincroniza: TbsAppMenuPage;
-    bsSkinPanel66: TbsSkinPanel;
-    bsSkinPanel67: TbsSkinPanel;
-    bsSkinStdLabel33: TbsSkinStdLabel;
+    lit_modItem_bticon_img: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_checkb: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    lit_modItem_texto: TPanel {LAZARUS: TbsSkinPanel};
+    lit_modItem_subtitulo: TLabel {LAZARUS: TbsSkinStdLabel};
+    lit_modItem_titulo: TLabel {LAZARUS: TbsSkinStdLabel};
+    lit_modItem_btmove_img: TImage {LAZARUS: TbsPngImageView};
+    mmLiturgia: TMemo {LAZARUS: TbsSkinMemo};
+    bsSkinPanel3: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton34: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton35: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel65: TPanel {LAZARUS: TbsSkinPanel};
+    ckMusicaTituloSlide: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    ampSincroniza: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    bsSkinPanel66: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel67: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel33: TLabel {LAZARUS: TbsSkinStdLabel};
     ScrollBox7: TScrollBox;
-    tabLetras: TbsSkinTabControl;
-    DBGrid2: TbsSkinDBGrid;
-    bsSkinScrollBar8: TbsSkinScrollBar;
-    pnlreBusca: TbsSkinPanel;
-    bsSkinScrollBar10: TbsSkinScrollBar;
-    reBusca: TbsSkinRichEdit;
-    GridPanel3: TGridPanel;
-    txtBusca: TbsSkinEdit;
-    bsSkinStdLabel5: TbsSkinStdLabel;
-    txtIDMusica: TbsSkinDBText;
-    bsFormatSlPerso: TbsSkinPanel;
-    ckSlideTxtFormatPerso: TbsSkinCheckBox;
-    GridPanel1: TGridPanel;
-    bsSkinStdLabel103: TbsSkinStdLabel;
-    seSorteioTempo: TbsSkinSpinEdit;
-    GridPanel4: TGridPanel;
-    bsSkinStdLabel104: TbsSkinStdLabel;
-    seSorteioTempoNM: TbsSkinSpinEdit;
-    bsRibbonGroup1: TbsRibbonGroup;
-    btExportarHino: TbsSkinMenuSpeedButton;
-    bsExportarMusica: TbsSkinPopupMenu;
+    tabLetras: TTabControl {LAZARUS: TbsSkinTabControl};
+    DBGrid2: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar8: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    pnlreBusca: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinScrollBar10: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    reBusca: TRichMemo {LAZARUS: TbsSkinRichEdit};
+    GridPanel3: TPanel {LAZARUS: TGridPanel};
+    txtBusca: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel5: TLabel {LAZARUS: TbsSkinStdLabel};
+    txtIDMusica: TDBText {LAZARUS: TbsSkinDBText};
+    bsFormatSlPerso: TPanel {LAZARUS: TbsSkinPanel};
+    ckSlideTxtFormatPerso: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    GridPanel1: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel103: TLabel {LAZARUS: TbsSkinStdLabel};
+    seSorteioTempo: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    GridPanel4: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel104: TLabel {LAZARUS: TbsSkinStdLabel};
+    seSorteioTempoNM: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    bsRibbonGroup1: TPanel {LAZARUS: TbsRibbonGroup};
+    btExportarHino: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsExportarMusica: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     miOpcExportar1: TMenuItem;
     miOpcExportar3: TMenuItem;
-    bsRibbonGroup4: TbsRibbonGroup;
-    btExportarMusica: TbsSkinMenuSpeedButton;
-    bsFormatSlidePerso: TbsSkinPanel;
-    bsSkinSpeedButton1: TbsSkinSpeedButton;
-    rbHinoTipo: TbsSkinRadioGroup;
-    lit_modItem_icomus2: TbsPngImageView;
-    bsRibbonGroup71: TbsRibbonGroup;
-    GridPanel27: TGridPanel;
-    bsSkinStdLabel107: TbsSkinStdLabel;
-    cbFormatoHora: TbsSkinComboBox;
-    tsMusicasInfantis: TbsSkinTabSheet;
-    dbctrlMusicasInfantis: TbsSkinDBCtrlGrid;
+    bsRibbonGroup4: TPanel {LAZARUS: TbsRibbonGroup};
+    btExportarMusica: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsFormatSlidePerso: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinSpeedButton1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    rbHinoTipo: TRadioGroup {LAZARUS: TbsSkinRadioGroup};
+    lit_modItem_icomus2: TImage {LAZARUS: TbsPngImageView};
+    bsRibbonGroup71: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel27: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel107: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbFormatoHora: TComboBox {LAZARUS: TbsSkinComboBox};
+    tsMusicasInfantis: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    dbctrlMusicasInfantis: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
     Panel1: TPanel;
-    bsSkinDBText3: TbsSkinDBText;
-    bsPngImageView6: TbsPngImageView;
-    bsPngImageView7: TbsPngImageView;
-    bsPngImageView8: TbsPngImageView;
-    bsPngImageView9: TbsPngImageView;
-    bsPngImageView10: TbsPngImageView;
-    bsSkinStdLabel108: TbsSkinStdLabel;
-    fcSorteioFonte: TbsSkinFontComboBox;
-    GridPanel28: TGridPanel;
+    bsSkinDBText3: TDBText {LAZARUS: TbsSkinDBText};
+    bsPngImageView6: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView7: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView8: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView9: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView10: TImage {LAZARUS: TbsPngImageView};
+    bsSkinStdLabel108: TLabel {LAZARUS: TbsSkinStdLabel};
+    fcSorteioFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel28: TPanel {LAZARUS: TGridPanel};
     Panel2: TPanel;
     Panel3: TPanel;
-    bsSkinStdLabel18: TbsSkinStdLabel;
-    bsSkinStdLabel109: TbsSkinStdLabel;
-    csSorteioCor: TbsSkinColorButton;
-    seSorteioTamanho: TbsSkinSpinEdit;
-    bsSkinStdLabel19: TbsSkinStdLabel;
-    tsSorteioImagem: TbsSkinFileEdit;
-    tsSorteioImagemInfo: TbsSkinEdit;
-    GridPanel38: TGridPanel;
+    bsSkinStdLabel18: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel109: TLabel {LAZARUS: TbsSkinStdLabel};
+    csSorteioCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    seSorteioTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    bsSkinStdLabel19: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsSorteioImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsSorteioImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel38: TPanel {LAZARUS: TGridPanel};
     Panel4: TPanel;
-    bsSkinStdLabel37: TbsSkinStdLabel;
+    bsSkinStdLabel37: TLabel {LAZARUS: TbsSkinStdLabel};
     Panel5: TPanel;
-    bsSkinStdLabel110: TbsSkinStdLabel;
-    csSorteioCorFundo: TbsSkinColorButton;
-    cbSorteioPosicaoFundo: TbsSkinComboBoxEx;
-    bsSkinDivider12: TbsSkinDivider;
-    bsSkinGroupBox1: TbsSkinGroupBox;
-    bsSkinStdLabel12: TbsSkinStdLabel;
-    fcSorteioFonteNM: TbsSkinFontComboBox;
-    GridPanel10: TGridPanel;
+    bsSkinStdLabel110: TLabel {LAZARUS: TbsSkinStdLabel};
+    csSorteioCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    cbSorteioPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
+    bsSkinDivider12: TBevel {LAZARUS: TbsSkinDivider};
+    bsSkinGroupBox1: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel12: TLabel {LAZARUS: TbsSkinStdLabel};
+    fcSorteioFonteNM: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel10: TPanel {LAZARUS: TGridPanel};
     Panel7: TPanel;
-    bsSkinStdLabel14: TbsSkinStdLabel;
-    seSorteioTamanhoNM: TbsSkinSpinEdit;
+    bsSkinStdLabel14: TLabel {LAZARUS: TbsSkinStdLabel};
+    seSorteioTamanhoNM: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel8: TPanel;
-    bsSkinStdLabel15: TbsSkinStdLabel;
-    csSorteioCorNM: TbsSkinColorButton;
-    bsSkinGroupBox11: TbsSkinGroupBox;
-    bsSkinStdLabel16: TbsSkinStdLabel;
-    tsSorteioNMImagem: TbsSkinFileEdit;
-    tsSorteioNMImagemInfo: TbsSkinEdit;
-    GridPanel20: TGridPanel;
+    bsSkinStdLabel15: TLabel {LAZARUS: TbsSkinStdLabel};
+    csSorteioCorNM: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox11: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel16: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsSorteioNMImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsSorteioNMImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel20: TPanel {LAZARUS: TGridPanel};
     Panel9: TPanel;
-    bsSkinStdLabel17: TbsSkinStdLabel;
-    cbSorteioNMPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel17: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbSorteioNMPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel10: TPanel;
-    bsSkinStdLabel38: TbsSkinStdLabel;
-    csSorteioCorFundoNM: TbsSkinColorButton;
-    bsSkinGroupBox10: TbsSkinGroupBox;
-    bsSkinStdLabel13: TbsSkinStdLabel;
-    tsEscSBImagem: TbsSkinFileEdit;
-    tsEscSBImagemInfo: TbsSkinEdit;
-    GridPanel16: TGridPanel;
+    bsSkinStdLabel38: TLabel {LAZARUS: TbsSkinStdLabel};
+    csSorteioCorFundoNM: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox10: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel13: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsEscSBImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsEscSBImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel16: TPanel {LAZARUS: TGridPanel};
     Panel11: TPanel;
-    bsSkinStdLabel39: TbsSkinStdLabel;
-    cbEscsbPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel39: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbEscsbPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel12: TPanel;
-    bsSkinStdLabel43: TbsSkinStdLabel;
-    csEscsbCorFundo: TbsSkinColorButton;
-    bsSkinGroupBox18: TbsSkinGroupBox;
-    bsSkinStdLabel64: TbsSkinStdLabel;
-    tsCronoImagem: TbsSkinFileEdit;
-    tsCronoImagemInfo: TbsSkinEdit;
-    GridPanel30: TGridPanel;
+    bsSkinStdLabel43: TLabel {LAZARUS: TbsSkinStdLabel};
+    csEscsbCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox18: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel64: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsCronoImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsCronoImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel30: TPanel {LAZARUS: TGridPanel};
     Panel13: TPanel;
-    bsSkinStdLabel65: TbsSkinStdLabel;
-    cbCronoPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel65: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbCronoPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel14: TPanel;
-    bsSkinStdLabel111: TbsSkinStdLabel;
-    csCronoCorFundo: TbsSkinColorButton;
-    bsSkinGroupBox19: TbsSkinGroupBox;
-    bsSkinStdLabel112: TbsSkinStdLabel;
-    tsTxtPainelDImagem: TbsSkinFileEdit;
-    tsTxtPainelDImagemInfo: TbsSkinEdit;
-    GridPanel40: TGridPanel;
+    bsSkinStdLabel111: TLabel {LAZARUS: TbsSkinStdLabel};
+    csCronoCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox19: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel112: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsTxtPainelDImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsTxtPainelDImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel40: TPanel {LAZARUS: TGridPanel};
     Panel16: TPanel;
-    bsSkinStdLabel113: TbsSkinStdLabel;
-    cbTxtPainelDPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel113: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbTxtPainelDPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel17: TPanel;
-    bsSkinStdLabel114: TbsSkinStdLabel;
-    csPainelDCorFundo: TbsSkinColorButton;
-    bsSkinGroupBox20: TbsSkinGroupBox;
-    bsSkinStdLabel115: TbsSkinStdLabel;
-    tsRelogioImagem: TbsSkinFileEdit;
-    tsRelogioImagemInfo: TbsSkinEdit;
-    GridPanel41: TGridPanel;
+    bsSkinStdLabel114: TLabel {LAZARUS: TbsSkinStdLabel};
+    csPainelDCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox20: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel115: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsRelogioImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsRelogioImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel41: TPanel {LAZARUS: TGridPanel};
     Panel18: TPanel;
-    bsSkinStdLabel116: TbsSkinStdLabel;
-    cbRelogioPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel116: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbRelogioPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel19: TPanel;
-    bsSkinStdLabel117: TbsSkinStdLabel;
-    csRelogioCorFundo: TbsSkinColorButton;
-    bsSkinGroupBox21: TbsSkinGroupBox;
-    bsSkinStdLabel118: TbsSkinStdLabel;
-    fcRelogioFonte: TbsSkinFontComboBox;
-    GridPanel42: TGridPanel;
+    bsSkinStdLabel117: TLabel {LAZARUS: TbsSkinStdLabel};
+    csRelogioCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox21: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel118: TLabel {LAZARUS: TbsSkinStdLabel};
+    fcRelogioFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel42: TPanel {LAZARUS: TGridPanel};
     Panel20: TPanel;
-    bsSkinStdLabel119: TbsSkinStdLabel;
-    seRelogioTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel119: TLabel {LAZARUS: TbsSkinStdLabel};
+    seRelogioTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel21: TPanel;
-    bsSkinStdLabel120: TbsSkinStdLabel;
-    csRelogioCor: TbsSkinColorButton;
-    bsSkinGroupBox16: TbsSkinGroupBox;
-    bsSkinStdLabel21: TbsSkinStdLabel;
-    fcPainelDFonte: TbsSkinFontComboBox;
-    GridPanel43: TGridPanel;
+    bsSkinStdLabel120: TLabel {LAZARUS: TbsSkinStdLabel};
+    csRelogioCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox16: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel21: TLabel {LAZARUS: TbsSkinStdLabel};
+    fcPainelDFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel43: TPanel {LAZARUS: TGridPanel};
     Panel22: TPanel;
-    bsSkinStdLabel22: TbsSkinStdLabel;
-    sePainelDTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel22: TLabel {LAZARUS: TbsSkinStdLabel};
+    sePainelDTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel23: TPanel;
-    bsSkinStdLabel27: TbsSkinStdLabel;
-    csPainelDCor: TbsSkinColorButton;
-    bsSkinGroupBox14: TbsSkinGroupBox;
-    bsSkinStdLabel32: TbsSkinStdLabel;
-    fcCronoFonte: TbsSkinFontComboBox;
-    GridPanel45: TGridPanel;
+    bsSkinStdLabel27: TLabel {LAZARUS: TbsSkinStdLabel};
+    csPainelDCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox14: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel32: TLabel {LAZARUS: TbsSkinStdLabel};
+    fcCronoFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel45: TPanel {LAZARUS: TGridPanel};
     Panel24: TPanel;
-    bsSkinStdLabel34: TbsSkinStdLabel;
-    seCronoTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel34: TLabel {LAZARUS: TbsSkinStdLabel};
+    seCronoTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel25: TPanel;
-    bsSkinStdLabel36: TbsSkinStdLabel;
-    csCronoCor: TbsSkinColorButton;
-    bsSkinGroupBox12: TbsSkinGroupBox;
-    bsSkinStdLabel44: TbsSkinStdLabel;
-    GridPanel52: TGridPanel;
+    bsSkinStdLabel36: TLabel {LAZARUS: TbsSkinStdLabel};
+    csCronoCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox12: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel44: TLabel {LAZARUS: TbsSkinStdLabel};
+    GridPanel52: TPanel {LAZARUS: TGridPanel};
     Panel26: TPanel;
-    bsSkinStdLabel45: TbsSkinStdLabel;
-    seEscsbTamanho2: TbsSkinSpinEdit;
+    bsSkinStdLabel45: TLabel {LAZARUS: TbsSkinStdLabel};
+    seEscsbTamanho2: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel27: TPanel;
-    bsSkinStdLabel46: TbsSkinStdLabel;
-    csEscsbCor2: TbsSkinColorButton;
-    bsSkinStdLabel47: TbsSkinStdLabel;
-    bsSkinStdLabel49: TbsSkinStdLabel;
-    GridPanel53: TGridPanel;
+    bsSkinStdLabel46: TLabel {LAZARUS: TbsSkinStdLabel};
+    csEscsbCor2: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinStdLabel47: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel49: TLabel {LAZARUS: TbsSkinStdLabel};
+    GridPanel53: TPanel {LAZARUS: TGridPanel};
     Panel28: TPanel;
-    bsSkinStdLabel50: TbsSkinStdLabel;
-    seEscsbTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel50: TLabel {LAZARUS: TbsSkinStdLabel};
+    seEscsbTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel29: TPanel;
-    bsSkinStdLabel51: TbsSkinStdLabel;
-    csEscsbCor: TbsSkinColorButton;
-    bsSkinSpeedButton5: TbsSkinSpeedButton;
-    tsItensAgendados: TbsSkinTabSheet;
-    bsSkinExPanel4: TbsSkinExPanel;
-    pnlItensAgendados: TbsSkinExPanel;
-    dbctrlCategoriasItensAgendados: TDBCtrlGrid;
+    bsSkinStdLabel51: TLabel {LAZARUS: TbsSkinStdLabel};
+    csEscsbCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinSpeedButton5: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    tsItensAgendados: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinExPanel4: TPanel {LAZARUS: TbsSkinExPanel};
+    pnlItensAgendados: TPanel {LAZARUS: TbsSkinExPanel};
+    dbctrlCategoriasItensAgendados: TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL};
     Panel30: TPanel;
     Panel31: TPanel;
-    bsItensAgendados: TbsRibbonPage;
-    bsRibbonGroup72: TbsRibbonGroup;
-    btAddCategoriaAgendados: TbsSkinSpeedButton;
-    bsRibbonGroup73: TbsRibbonGroup;
-    bsSkinSpeedButton8: TbsSkinSpeedButton;
-    cbRemoveItensAgendados: TbsSkinCheckBox;
-    bsRibbonDivider26: TbsRibbonDivider;
-    GridPanel9: TGridPanel;
-    bsSkinDBText5: TbsSkinDBText;
-    bsPngImageView13: TbsPngImageView;
+    bsItensAgendados: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup72: TPanel {LAZARUS: TbsRibbonGroup};
+    btAddCategoriaAgendados: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup73: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton8: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    cbRemoveItensAgendados: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsRibbonDivider26: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel9: TPanel {LAZARUS: TGridPanel};
+    bsSkinDBText5: TDBText {LAZARUS: TbsSkinDBText};
+    bsPngImageView13: TImage {LAZARUS: TbsPngImageView};
     Panel34: TPanel;
-    dbctrlItensAgendados: TDBCtrlGrid;
+    dbctrlItensAgendados: TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL};
     Panel32: TPanel;
-    GridPanel11: TGridPanel;
-    bsSkinDBText6: TbsSkinDBText;
-    bsPngImageView11: TbsPngImageView;
-    bsSkinDBText7: TbsSkinDBText;
+    GridPanel11: TPanel {LAZARUS: TGridPanel};
+    bsSkinDBText6: TDBText {LAZARUS: TbsSkinDBText};
+    bsPngImageView11: TImage {LAZARUS: TbsPngImageView};
+    bsSkinDBText7: TDBText {LAZARUS: TbsSkinDBText};
     Panel33: TPanel;
     Panel35: TPanel;
-    bsSkinDBText8: TbsSkinDBText;
-    bsRibbonDivider28: TbsRibbonDivider;
+    bsSkinDBText8: TDBText {LAZARUS: TbsSkinDBText};
+    bsRibbonDivider28: TBevel {LAZARUS: TbsRibbonDivider};
     Panel36: TPanel;
-    MonthCalendar1: TMonthCalendar;
-    bsSkinStdLabel52: TbsSkinStdLabel;
+    MonthCalendar1: TCalendar {LAZARUS: TMonthCalendar};
+    bsSkinStdLabel52: TLabel {LAZARUS: TbsSkinStdLabel};
     txtCategoria: TEdit;
-    bsSkinPanel68: TbsSkinPanel;
-    bsSkinButton37: TbsSkinButton;
-    bsSkinButton39: TbsSkinButton;
-    bsSkinPanel71: TbsSkinPanel;
-    bsSkinButton40: TbsSkinButton;
-    bsSkinButton41: TbsSkinButton;
-    cbAnotacoesLiturgia: TbsSkinCheckBox;
-    pnlAnotacoesLiturgia: TbsSkinExPanel;
-    RichEdit1: TbsSkinRichEdit;
-    bsSkinScrollBar5: TbsSkinScrollBar;
-    bsPopupExpand: TbsSkinPopupMenu;
+    bsSkinPanel68: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton37: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton39: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel71: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton40: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton41: TButton {LAZARUS: TbsSkinButton};
+    cbAnotacoesLiturgia: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    pnlAnotacoesLiturgia: TPanel {LAZARUS: TbsSkinExPanel};
+    RichEdit1: TRichMemo {LAZARUS: TbsSkinRichEdit};
+    bsSkinScrollBar5: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsPopupExpand: TPopupMenu {LAZARUS: TbsSkinPopupMenu};
     mmPopMonitor1: TMenuItem;
-    bsRibbonGroup70: TbsRibbonGroup;
-    GridPanel59: TGridPanel;
-    cbFormatoHoraES: TbsSkinComboBox;
+    bsRibbonGroup70: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel59: TPanel {LAZARUS: TGridPanel};
+    cbFormatoHoraES: TComboBox {LAZARUS: TbsSkinComboBox};
     Panel15: TPanel;
-    GridPanel60: TGridPanel;
-    fcTxtI1: TbsSkinFontComboBox;
-    btfsBold1: TbsSkinSpeedButton;
-    btfsItalic1: TbsSkinSpeedButton;
-    btfsUnderline1: TbsSkinSpeedButton;
-    btfsStrikeOut1: TbsSkinSpeedButton;
-    GridPanel61: TGridPanel;
-    seTxtITamanho1: TbsSkinComboBox;
-    bsRibbonDivider55: TbsRibbonDivider;
-    cbColorTxtI1: TbsSkinColorButton;
-    cbColorRTxtI1: TbsSkinColorButton;
-    bsSkinSpeedButton34: TbsSkinSpeedButton;
-    bsRibbonDivider57: TbsRibbonDivider;
-    bsSkinSpeedButton47: TbsSkinSpeedButton;
-    bsSkinScrollBar6: TbsSkinScrollBar;
-    GridPanel66: TGridPanel;
-    bttaLeftJustify1: TbsSkinSpeedButton;
-    bttaRightJustify1: TbsSkinSpeedButton;
-    bttaCenter1: TbsSkinSpeedButton;
-    bsSkinTabSheet8: TbsSkinTabSheet;
-    bsSkinPanel72: TbsSkinPanel;
-    bsSkinButton43: TbsSkinButton;
-    GridPanel68: TGridPanel;
+    GridPanel60: TPanel {LAZARUS: TGridPanel};
+    fcTxtI1: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    btfsBold1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btfsItalic1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btfsUnderline1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btfsStrikeOut1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    GridPanel61: TPanel {LAZARUS: TGridPanel};
+    seTxtITamanho1: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsRibbonDivider55: TBevel {LAZARUS: TbsRibbonDivider};
+    cbColorTxtI1: TColorButton {LAZARUS: TbsSkinColorButton};
+    cbColorRTxtI1: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinSpeedButton34: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider57: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinSpeedButton47: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinScrollBar6: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    GridPanel66: TPanel {LAZARUS: TGridPanel};
+    bttaLeftJustify1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bttaRightJustify1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bttaCenter1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinTabSheet8: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinPanel72: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton43: TButton {LAZARUS: TbsSkinButton};
+    GridPanel68: TPanel {LAZARUS: TGridPanel};
     Label3: TLabel;
     Label1: TLabel;
     lbHlpArquivos: TListBox;
@@ -986,755 +984,755 @@ type
     Label4: TLabel;
     lbHlpFalta: TListBox;
     lbHlpTemp: TMemo;
-    bsSkinStatusBar1: TbsSkinStatusBar;
-    spVersao: TbsSkinStatusPanel;
-    spRelogio: TbsSkinStatusPanel;
-    spData: TbsSkinStatusPanel;
-    spNomePC: TbsSkinStatusPanel;
-    bsPngImageView12: TbsPngImageView;
-    bsPngImageView5: TbsPngImageView;
-    bsPngImageView14: TbsPngImageView;
-    bsPngImageView15: TbsPngImageView;
-    bsPngImageView16: TbsPngImageView;
-    bsPngImageView17: TbsPngImageView;
-    bsPngImageView18: TbsPngImageView;
-    lit_modItem_icomus5: TbsPngImageView;
-    gpLiturgiaDes: TGridPanel;
+    bsSkinStatusBar1: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    spVersao: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    spRelogio: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    spData: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    spNomePC: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    bsPngImageView12: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView5: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView14: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView15: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView16: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView17: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView18: TImage {LAZARUS: TbsPngImageView};
+    lit_modItem_icomus5: TImage {LAZARUS: TbsPngImageView};
+    gpLiturgiaDes: TPanel {LAZARUS: TGridPanel};
     lbLiturgia: TListBox;
     lbLiturgiaPos: TListBox;
     mmBD: TMemo;
-    btExecSQL: TbsSkinButton;
-    GridPanel71: TGridPanel;
+    btExecSQL: TButton {LAZARUS: TbsSkinButton};
+    GridPanel71: TPanel {LAZARUS: TGridPanel};
     Label5: TLabel;
     Label6: TLabel;
-    GridPanel72: TGridPanel;
+    GridPanel72: TPanel {LAZARUS: TGridPanel};
     Label7: TLabel;
     Label8: TLabel;
     vlSorteioNM: TValueListEditor;
     vlSorteadosNM: TValueListEditor;
     vlSorteio: TValueListEditor;
     vlSorteados: TValueListEditor;
-    stHinos: TbsSkinStatusBar;
-    stHinos0: TbsSkinStatusPanel;
-    stHinos1: TbsSkinStatusPanel;
-    pnlStatusBuscaMusicas: TbsSkinStatusBar;
-    pnlStatusBuscaMusicas0: TbsSkinStatusPanel;
-    pnlStatusBuscaMusicas1: TbsSkinStatusPanel;
+    stHinos: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    stHinos0: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    stHinos1: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    pnlStatusBuscaMusicas: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    pnlStatusBuscaMusicas0: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    pnlStatusBuscaMusicas1: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
     miOpcExportar2: TMenuItem;
-    bsRibbonGroup75: TbsRibbonGroup;
-    cbEscSBZerarTempo: TbsSkinCheckBox;
-    cbEscSBRelogioFunc: TbsSkinCheckBox;
-    bsRibbonGroup76: TbsRibbonGroup;
-    GridPanel73: TGridPanel;
-    bsSkinStdLabel73: TbsSkinStdLabel;
-    cbFormatoTempoCrono: TbsSkinComboBox;
-    cbFormatoTempoES: TbsSkinComboBox;
-    bsSkinStdLabel131: TbsSkinStdLabel;
-    bsSkinStdLabel132: TbsSkinStdLabel;
-    bsSkinPanel26: TbsSkinPanel;
-    bsRibbonDivider62: TbsRibbonDivider;
-    bsSkinPanel27: TbsSkinPanel;
-    bsSkinStdLabel129: TbsSkinStdLabel;
-    bsSkinPanel35: TbsSkinPanel;
-    bsSkinLinkLabel5: TbsSkinLinkLabel;
-    bsPngImageView4: TbsPngImageView;
-    bsSkinPanel73: TbsSkinPanel;
-    bsSkinLinkLabel6: TbsSkinLinkLabel;
-    bsPngImageView19: TbsPngImageView;
-    bsSkinPanel74: TbsSkinPanel;
-    bsSkinLinkLabel9: TbsSkinLinkLabel;
-    bsPngImageView20: TbsPngImageView;
+    bsRibbonGroup75: TPanel {LAZARUS: TbsRibbonGroup};
+    cbEscSBZerarTempo: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    cbEscSBRelogioFunc: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsRibbonGroup76: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel73: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel73: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbFormatoTempoCrono: TComboBox {LAZARUS: TbsSkinComboBox};
+    cbFormatoTempoES: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinStdLabel131: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel132: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel26: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider62: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel27: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel129: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel35: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel5: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView4: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel73: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel6: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView19: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel74: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel9: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView20: TImage {LAZARUS: TbsPngImageView};
     Panel52: TPanel;
-    bsSkinStdLabel133: TbsSkinStdLabel;
-    csEscsbCor3: TbsSkinColorButton;
-    fcEscsbFonte: TbsSkinFontComboBox;
-    pnlFormatBiblia: TbsSkinExPanel;
-    bsSkinScrollPanel1: TbsSkinScrollPanel;
-    bsSkinDivider1: TbsSkinDivider;
-    GridPanel74: TGridPanel;
-    bsSkinExPanel7: TbsSkinExPanel;
-    bsSkinExPanel8: TbsSkinExPanel;
-    bsSkinExPanel5: TbsSkinExPanel;
-    DBCtrlGridBibliaLivro: TbsSkinDBCtrlGrid;
-    DBCtrlGridBibliaCapitulo: TbsSkinDBCtrlGrid;
-    DBCtrlGridBibliaVersiculo: TbsSkinDBCtrlGrid;
-    bsSkinStdLabel137: TbsSkinStdLabel;
-    bsSkinStdLabel136: TbsSkinStdLabel;
-    bsSkinStdLabel138: TbsSkinStdLabel;
-    busBibliaVersiculo: TbsSkinEdit;
-    bsRibbonGroup77: TbsRibbonGroup;
-    pnlBibliaHistorico: TbsSkinExPanel;
-    DBCtrlGridBibliaHistorico: TbsSkinDBCtrlGrid;
-    GridPanel70: TGridPanel;
-    bsSkinButton20: TbsSkinButton;
-    bsSkinPanel4: TbsSkinPanel;
+    bsSkinStdLabel133: TLabel {LAZARUS: TbsSkinStdLabel};
+    csEscsbCor3: TColorButton {LAZARUS: TbsSkinColorButton};
+    fcEscsbFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    pnlFormatBiblia: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinScrollPanel1: TScrollBox {LAZARUS: TbsSkinScrollPanel};
+    bsSkinDivider1: TBevel {LAZARUS: TbsSkinDivider};
+    GridPanel74: TPanel {LAZARUS: TGridPanel};
+    bsSkinExPanel7: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinExPanel8: TPanel {LAZARUS: TbsSkinExPanel};
+    bsSkinExPanel5: TPanel {LAZARUS: TbsSkinExPanel};
+    DBCtrlGridBibliaLivro: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
+    DBCtrlGridBibliaCapitulo: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
+    DBCtrlGridBibliaVersiculo: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
+    bsSkinStdLabel137: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel136: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel138: TLabel {LAZARUS: TbsSkinStdLabel};
+    busBibliaVersiculo: TEdit {LAZARUS: TbsSkinEdit};
+    bsRibbonGroup77: TPanel {LAZARUS: TbsRibbonGroup};
+    pnlBibliaHistorico: TPanel {LAZARUS: TbsSkinExPanel};
+    DBCtrlGridBibliaHistorico: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
+    GridPanel70: TPanel {LAZARUS: TGridPanel};
+    bsSkinButton20: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel4: TPanel {LAZARUS: TbsSkinPanel};
     pnlBiblia: TPanel;
     imgBiblia: TImage;
     lmdBibliaTxt: TLabel;
     lmdBibliaInfo: TLabel;
-    bsSkinGroupBox15: TbsSkinGroupBox;
-    bsSkinStdLabel7: TbsSkinStdLabel;
-    bsSkinStdLabel8: TbsSkinStdLabel;
-    bsSkinStdLabel9: TbsSkinStdLabel;
-    GridPanel76: TGridPanel;
+    bsSkinGroupBox15: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel7: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel8: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel9: TLabel {LAZARUS: TbsSkinStdLabel};
+    GridPanel76: TPanel {LAZARUS: TGridPanel};
     Panel56: TPanel;
-    bsSkinStdLabel140: TbsSkinStdLabel;
-    seBibliaTamanho2: TbsSkinSpinEdit;
+    bsSkinStdLabel140: TLabel {LAZARUS: TbsSkinStdLabel};
+    seBibliaTamanho2: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel57: TPanel;
-    bsSkinStdLabel141: TbsSkinStdLabel;
-    csBibliaCor2: TbsSkinColorButton;
-    fcBibliaFonte: TbsSkinFontComboBox;
-    GridPanel77: TGridPanel;
+    bsSkinStdLabel141: TLabel {LAZARUS: TbsSkinStdLabel};
+    csBibliaCor2: TColorButton {LAZARUS: TbsSkinColorButton};
+    fcBibliaFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel77: TPanel {LAZARUS: TGridPanel};
     Panel58: TPanel;
-    bsSkinStdLabel142: TbsSkinStdLabel;
-    seBibliaTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel142: TLabel {LAZARUS: TbsSkinStdLabel};
+    seBibliaTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel59: TPanel;
-    bsSkinStdLabel143: TbsSkinStdLabel;
-    csBibliaCor: TbsSkinColorButton;
-    bsSkinGroupBox3: TbsSkinGroupBox;
-    bsSkinStdLabel10: TbsSkinStdLabel;
-    tsBibliaImagem: TbsSkinFileEdit;
-    tsBibliaImagemInfo: TbsSkinEdit;
-    GridPanel5: TGridPanel;
+    bsSkinStdLabel143: TLabel {LAZARUS: TbsSkinStdLabel};
+    csBibliaCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox3: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel10: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsBibliaImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsBibliaImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel5: TPanel {LAZARUS: TGridPanel};
     Panel53: TPanel;
-    bsSkinStdLabel11: TbsSkinStdLabel;
-    cbBibliaPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel11: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbBibliaPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel54: TPanel;
-    bsSkinStdLabel139: TbsSkinStdLabel;
-    csBibliaCorFundo: TbsSkinColorButton;
-    bsRibbonGroup78: TbsRibbonGroup;
-    btBibVersAnt: TbsSkinSpeedButton;
-    btBibVersSeg: TbsSkinSpeedButton;
-    bsRibbonGroup79: TbsRibbonGroup;
-    bsSkinExPanel9: TbsSkinExPanel;
-    GridPanel12: TGridPanel;
-    bsSkinStdLabel20: TbsSkinStdLabel;
-    btBibLocaliza: TbsSkinButton;
-    txtBibLocaliza: TbsSkinEdit;
-    DBCtrlGridBibliaBusca: TbsSkinDBCtrlGrid;
+    bsSkinStdLabel139: TLabel {LAZARUS: TbsSkinStdLabel};
+    csBibliaCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsRibbonGroup78: TPanel {LAZARUS: TbsRibbonGroup};
+    btBibVersAnt: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btBibVersSeg: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup79: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinExPanel9: TPanel {LAZARUS: TbsSkinExPanel};
+    GridPanel12: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel20: TLabel {LAZARUS: TbsSkinStdLabel};
+    btBibLocaliza: TButton {LAZARUS: TbsSkinButton};
+    txtBibLocaliza: TEdit {LAZARUS: TbsSkinEdit};
+    DBCtrlGridBibliaBusca: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
     pnlBibliaBusca: TPanel;
     imgBibliaBusca: TImage;
     lmdBibliaBuscaTxt: TLabel;
     lmdBibliaBuscaInfo: TLabel;
-    bsSkinGroupBox2: TbsSkinGroupBox;
-    bsSkinStdLabel23: TbsSkinStdLabel;
-    bsSkinStdLabel144: TbsSkinStdLabel;
-    bsSkinStdLabel145: TbsSkinStdLabel;
-    GridPanel31: TGridPanel;
+    bsSkinGroupBox2: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel23: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel144: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel145: TLabel {LAZARUS: TbsSkinStdLabel};
+    GridPanel31: TPanel {LAZARUS: TGridPanel};
     Panel55: TPanel;
-    bsSkinStdLabel146: TbsSkinStdLabel;
-    seBibliabTamanho2: TbsSkinSpinEdit;
+    bsSkinStdLabel146: TLabel {LAZARUS: TbsSkinStdLabel};
+    seBibliabTamanho2: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel60: TPanel;
-    bsSkinStdLabel147: TbsSkinStdLabel;
-    csBibliabCor2: TbsSkinColorButton;
-    fcBibliabFonte: TbsSkinFontComboBox;
-    GridPanel32: TGridPanel;
+    bsSkinStdLabel147: TLabel {LAZARUS: TbsSkinStdLabel};
+    csBibliabCor2: TColorButton {LAZARUS: TbsSkinColorButton};
+    fcBibliabFonte: TComboBox {LAZARUS: TbsSkinFontComboBox};
+    GridPanel32: TPanel {LAZARUS: TGridPanel};
     Panel61: TPanel;
-    bsSkinStdLabel148: TbsSkinStdLabel;
-    seBibliabTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel148: TLabel {LAZARUS: TbsSkinStdLabel};
+    seBibliabTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel62: TPanel;
-    bsSkinStdLabel149: TbsSkinStdLabel;
-    csBibliabCor: TbsSkinColorButton;
-    bsSkinGroupBox5: TbsSkinGroupBox;
-    bsSkinStdLabel150: TbsSkinStdLabel;
-    tsBibliabImagem: TbsSkinFileEdit;
-    tsBibliabImagemInfo: TbsSkinEdit;
-    GridPanel8: TGridPanel;
+    bsSkinStdLabel149: TLabel {LAZARUS: TbsSkinStdLabel};
+    csBibliabCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinGroupBox5: TGroupBox {LAZARUS: TbsSkinGroupBox};
+    bsSkinStdLabel150: TLabel {LAZARUS: TbsSkinStdLabel};
+    tsBibliabImagem: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    tsBibliabImagemInfo: TEdit {LAZARUS: TbsSkinEdit};
+    GridPanel8: TPanel {LAZARUS: TGridPanel};
     Panel63: TPanel;
-    bsSkinStdLabel151: TbsSkinStdLabel;
-    cbBibliabPosicaoFundo: TbsSkinComboBoxEx;
+    bsSkinStdLabel151: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbBibliabPosicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
     Panel64: TPanel;
-    bsSkinStdLabel152: TbsSkinStdLabel;
-    csBibliabCorFundo: TbsSkinColorButton;
-    bsRibbonGroup80: TbsRibbonGroup;
-    btBibBusVersAnt: TbsSkinSpeedButton;
-    btBibBusVersSeg: TbsSkinSpeedButton;
-    bsSkinPanel80: TbsSkinPanel;
-    bsSkinStdLabel153: TbsSkinStdLabel;
-    bsSkinPanel81: TbsSkinPanel;
-    bsRibbonDivider64: TbsRibbonDivider;
-    bsSkinPanel82: TbsSkinPanel;
-    bsSkinLinkLabel18: TbsSkinLinkLabel;
-    bsPngImageView24: TbsPngImageView;
-    bsSkinPanel83: TbsSkinPanel;
-    bsSkinLinkLabel19: TbsSkinLinkLabel;
-    bsPngImageView25: TbsPngImageView;
-    bsSkinSpeedButton18: TbsSkinSpeedButton;
-    bsRibbonGroup81: TbsRibbonGroup;
-    GridPanel6: TGridPanel;
-    btVidOnlPExcluir: TbsSkinSpeedButton;
-    btVidOnlPCopiarLink: TbsSkinSpeedButton;
-    btVidOnlPAbrirNaveg: TbsSkinSpeedButton;
-    btVidOnlPExec: TbsSkinSpeedButton;
-    bsRibbonDivider65: TbsRibbonDivider;
-    ampAtivDesAlbum: TbsAppMenuPage;
-    bsSkinPanel84: TbsSkinPanel;
-    bsSkinStdLabel154: TbsSkinStdLabel;
-    bsSkinPanel63: TbsSkinPanel;
-    bsSkinPanel85: TbsSkinPanel;
-    bsSkinStdLabel91: TbsSkinStdLabel;
-    GridPanel7: TGridPanel;
+    bsSkinStdLabel152: TLabel {LAZARUS: TbsSkinStdLabel};
+    csBibliabCorFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsRibbonGroup80: TPanel {LAZARUS: TbsRibbonGroup};
+    btBibBusVersAnt: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btBibBusVersSeg: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel80: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel153: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel81: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider64: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel82: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel18: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView24: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel83: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel19: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView25: TImage {LAZARUS: TbsPngImageView};
+    bsSkinSpeedButton18: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup81: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel6: TPanel {LAZARUS: TGridPanel};
+    btVidOnlPExcluir: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btVidOnlPCopiarLink: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btVidOnlPAbrirNaveg: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btVidOnlPExec: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider65: TBevel {LAZARUS: TbsRibbonDivider};
+    ampAtivDesAlbum: TTabSheet {LAZARUS: TbsAppMenuPage removido};
+    bsSkinPanel84: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel154: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel63: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel85: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel91: TLabel {LAZARUS: TbsSkinStdLabel};
+    GridPanel7: TPanel {LAZARUS: TGridPanel};
     Panel65: TPanel;
     Panel66: TPanel;
-    bsSkinSpeedButton17: TbsSkinSpeedButton;
-    bsSkinSpeedButton21: TbsSkinSpeedButton;
+    bsSkinSpeedButton17: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton21: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     Panel67: TPanel;
-    gridAlbAt: TbsSkinDBGrid;
-    bsSkinScrollBar18: TbsSkinScrollBar;
+    gridAlbAt: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar18: TScrollBar {LAZARUS: TbsSkinScrollBar};
     Panel68: TPanel;
-    gridAlbInat: TbsSkinDBGrid;
-    bsSkinScrollBar19: TbsSkinScrollBar;
-    bsSkinPanel75: TbsSkinPanel;
-    bsSkinStdLabel134: TbsSkinStdLabel;
-    bsSkinPanel76: TbsSkinPanel;
-    bsSkinStdLabel135: TbsSkinStdLabel;
-    bsSkinPanel79: TbsSkinPanel;
-    bsSkinLinkLabel17: TbsSkinLinkLabel;
-    bsPngImageView23: TbsPngImageView;
-    bsSkinPanel77: TbsSkinPanel;
-    bsSkinLinkLabel15: TbsSkinLinkLabel;
-    bsPngImageView21: TbsPngImageView;
-    bsSkinPanel78: TbsSkinPanel;
-    bsSkinLinkLabel16: TbsSkinLinkLabel;
-    bsPngImageView22: TbsPngImageView;
-    imagemFundoInfo: TbsSkinEdit;
-    audioFundoInfo: TbsSkinEdit;
-    bsSkinTabSheet9: TbsSkinTabSheet;
-    bsSkinPanel86: TbsSkinPanel;
+    gridAlbInat: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar19: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinPanel75: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel134: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel76: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel135: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel79: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel17: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView23: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel77: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel15: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView21: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel78: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel16: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView22: TImage {LAZARUS: TbsPngImageView};
+    imagemFundoInfo: TEdit {LAZARUS: TbsSkinEdit};
+    audioFundoInfo: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinTabSheet9: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinPanel86: TPanel {LAZARUS: TbsSkinPanel};
     Label2: TLabel;
-    bsSkinButton21: TbsSkinButton;
-    bsSkinButton22: TbsSkinButton;
-    lvArquivos: TbsSkinListView;
-    gProgresso: TbsSkinGauge;
-    bsSkinButton23: TbsSkinButton;
-    bsSkinButton27: TbsSkinButton;
-    bsSkinPanel59: TbsSkinPanel;
-    bsSkinStdLabel56: TbsSkinStdLabel;
-    bsRibbonDivider51: TbsRibbonDivider;
-    bsSkinPanel88: TbsSkinPanel;
-    bsSkinStdLabel66: TbsSkinStdLabel;
-    bsSkinStdLabel68: TbsSkinStdLabel;
-    bsRibbonDivider67: TbsRibbonDivider;
-    bsRibbonDivider68: TbsRibbonDivider;
-    bsSkinStdLabel102: TbsSkinStdLabel;
-    bsRibbonDivider69: TbsRibbonDivider;
-    corTextoMusica: TbsSkinColorButton;
-    corTextoAuxMusica: TbsSkinColorButton;
-    ckMusicaFundoTransparente: TbsSkinCheckBox;
-    seTamanhoTexto: TbsSkinSpinEdit;
-    bsSkinStdLabel106: TbsSkinStdLabel;
-    seTamanhoTextoAux: TbsSkinSpinEdit;
-    bsSkinStdLabel61: TbsSkinStdLabel;
-    bsRibbonDivider54: TbsRibbonDivider;
-    seTamanhoTitulo: TbsSkinSpinEdit;
-    corTituloMusica: TbsSkinColorButton;
-    bsSkinPanel89: TbsSkinPanel;
-    bsSkinStdLabel121: TbsSkinStdLabel;
-    bsSkinPanel90: TbsSkinPanel;
-    bsRibbonDivider70: TbsRibbonDivider;
-    bsSkinPanel91: TbsSkinPanel;
-    bsSkinLinkLabel20: TbsSkinLinkLabel;
-    bsPngImageView26: TbsPngImageView;
-    bsSkinPanel92: TbsSkinPanel;
-    bsSkinLinkLabel21: TbsSkinLinkLabel;
-    bsPngImageView27: TbsPngImageView;
-    bsSkinPanel93: TbsSkinPanel;
-    bsSkinLinkLabel22: TbsSkinLinkLabel;
-    bsPngImageView28: TbsPngImageView;
-    bsSkinStdLabel122: TbsSkinStdLabel;
-    bsRibbonDivider71: TbsRibbonDivider;
-    corTextoRepetido: TbsSkinColorButton;
-    bsSkinTabSheet10: TbsSkinTabSheet;
+    bsSkinButton21: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton22: TButton {LAZARUS: TbsSkinButton};
+    lvArquivos: TListView {LAZARUS: TbsSkinListView};
+    gProgresso: TProgressBar {LAZARUS: TbsSkinGauge};
+    bsSkinButton23: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton27: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel59: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel56: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider51: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel88: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel66: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel68: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider67: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonDivider68: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinStdLabel102: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider69: TBevel {LAZARUS: TbsRibbonDivider};
+    corTextoMusica: TColorButton {LAZARUS: TbsSkinColorButton};
+    corTextoAuxMusica: TColorButton {LAZARUS: TbsSkinColorButton};
+    ckMusicaFundoTransparente: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    seTamanhoTexto: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    bsSkinStdLabel106: TLabel {LAZARUS: TbsSkinStdLabel};
+    seTamanhoTextoAux: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    bsSkinStdLabel61: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider54: TBevel {LAZARUS: TbsRibbonDivider};
+    seTamanhoTitulo: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    corTituloMusica: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinPanel89: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel121: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel90: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider70: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel91: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel20: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView26: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel92: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel21: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView27: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel93: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel22: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView28: TImage {LAZARUS: TbsPngImageView};
+    bsSkinStdLabel122: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider71: TBevel {LAZARUS: TbsRibbonDivider};
+    corTextoRepetido: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinTabSheet10: TTabSheet {LAZARUS: TbsSkinTabSheet};
     lbTempos: TListBox;
     Panel37: TPanel;
-    Label9: TbsSkinLabel;
-    idMusica: TbsSkinEdit;
-    Button1: TbsSkinButton;
-    dbGrid: TbsSkinDBGrid;
-    bsSkinPanel44: TbsSkinPanel;
-    bsSkinStdLabel93: TbsSkinStdLabel;
-    bsSkinPanel45: TbsSkinPanel;
-    bsSkinStdLabel94: TbsSkinStdLabel;
-    bsSkinPanel47: TbsSkinPanel;
-    bsSkinLinkLabel14: TbsSkinLinkLabel;
-    Image33: TbsPngImageView;
-    bsSkinTabSheet11: TbsSkinTabSheet;
+    Label9: TLabel {LAZARUS: TbsSkinLabel};
+    idMusica: TEdit {LAZARUS: TbsSkinEdit};
+    Button1: TButton {LAZARUS: TbsSkinButton};
+    dbGrid: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinPanel44: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel93: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel45: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel94: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel47: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel14: TLabel {LAZARUS: TbsSkinLinkLabel};
+    Image33: TImage {LAZARUS: TbsPngImageView};
+    bsSkinTabSheet11: TTabSheet {LAZARUS: TbsSkinTabSheet};
     cboard: TListBox;
-    bsRibbonDivider72: TbsRibbonDivider;
-    btPersoClipBoard: TbsSkinSpeedButton;
-    bsSkinPanel51: TbsSkinPanel;
-    ckFadeForm: TbsSkinCheckBox;
-    btLitClipBoard: TbsSkinSpeedButton;
-    cbBloqItens: TbsSkinCheckBox;
-    bsSkinPanel94: TbsSkinPanel;
-    bsSkinStdLabel124: TbsSkinStdLabel;
-    cbLayout: TbsSkinComboBox;
-    bsSkinPanel95: TbsSkinPanel;
-    bsSkinStdLabel78: TbsSkinStdLabel;
-    bsSkinPanel96: TbsSkinPanel;
-    bsSkinStdLabel125: TbsSkinStdLabel;
-    bsSkinPanel98: TbsSkinPanel;
-    bsRibbonDivider8: TbsRibbonDivider;
-    bsSkinPanel97: TbsSkinPanel;
-    bsRibbonDivider73: TbsRibbonDivider;
-    bsSkinPanel99: TbsSkinPanel;
-    bsRibbonDivider48: TbsRibbonDivider;
-    bsSkinPanel100: TbsSkinPanel;
-    bsRibbonDivider31: TbsRibbonDivider;
-    bsSkinPanel101: TbsSkinPanel;
-    bsRibbonDivider74: TbsRibbonDivider;
-    bsSkinPanel102: TbsSkinPanel;
-    bsSkinStdLabel123: TbsSkinStdLabel;
-    bsSkinPanel103: TbsSkinPanel;
-    bsSkinStdLabel67: TbsSkinStdLabel;
-    bsSkinPanel104: TbsSkinPanel;
-    bsSkinStdLabel58: TbsSkinStdLabel;
-    bsSkinPanel105: TbsSkinPanel;
-    bsRibbonDivider35: TbsRibbonDivider;
-    bsSkinPanel106: TbsSkinPanel;
-    bsRibbonDivider36: TbsRibbonDivider;
-    bsSkinPanel107: TbsSkinPanel;
-    bsRibbonDivider41: TbsRibbonDivider;
-    bsSkinPanel108: TbsSkinPanel;
-    bsRibbonDivider29: TbsRibbonDivider;
-    bsSkinPanel109: TbsSkinPanel;
-    bsRibbonDivider34: TbsRibbonDivider;
-    bsSkinPanel110: TbsSkinPanel;
-    bsRibbonDivider2: TbsRibbonDivider;
-    bsSkinPanel111: TbsSkinPanel;
-    bsRibbonDivider32: TbsRibbonDivider;
-    bsSkinPanel112: TbsSkinPanel;
-    bsRibbonDivider37: TbsRibbonDivider;
-    bsSkinPanel113: TbsSkinPanel;
-    bsRibbonDivider49: TbsRibbonDivider;
-    bsSkinPanel114: TbsSkinPanel;
-    bsRibbonDivider39: TbsRibbonDivider;
-    bsSkinPanel115: TbsSkinPanel;
-    bsRibbonDivider46: TbsRibbonDivider;
-    bsSkinPanel116: TbsSkinPanel;
-    bsSkinStdLabel84: TbsSkinStdLabel;
-    bsSkinPanel117: TbsSkinPanel;
-    bsSkinStdLabel81: TbsSkinStdLabel;
-    bsSkinPanel118: TbsSkinPanel;
-    bsSkinStdLabel126: TbsSkinStdLabel;
-    bsSkinPanel119: TbsSkinPanel;
-    bsSkinStdLabel127: TbsSkinStdLabel;
-    bsSkinPanel120: TbsSkinPanel;
-    bsSkinStdLabel128: TbsSkinStdLabel;
-    bsSkinPanel121: TbsSkinPanel;
-    bsSkinStdLabel130: TbsSkinStdLabel;
-    bsSkinPanel122: TbsSkinPanel;
-    bsSkinStdLabel155: TbsSkinStdLabel;
-    bsSkinPanel124: TbsSkinPanel;
-    bsSkinStdLabel74: TbsSkinStdLabel;
-    bsSkinPanel70: TbsSkinPanel;
-    bsSkinButton38: TbsSkinButton;
-    bsSkinPanel127: TbsSkinPanel;
-    bsSkinStdLabel35: TbsSkinStdLabel;
-    bsSkinPanel130: TbsSkinPanel;
-    bsRibbonDivider38: TbsRibbonDivider;
-    bsSkinPanel126: TbsSkinPanel;
-    bsSkinStdLabel54: TbsSkinStdLabel;
-    bsSkinPanel69: TbsSkinPanel;
-    bsSkinButton36: TbsSkinButton;
-    bsSkinPanel128: TbsSkinPanel;
-    bsSkinStdLabel90: TbsSkinStdLabel;
-    bsSkinPanel123: TbsSkinPanel;
-    bsRibbonDivider27: TbsRibbonDivider;
-    bsSkinPanel125: TbsSkinPanel;
-    bsSkinPanel129: TbsSkinPanel;
-    bsSkinPanel131: TbsSkinPanel;
-    bsSkinPanel132: TbsSkinPanel;
-    bsSkinPanel133: TbsSkinPanel;
-    bsRibbonDivider52: TbsRibbonDivider;
-    bsSkinPanel134: TbsSkinPanel;
-    bsSkinTabSheet12: TbsSkinTabSheet;
+    bsRibbonDivider72: TBevel {LAZARUS: TbsRibbonDivider};
+    btPersoClipBoard: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel51: TPanel {LAZARUS: TbsSkinPanel};
+    ckFadeForm: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    btLitClipBoard: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    cbBloqItens: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinPanel94: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel124: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbLayout: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinPanel95: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel78: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel96: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel125: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel98: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider8: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel97: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider73: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel99: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider48: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel100: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider31: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel101: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider74: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel102: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel123: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel103: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel67: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel104: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel58: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel105: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider35: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel106: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider36: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel107: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider41: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel108: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider29: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel109: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider34: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel110: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider2: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel111: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider32: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel112: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider37: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel113: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider49: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel114: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider39: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel115: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider46: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel116: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel84: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel117: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel81: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel118: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel126: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel119: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel127: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel120: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel128: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel121: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel130: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel122: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel155: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel124: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel74: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel70: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton38: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel127: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel35: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel130: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider38: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel126: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel54: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel69: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton36: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel128: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel90: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel123: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider27: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel125: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel129: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel131: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel132: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel133: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider52: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel134: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinTabSheet12: TTabSheet {LAZARUS: TbsSkinTabSheet};
     layoutValue: TValueListEditor;
-    bsSkinPanel135: TbsSkinPanel;
-    bsSkinStdLabel53: TbsSkinStdLabel;
-    bsSkinPanel136: TbsSkinPanel;
-    bsRibbonDivider56: TbsRibbonDivider;
-    bsSkinPanel138: TbsSkinPanel;
-    bsSkinLinkLabel24: TbsSkinLinkLabel;
-    bsPngImageView30: TbsPngImageView;
-    bsSkinPanel139: TbsSkinPanel;
-    bsRibbonDivider59: TbsRibbonDivider;
-    bsSkinPanel140: TbsSkinPanel;
-    bsSkinStdLabel79: TbsSkinStdLabel;
-    bsSkinPanel141: TbsSkinPanel;
-    bsSkinLinkLabel25: TbsSkinLinkLabel;
-    bsPngImageView31: TbsPngImageView;
-    bsFormatSlImgPerso: TbsSkinPanel;
-    ckSlideImgFormatPerso: TbsSkinCheckBox;
-    bsFormatSlideImgPerso: TbsSkinPanel;
-    bsSkinPanel87: TbsSkinPanel;
-    bsSkinStdLabel105: TbsSkinStdLabel;
-    bsRibbonDivider10: TbsRibbonDivider;
-    corFundoMusica: TbsSkinColorButton;
-    bsSkinStdLabel55: TbsSkinStdLabel;
-    imgFundoMusica: TbsSkinFileEdit;
-    bsSkinStdLabel62: TbsSkinStdLabel;
-    bsRibbonDivider66: TbsRibbonDivider;
-    txtImgFundoMusicaInfo: TbsSkinEdit;
-    posicaoFundo: TbsSkinComboBoxEx;
-    bsSkinButton2: TbsSkinButton;
-    bsRibbonGroup9: TbsRibbonGroup;
-    bsSkinSpeedButton2: TbsSkinSpeedButton;
-    bsRibbonDivider25: TbsRibbonDivider;
-    bsSkinSpeedButton16: TbsSkinSpeedButton;
-    bsSkinPanel142: TbsSkinPanel;
-    bsRibbonDivider63: TbsRibbonDivider;
-    bsSkinPanel143: TbsSkinPanel;
-    bsSkinStdLabel87: TbsSkinStdLabel;
-    bsSkinPanel144: TbsSkinPanel;
-    bsSkinLinkLabel26: TbsSkinLinkLabel;
-    bsPngImageView32: TbsPngImageView;
-    bsSkinPanel145: TbsSkinPanel;
-    bsSkinLinkLabel27: TbsSkinLinkLabel;
-    bsPngImageView33: TbsPngImageView;
-    stColetPerso_0: TbsSkinStatusPanel;
-    stColetPerso_1: TbsSkinStatusPanel;
-    stVideosOnPerso_1: TbsSkinStatusPanel;
+    bsSkinPanel135: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel53: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel136: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider56: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel138: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel24: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView30: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel139: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider59: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel140: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel79: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel141: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel25: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView31: TImage {LAZARUS: TbsPngImageView};
+    bsFormatSlImgPerso: TPanel {LAZARUS: TbsSkinPanel};
+    ckSlideImgFormatPerso: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsFormatSlideImgPerso: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel87: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel105: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider10: TBevel {LAZARUS: TbsRibbonDivider};
+    corFundoMusica: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinStdLabel55: TLabel {LAZARUS: TbsSkinStdLabel};
+    imgFundoMusica: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    bsSkinStdLabel62: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider66: TBevel {LAZARUS: TbsRibbonDivider};
+    txtImgFundoMusicaInfo: TEdit {LAZARUS: TbsSkinEdit};
+    posicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx};
+    bsSkinButton2: TButton {LAZARUS: TbsSkinButton};
+    bsRibbonGroup9: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider25: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinSpeedButton16: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel142: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider63: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel143: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel87: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel144: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel26: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView32: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel145: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel27: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView33: TImage {LAZARUS: TbsPngImageView};
+    stColetPerso_0: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    stColetPerso_1: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    stVideosOnPerso_1: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
     DBCtrlGridBibliaLivro_pnl: TPanel;
-    txtdbBibliaLivro: TbsSkinDBText;
-    txtdbBibliaLivroSg: TbsSkinDBText;
+    txtdbBibliaLivro: TDBText {LAZARUS: TbsSkinDBText};
+    txtdbBibliaLivroSg: TDBText {LAZARUS: TbsSkinDBText};
     DBCtrlGridBibliaCapitulo_pnl: TPanel;
-    txtdbBibliaCapitulo: TbsSkinDBText;
+    txtdbBibliaCapitulo: TDBText {LAZARUS: TbsSkinDBText};
     DBCtrlGridBibliaVersiculo_pnl: TPanel;
-    txtdbBibliaVersiculoTxt: TbsSkinDBText;
-    txtdbBibliaVersiculo: TbsSkinDBText;
+    txtdbBibliaVersiculoTxt: TDBText {LAZARUS: TbsSkinDBText};
+    txtdbBibliaVersiculo: TDBText {LAZARUS: TbsSkinDBText};
     DBCtrlGridBibliaHistorico_pnl: TPanel;
-    txtBibliaHistoricoPassagem: TbsSkinDBText;
-    txtBibliaHistorico: TbsSkinDBText;
+    txtBibliaHistoricoPassagem: TDBText {LAZARUS: TbsSkinDBText};
+    txtBibliaHistorico: TDBText {LAZARUS: TbsSkinDBText};
     DBCtrlGridBibliaBusca_pnl: TPanel;
-    txtBibliaBusca: TbsSkinDBText;
-    txtBibliaBuscaPassagem: TbsSkinDBText;
-    txtdbBibliaLivroNm: TbsSkinDBText;
-    bsSkinPanel146: TbsSkinPanel;
-    bsSkinStdLabel95: TbsSkinStdLabel;
-    bsSkinPanel147: TbsSkinPanel;
-    bsRibbonDivider47: TbsRibbonDivider;
-    bsSkinPanel148: TbsSkinPanel;
-    bsRibbonDivider53: TbsRibbonDivider;
-    bsSkinPanel149: TbsSkinPanel;
-    bsRibbonDivider58: TbsRibbonDivider;
-    bsSkinPanel150: TbsSkinPanel;
-    bsSkinStdLabel88: TbsSkinStdLabel;
-    bsSkinPanel151: TbsSkinPanel;
-    bsSkinStdLabel156: TbsSkinStdLabel;
-    bsSkinPanel152: TbsSkinPanel;
-    bsSkinLinkLabel28: TbsSkinLinkLabel;
-    bsPngImageView34: TbsPngImageView;
-    bsSkinPanel153: TbsSkinPanel;
-    bsSkinLinkLabel29: TbsSkinLinkLabel;
-    bsPngImageView35: TbsPngImageView;
-    bsSkinPanel154: TbsSkinPanel;
-    bsSkinLinkLabel30: TbsSkinLinkLabel;
-    bsPngImageView36: TbsPngImageView;
-    bsSkinPanel155: TbsSkinPanel;
-    bsSkinLinkLabel31: TbsSkinLinkLabel;
-    bsPngImageView37: TbsPngImageView;
-    bsSkinPanel156: TbsSkinPanel;
-    bsSkinLinkLabel32: TbsSkinLinkLabel;
-    bsPngImageView38: TbsPngImageView;
-    bsSkinPanel157: TbsSkinPanel;
-    bsSkinLinkLabel33: TbsSkinLinkLabel;
-    bsPngImageView39: TbsPngImageView;
-    pnlPlayer: TbsSkinPanel;
-    MediaPlayer1: TMediaPlayer;
-    lblPlayer: TbsSkinLabel;
-    btplPlay: TbsSkinSpeedButton;
-    btplPause: TbsSkinSpeedButton;
-    bsRibbonDivider60: TbsRibbonDivider;
-    btplFechar: TbsSkinSpeedButton;
-    pbPlayer: TbsSkinGauge;
-    bsSkinPanel158: TbsSkinPanel;
-    bsRibbonDivider61: TbsRibbonDivider;
-    bsSkinPanel159: TbsSkinPanel;
-    bsSkinStdLabel157: TbsSkinStdLabel;
-    bsSkinPanel160: TbsSkinPanel;
-    bsSkinStdLabel158: TbsSkinStdLabel;
-    sbPlayerAreaExtendida: TbsSkinComboBox;
-    bsSkinPanel161: TbsSkinPanel;
-    ckPlayerTelaCheia: TbsSkinCheckBox;
-    bsSkinPanel162: TbsSkinPanel;
-    ckPlayerVideo: TbsSkinCheckBox;
-    bsSkinPanel163: TbsSkinPanel;
-    ckPlayerAudio: TbsSkinCheckBox;
-    bsSkinPanel164: TbsSkinPanel;
-    bsSkinStdLabel159: TbsSkinStdLabel;
-    bsRibbonDivider75: TbsRibbonDivider;
-    bsRibbonGroup12: TbsRibbonGroup;
-    btHinoSlideMusica: TbsSkinSpeedButton;
-    GridPanel69: TGridPanel;
-    btHinoSlideMusicaPB: TbsSkinSpeedButton;
-    btHinoSlideMusicaSA: TbsSkinSpeedButton;
-    bsRibbonGroup74: TbsRibbonGroup;
-    GridPanel87: TGridPanel;
-    bsSkinSpeedButton13: TbsSkinSpeedButton;
-    bsSkinSpeedButton3: TbsSkinSpeedButton;
-    bsSkinSpeedButton12: TbsSkinSpeedButton;
-    bsRibbonGroup82: TbsRibbonGroup;
-    bsSkinPanel2: TbsSkinPanel;
-    bsSkinStdLabel4: TbsSkinStdLabel;
-    bsSkinDBText2: TbsSkinDBText;
-    bsRibbonDivider4: TbsRibbonDivider;
-    btMusicaLetra: TbsSkinSpeedButton;
-    bsRibbonGroup83: TbsRibbonGroup;
-    btMusicaSlideMusica: TbsSkinSpeedButton;
-    GridPanel33: TGridPanel;
-    btMusicaSlideMusicaPB: TbsSkinSpeedButton;
-    btMusicaSlideMusicaSA: TbsSkinSpeedButton;
-    bsRibbonGroup84: TbsRibbonGroup;
-    GridPanel34: TGridPanel;
-    btMusicaAudioMusicaPB: TbsSkinSpeedButton;
-    btMusicaAudioMusica: TbsSkinSpeedButton;
-    bsSkinSpeedButton6: TbsSkinSpeedButton;
-    bsRibbonDivider3: TbsRibbonDivider;
-    dblBibVersao: TbsSkinDBLookupComboBox;
-    bsSkinStdLabel160: TbsSkinStdLabel;
-    bsSkinStdLabel161: TbsSkinStdLabel;
-    dblBibVersao2: TbsSkinDBLookupComboBox;
-    busBibliaLivro: TbsSkinComboBox;
-    busBibliaCapitulo: TbsSkinComboBox;
-    bsSkinDBGrid1: TbsSkinDBGrid;
-    bsSkinScrollBar4: TbsSkinScrollBar;
-    bsSkinScrollBar23: TbsSkinScrollBar;
-    bsRibbonGroup6: TbsRibbonGroup;
-    opcCronoCTempo: TbsSkinRadioGroup;
-    GridPanel35: TGridPanel;
-    meESHora: TbsSkinMaskEdit;
-    meESDuracao: TbsSkinSpinEdit;
-    bsSkinPanel165: TbsSkinPanel;
-    bsSkinStdLabel40: TbsSkinStdLabel;
-    lblCronoCFim: TbsSkinStdLabel;
-    bsRibbonGroup85: TbsRibbonGroup;
-    GridPanel24: TGridPanel;
-    bsAddT1: TbsSkinSpeedButton;
-    bsAddT5: TbsSkinSpeedButton;
-    bsAddT10: TbsSkinSpeedButton;
-    bsAddTm1: TbsSkinSpeedButton;
-    bsAddTm5: TbsSkinSpeedButton;
-    bsAddTm10: TbsSkinSpeedButton;
-    bsSkinStdLabel162: TbsSkinStdLabel;
+    txtBibliaBusca: TDBText {LAZARUS: TbsSkinDBText};
+    txtBibliaBuscaPassagem: TDBText {LAZARUS: TbsSkinDBText};
+    txtdbBibliaLivroNm: TDBText {LAZARUS: TbsSkinDBText};
+    bsSkinPanel146: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel95: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel147: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider47: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel148: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider53: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel149: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider58: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel150: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel88: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel151: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel156: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel152: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel28: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView34: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel153: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel29: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView35: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel154: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel30: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView36: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel155: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel31: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView37: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel156: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel32: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView38: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel157: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel33: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView39: TImage {LAZARUS: TbsPngImageView};
+    pnlPlayer: TPanel {LAZARUS: TbsSkinPanel};
+    {LAZARUS: MediaPlayer1 (TMediaPlayer) removido — usar PlayerStream (BASS)}
+    lblPlayer: TLabel {LAZARUS: TbsSkinLabel};
+    btplPlay: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btplPause: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider60: TBevel {LAZARUS: TbsRibbonDivider};
+    btplFechar: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    pbPlayer: TProgressBar {LAZARUS: TbsSkinGauge};
+    bsSkinPanel158: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider61: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel159: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel157: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel160: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel158: TLabel {LAZARUS: TbsSkinStdLabel};
+    sbPlayerAreaExtendida: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinPanel161: TPanel {LAZARUS: TbsSkinPanel};
+    ckPlayerTelaCheia: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinPanel162: TPanel {LAZARUS: TbsSkinPanel};
+    ckPlayerVideo: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinPanel163: TPanel {LAZARUS: TbsSkinPanel};
+    ckPlayerAudio: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinPanel164: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel159: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonDivider75: TBevel {LAZARUS: TbsRibbonDivider};
+    bsRibbonGroup12: TPanel {LAZARUS: TbsRibbonGroup};
+    btHinoSlideMusica: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    GridPanel69: TPanel {LAZARUS: TGridPanel};
+    btHinoSlideMusicaPB: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btHinoSlideMusicaSA: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup74: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel87: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton13: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton3: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton12: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup82: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinPanel2: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel4: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinDBText2: TDBText {LAZARUS: TbsSkinDBText};
+    bsRibbonDivider4: TBevel {LAZARUS: TbsRibbonDivider};
+    btMusicaLetra: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup83: TPanel {LAZARUS: TbsRibbonGroup};
+    btMusicaSlideMusica: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    GridPanel33: TPanel {LAZARUS: TGridPanel};
+    btMusicaSlideMusicaPB: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btMusicaSlideMusicaSA: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup84: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel34: TPanel {LAZARUS: TGridPanel};
+    btMusicaAudioMusicaPB: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btMusicaAudioMusica: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton6: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider3: TBevel {LAZARUS: TbsRibbonDivider};
+    dblBibVersao: TDBLookupComboBox {LAZARUS: TbsSkinDBLookupComboBox};
+    bsSkinStdLabel160: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel161: TLabel {LAZARUS: TbsSkinStdLabel};
+    dblBibVersao2: TDBLookupComboBox {LAZARUS: TbsSkinDBLookupComboBox};
+    busBibliaLivro: TComboBox {LAZARUS: TbsSkinComboBox};
+    busBibliaCapitulo: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinDBGrid1: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar4: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsSkinScrollBar23: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsRibbonGroup6: TPanel {LAZARUS: TbsRibbonGroup};
+    opcCronoCTempo: TRadioGroup {LAZARUS: TbsSkinRadioGroup};
+    GridPanel35: TPanel {LAZARUS: TGridPanel};
+    meESHora: TMaskEdit {LAZARUS: TbsSkinMaskEdit};
+    meESDuracao: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    bsSkinPanel165: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel40: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblCronoCFim: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsRibbonGroup85: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel24: TPanel {LAZARUS: TGridPanel};
+    bsAddT1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsAddT5: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsAddT10: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsAddTm1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsAddTm5: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsAddTm10: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinStdLabel162: TLabel {LAZARUS: TbsSkinStdLabel};
     paramexec: TValueListEditor;
-    Label10: TbsSkinLabel;
-    idAlbum: TbsSkinEdit;
-    Label11: TbsSkinLabel;
-    idFaixa: TbsSkinEdit;
-    bsSkinPanel166: TbsSkinPanel;
-    ckMesmaJanela: TbsSkinCheckBox;
-    bsSkinPanel167: TbsSkinPanel;
-    bsSkinStdLabel76: TbsSkinStdLabel;
-    sbAlinhMusica: TbsSkinComboBox;
-    bsSkinStdLabel163: TbsSkinStdLabel;
-    cbRelogioAlinhamento: TbsSkinComboBox;
-    bsSkinStdLabel164: TbsSkinStdLabel;
-    cbPainelDAlinhamento: TbsSkinComboBox;
-    bsSkinStdLabel165: TbsSkinStdLabel;
-    cbCronometroAlinhamento: TbsSkinComboBox;
-    bsSkinStdLabel166: TbsSkinStdLabel;
-    cbSorteioNMAlinhamento: TbsSkinComboBox;
-    bsSkinStdLabel167: TbsSkinStdLabel;
-    cbSorteioAlinhamento: TbsSkinComboBox;
-    bsSkinPanel168: TbsSkinPanel;
-    ckMusicaTopo: TbsSkinCheckBox;
-    spServer: TbsSkinStatusPanel;
-    bsSkinPanel170: TbsSkinPanel;
-    bsRibbonDivider76: TbsRibbonDivider;
-    bsSkinPanel171: TbsSkinPanel;
-    bsSkinStdLabel168: TbsSkinStdLabel;
-    bsSkinPanel172: TbsSkinPanel;
-    bsSkinLinkLabel34: TbsSkinLinkLabel;
-    bsPngImageView40: TbsPngImageView;
-    bsSkinPanel173: TbsSkinPanel;
-    bsSkinLinkLabel35: TbsSkinLinkLabel;
-    bsPngImageView41: TbsPngImageView;
-    bsPngImageView42: TbsPngImageView;
-    bsPngImageView43: TbsPngImageView;
-    bsPngImageView44: TbsPngImageView;
-    bsPngImageView45: TbsPngImageView;
-    bsPngImageView46: TbsPngImageView;
-    bsPngImageView47: TbsPngImageView;
-    bsPngImageView48: TbsPngImageView;
-    bsPngImageView49: TbsPngImageView;
-    bsSkinPanel174: TbsSkinPanel;
-    bsRibbonDivider77: TbsRibbonDivider;
-    bsSkinPanel175: TbsSkinPanel;
-    bsSkinStdLabel169: TbsSkinStdLabel;
-    bsPngImageView50: TbsPngImageView;
-    bsSkinPanel176: TbsSkinPanel;
-    bsSkinLinkLabel36: TbsSkinLinkLabel;
-    bsPngImageView51: TbsPngImageView;
-    bsSkinPanel177: TbsSkinPanel;
-    bsSkinLinkLabel37: TbsSkinLinkLabel;
-    bsPngImageView52: TbsPngImageView;
-    bsSkinPanel178: TbsSkinPanel;
-    bsSkinStdLabel170: TbsSkinStdLabel;
-    bsPngImageView53: TbsPngImageView;
-    bsSkinPanel179: TbsSkinPanel;
-    bsSkinLinkLabel38: TbsSkinLinkLabel;
-    bsPngImageView54: TbsPngImageView;
-    bsSkinPanel180: TbsSkinPanel;
-    bsSkinLinkLabel39: TbsSkinLinkLabel;
-    bsPngImageView55: TbsPngImageView;
-    bsSkinPanel181: TbsSkinPanel;
-    bsRibbonDivider78: TbsRibbonDivider;
-    bsSkinPanel182: TbsSkinPanel;
-    bsRibbonDivider79: TbsRibbonDivider;
-    bsSkinPanel183: TbsSkinPanel;
-    bsSkinStdLabel171: TbsSkinStdLabel;
-    bsPngImageView56: TbsPngImageView;
-    bsSkinPanel184: TbsSkinPanel;
-    bsSkinLinkLabel40: TbsSkinLinkLabel;
-    bsPngImageView57: TbsPngImageView;
-    bsSkinPanel185: TbsSkinPanel;
-    bsSkinLinkLabel41: TbsSkinLinkLabel;
-    bsPngImageView58: TbsPngImageView;
-    bsSkinPanel186: TbsSkinPanel;
-    bsSkinStdLabel172: TbsSkinStdLabel;
-    bsPngImageView59: TbsPngImageView;
-    bsSkinPanel187: TbsSkinPanel;
-    bsSkinLinkLabel42: TbsSkinLinkLabel;
-    bsPngImageView60: TbsPngImageView;
-    bsSkinPanel188: TbsSkinPanel;
-    bsSkinLinkLabel43: TbsSkinLinkLabel;
-    bsPngImageView61: TbsPngImageView;
-    bsSkinPanel189: TbsSkinPanel;
-    bsRibbonDivider80: TbsRibbonDivider;
-    bsSkinTabSheet13: TbsSkinTabSheet;
-    erro_log: TbsSkinMemo;
+    Label10: TLabel {LAZARUS: TbsSkinLabel};
+    idAlbum: TEdit {LAZARUS: TbsSkinEdit};
+    Label11: TLabel {LAZARUS: TbsSkinLabel};
+    idFaixa: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinPanel166: TPanel {LAZARUS: TbsSkinPanel};
+    ckMesmaJanela: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinPanel167: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel76: TLabel {LAZARUS: TbsSkinStdLabel};
+    sbAlinhMusica: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinStdLabel163: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbRelogioAlinhamento: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinStdLabel164: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbPainelDAlinhamento: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinStdLabel165: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbCronometroAlinhamento: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinStdLabel166: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbSorteioNMAlinhamento: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinStdLabel167: TLabel {LAZARUS: TbsSkinStdLabel};
+    cbSorteioAlinhamento: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsSkinPanel168: TPanel {LAZARUS: TbsSkinPanel};
+    ckMusicaTopo: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    spServer: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    bsSkinPanel170: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider76: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel171: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel168: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel172: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel34: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView40: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel173: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel35: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView41: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView42: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView43: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView44: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView45: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView46: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView47: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView48: TImage {LAZARUS: TbsPngImageView};
+    bsPngImageView49: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel174: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider77: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel175: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel169: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsPngImageView50: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel176: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel36: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView51: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel177: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel37: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView52: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel178: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel170: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsPngImageView53: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel179: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel38: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView54: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel180: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel39: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView55: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel181: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider78: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel182: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider79: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel183: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel171: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsPngImageView56: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel184: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel40: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView57: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel185: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel41: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView58: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel186: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel172: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsPngImageView59: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel187: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel42: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView60: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel188: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel43: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView61: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel189: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider80: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinTabSheet13: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    erro_log: TMemo {LAZARUS: TbsSkinMemo};
     Panel38: TPanel;
     Button2: TButton;
-    bsSkinPanel137: TbsSkinPanel;
-    bsRibbonDivider81: TbsRibbonDivider;
-    bsSkinPanel190: TbsSkinPanel;
-    bsSkinStdLabel173: TbsSkinStdLabel;
-    bsPngImageView29: TbsPngImageView;
-    bsSkinPanel191: TbsSkinPanel;
-    bsSkinLinkLabel23: TbsSkinLinkLabel;
-    bsPngImageView62: TbsPngImageView;
-    bsSkinPanel192: TbsSkinPanel;
-    bsSkinLinkLabel44: TbsSkinLinkLabel;
-    bsPngImageView63: TbsPngImageView;
-    bsSkinPanel30: TbsSkinPanel;
-    bsSkinButton42: TbsSkinButton;
-    sbMusicaOperadorAreaExtendida: TbsSkinComboBox;
-    ckFundoTransparente: TbsSkinCheckBox;
-    bsFormatSlideImgPerso2: TbsSkinPanel;
-    bsRibbonDivider82: TbsRibbonDivider;
-    btAbreHinosN: TbsSkinSpeedButton;
-    tsHinarioN: TbsSkinTabSheet;
-    GridPanel36: TGridPanel;
-    txtHinoN: TbsSkinEdit;
-    bsSkinStdLabel80: TbsSkinStdLabel;
-    rbHinoTipoN: TbsSkinRadioGroup;
-    DBGrid1N: TbsSkinDBGrid;
-    pnlreHinoN: TbsSkinPanel;
-    bsSkinScrollBar26: TbsSkinScrollBar;
-    reHinoN: TbsSkinRichEdit;
-    stHinosN: TbsSkinStatusBar;
-    stHinos0N: TbsSkinStatusPanel;
-    stHinos1N: TbsSkinStatusPanel;
-    bsSkinScrollBar7N: TbsSkinScrollBar;
-    bsHinarioN: TbsRibbonPage;
-    bsRibbonGroup32: TbsRibbonGroup;
-    bsRibbonDivider83: TbsRibbonDivider;
-    bsSkinSpeedButton12N: TbsSkinSpeedButton;
-    bsSkinPanel193: TbsSkinPanel;
-    bsSkinStdLabel174: TbsSkinStdLabel;
-    bsSkinDBText1N: TbsSkinDBText;
-    bsRibbonGroup86: TbsRibbonGroup;
-    btHinoSlideMusicaN: TbsSkinSpeedButton;
-    bsSkinSpeedButton6N: TbsSkinSpeedButton;
-    bsRibbonDivider84: TbsRibbonDivider;
-    GridPanel37: TGridPanel;
-    btHinoSlideMusicaPBN: TbsSkinSpeedButton;
-    btHinoSlideMusicaSAN: TbsSkinSpeedButton;
-    bsRibbonGroup87: TbsRibbonGroup;
-    GridPanel39: TGridPanel;
-    bsSkinSpeedButton13N: TbsSkinSpeedButton;
-    bsSkinSpeedButton3N: TbsSkinSpeedButton;
-    bsRibbonGroup88: TbsRibbonGroup;
-    btExportarHinoN: TbsSkinMenuSpeedButton;
-    bsRibbonGroup89: TbsRibbonGroup;
-    bsSkinSpeedButton23N: TbsSkinSpeedButton;
-    bsSkinTabSheet14: TbsSkinTabSheet;
-    bsSkinPanel194: TbsSkinPanel;
-    bsSkinButton44: TbsSkinButton;
+    bsSkinPanel137: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider81: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel190: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel173: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsPngImageView29: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel191: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel23: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView62: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel192: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel44: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView63: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel30: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton42: TButton {LAZARUS: TbsSkinButton};
+    sbMusicaOperadorAreaExtendida: TComboBox {LAZARUS: TbsSkinComboBox};
+    ckFundoTransparente: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsFormatSlideImgPerso2: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider82: TBevel {LAZARUS: TbsRibbonDivider};
+    btAbreHinosN: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    tsHinarioN: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    GridPanel36: TPanel {LAZARUS: TGridPanel};
+    txtHinoN: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel80: TLabel {LAZARUS: TbsSkinStdLabel};
+    rbHinoTipoN: TRadioGroup {LAZARUS: TbsSkinRadioGroup};
+    DBGrid1N: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    pnlreHinoN: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinScrollBar26: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    reHinoN: TRichMemo {LAZARUS: TbsSkinRichEdit};
+    stHinosN: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    stHinos0N: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    stHinos1N: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    bsSkinScrollBar7N: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsHinarioN: TTabSheet {LAZARUS: TbsRibbonPage};
+    bsRibbonGroup32: TPanel {LAZARUS: TbsRibbonGroup};
+    bsRibbonDivider83: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinSpeedButton12N: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel193: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel174: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinDBText1N: TDBText {LAZARUS: TbsSkinDBText};
+    bsRibbonGroup86: TPanel {LAZARUS: TbsRibbonGroup};
+    btHinoSlideMusicaN: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton6N: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider84: TBevel {LAZARUS: TbsRibbonDivider};
+    GridPanel37: TPanel {LAZARUS: TGridPanel};
+    btHinoSlideMusicaPBN: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btHinoSlideMusicaSAN: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup87: TPanel {LAZARUS: TbsRibbonGroup};
+    GridPanel39: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton13N: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton3N: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup88: TPanel {LAZARUS: TbsRibbonGroup};
+    btExportarHinoN: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsRibbonGroup89: TPanel {LAZARUS: TbsRibbonGroup};
+    bsSkinSpeedButton23N: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinTabSheet14: TTabSheet {LAZARUS: TbsSkinTabSheet};
+    bsSkinPanel194: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton44: TButton {LAZARUS: TbsSkinButton};
     Memo1: TMemo;
-    bsSkinButton45: TbsSkinButton;
+    bsSkinButton45: TButton {LAZARUS: TbsSkinButton};
     pnlHinario1996Ativo: TPanel;
-    pnlHinario1996Inativo: TbsSkinPanel;
-    bsSkinStdLabel175: TbsSkinStdLabel;
-    bsSkinStdLabel176: TbsSkinStdLabel;
-    bsSkinButton46: TbsSkinButton;
-    bsSkinStdLabel177: TbsSkinStdLabel;
-    ckgColetaneas: TbsSkinCheckGroup;
-    bsSkinPanel195: TbsSkinPanel;
-    GridPanel54: TGridPanel;
-    bsknbtn1: TbsSkinButton;
-    bsSkinPanel55: TbsSkinPanel;
-    bsRibbonDivider50: TbsRibbonDivider;
-    bsSkinPanel196: TbsSkinPanel;
-    bsSkinStdLabel178: TbsSkinStdLabel;
-    bsSkinPanel197: TbsSkinPanel;
-    ctrlMonitores: TbsSkinDBCtrlGrid;
+    pnlHinario1996Inativo: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel175: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel176: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinButton46: TButton {LAZARUS: TbsSkinButton};
+    bsSkinStdLabel177: TLabel {LAZARUS: TbsSkinStdLabel};
+    ckgColetaneas: TCheckGroup {LAZARUS: TbsSkinCheckGroup};
+    bsSkinPanel195: TPanel {LAZARUS: TbsSkinPanel};
+    GridPanel54: TPanel {LAZARUS: TGridPanel};
+    bsknbtn1: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel55: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider50: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel196: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel178: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel197: TPanel {LAZARUS: TbsSkinPanel};
+    ctrlMonitores: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
     Panel39: TPanel;
-    GridPanel55: TGridPanel;
-    bsSkinDBText9: TbsSkinDBText;
-    bsSkinDBText10: TbsSkinDBText;
-    bsSkinDBText11: TbsSkinDBText;
-    bsSkinPanel198: TbsSkinPanel;
-    bsRibbonDivider85: TbsRibbonDivider;
-    bsSkinPanel199: TbsSkinPanel;
-    bsSkinStdLabel179: TbsSkinStdLabel;
-    bsPngImageView64: TbsPngImageView;
-    bsSkinPanel200: TbsSkinPanel;
-    bsSkinLinkLabel45: TbsSkinLinkLabel;
-    bsPngImageView65: TbsPngImageView;
-    bsSkinPanel201: TbsSkinPanel;
-    bsSkinLinkLabel46: TbsSkinLinkLabel;
-    bsPngImageView66: TbsPngImageView;
-    bsSkinPanel202: TbsSkinPanel;
-    bsPngImageView67: TbsPngImageView;
-    bsSkinLinkLabel47: TbsSkinLinkLabel;
-    bsSkinPanel203: TbsSkinPanel;
-    bsPngImageView68: TbsPngImageView;
-    bsSkinLinkLabel48: TbsSkinLinkLabel;
-    bsSkinPanel204: TbsSkinPanel;
-    bsPngImageView69: TbsPngImageView;
-    bsSkinLinkLabel49: TbsSkinLinkLabel;
-    bsSkinPanel205: TbsSkinPanel;
-    bsSkinStdLabel180: TbsSkinStdLabel;
-    bsSkinDBText12: TbsSkinDBText;
-    bsSkinSpeedButton7: TbsSkinSpeedButton;
-    bsSkinPanel206: TbsSkinPanel;
-    ckSlideFormatPersoExt: TbsSkinCheckBox;
-    ckMusicaRetorno: TbsSkinCheckBox;
-    sbMusicaRetornoAreaExtendida: TbsSkinComboBox;
-    bsFormatSlRetorno: TbsSkinPanel;
-    bsFormatSlideRetorno: TbsSkinPanel;
-    bsSkinPanel207: TbsSkinPanel;
-    bsSkinStdLabel183: TbsSkinStdLabel;
-    seTamanhoTextoRetorno: TbsSkinSpinEdit;
-    bsSkinButton47: TbsSkinButton;
+    GridPanel55: TPanel {LAZARUS: TGridPanel};
+    bsSkinDBText9: TDBText {LAZARUS: TbsSkinDBText};
+    bsSkinDBText10: TDBText {LAZARUS: TbsSkinDBText};
+    bsSkinDBText11: TDBText {LAZARUS: TbsSkinDBText};
+    bsSkinPanel198: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider85: TBevel {LAZARUS: TbsRibbonDivider};
+    bsSkinPanel199: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel179: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsPngImageView64: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel200: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel45: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView65: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel201: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel46: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView66: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel202: TPanel {LAZARUS: TbsSkinPanel};
+    bsPngImageView67: TImage {LAZARUS: TbsPngImageView};
+    bsSkinLinkLabel47: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsSkinPanel203: TPanel {LAZARUS: TbsSkinPanel};
+    bsPngImageView68: TImage {LAZARUS: TbsPngImageView};
+    bsSkinLinkLabel48: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsSkinPanel204: TPanel {LAZARUS: TbsSkinPanel};
+    bsPngImageView69: TImage {LAZARUS: TbsPngImageView};
+    bsSkinLinkLabel49: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsSkinPanel205: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel180: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinDBText12: TDBText {LAZARUS: TbsSkinDBText};
+    bsSkinSpeedButton7: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel206: TPanel {LAZARUS: TbsSkinPanel};
+    ckSlideFormatPersoExt: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    ckMusicaRetorno: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    sbMusicaRetornoAreaExtendida: TComboBox {LAZARUS: TbsSkinComboBox};
+    bsFormatSlRetorno: TPanel {LAZARUS: TbsSkinPanel};
+    bsFormatSlideRetorno: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinPanel207: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel183: TLabel {LAZARUS: TbsSkinStdLabel};
+    seTamanhoTextoRetorno: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    bsSkinButton47: TButton {LAZARUS: TbsSkinButton};
     pnlImagemCapaModelES: TPanel;
     imgImagemCapaModelES: TImage;
-    bsSkinPanel169: TbsSkinPanel;
-    bsSkinLinkLabel50: TbsSkinLinkLabel;
-    bsPngImageView70: TbsPngImageView;
+    bsSkinPanel169: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLinkLabel50: TLabel {LAZARUS: TbsSkinLinkLabel};
+    bsPngImageView70: TImage {LAZARUS: TbsPngImageView};
     function VersaoExe: String;
     procedure FormCreate(Sender: TObject);
-    procedure fExibeColetaneas(Tipo: string; ScrollBox: TbsSkinScrollBox);
-    procedure fExibeColetaneasPerso(ScrollBox: TbsSkinScrollBox);
+    procedure fExibeColetaneas(Tipo: string; ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
+    procedure fExibeColetaneasPerso(ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
     procedure sbClick(Sender: TObject);
     procedure sbClickPerso(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure tsHinarioShow(Sender: TObject);
     procedure txtHinoChange(Sender: TObject);
-    procedure corCampoBusca(Query: TFDQuery; Campo: TbsSkinEdit; DBGrid: TbsSkinDBGrid);
-    function qtItens(Query: TFDQuery;texto_sing,texto_plu,texto_nenh:string): string;
+    procedure corCampoBusca(Query: TZQuery; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
+    function qtItens(Query: TZQuery {LAZARUS: TFDQuery};texto_sing,texto_plu,texto_nenh:string): string;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure txtHinoKeyPress(Sender: TObject; var Key: Char);
     procedure abreLetra(ID: integer; BUSCA: string = '');
@@ -1775,8 +1773,8 @@ type
     procedure btZerarCronoClick(Sender: TObject);
     procedure btAnotTempoClick(Sender: TObject);
     procedure btSortearClick(Sender: TObject);
-    procedure Localizar(ValorBusca: string; RichEdit: TbsSkinRichEdit; recolore: boolean);
-    procedure formataTexto(RichEdit: TbsSkinRichEdit);
+    procedure Localizar(ValorBusca: string; RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit}; recolore: boolean);
+    procedure formataTexto(RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit});
     procedure FormResize(Sender: TObject);
     procedure tsBibliaShow(Sender: TObject);
     function ExtraiTexto(const Str, Str1, Str2: string): string;
@@ -1784,7 +1782,7 @@ type
     function GetComputerNameFunc: string;
     procedure BitmapFileToPNG(const Source, Dest: string);
     procedure LiturgiaCalendarClick(Sender: TObject);
-    function verificaURL(url: string; input: TbsSkinEdit; reverso: Boolean = False): string;
+    function verificaURL(url: string; input: TEdit {LAZARUS: TbsSkinEdit}; reverso: Boolean = False): string;
     procedure sListView1DblClick(Sender: TObject);
     procedure expandirArea(Sender: TObject);
     procedure copiaDadosTelaExtendida();
@@ -1800,15 +1798,15 @@ type
     procedure sTabSheet16Show(Sender: TObject);
     procedure sTabSheet13Show(Sender: TObject);
     procedure sTabSheet18Show(Sender: TObject);
-    procedure abrePagina(TabSheet: TbsSkinTabSheet);
+    procedure abrePagina(TabSheet: TTabSheet {LAZARUS: TbsSkinTabSheet});
     procedure btAbreHinosClick(Sender: TObject);
     procedure mnFechaAbaClick(Sender: TObject);
     procedure mnFechaTodasAbasClick(Sender: TObject);
     procedure confereAbasAbertas();
     procedure bsSkinSpeedButton4Click(Sender: TObject);
     procedure btAbreColJAClick(Sender: TObject);
-    procedure PaginaMenuAtiva(page: TbsRibbonPage;tabvinc: TbsSkinTabSheet = nil);
-    procedure marcaAbaAberta(TabSheet: TbsSkinTabSheet);
+    procedure PaginaMenuAtiva(page: TTabSheet {LAZARUS: TbsRibbonPage};tabvinc: TTabSheet {LAZARUS: TbsSkinTabSheet} = nil);
+    procedure marcaAbaAberta(TabSheet: TTabSheet {LAZARUS: TbsSkinTabSheet});
     procedure mnSelecionaAbaClick(Sender: TObject);
     procedure mnAbreFavoritoClick(Sender: TObject);
     procedure btHinoSlideMusicaClick(Sender: TObject);
@@ -1911,7 +1909,7 @@ type
     procedure bsSkinSpeedButton38Click(Sender: TObject);
     procedure bsSkinSpeedButton43Click(Sender: TObject);
     procedure cbColorRTxtIChangeColor(Sender: TObject);
-    procedure RE_SetSelBgColor(RichEdit: TbsSkinRichEdit; AColor: TColor);
+    procedure RE_SetSelBgColor(RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit}; AColor: TColor);
     procedure bsSkinSpeedButton44Click(Sender: TObject);
     procedure bsSkinSpeedButton45Click(Sender: TObject);
     procedure bttaLeftJustifyClick(Sender: TObject);
@@ -1927,11 +1925,11 @@ type
     procedure sTabSheet14Show(Sender: TObject);
     procedure slbTabelasListBoxClick(Sender: TObject);
     procedure bsSkinButton15Click(Sender: TObject);
-    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
-    procedure AjustaLarguraCamposDBGrid(DBGrid: TbsSkinDbGrid);
+    procedure DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
+    procedure AjustaLarguraCamposDBGrid(DBGrid: TDBGrid {LAZARUS: TbsSkinDbGrid});
     procedure abrirArquivo(url: string;externo: Boolean = false);
     procedure bsSkinSpeedButton46Click(Sender: TObject);
-    procedure bsRibbon1Buttons3Click(Sender: TObject);
+    procedure RibbonPCButtons3Click(Sender: TObject);
     procedure ExcluirTodas1Click(Sender: TObject);
     procedure inputOpenDialog(Sender: TObject);
     procedure inputOpenPictureDialog(Sender: TObject);
@@ -1973,12 +1971,12 @@ type
     procedure bsSkinSpeedButton60Click(Sender: TObject);
     procedure bsSkinSpeedButton62Click(Sender: TObject);
     procedure btUrlVideoOnClick(Sender: TObject);
-    procedure btExecVideoOn(campo: TbsSkinEdit; limpa: Boolean = true);
+    procedure btExecVideoOn(campo: TEdit {LAZARUS: TbsSkinEdit}; limpa: Boolean = true);
     function getVideoID(link: string):string;
-    procedure btAbreSaveVideoOn(campo: TbsSkinEdit);
+    procedure btAbreSaveVideoOn(campo: TEdit {LAZARUS: TbsSkinEdit});
     procedure txtUrlVideoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure sbVideoOnAbreLiturgiaChange(Sender: TObject);
-    procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+    procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
     procedure bsSkinSpeedButton59Click(Sender: TObject);
     procedure btUrlVideoOn2Click(Sender: TObject);
     procedure bsSkinSpeedButton66Click(Sender: TObject);
@@ -2002,13 +2000,13 @@ type
     procedure pnlfmBarraTituloFormDblClick(Sender: TObject);
     procedure focoAplicacao(acao: Boolean);
     procedure btwsDownloadClick(Sender: TObject);
-    procedure bsRibbon1ChangePage(Sender: TObject);
+    procedure RibbonPCChangePage(Sender: TObject);
     procedure carregaFavoritos();
     procedure btAddFavClick(Sender: TObject);
     procedure bsSkinTabSheet7Show(Sender: TObject);
     procedure ogFavoritosItemClick(Sender: TObject);
     procedure btDelFavClick(Sender: TObject);
-    procedure bsRibbon1Buttons4Click(Sender: TObject);
+    procedure RibbonPCButtons4Click(Sender: TObject);
     procedure btwsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btwsMouseUp(Sender: TObject; Button: TMouseButton;
@@ -2055,8 +2053,8 @@ type
     procedure lit_modItem_bteditClick(Sender: TObject);
     procedure lit_modItem_textoClick(Sender: TObject);
     procedure bsSkinButton34Click(Sender: TObject);
-    procedure bsRibbon1Buttons5Click(Sender: TObject);
-    procedure bsRibbon1Buttons0Click(Sender: TObject);
+    procedure RibbonPCButtons5Click(Sender: TObject);
+    procedure RibbonPCButtons0Click(Sender: TObject);
     procedure ckMusicaTituloSlideClick(Sender: TObject);
     procedure bsSkinButton38Click(Sender: TObject);
     procedure bsSkinButton36Click(Sender: TObject);
@@ -2074,7 +2072,7 @@ type
     procedure corFundoMusicaChangeColor(Sender: TObject);
     procedure bsSkinSpeedButton1Click(Sender: TObject);
     procedure DBGrid2KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DBGrid2CellClick(Column: TbsColumn);
+    procedure DBGrid2CellClick(Column: TColumn {LAZARUS: TbsColumn});
     procedure cbFormatoChange(Sender: TObject);
     procedure tsMusicasInfantisShow(Sender: TObject);
     procedure bsSkinSpeedButton2Click(Sender: TObject);
@@ -2096,21 +2094,21 @@ type
     procedure removeItensAgendadosPassados();
     procedure cbRemoveItensAgendadosClick(Sender: TObject);
     procedure refreshCalendar();
-    procedure copiaTextoParaSlides(texto: string; cds: TClientDataSet);
-    procedure copiaArquivoParaSlides(url: string; cds: TClientDataSet; fechaerro: boolean = true; ListBox: TListBox = nil; editor: boolean = false);
-    procedure copiaSlidesParaArquivo(url: string; cds: TClientDataSet);
-    function cds2texto(cds: TClientDataSet;campo: string): TStringList;
+    procedure copiaTextoParaSlides(texto: string; cds: TBufDataset); {LAZARUS: TClientDataSet→TBufDataset}
+    procedure copiaArquivoParaSlides(url: string; cds: TBufDataset; fechaerro: boolean = true; ListBox: TListBox = nil; editor: boolean = false); {LAZARUS: TClientDataSet→TBufDataset}
+    procedure copiaSlidesParaArquivo(url: string; cds: TBufDataset); {LAZARUS: TClientDataSet→TBufDataset}
+    function cds2texto(cds: TBufDataset;campo: string): TStringList; {LAZARUS: TClientDataSet→TBufDataset}
     function HtmlToColor(Color: string): String;
     procedure cbAnotacoesLiturgiaClick(Sender: TObject);
     procedure pnlAnotacoesLiturgiaClose(Sender: TObject);
     procedure RichEdit1Exit(Sender: TObject);
     procedure mmPopMonitorClick(Sender: TObject);
     procedure identifica_monitores(Sender: TObject);
-    function lista_monitores(): TArray<TMonitorInfo>;
+    function lista_monitores(): TMonitorInfoArray; {LAZARUS: TArray<TMonitorInfo>→TMonitorInfoArray}
     procedure carrega_monitores();
     procedure ppVideosOnPersoPopup(Sender: TObject);
     procedure bsPopupMenuFavoritosPopup(Sender: TObject);
-    procedure carregaComboFormatoTempo(combo:TbsSkinComboBox;formato:string);
+    procedure carregaComboFormatoTempo(combo:TComboBox {LAZARUS: TbsSkinComboBox};formato:string);
     function openDialog(tipo:string = '';filtros:string = '';param:string = '';multiplos:boolean = False;diretorio_inicial:string = '';titulo_dialog: string = '';nome_arquivo:string = ''):string;
     function saveDialog(tipo:string = '';filtros:string = '';param:string = '';diretorio_inicial:string = '';titulo_dialog: string = '';nome_arquivo:string = ''):string;
     procedure bsSkinButton43Click(Sender: TObject);
@@ -2175,15 +2173,15 @@ type
     procedure cbLayoutChange(Sender: TObject);
     procedure ckSlideImgFormatPersoClick(Sender: TObject);
     procedure bsSkinButton2Click(Sender: TObject);
-    procedure DBCtrlGridBibliaLivroPaintPanel(DBCtrlGrid: TbsSkinDBCtrlGrid;
+    procedure DBCtrlGridBibliaLivroPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
-    procedure DBCtrlGridBibliaCapituloPaintPanel(DBCtrlGrid: TbsSkinDBCtrlGrid;
+    procedure DBCtrlGridBibliaCapituloPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
-    procedure DBCtrlGridBibliaVersiculoPaintPanel(DBCtrlGrid: TbsSkinDBCtrlGrid;
+    procedure DBCtrlGridBibliaVersiculoPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
-    procedure DBCtrlGridBibliaHistoricoPaintPanel(DBCtrlGrid: TbsSkinDBCtrlGrid;
+    procedure DBCtrlGridBibliaHistoricoPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
-    procedure DBCtrlGridBibliaBuscaPaintPanel(DBCtrlGrid: TbsSkinDBCtrlGrid;
+    procedure DBCtrlGridBibliaBuscaPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
     procedure bsAppMenu1Click(Sender: TObject);
     procedure bsAppMenu1Items1Click(Sender: TObject);
@@ -2219,8 +2217,8 @@ type
     function GetIP(): string;
     procedure Button2Click(Sender: TObject);
     procedure monitores(padrao: integer = -1);
-    procedure monitor_bt_label(botao: TbsSkinMenuSpeedButton);
-    function monitor_tp_config(botao: TbsSkinMenuSpeedButton):string;
+    procedure monitor_bt_label(botao: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton});
+    function monitor_tp_config(botao: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}):string;
     procedure sbMusicaOperadorAreaExtendidaChange(Sender: TObject);
     procedure ckFundoTransparenteClick(Sender: TObject);
     procedure btAbreHinosNClick(Sender: TObject);
@@ -2260,11 +2258,7 @@ type
       VERSAO_MIN_BD: integer = 140;
       fonte: string = 'Arial Rounded MT Bold';
 
-    //Permite arrastar form via Panel
-    procedure WMNCHitTest(var Msg: TWMNCHitTest); message WM_NCHITTEST;
-
-    //Define tamanho da tel maximizada (evita que form fique embaixo da barra de tarefas)
-    procedure WMGetMinmaxInfo(var Msg: TWMGetMinmaxInfo); message WM_GETMINMAXINFO;
+    {LAZARUS: WMNCHitTest e WMGetMinmaxInfo removidos — Windows-only}
 
     //Define as ações para quando perder ou receber o foco
     procedure ApplicationDeactivate(Sender: TObject);
@@ -2294,7 +2288,7 @@ type
     tEscSBCrono: TDateTime;
 
     buffer: integer;
-    botao_trmenu: TbsSkinMenuSpeedButton;
+    botao_trmenu: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
 
 
     TITULO: PChar;
@@ -2302,6 +2296,10 @@ type
     senha_bd: string;
 
     externo: Boolean;
+
+    {LAZARUS: campos BASS — player principal e preview de música}
+    PlayerStream: HSTREAM;
+    BassPreviewChannel: HCHANNEL;
 
   end;
 
@@ -2311,7 +2309,8 @@ var
 implementation
 
 uses
-  fmLetra, fmAtualiza, StrUtils, Math, fmNovaVersao,
+  {LAZARUS: removidos units Windows-específicas da seção implementation}
+  fmLetra, fmAtualiza, StrUtils, fmNovaVersao,
   fmHelp, fmVideoOn, fmFavoritos, fmMusica, fmListaMusica,
   fmMusicaOperador, fmLiturgia, fmArquivosFalta, fmBuscaMusica, fmArquivosExcesso,
   fmItensAgendados, dmComponentes, fmEditorSlides, fmPlayer, fmIniciando,
@@ -2320,7 +2319,7 @@ uses
   fmMonitorSorteio, fmMonitorCronometroCulto, fmMonitorBibliaBusca,
   fmMonitorBiblia, fmMonitorMenuMusicas, fmIdentificaMonitores;
 
-{$R *.dfm}
+{$R *.lfm}
 
 
 Function TfmIndex.VersaoExe: String;
@@ -2390,8 +2389,8 @@ var
 begin
   if (Key = VK_ESCAPE) then
   begin
-    if bsRibbon1.AppMenu.Visible then
-      bsRibbon1.AppMenu.Visible := false
+    if RibbonPC.AppMenu.Visible then
+      RibbonPC.AppMenu.Visible := false
     else if (Screen.ActiveForm.Name <> 'fmIndex') then
       Screen.ActiveForm.Close
     else
@@ -2416,7 +2415,7 @@ begin
   begin
     if ((Screen.ActiveForm.Name = 'fmIndex') and (PageControl1.Visible = True)) then
     begin
-      t := TbsSkinTabSheet(PageControl1.ActivePage).Tag;
+      t := TTabSheet {LAZARUS: TbsSkinTabSheet}(PageControl1.ActivePage).Tag;
       PageControl1.ActivePage.TabVisible := False;
       bsPopupMenuRibon.Items.Delete(t);
       confereAbasAbertas();
@@ -2424,7 +2423,7 @@ begin
   end
   else if (((Chr(Key) = 'F') or (Chr(Key) = 'f')) and (Shift = [ssCtrl])) then
   begin
-    bsRibbon1Buttons0Click(Sender);
+    RibbonPCButtons0Click(Sender);
   end
   else if (Key = VK_F2) and (Shift = [ssShift,ssCtrl]) then
   begin
@@ -2440,7 +2439,7 @@ begin
     end;
   end
   else if (Key = VK_F1) then
-    bsRibbon1Buttons5Click(Sender)
+    RibbonPCButtons5Click(Sender)
 
   else if ((Key = VK_F5) or (Key = VK_F9)) then
   begin
@@ -2604,9 +2603,9 @@ begin
   MouseWheel('Up', Sender, Shift, MousePos, Handled);
 end;
 
-procedure TfmIndex.fExibeColetaneas(Tipo: string; ScrollBox: TbsSkinScrollBox);
+procedure TfmIndex.fExibeColetaneas(Tipo: string; ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
 var
-  Button: TbsSkinButtonEx;
+  Button: TSpeedButton {LAZARUS: TbsSkinButtonEx};
   gLeft, gTop, gWidth, gHeight: Integer;
   mLeft: integer;
   dirIMG: string;
@@ -2637,13 +2636,13 @@ begin
   begin
     id := DM.qrALBUNS.FieldByName('ID').AsString;
 
-    Button := TbsSkinButtonEx(FindComponent('gb_' + Tipo + '_' + id));
+    Button := TSpeedButton {LAZARUS: TbsSkinButtonEx}(FindComponent('gb_' + Tipo + '_' + id));
     Button.Free;
     if Assigned(Button) then
       continue;
 
     try
-      Button := TbsSkinButtonEx.Create(ScrollBox);
+      Button := TSpeedButton {LAZARUS: TbsSkinButtonEx}.Create(ScrollBox);
       Button.Visible := False;
       dirIMG := dir_config + 'capas\' + DM.qrALBUNS.FieldByName('IMAGEM').AsString;
       with Button do
@@ -2784,8 +2783,8 @@ var
   titulo_form: string;
 begin
   id_album := TComponent(Sender).Tag;
-  titulo_album := TbsSkinButtonEx(Sender).Title;
-  subtitulo_album := TbsSkinButtonEx(Sender).Caption;
+  titulo_album := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Title;
+  subtitulo_album := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Caption;
   titulo_form := titulo_album;
   if (trim(subtitulo_album) <> '') then
     titulo_form := titulo_form+' ('+trim(subtitulo_album)+')';
@@ -2799,8 +2798,8 @@ begin
   fListaMusica.dir := '';
   fListaMusica.DBCtrlGrid.DataSource := DM.dsMUSICAS;
   fListaMusica.pnlBotoes.Visible := True;
-  TbsSkinButtonEx(Sender).ImageList.GetBitmap(
-    TbsSkinButtonEx(Sender).ImageIndex,
+  TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageList.GetBitmap(
+    TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageIndex,
     fListaMusica.imgCapa.Picture.Bitmap
   );
   fListaMusica.showmodal;
@@ -2814,7 +2813,7 @@ end;
 
 procedure TfmIndex.ForceDirectoriesRecursive(const Path: string);
 begin
-  if not TDirectory.Exists(Path) then
+  if not DirectoryExists(Path) {LAZARUS: TDirectory.Exists→DirectoryExists} then
     ForceDirectories(Path);
 end;
 
@@ -2980,7 +2979,7 @@ begin
   dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
 end;
 
-procedure TfmIndex.corCampoBusca(Query: TFDQuery; Campo: TbsSkinEdit; DBGrid: TbsSkinDBGrid);
+procedure TfmIndex.corCampoBusca(Query: TZQuery; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
 begin
   if DBGrid <> nil then
     DBGrid.VScrollBar.Visible := False;
@@ -2999,37 +2998,37 @@ end;
 
 procedure TfmIndex.corCapaProgramaChangeColor(Sender: TObject);
 begin
-  pnlImagemCapa.Color := TbsSkinColorButton(Sender).ColorValue;
-  gravaParam('Config', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+  pnlImagemCapa.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue;
+  gravaParam('Config', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
 end;
 
 
 procedure TfmIndex.corFundoMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
 end;
 
 procedure TfmIndex.corTextoAuxMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Texto Aux', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Texto Aux', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
 end;
 
 procedure TfmIndex.corTextoMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Texto', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Texto', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
 end;
 
 procedure TfmIndex.corTextoRepetidoChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Texto Repetido', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Texto Repetido', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
 end;
 
 procedure TfmIndex.corTituloMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Titulo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Titulo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
 end;
 
-function TfmIndex.qtItens(Query: TFDQuery; texto_sing,
+function TfmIndex.qtItens(Query: TZQuery {LAZARUS: TFDQuery}; texto_sing,
   texto_plu,texto_nenh: string): string;
 begin
   if Query.Active = false then
@@ -3397,7 +3396,7 @@ begin
   else fMusica.AlphaBlendValue := 255;
 end;
 
-procedure TfmIndex.abrePagina(TabSheet: TbsSkinTabSheet);
+procedure TfmIndex.abrePagina(TabSheet: TTabSheet {LAZARUS: TbsSkinTabSheet});
 var
   item: TMenuItem;
 begin
@@ -3431,7 +3430,7 @@ var
   Flags: Cardinal;
   i: integer;
 begin
-  if not InternetGetConnectedState(@Flags, 0) then
+  if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
   begin
     application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), TITULO, MB_OK + mb_iconerror);
     Exit;
@@ -3492,7 +3491,7 @@ begin
     gravaLog('Abrindo arquivo: '+url);
     ext := (ExtractFileExt(url));
     if externo
-      then ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE)
+      then OpenURL(url) {LAZARUS: ShellExecute→OpenURL}
     else if (ext = '.slja') or (ext = '.lja')
       then processaArquivo(url)
     else if (ckPlayerAudio.Checked)
@@ -3506,7 +3505,7 @@ begin
       player(url);
     end
     else
-      ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+      OpenURL(url) {LAZARUS: ShellExecute→OpenURL};
   end;
 end;
 
@@ -3587,7 +3586,7 @@ begin
   end;
 end;
 
-procedure TfmIndex.AjustaLarguraCamposDBGrid(DBGrid: TbsSkinDbGrid);
+procedure TfmIndex.AjustaLarguraCamposDBGrid(DBGrid: TDBGrid {LAZARUS: TbsSkinDbGrid});
 var
   i: integer;
 begin
@@ -3599,7 +3598,7 @@ procedure TfmIndex.tsJAShow(Sender: TObject);
 var
   i: Integer;
 begin
-  PaginaMenuAtiva(bsColetaneas);
+  PaginaMenuAtiva(tsColetaneas);
   marcaAbaAberta(tsJA);
   if (loadCol.Strings.Values['JA'] <> 'ok') then
   begin
@@ -3684,7 +3683,7 @@ begin
     btVidOnlPExec.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
 
 
-    stVideosOnPerso_1.caption := qtItens(TFDQuery(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+    stVideosOnPerso_1.caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
   end;
   carrega_opc := False;
 end;
@@ -3713,7 +3712,7 @@ procedure TfmIndex.tsDiversasShow(Sender: TObject);
 var
   i: integer;
 begin
-  PaginaMenuAtiva(bsColetaneas);
+  PaginaMenuAtiva(tsColetaneas);
   marcaAbaAberta(tsDiversas);
   if (loadCol.Strings.Values['DIV'] <> 'ok') then
   begin
@@ -3798,7 +3797,7 @@ begin
   try
     fileStream := TFileStream.Create(arq, fmOpenRead);
     try
-      utf8Stream := TStringStream.Create('', TEncoding.UTF8);
+      utf8Stream := TStringStream.Create('') {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
       try
         try
           utf8Stream.CopyFrom(fileStream, 0);
@@ -3882,9 +3881,9 @@ var
   sql: string;
   i: integer;
   dir: string;
-  QUERY: TFDQuery;
+  QUERY: TZQuery {LAZARUS: TFDQuery};
 begin
-  if not InternetGetConnectedState(@Flags, 0) then
+  if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
   begin
     application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), TITULO, MB_OK + mb_iconerror);
     Exit;
@@ -4110,7 +4109,7 @@ begin
   tsPersonalizadasShow(Sender);
 end;
 
-procedure TfmIndex.DBGrid2CellClick(Column: TbsColumn);
+procedure TfmIndex.DBGrid2CellClick(Column: TColumn {LAZARUS: TbsColumn});
 begin
   if (DM.qrBUSCA.Active = false) then Exit;
   if (DM.qrBUSCA.RecordCount <= 0) then Exit;
@@ -4129,7 +4128,7 @@ begin
   btMusicaSlideMusicaClick(Sender);
 end;
 
-procedure TfmIndex.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+procedure TfmIndex.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
 var
   icon: TPngImage;
   fixRect: TRect;
@@ -4203,11 +4202,11 @@ begin
   abreVideoOn(DM.cdsVideosOnPerso.FieldByName('VIDEOID').AsString, DM.cdsVideosOnPerso.fieldbyname('NOME').AsString);
 end;
 
-procedure TfmIndex.DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+procedure TfmIndex.DBGridDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
 var
   w: Integer;
 begin
-  w := 10 + TbsSkinDBGrid(Sender).Canvas.TextExtent(Column.Field.DisplayText).cx;
+  w := 10 + TDBGrid {LAZARUS: TbsSkinDBGrid}(Sender).Canvas.TextExtent(Column.Field.DisplayText).cx;
   if w > Column.Width then
     Column.Width := w;
 end;
@@ -4272,7 +4271,7 @@ end;
 
 function TfmIndex.removeTagsHTML(texto: string): string;
 begin
-  result := TRegEx.Replace(texto, '<[^>]+>', '');
+  result := ReplaceRegExpr('<[^>]+>', texto, '', True) {LAZARUS: TRegEx→regexpr};
 end;
 
 procedure TfmIndex.RichEditChange(Sender: TObject);
@@ -4284,34 +4283,34 @@ end;
 procedure TfmIndex.RichEditEnter(Sender: TObject);
 var
   tag: Integer;
-  RichEdit: TbsSkinRichEdit;
-  fcTxtI:  TbsSkinFontComboBox;
-  seTxtITamanho: TbsSkinComboBox;
-  btfsBold: TbsSkinSpeedButton;
-  btfsItalic: TbsSkinSpeedButton;
-  btfsUnderline: TbsSkinSpeedButton;
-  btfsStrikeOut: TbsSkinSpeedButton;
-  cbColorFTxtI: TbsSkinColorButton;
-  cbColorTxtI: TbsSkinColorButton;
-  bttaLeftJustify: TbsSkinSpeedButton;
-  bttaCenter: TbsSkinSpeedButton;
-  bttaRightJustify: TbsSkinSpeedButton;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
+  fcTxtI:  TComboBox {LAZARUS: TbsSkinFontComboBox};
+  seTxtITamanho: TComboBox {LAZARUS: TbsSkinComboBox};
+  btfsBold: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+  btfsItalic: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+  btfsUnderline: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+  btfsStrikeOut: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+  cbColorFTxtI: TColorButton {LAZARUS: TbsSkinColorButton};
+  cbColorTxtI: TColorButton {LAZARUS: TbsSkinColorButton};
+  bttaLeftJustify: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+  bttaCenter: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+  bttaRightJustify: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
 begin
   if carrega_opc = True then
     Exit;
 
-  RichEdit := TbsSkinRichEdit(Sender);
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(Sender);
   tag := RichEdit.Tag;
 
-  fcTxtI := TbsSkinFontComboBox(FindComponent('fcTxtI'+inttostr(tag)));
+  fcTxtI := TComboBox {LAZARUS: TbsSkinFontComboBox}(FindComponent('fcTxtI'+inttostr(tag)));
   if (Assigned(fcTxtI))
     then fcTxtI.FontName := RichEdit.SelAttributes.Name;
 
-  seTxtITamanho := TbsSkinComboBox(FindComponent('seTxtITamanho'+inttostr(tag)));
+  seTxtITamanho := TComboBox {LAZARUS: TbsSkinComboBox}(FindComponent('seTxtITamanho'+inttostr(tag)));
   if (Assigned(seTxtITamanho))
     then seTxtITamanho.Text := IntToStr(RichEdit.SelAttributes.Size);
 
-  btfsBold := TbsSkinSpeedButton(FindComponent('btfsBold'+inttostr(tag)));
+  btfsBold := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsBold'+inttostr(tag)));
   if (Assigned(btfsBold)) then
   begin
     if RichEdit.SelAttributes.Style - [fsItalic] - [fsUnderline] - [fsStrikeOut] = [fsBold] then
@@ -4320,7 +4319,7 @@ begin
       btfsBold.Down := false;
   end;
 
-  btfsItalic := TbsSkinSpeedButton(FindComponent('btfsItalic'+inttostr(tag)));
+  btfsItalic := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsItalic'+inttostr(tag)));
   if (Assigned(btfsItalic)) then
   begin
     if RichEdit.SelAttributes.Style - [fsBold] - [fsUnderline] - [fsStrikeOut] = [fsItalic] then
@@ -4329,7 +4328,7 @@ begin
       btfsItalic.Down := false;
   end;
 
-  btfsUnderline := TbsSkinSpeedButton(FindComponent('btfsUnderline'+inttostr(tag)));
+  btfsUnderline := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsUnderline'+inttostr(tag)));
   if (Assigned(btfsUnderline)) then
   begin
     if RichEdit.SelAttributes.Style - [fsItalic] - [fsBold] - [fsStrikeOut] = [fsUnderline] then
@@ -4338,7 +4337,7 @@ begin
       btfsUnderline.Down := false;
   end;
 
-  btfsStrikeOut := TbsSkinSpeedButton(FindComponent('btfsStrikeOut'+inttostr(tag)));
+  btfsStrikeOut := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsStrikeOut'+inttostr(tag)));
   if (Assigned(btfsStrikeOut)) then
   begin
     if RichEdit.SelAttributes.Style - [fsItalic] - [fsUnderline] - [fsBold] = [fsStrikeOut] then
@@ -4347,15 +4346,15 @@ begin
       btfsStrikeOut.Down := false;
   end;
 
-  cbColorFTxtI := TbsSkinColorButton(FindComponent('cbColorFTxtI'+inttostr(tag)));
+  cbColorFTxtI := TColorButton {LAZARUS: TbsSkinColorButton}(FindComponent('cbColorFTxtI'+inttostr(tag)));
   if (Assigned(cbColorFTxtI))
     then cbColorFTxtI.ColorValue := RichEdit.Color;
 
-  cbColorTxtI := TbsSkinColorButton(FindComponent('cbColorTxtI'+inttostr(tag)));
+  cbColorTxtI := TColorButton {LAZARUS: TbsSkinColorButton}(FindComponent('cbColorTxtI'+inttostr(tag)));
   if (Assigned(cbColorTxtI))
     then cbColorTxtI.ColorValue := RichEdit.SelAttributes.Color;
 
-  bttaLeftJustify := TbsSkinSpeedButton(FindComponent('bttaLeftJustify'+inttostr(tag)));
+  bttaLeftJustify := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('bttaLeftJustify'+inttostr(tag)));
   if (Assigned(bttaLeftJustify)) then
   begin
     if RichEdit.Paragraph.Alignment = taLeftJustify then
@@ -4364,7 +4363,7 @@ begin
       bttaLeftJustify.Down := false;
   end;
 
-  bttaCenter := TbsSkinSpeedButton(FindComponent('bttaCenter'+inttostr(tag)));
+  bttaCenter := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('bttaCenter'+inttostr(tag)));
   if (Assigned(bttaCenter)) then
   begin
     if RichEdit.Paragraph.Alignment = taCenter then
@@ -4373,7 +4372,7 @@ begin
       bttaCenter.Down := false;
   end;
 
-  bttaRightJustify := TbsSkinSpeedButton(FindComponent('bttaRightJustify'+inttostr(tag)));
+  bttaRightJustify := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('bttaRightJustify'+inttostr(tag)));
   if (Assigned(bttaRightJustify)) then
   begin
     if RichEdit.Paragraph.Alignment = taRightJustify then
@@ -4407,13 +4406,13 @@ begin
     Params := Params + ' "' + ParamStr(I) + '"';
   end;
 
-  ShellExecute(0, 'open', PChar(ExeName), PChar(Params), nil, SW_SHOWNORMAL);
+  RunCommand(ExeName, SysUtils.SplitString(Trim(Params), ' '), ''); {LAZARUS: ShellExecute→RunCommand}
 
   DM.tmrSair.enabled := true;
   Halt;
 end;
 
-procedure TfmIndex.RE_SetSelBgColor(RichEdit: TbsSkinRichEdit; AColor: TColor);
+procedure TfmIndex.RE_SetSelBgColor(RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit}; AColor: TColor);
 var
   Format: CHARFORMAT2;
 begin
@@ -4462,7 +4461,7 @@ end;
 procedure TfmIndex.ogFavoritosItemClick(Sender: TObject);
 var
   i: Integer;
-  tabsheet: TbsSkinTabSheet;
+  tabsheet: TTabSheet {LAZARUS: TbsSkinTabSheet};
   nome,nome_aba: string;
 begin
   if carrega_opc = true then Exit;
@@ -4470,7 +4469,7 @@ begin
   i := ogFavoritos.ItemIndex+1;
   DM.cdsFavoritos.RecNo := i;
 
-  tabsheet := TbsSkinTabSheet(FindComponent(DM.cdsFavoritos.FieldByName('NOME_ABA').AsString));
+  tabsheet := TTabSheet {LAZARUS: TbsSkinTabSheet}(FindComponent(DM.cdsFavoritos.FieldByName('NOME_ABA').AsString));
   if assigned(tabsheet)
     then abrePagina(tabsheet)
   else
@@ -4870,13 +4869,13 @@ procedure TfmIndex.PageControl1Close(Sender: TObject; var CanClose: Boolean);
 var
   t: integer;
 begin
-  t := TbsSkinTabSheet(Sender).Tag;
-  PageControl1.Pages[TbsSkinTabSheet(Sender).PageIndex].TabVisible := False;
+  t := TTabSheet {LAZARUS: TbsSkinTabSheet}(Sender).Tag;
+  PageControl1.Pages[TTabSheet {LAZARUS: TbsSkinTabSheet}(Sender).PageIndex].TabVisible := False;
   bsPopupMenuRibon.Items.Delete(t);
   confereAbasAbertas();
 end;
 
-procedure TfmIndex.PaginaMenuAtiva(page: TbsRibbonPage;tabvinc: TbsSkinTabSheet);
+procedure TfmIndex.PaginaMenuAtiva(page: TTabSheet {LAZARUS: TbsRibbonPage};tabvinc: TTabSheet {LAZARUS: TbsSkinTabSheet});
 var
   i: integer;
   tl,idx: integer;
@@ -4884,35 +4883,35 @@ begin
   if page <> nil then
   begin
     page.Visible := True;
-    bsRibbon1.ActivePage := page;
+    RibbonPC.ActivePage := page;
   end;
 
-  bsRibbon1.Refresh;
+  RibbonPC.Refresh;
   tl := 0;
   idx := -1;
-  for i := 0 to bsRibbon1.Tabs.Count - 1 do
+  for i := 0 to RibbonPC.Tabs.Count - 1 do
   begin
-    if (bsRibbon1.Tabs[i].page.Tag = -1) then
+    if (RibbonPC.Tabs[i].page.Tag = -1) then
     begin
-      if ((page <> nil) and (bsRibbon1.Tabs[i].page <> page) or (page = nil)) then
-        bsRibbon1.Tabs[i].Visible := False;
+      if ((page <> nil) and (RibbonPC.Tabs[i].page <> page) or (page = nil)) then
+        RibbonPC.Tabs[i].Visible := False;
 
-      if (page <> nil) and (bsRibbon1.Tabs[i].page = page) and (bsRibbon1.Tabs[i].Visible = True) then
+      if (page <> nil) and (RibbonPC.Tabs[i].page = page) and (RibbonPC.Tabs[i].Visible = True) then
         idx := i;
     end
-    else tl := tl + bsRibbon1.Tabs[i].Width+1;
+    else tl := tl + RibbonPC.Tabs[i].Width+1;
   end;
 
   pnlfmSubTituloRib.Visible := false;
   if idx >= 0 then
   begin
     pnlTitForm.Align := alLeft;
-    pnlTitForm.Width := tl+bsRibbon1.AppButtonWidth-2;
+    pnlTitForm.Width := tl+RibbonPC.AppButtonWidth-2;
 
     if tabvinc <> nil then lblfmTituloRib.Caption := tabvinc.Caption
     else lblfmTituloRib.Caption := '';
 
-    pnlfmTituloRib.width := bsRibbon1.Tabs[idx].Width;
+    pnlfmTituloRib.width := RibbonPC.Tabs[idx].Width;
     pnlfmTituloRib.Left := pnlTitForm.Width;
     pnlfmTituloRib.Visible := true;
 
@@ -4920,7 +4919,7 @@ begin
     pnlfmSubTituloRib.Left := pnlfmTituloRib.Left;
     pnlfmSubTituloRib.Top := pnlfmTituloRib.Top+pnlfmTituloRib.height;
     pnlfmSubTituloRib.Height := 31;
-    pnlfmSubTituloRib.Caption := bsRibbon1.ActivePage.Caption;
+    pnlfmSubTituloRib.Caption := RibbonPC.ActivePage.Caption;
     pnlfmSubTituloRib.Tag := 1;
   end
   else
@@ -5062,7 +5061,7 @@ begin
       DM.qrBIBLIA_VERSICULOS.SQL.Add('ORDER BY VERSICULO');
     end;
     DM.qrBIBLIA_VERSICULOS.Open;
-    corCampoBusca(TFDQuery(DM.qrBIBLIA_VERSICULOS),busBibliaVersiculo,nil);
+    corCampoBusca(TZQuery {LAZARUS: TFDQuery}(DM.qrBIBLIA_VERSICULOS),busBibliaVersiculo,nil);
 
     if (not (DM.qrBIBLIA_LIVROS.Eof)) and (trim(loadCol.Strings.Values['BIBLIA_VERSICULO']) <> '') then
       DM.qrBIBLIA_VERSICULOS.Locate('VERSICULO',loadCol.Strings.Values['BIBLIA_VERSICULO'],[]);
@@ -5100,7 +5099,7 @@ begin
   end;
 end;
 
-procedure TfmIndex.carregaComboFormatoTempo(combo: TbsSkinComboBox;
+procedure TfmIndex.carregaComboFormatoTempo(combo: TComboBox {LAZARUS: TbsSkinComboBox};
   formato: string);
 begin
   combo.ItemIndex := combo.Items.IndexOf(formato);
@@ -5579,7 +5578,7 @@ end;
 
 procedure TfmIndex.carregaFavoritos();
 var
-  item: TbsSkinOfficeGalleryItem;
+  item: TListItem {LAZARUS: TbsSkinOfficeGalleryItem};
   itemMenu: TMenuItem;
   i: integer;
 begin
@@ -5638,9 +5637,9 @@ var
   i: integer;
   tipo,subtipo: string;
   panel,panel2: TPanel;
-  image: TbsPngImageView;
-  checkbox: TbsSkinCheckBox;
-  slabel: TbsSkinStdLabel;
+  image: TImage {LAZARUS: TbsPngImageView};
+  checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
+  slabel: TLabel {LAZARUS: TbsSkinStdLabel};
   pb: Boolean;
 begin
   tipo := lerParam(item, 'tipo', '', arq_liturgia);
@@ -5669,11 +5668,11 @@ begin
     panel2.OnMouseMove := lit_modItem_btmove.OnMouseMove;
     panel2.OnMouseUp := lit_modItem_btmove.OnMouseUp;
     panel2.Visible := not cbBloqItens.Checked;
-    image := TbsPngImageView(CopyComponent(lit_modItem_btmove_img,panel2,item+'_btmove_img'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_btmove_img,panel2,item+'_btmove_img'));
     image.OnMouseDown := lit_modItem_btmove_img.OnMouseDown;
     image.OnMouseMove := lit_modItem_btmove_img.OnMouseMove;
     image.OnMouseUp := lit_modItem_btmove_img.OnMouseUp;
-    image := TbsPngImageView(CopyComponent(lit_modItem_btedit,panel,item+'_btedit'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_btedit,panel,item+'_btedit'));
     image.OnClick := lit_modItem_btedit.OnClick;
     image.Visible := not cbBloqItens.Checked;
     CopyComponent(lit_modItem_divider,panel,item+'_divider');
@@ -5684,11 +5683,11 @@ begin
     panel2 := TPanel(CopyComponent(lit_modItem_bticon,panel,item+'_bticon'));
     panel2.OnClick := lit_modItem_bticon.OnClick;
     panel2.Color := StringToColor(lerParam(item, 'cor', '$004F0000', arq_liturgia));
-    image := TbsPngImageView(CopyComponent(lit_modItem_bticon_img,panel2,item+'_bticon_img'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_bticon_img,panel2,item+'_bticon_img'));
     image.OnClick := lit_modItem_bticon_img.OnClick;
     panel2 := TPanel(CopyComponent(lit_modItem_texto,panel,item+'_texto'));
     panel2.OnClick := lit_modItem_texto.OnClick;
-    slabel := TbsSkinStdLabel(CopyComponent(lit_modItem_subtitulo,panel2,item+'_subtitulo'));
+    slabel := TLabel {LAZARUS: TbsSkinStdLabel}(CopyComponent(lit_modItem_subtitulo,panel2,item+'_subtitulo'));
     slabel.OnClick := lit_modItem_subtitulo.OnClick;
     if (tipo = 'itensagendados') then
     begin
@@ -5711,11 +5710,11 @@ begin
         else slabel.Caption := 'Não há arquivo agendado para esta data!';
     end
     else slabel.Caption := lerParam(item, 'subitem', '', arq_liturgia);
-    slabel := TbsSkinStdLabel(CopyComponent(lit_modItem_titulo,panel2,item+'_titulo'));
+    slabel := TLabel {LAZARUS: TbsSkinStdLabel}(CopyComponent(lit_modItem_titulo,panel2,item+'_titulo'));
     slabel.OnClick := lit_modItem_titulo.OnClick;
     slabel.Caption := lerParam(item, 'item', '', arq_liturgia);
     slabel.Align := alTop;
-    checkbox := TbsSkinCheckBox(CopyComponent(lit_modItem_checkb,panel,item+'_checkb'));
+    checkbox := TCheckBox {LAZARUS: TbsSkinCheckBox}(CopyComponent(lit_modItem_checkb,panel,item+'_checkb'));
     checkbox.OnClick := lit_modItem_checkb.OnClick;
     checkbox.Checked := (lerParam(item, 'checked', '', arq_liturgia) = FormatDateTime('dd/mm/yyyy',Now()));
     panel.AlignWithMargins := false;
@@ -5736,7 +5735,7 @@ begin
     panel.Margins.Bottom := 0;
     //panel3 := TPanel(CopyComponent(lit_modItem_texto,panel2,item+'_texto'));
     //panel3.OnClick := lit_modItem_texto.OnClick;
-    slabel := TbsSkinStdLabel(CopyComponent(lit_modItem_titulo,panel2,item+'_titulo'));
+    slabel := TLabel {LAZARUS: TbsSkinStdLabel}(CopyComponent(lit_modItem_titulo,panel2,item+'_titulo'));
     slabel.Align := alClient;
     slabel.UseSkinColor := false;
     slabel.Font.Color := clWhite;
@@ -5754,12 +5753,12 @@ begin
   if (tipo = 'musica') then
   begin
     if (subtipo = 'hasd')
-      then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 47
+      then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 47
     else if (subtipo = 'ja')
-      then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 46
+      then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 46
     else if (subtipo = 'div')
-      then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 45
-    else TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 60;
+      then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 45
+    else TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 60;
 
     if lerParam(item, 'musica', '0', arq_liturgia) = '-1'
       then pb := true
@@ -5775,30 +5774,30 @@ begin
         else pb := False;
     end;
 
-    image := TbsPngImageView(CopyComponent(lit_modItem_icomus1,panel,item+'_icomus1'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_icomus1,panel,item+'_icomus1'));
     image.OnClick := lit_modItem_icomus1.OnClick;
     if pb then
     begin
-      image := TbsPngImageView(CopyComponent(lit_modItem_icomus2,panel,item+'_icomus2'));
+      image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_icomus2,panel,item+'_icomus2'));
       image.OnClick := lit_modItem_icomus2.OnClick;
     end;
-    image := TbsPngImageView(CopyComponent(lit_modItem_icomus3,panel,item+'_icomus3'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_icomus3,panel,item+'_icomus3'));
     image.OnClick := lit_modItem_icomus3.OnClick;
-    image := TbsPngImageView(CopyComponent(lit_modItem_icomus4,panel,item+'_icomus4'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_icomus4,panel,item+'_icomus4'));
     image.OnClick := lit_modItem_icomus4.OnClick;
     if pb then
     begin
-      image := TbsPngImageView(CopyComponent(lit_modItem_icomus5,panel,item+'_icomus5'));
+      image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_icomus5,panel,item+'_icomus5'));
       image.OnClick := lit_modItem_icomus5.OnClick;
     end;
-    image := TbsPngImageView(CopyComponent(lit_modItem_icomus6,panel,item+'_icomus6'));
+    image := TImage {LAZARUS: TbsPngImageView}(CopyComponent(lit_modItem_icomus6,panel,item+'_icomus6'));
     image.OnClick := lit_modItem_icomus6.OnClick;
-    TbsPngImageView(FindComponent(item+'_icomus6')).Left := 0;
-    if pb then TbsPngImageView(FindComponent(item+'_icomus5')).Left := 0;
-    TbsPngImageView(FindComponent(item+'_icomus4')).Left := 0;
-    TbsPngImageView(FindComponent(item+'_icomus3')).Left := 0;
-    if pb then TbsPngImageView(FindComponent(item+'_icomus2')).Left := 0;
-    TbsPngImageView(FindComponent(item+'_icomus1')).Left := 0;
+    TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_icomus6')).Left := 0;
+    if pb then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_icomus5')).Left := 0;
+    TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_icomus4')).Left := 0;
+    TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_icomus3')).Left := 0;
+    if pb then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_icomus2')).Left := 0;
+    TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_icomus1')).Left := 0;
   end
   else if (tipo = 'site') then
   begin
@@ -5807,23 +5806,23 @@ begin
      or (Pos('/youtube.',subtipo) > 0)
      or (Pos('.youtu.be.',subtipo) > 0)
      or (Pos('/youtu.be.',subtipo) > 0)
-      then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 38
-      else TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 49;
+      then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 38
+      else TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 49;
   end
   else
   if (tipo = 'arquivo') then
   begin
     if (subtipo = 'dir')
-      then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 32
+      then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 32
     else if (subtipo = 'arq')
-      then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 4;
+      then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 4;
   end
   else
   if (tipo = 'anotacao')
-    then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 63
+    then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 63
   else
   if (tipo = 'itensagendados')
-    then TbsPngImageView(FindComponent(item+'_bticon_img')).ImageIndex := 83;
+    then TImage {LAZARUS: TbsPngImageView}(FindComponent(item+'_bticon_img')).ImageIndex := 83;
 
   if (ordem > 0) then
     panel.Top := (panel.Height + 20) * (ordem + 3);
@@ -5915,7 +5914,7 @@ begin
     end
     else
     begin
-      if not (InternetGetConnectedState(@Flags, 0)) then
+      if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
       begin
         application.messagebox(PChar(fIniciando.Translate('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.')), TITULO, MB_OK + mb_iconerror);
         DM.tmrSair.enabled := true;
@@ -5939,7 +5938,7 @@ begin
       end;
     end;
 
-    ShellExecute(handle, nil, PChar(Application.ExeName), nil, nil, SW_SHOWNORMAL);
+    RunCommand(Application.ExeName, [], '') {LAZARUS: ShellExecute→RunCommand};
     DM.tmrSair.enabled := true;
     Application.Terminate;
     Exit;
@@ -5996,7 +5995,7 @@ begin
     end
     else
     begin
-      if not (InternetGetConnectedState(@Flags, 0)) then
+      if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
       begin
         application.messagebox(PChar(fIniciando.Translate('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.')), TITULO, MB_OK + mb_iconerror);
         Result := false;
@@ -6018,7 +6017,7 @@ begin
       end;
     end;
 
-    ShellExecute(handle, nil, PChar(Application.ExeName), nil, nil, SW_SHOWNORMAL);
+    RunCommand(Application.ExeName, [], '') {LAZARUS: ShellExecute→RunCommand};
     DM.tmrSair.enabled := true;
     Application.Terminate;
     Exit;
@@ -6199,7 +6198,7 @@ var
   fs: TFileStream;
   bom: array[0..2] of Byte;
   sl: TStringList;
-  enc1252: TEncoding;
+  {LAZARUS: enc1252 removido — Linux usa UTF-8 nativamente}
 begin
   path := caminhoLiturgia;
   if not FileExists(path) then Exit;
@@ -6221,21 +6220,14 @@ begin
   try
     // First try reading as UTF-8 (no BOM). If it succeeds, assume file is valid UTF-8.
     try
-      sl.LoadFromFile(path, TEncoding.UTF8);
+      sl.LoadFromFile(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
       // Successfully read as UTF-8; nothing to do.
       Exit;
     except
       // Not valid UTF-8: fall back to legacy encoding (CP1252) and convert to UTF-8
     end;
 
-    enc1252 := nil;
-    try
-      enc1252 := TEncoding.GetEncoding(1252);
-      sl.LoadFromFile(path, enc1252);
-      sl.SaveToFile(path, TEncoding.UTF8);
-    finally
-      enc1252.Free;
-    end;
+    {LAZARUS: conversão CP-1252 removida — Linux usa UTF-8 nativamente}
   finally
     sl.Free;
   end;
@@ -6245,7 +6237,7 @@ function TfmIndex.abreIniLiturgia: TMemIniFile;
 var
   path: string;
   sl: TStringList;
-  enc1252: TEncoding;
+  {LAZARUS: enc1252 removido — Linux usa UTF-8 nativamente}
   backupPath: string;
 begin
   path := caminhoLiturgia;
@@ -6264,7 +6256,7 @@ begin
     end;
 
     try
-      Result := TMemIniFile.Create(path, TEncoding.UTF8);
+      Result := TMemIniFile.Create(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
       Exit;
     except
       on E: EEncodingError do
@@ -6273,21 +6265,8 @@ begin
           gravaLog('abreIniLiturgia: EEncodingError creating TMemIniFile for ' + path + ' - ' + E.Message);
         except end;
 
-        // Try a forced conversion: read as CP1252 and rewrite as UTF-8
+        {LAZARUS: conversão CP-1252 removida — arquivos em UTF-8 no Linux}
         try
-          sl := TStringList.Create;
-          try
-            enc1252 := TEncoding.GetEncoding(1252);
-            try
-              sl.LoadFromFile(path, enc1252);
-              sl.SaveToFile(path, TEncoding.UTF8);
-            finally
-              enc1252.Free;
-            end;
-          finally
-            sl.Free;
-          end;
-        except
           try gravaLog('abreIniLiturgia: repair (CP1252->UTF8) failed for ' + path); except end;
           // Backup corrupted file and create an empty one
           try
@@ -6301,7 +6280,7 @@ begin
           try
             sl := TStringList.Create;
             try
-              sl.SaveToFile(path, TEncoding.UTF8);
+              sl.SaveToFile(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
             finally
               sl.Free;
             end;
@@ -6313,7 +6292,7 @@ begin
 
         // Try creating again after repair/backout
         try
-          Result := TMemIniFile.Create(path, TEncoding.UTF8);
+          Result := TMemIniFile.Create(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
           Exit;
         except
           on E2: Exception do
@@ -6326,7 +6305,7 @@ begin
             except
               // ignore
             end;
-            Result := TMemIniFile.Create(path, TEncoding.UTF8);
+            Result := TMemIniFile.Create(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
             Exit;
           end;
         end;
@@ -6373,7 +6352,12 @@ begin
 
   path := dir_dados + 'louvorja.log';
   try
-    TFile.AppendAllText(path, linha + sLineBreak, TEncoding.UTF8);
+    begin {LAZARUS: TFile.AppendAllText→TextFile append}
+      var logF: TextFile;
+      AssignFile(logF, path);
+      if FileExists(path) then Append(logF) else Rewrite(logF);
+      try WriteLn(logF, linha); finally CloseFile(logF); end;
+    end;
 
     // Só checa truncamento a cada 100 chamadas para não pagar custo em todo log
     if (FLogChamadas mod 100) <> 0 then Exit;
@@ -6389,7 +6373,7 @@ begin
 
     sl := TStringList.Create;
     try
-      sl.LoadFromFile(path, TEncoding.UTF8);
+      sl.LoadFromFile(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
       soma := 0;
       corte := 0;
       for i := sl.Count - 1 downto 0 do
@@ -6403,7 +6387,7 @@ begin
       end;
       for i := 1 to corte do
         sl.Delete(0);
-      sl.SaveToFile(path, TEncoding.UTF8);
+      sl.SaveToFile(path) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
     finally
       sl.Free;
     end;
@@ -6442,12 +6426,12 @@ begin
         try gravaLog('gravaParamLote: garanteUtf8Liturgia failed for ' + origPath); except end;
       end;
 
-      tempIni := TMemIniFile.Create(tempPath, TEncoding.UTF8);
+      tempIni := TMemIniFile.Create(tempPath) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
       try
         if FileExists(origPath) then
         begin
           try
-            origIni := TMemIniFile.Create(origPath, TEncoding.UTF8);
+            origIni := TMemIniFile.Create(origPath) {LAZARUS: TEncoding.UTF8 removido — UTF-8 padrão no Linux};
             try
               sections := TStringList.Create;
               try
@@ -6807,8 +6791,8 @@ begin
   if carrega_opc then
     Exit;
 
-  tag := TbsSkinComboBoxEx(Sender).tag;
-  valor := IntToStr(TbsSkinComboBoxEx(Sender).ItemIndex+1);
+  tag := TComboBox {LAZARUS: TbsSkinComboBoxEx}(Sender).tag;
+  valor := IntToStr(TComboBox {LAZARUS: TbsSkinComboBoxEx}(Sender).ItemIndex+1);
   if (tag = 1) then
   begin
     gravaParam('Biblia', 'Posicao Fundo', valor);
@@ -6877,8 +6861,8 @@ begin
   if carrega_opc then
     Exit;
 
-  tag := TbsSkinComboBoxEx(Sender).tag;
-  valor := IntToStr(TbsSkinComboBoxEx(Sender).ItemIndex);
+  tag := TComboBox {LAZARUS: TbsSkinComboBoxEx}(Sender).tag;
+  valor := IntToStr(TComboBox {LAZARUS: TbsSkinComboBoxEx}(Sender).ItemIndex);
   if (tag = 1) then
   begin
     gravaParam('Biblia', 'Alinhamento', valor);
@@ -6991,7 +6975,7 @@ begin
   result := m;
 end;
 
-procedure TfmIndex.marcaAbaAberta(TabSheet: TbsSkinTabSheet);
+procedure TfmIndex.marcaAbaAberta(TabSheet: TTabSheet {LAZARUS: TbsSkinTabSheet});
 begin
   pnlTitForm.Caption := TITULO;
   if (TabSheet.Tag > -1) then
@@ -7219,18 +7203,18 @@ var
 begin
   Panel := TPanel(TPanel(Sender).Parent);
 
-  if TbsSkinCheckBox(Sender).Checked then
+  if TCheckBox {LAZARUS: TbsSkinCheckBox}(Sender).Checked then
   begin
     gravaParam(Panel.Name, 'checked', FormatDateTime('dd/mm/yyyy',Now()), arq_liturgia);
-    TbsSkinStdLabel(FindComponent(Panel.Name+'_titulo')).Font.Style := [fsBold,fsStrikeOut];
-    TbsSkinStdLabel(FindComponent(Panel.Name+'_subtitulo')).Font.Style := [fsStrikeOut];
+    TLabel {LAZARUS: TbsSkinStdLabel}(FindComponent(Panel.Name+'_titulo')).Font.Style := [fsBold,fsStrikeOut];
+    TLabel {LAZARUS: TbsSkinStdLabel}(FindComponent(Panel.Name+'_subtitulo')).Font.Style := [fsStrikeOut];
     Panel.Color := $00CED5FF;
   end
   else
   begin
     gravaParam(Panel.Name, 'checked', '', arq_liturgia);
-    TbsSkinStdLabel(FindComponent(Panel.Name+'_titulo')).Font.Style := [fsBold];
-    TbsSkinStdLabel(FindComponent(Panel.Name+'_subtitulo')).Font.Style := [];
+    TLabel {LAZARUS: TbsSkinStdLabel}(FindComponent(Panel.Name+'_titulo')).Font.Style := [fsBold];
+    TLabel {LAZARUS: TbsSkinStdLabel}(FindComponent(Panel.Name+'_subtitulo')).Font.Style := [];
     Panel.Color := clWhite;
   end;
 end;
@@ -7242,7 +7226,7 @@ var
   id,tag: Integer;
   txt:string;
 begin
-  if Sender is TbsSkinStdLabel
+  if Sender is TLabel {LAZARUS: TbsSkinStdLabel}
     then Panel := TPanel(TPanel(Sender).Parent.Parent)
     else Panel := TPanel(TPanel(Sender).Parent);
   item := Panel.Name;
@@ -7388,7 +7372,7 @@ begin
   if (lerParam(item, 'tipo', '', arq_liturgia) <> 'categoria')
     and (cbMarcarConc.Checked) then
   begin
-    TbsSkinCheckBox(FindComponent(item+'_checkb')).Checked := True;
+    TCheckBox {LAZARUS: TbsSkinCheckBox}(FindComponent(item+'_checkb')).Checked := True;
   end;
 end;
 
@@ -7430,7 +7414,7 @@ var
   letra_ok: string;
   i,l,n: integer;
   uc: string;
-  ZipFile: TZipFile;
+  ZipFile: TUnZipper; {LAZARUS: TZipFile→TUnZipper}
   dir_t: string;
   str: string;
   nr,c: Integer;
@@ -7457,13 +7441,13 @@ begin
     begin
       if (ExtractFileExt(arquivo) = '.slja') then
       begin
-        ZipFile := TZipFile.Create;
+        ZipFile := TUnZipper.Create; {LAZARUS: TZipFile.Create zmRead}
         try
           dir_t := fmIndex.dir_temp+'~edit_'+FormatDateTime('yyyymmddHHMMSSZZZ', now());
-          ZipFile.Open(arquivo, zmRead);
-          ZipFile.ExtractAll(dir_t);
-          ZipFile.Close;
-          arquivo := dir_t+'\slides.lja';
+          ZipFile.FileName := arquivo;
+          ZipFile.OutputPath := dir_t;
+          ZipFile.UnZipAllFiles;
+          arquivo := dir_t+'/slides.lja'; {LAZARUS: backslash→slash}
         finally
           ZipFile.Free;
         end;
@@ -7594,7 +7578,7 @@ begin
   lista := TStringList.Create;
   lista.Add('_teste_ftp.txt');
 
-  if not (InternetGetConnectedState(@Flags, 0)) then
+  if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
   begin
     application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
     Exit;
@@ -7947,9 +7931,9 @@ begin
       stColetPerso_0.Caption := '';
     end;
 
-    stColetPerso_1.Caption := qtItens(TFDQuery(DM.cdsCOLETANEAS_PERSO),'álbum encontrado','álbuns encontrados','Nenhum álbum encontrado');
+    stColetPerso_1.Caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),'álbum encontrado','álbuns encontrados','Nenhum álbum encontrado');
 
-    corCampoBusca(TFDQuery(DM.cdsCOLETANEAS_PERSO),txtBuscaColetPeso,nil);
+    corCampoBusca(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),txtBuscaColetPeso,nil);
     fExibeColetaneasPerso(sbColPERSO);
   end;
 end;
@@ -7974,9 +7958,9 @@ begin
   carrega_opc := False;
 end;
 
-procedure TfmIndex.fExibeColetaneasPerso(ScrollBox: TbsSkinScrollBox);
+procedure TfmIndex.fExibeColetaneasPerso(ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
 var
-  Button: TbsSkinButtonEx;
+  Button: TSpeedButton {LAZARUS: TbsSkinButtonEx};
   gLeft, gTop, gWidth, gHeight: Integer;
   mLeft: integer;
   dirIMG: string;
@@ -8007,13 +7991,13 @@ begin
   begin
     id := DM.cdsCOLETANEAS_PERSO.FieldByName('ID').Value;
 
-    Button := TbsSkinButtonEx(FindComponent('gbPerso_' + id));
+    Button := TSpeedButton {LAZARUS: TbsSkinButtonEx}(FindComponent('gbPerso_' + id));
     Button.Free;
     if Assigned(Button) then
       continue;
 
     try
-      Button := TbsSkinButtonEx.Create(ScrollBox);
+      Button := TSpeedButton {LAZARUS: TbsSkinButtonEx}.Create(ScrollBox);
       Button.Visible := False;
 
       with Button do
@@ -8143,14 +8127,14 @@ begin
     fIniciando.AppCreateForm(TfListaMusica, fListaMusica);
     fListaMusica.id_album := 0;
     fListaMusica.inicio := false;
-    fListaMusica.Caption := TbsSkinButtonEx(Sender).Title;
-    fListaMusica.lblTitulo.Caption := TbsSkinButtonEx(Sender).Title;
+    fListaMusica.Caption := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Title;
+    fListaMusica.lblTitulo.Caption := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Title;
     fListaMusica.lblSubtitulo.Caption := '';
     fListaMusica.dir := URL;
     fListaMusica.DBCtrlGrid.DataSource := DM.dsArquivos;
     fListaMusica.pnlBotoes.Visible := False;
-    TbsSkinButtonEx(Sender).ImageList.GetBitmap(
-      TbsSkinButtonEx(Sender).ImageIndex,
+    TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageList.GetBitmap(
+      TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageIndex,
       fListaMusica.imgCapa.Picture.Bitmap
     );
     fListaMusica.showmodal;
@@ -8423,7 +8407,7 @@ procedure TfmIndex.pnlFormatClose(Sender: TObject);
 var
   tag: integer;
 begin
-  tag := TbsSkinExPanel(Sender).tag;
+  tag := TPanel {LAZARUS: TbsSkinExPanel}(Sender).tag;
   if (tag = 1) then
   begin
     pnlFormatBiblia.Visible := False;
@@ -8540,7 +8524,7 @@ end;
 
 procedure TfmIndex.btIniciarCronoClick(Sender: TObject);
 begin
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
   pnlCrono.DoubleBuffered := True;
   if btIniciarCrono.Caption = 'Iniciar' then
   begin
@@ -8567,7 +8551,7 @@ var
   hora: string;
 begin
 //  pnlCrono.DoubleBuffered := False;
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
   DM.tmrCrono.Enabled := false;
   btIniciarCrono.Caption := 'Iniciar';
   btIniciarCrono.ImageIndex := 20;
@@ -8772,7 +8756,7 @@ procedure TfmIndex.bsAddTClick(Sender: TObject);
 var
   t: integer;
 begin
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
 
   t := TComponent(Sender).Tag;
   try
@@ -8821,7 +8805,7 @@ begin
   if (url = '') then
     Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
-    ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+    OpenURL(url) {LAZARUS: ShellExecute→OpenURL};
 //  fIniciando.AppCreateForm(TfEnviaMensagem, fEnviaMensagem);
 //  fEnviaMensagem.edAssunto.Text := '';
 //  fEnviaMensagem.param := 'FEEDBACK';
@@ -8833,7 +8817,7 @@ procedure TfmIndex.bsAppMenu1Items7Click(Sender: TObject);
 var
   Flags: Cardinal;
 begin
-  if not (InternetGetConnectedState(@Flags, 0)) then
+  if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
   begin
     application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
     Exit;
@@ -8867,7 +8851,7 @@ end;
 
 procedure TfmIndex.bsknbtn1Click(Sender: TObject);
 begin
-  ShellExecute(0, 'open', PChar('https://louvorja.com.br/doacao/'), nil, nil, SW_SHOWNORMAL);
+  OpenURL('https://louvorja.com.br/doacao/') {LAZARUS: ShellExecute→OpenURL};
 end;
 
 procedure TfmIndex.bsPngImageView11Click(Sender: TObject);
@@ -8906,7 +8890,7 @@ begin
     fmIndex.carregaFavoritos;
 end;
 
-procedure TfmIndex.bsRibbon1Buttons0Click(Sender: TObject);
+procedure TfmIndex.RibbonPCButtons0Click(Sender: TObject);
 begin
   if (fBuscaMusica <> nil) and (fBuscaMusica.Visible) and (fBuscaMusica.Active)
     then exit;
@@ -8917,7 +8901,7 @@ begin
     then abreLetraMusica('BD','',fBuscaMusica.id,true);
 end;
 
-procedure TfmIndex.bsRibbon1Buttons3Click(Sender: TObject);
+procedure TfmIndex.RibbonPCButtons3Click(Sender: TObject);
 var
   url: string;
 begin
@@ -8925,17 +8909,17 @@ begin
   if (url = '') then
     Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
-    ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+    OpenURL(url) {LAZARUS: ShellExecute→OpenURL};
 end;
 
-procedure TfmIndex.bsRibbon1Buttons4Click(Sender: TObject);
+procedure TfmIndex.RibbonPCButtons4Click(Sender: TObject);
 begin
-  bsRibbon1.AppMenu.ItemIndex := 1;
-  if not bsRibbon1.AppMenu.Visible then
-    bsRibbon1.ShowAppMenu;
+  RibbonPC.AppMenu.ItemIndex := 1;
+  if not RibbonPC.AppMenu.Visible then
+    RibbonPC.ShowAppMenu;
 end;
 
-procedure TfmIndex.bsRibbon1Buttons5Click(Sender: TObject);
+procedure TfmIndex.RibbonPCButtons5Click(Sender: TObject);
 begin
   if (fHelp <> nil) and (fHelp.Visible) then
   begin
@@ -8953,14 +8937,14 @@ begin
   fHelp.ShowModal;
 end;
 
-procedure TfmIndex.bsRibbon1ChangePage(Sender: TObject);
+procedure TfmIndex.RibbonPCChangePage(Sender: TObject);
 begin
-  if (bsRibbon1.ActivePage.Tag = 0) and (pnlfmSubTituloRib.Tag = 1) then
+  if (RibbonPC.ActivePage.Tag = 0) and (pnlfmSubTituloRib.Tag = 1) then
     pnlfmSubTituloRib.Visible := True
   else
     pnlfmSubTituloRib.Visible := False;
 
-  if bsRibbon1.ActivePage = bsFavoritos then
+  if RibbonPC.ActivePage = bsFavoritos then
   begin
     if (loadCol.Strings.Values['RIBP_FAVORITOS'] <> 'okf') then
     begin
@@ -9135,7 +9119,7 @@ begin
   lvArquivos.Items.Clear;
   a_sim := 0;
 //  a_nao := 0;
-  tag := TbsSkinButton(Sender).Tag;
+  tag := TButton {LAZARUS: TbsSkinButton}(Sender).Tag;
 
   DM.qrARQUIVOS_SISTEMA.Close;
   DM.qrARQUIVOS_SISTEMA.Open;
@@ -9306,16 +9290,16 @@ end;
 
 procedure TfmIndex.bsSkinButton36Click(Sender: TObject);
 begin
-  if bsRibbon1.AppMenu.Visible then
-    bsRibbon1.AppMenu.Visible := false;
+  if RibbonPC.AppMenu.Visible then
+    RibbonPC.AppMenu.Visible := false;
   fIniciando.AppCreateForm(TfArquivosExcesso,fArquivosExcesso);
   fArquivosExcesso.showmodal;
 end;
 
 procedure TfmIndex.bsSkinButton38Click(Sender: TObject);
 begin
-  if bsRibbon1.AppMenu.Visible then
-    bsRibbon1.AppMenu.Visible := false;
+  if RibbonPC.AppMenu.Visible then
+    RibbonPC.AppMenu.Visible := false;
   fIniciando.AppCreateForm(TfArquivosFalta,fArquivosFalta);
   fArquivosFalta.showmodal;
 end;
@@ -9805,8 +9789,8 @@ procedure TfmIndex.gridAlbAtDblClick(Sender: TObject);
 var
   ids: string;
   DataSet : TDataSet;
-  DBGrid: TbsSkinDBGrid;
-  Query: TFDQuery;
+  DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid};
+  Query: TZQuery {LAZARUS: TFDQuery};
   i: integer;
 begin
   DBGrid := gridAlbAt;
@@ -9846,8 +9830,8 @@ procedure TfmIndex.gridAlbInatDblClick(Sender: TObject);
 var
   ids: string;
   DataSet : TDataSet;
-  DBGrid: TbsSkinDBGrid;
-  Query: TFDQuery;
+  DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid};
+  Query: TZQuery {LAZARUS: TFDQuery};
   i: integer;
 begin
   DBGrid := gridAlbInat;
@@ -10032,7 +10016,7 @@ var
   Panel: TPanel;
   w: integer;
 begin
-  if Sender is TbsPngImageView
+  if Sender is TImage {LAZARUS: TbsPngImageView}
     then Panel := TPanel(TPanel(Sender).Parent.Parent)
     else Panel := TPanel(TPanel(Sender).Parent);
 
@@ -10057,7 +10041,7 @@ procedure TfmIndex.move_MouseMove(Sender: TObject; Shift: TShiftState;
 var
   Panel: TPanel;
 begin
-  if Sender is TbsPngImageView
+  if Sender is TImage {LAZARUS: TbsPngImageView}
     then Panel := TPanel(TPanel(Sender).Parent.Parent)
     else Panel := TPanel(TPanel(Sender).Parent);
 
@@ -10075,7 +10059,7 @@ var
   i: integer;
   itens: TStringList;
 begin
-  if Sender is TbsPngImageView
+  if Sender is TImage {LAZARUS: TbsPngImageView}
     then Panel := TPanel(TPanel(Sender).Parent.Parent)
     else Panel := TPanel(TPanel(Sender).Parent);
 
@@ -10162,39 +10146,39 @@ end;
 procedure TfmIndex.cbColorFTxtIChangeColor(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinColorButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.Color := TbsSkinColorButton(Sender).ColorValue;
+  tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
+  RichEdit.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue;
   copiaDadosTelaExtendida;
 end;
 
 procedure TfmIndex.cbColorRTxtIChangeColor(Sender: TObject);
 var
   tag: Integer;
-  RichEdit:TbsSkinRichEdit;
+  RichEdit:TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinColorButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
-  RE_SetSelBgColor(RichEdit, TbsSkinColorButton(Sender).ColorValue);
+  tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
+  RE_SetSelBgColor(RichEdit, TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue);
 end;
 
 procedure TfmIndex.cbColorTxtIChangeColor(Sender: TObject);
 var
   tag: Integer;
-  RichEdit:TbsSkinRichEdit;
+  RichEdit:TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinColorButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.SelAttributes.Color := TbsSkinColorButton(Sender).ColorValue;
+  tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
+  RichEdit.SelAttributes.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue;
 end;
 
 procedure TfmIndex.cbFormatoChange(Sender: TObject);
 var
   nome,param,subparam: string;
 begin
-  nome := TbsSkinComboBox(Sender).Name;
+  nome := TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Name;
   if nome = 'cbFormatoHora' then
   begin
     param := 'Relogio';
@@ -10217,7 +10201,7 @@ begin
   end;
 
 
-  gravaParam(param, subparam, TbsSkinComboBox(Sender).Items[TbsSkinComboBox(Sender).ItemIndex])
+  gravaParam(param, subparam, TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Items[TComboBox {LAZARUS: TbsSkinComboBox}(Sender).ItemIndex])
 end;
 
 procedure TfmIndex.cbLayoutChange(Sender: TObject);
@@ -10678,7 +10662,7 @@ begin
   if (url = '') then
     Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
-    ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+    OpenURL(url) {LAZARUS: ShellExecute→OpenURL};
 (*
   fIniciando.AppCreateForm(TfEnviaMensagem, fEnviaMensagem);
   fEnviaMensagem.edAssunto.Text := 'Erro no Hino "' + DM.qrHINOS.FieldByName('NOME_COM').AsString + '"';
@@ -10817,7 +10801,7 @@ begin
   abrePagina(tsHinarioN);
 end;
 
-procedure TfmIndex.btAbreSaveVideoOn(campo: TbsSkinEdit);
+procedure TfmIndex.btAbreSaveVideoOn(campo: TEdit {LAZARUS: TbsSkinEdit});
 begin
   if (campo.Text = '') then
   begin
@@ -10851,7 +10835,7 @@ begin
   if (url = '') then
     Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
-    ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+    OpenURL(url) {LAZARUS: ShellExecute→OpenURL};
 end;
 
 procedure TfmIndex.btErroClick(Sender: TObject);
@@ -10862,7 +10846,7 @@ begin
   if (url = '') then
     Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
-    ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+    OpenURL(url) {LAZARUS: ShellExecute→OpenURL};
 (*  fIniciando.AppCreateForm(TfEnviaMensagem, fEnviaMensagem);
   fEnviaMensagem.edAssunto.Text := 'Sugestão de Música para a Categoria "' + lblDoxologiaCate.Caption + '"';
   fEnviaMensagem.param := 'DOXOLOGIA=' + lblDoxologiaCate.Caption;
@@ -10880,7 +10864,7 @@ begin
   AjustaLarguraCamposDBGrid(bsSkinDBGrid2);
 end;
 
-procedure TfmIndex.btExecVideoOn(campo: TbsSkinEdit; limpa: Boolean);
+procedure TfmIndex.btExecVideoOn(campo: TEdit {LAZARUS: TbsSkinEdit}; limpa: Boolean);
 var
   videoID: string;
 begin
@@ -10923,10 +10907,10 @@ end;
 procedure TfmIndex.bsSkinSpeedButton39Click(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.CutToClipboard;
 end;
 
@@ -10945,7 +10929,7 @@ end;
 
 procedure TfmIndex.btSortearNMClick(Sender: TObject);
 begin
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
 
   if DM.tmrSorteio.Enabled = false then
     DM.tmrSorteio.Enabled := true;
@@ -10976,7 +10960,7 @@ var
   tag: integer;
   pwd: string;
 begin
-  if TbsSkinSpeedButton(Sender).Down then
+  if TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down then
   begin
     pwd := lerParam('Senha', 'Formatacao', '');
 
@@ -10989,7 +10973,7 @@ begin
 
       if (DM.pwd.Password = '') then
       begin
-        TbsSkinSpeedButton(Sender).Down := False;
+        TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down := False;
         exit;
       end;
 
@@ -11003,11 +10987,11 @@ begin
   if Trim(pwd) <> '' then
   begin
     application.MessageBox('Senha incorreta!', titulo, mb_ok + mb_iconerror);
-    TbsSkinSpeedButton(Sender).Down := False;
+    TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down := False;
     exit;
   end;
 
-  tag := TbsSkinSpeedButton(Sender).tag;
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).tag;
   if (tag = 1) then
   begin
     pnlFormatBiblia.Visible := btFormatBiblia.Down;
@@ -11071,7 +11055,7 @@ end;
 
 procedure TfmIndex.btLimpaSorteioReiniciaClick(Sender: TObject);
 begin
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
   if DM.tmrSorteio.Enabled = false then
     DM.tmrSorteio.Enabled := true;
 
@@ -11082,7 +11066,7 @@ end;
 
 procedure TfmIndex.btLimpaSorteioReiniciaNMClick(Sender: TObject);
 begin
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
   if DM.tmrSorteio.Enabled = false then
     DM.tmrSorteio.Enabled := true;
 
@@ -11261,7 +11245,7 @@ end;
 procedure TfmIndex.btAddSorteioClick(Sender: TObject);
 var
   i, ini, fin, linha: integer;
-  Item: TbsSkinOfficeItem;
+  Item: TListItem {LAZARUS: TbsSkinOfficeItem};
   Numero: string;
 begin
   if DM.tmrSorteio.Enabled = false then
@@ -11332,7 +11316,7 @@ end;
 procedure TfmIndex.btAddSorteioNMClick(Sender: TObject);
 var
   linha: integer;
-  Item: TbsSkinOfficeItem;
+  Item: TListItem {LAZARUS: TbsSkinOfficeItem};
   nome: string;
 begin
   if DM.tmrSorteio.Enabled = false then
@@ -11380,10 +11364,10 @@ end;
 procedure TfmIndex.btfsBoldClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   if (fsBold in RichEdit.SelAttributes.Style) then
     RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsBold]
   else
@@ -11393,10 +11377,10 @@ end;
 procedure TfmIndex.btfsItalicClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   if (fsItalic in RichEdit.SelAttributes.Style) then
     RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsItalic]
   else
@@ -11406,10 +11390,10 @@ end;
 procedure TfmIndex.btfsStrikeOutClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   if (fsStrikeOut in RichEdit.SelAttributes.Style) then
     RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsStrikeOut]
   else
@@ -11419,10 +11403,10 @@ end;
 procedure TfmIndex.btfsUnderlineClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   if (fsUnderline in RichEdit.SelAttributes.Style) then
     RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsUnderline]
   else
@@ -11432,20 +11416,20 @@ end;
 procedure TfmIndex.bsSkinSpeedButton41Click(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.CopyToClipboard;
 end;
 
 procedure TfmIndex.bsSkinSpeedButton42Click(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.PasteFromClipboard;
 end;
 
@@ -11461,10 +11445,10 @@ procedure TfmIndex.bsSkinSpeedButton44Click(Sender: TObject);
 var
   SelStart, SelLength: integer;
   tag: Integer;
-  RichEdit:TbsSkinRichEdit;
+  RichEdit:TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
 
   paramtemp.Lines.Clear;
   SelStart := RichEdit.SelStart;
@@ -11484,13 +11468,13 @@ end;
 procedure TfmIndex.bsSkinSpeedButton45Click(Sender: TObject);
 var
   tag: Integer;
-  RichEdit:TbsSkinRichEdit;
+  RichEdit:TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
   if application.messagebox(PChar('Deseja realmente apagar o texto?'), TITULO, mb_yesno + mb_iconquestion) <> 6 then
     exit;
 
-  tag := TbsSkinFontComboBox(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.Lines.Clear;
 end;
 
@@ -11502,30 +11486,30 @@ end;
 procedure TfmIndex.bttaLeftJustifyClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.Paragraph.Alignment := taLeftJustify;
 end;
 
 procedure TfmIndex.bttaRightJustifyClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.Paragraph.Alignment := taRightJustify;
 end;
 
 procedure TfmIndex.bttaCenterClick(Sender: TObject);
 var
   tag: integer;
-  RichEdit: TbsSkinRichEdit;
+  RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
   RichEdit.Paragraph.Alignment := taCenter;
 end;
 
@@ -11543,12 +11527,12 @@ procedure TfmIndex.bsSkinSpeedButton53Click(Sender: TObject);
 var
   i: integer;
   item: string;
-  checkbox: TbsSkinCheckBox;
+  checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
 begin
   for i := lbLiturgia.Items.Count-1 downto 0 do
   begin
     item := lbLiturgia.Items[i];
-    checkbox := TbsSkinCheckBox(FindComponent(item+'_checkb'));
+    checkbox := TCheckBox {LAZARUS: TbsSkinCheckBox}(FindComponent(item+'_checkb'));
     if Assigned(checkbox)
       then checkbox.Checked := True;
   end;
@@ -11558,12 +11542,12 @@ procedure TfmIndex.bsSkinSpeedButton54Click(Sender: TObject);
 var
   i: integer;
   item: string;
-  checkbox: TbsSkinCheckBox;
+  checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
 begin
   for i := lbLiturgia.Items.Count-1 downto 0 do
   begin
     item := lbLiturgia.Items[i];
-    checkbox := TbsSkinCheckBox(FindComponent(item+'_checkb'));
+    checkbox := TCheckBox {LAZARUS: TbsSkinCheckBox}(FindComponent(item+'_checkb'));
     if Assigned(checkbox)
       then checkbox.Checked := False;
   end;
@@ -11573,12 +11557,12 @@ procedure TfmIndex.bsSkinSpeedButton55Click(Sender: TObject);
 var
   i: integer;
   item: string;
-  checkbox: TbsSkinCheckBox;
+  checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
 begin
   for i := lbLiturgia.Items.Count-1 downto 0 do
   begin
     item := lbLiturgia.Items[i];
-    checkbox := TbsSkinCheckBox(FindComponent(item+'_checkb'));
+    checkbox := TCheckBox {LAZARUS: TbsSkinCheckBox}(FindComponent(item+'_checkb'));
     if Assigned(checkbox)
       then checkbox.Checked := not checkbox.Checked;
   end;
@@ -11588,7 +11572,7 @@ procedure TfmIndex.btApagaLitSelClick(Sender: TObject);
 var
   i: integer;
   item: string;
-  checkbox: TbsSkinCheckBox;
+  checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
 begin
   if application.messagebox(PChar('Deseja realmente apagar todos os itens marcados?'), TITULO, mb_yesno + mb_iconquestion) <> 6 then
     Exit;
@@ -11596,7 +11580,7 @@ begin
   for i := lbLiturgia.Items.Count-1 downto 0 do
   begin
     item := lbLiturgia.Items[i];
-    checkbox := TbsSkinCheckBox(FindComponent(item+'_checkb'));
+    checkbox := TCheckBox {LAZARUS: TbsSkinCheckBox}(FindComponent(item+'_checkb'));
     if Assigned(checkbox) then
     begin
       if checkbox.Checked
@@ -11893,7 +11877,7 @@ begin
 
   txtNomeVideoOn3.Text := '';
   txtUrlVideoOn3.Text := '';
-  stVideosOnPerso_1.Caption := qtItens(TFDQuery(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+  stVideosOnPerso_1.Caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
 
   btVidOnlPExcluir.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
   btVidOnlPCopiarLink.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
@@ -12041,22 +12025,22 @@ end;
 
 procedure TfmIndex.seTamanhoTextoAuxChange(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Tamanho Texto Aux', TbsSkinComboBox(Sender).Text);
+  gravaParam('Musicas', 'Tamanho Texto Aux', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
 end;
 
 procedure TfmIndex.seTamanhoTextoChange(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Tamanho Texto', TbsSkinComboBox(Sender).Text);
+  gravaParam('Musicas', 'Tamanho Texto', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
 end;
 
 procedure TfmIndex.seTamanhoTextoRetornoChange(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Tamanho Texto Retorno', TbsSkinComboBox(Sender).Text);
+  gravaParam('Musicas', 'Tamanho Texto Retorno', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
 end;
 
 procedure TfmIndex.seTamanhoTituloChange(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Tamanho Titulo', TbsSkinComboBox(Sender).Text);
+  gravaParam('Musicas', 'Tamanho Titulo', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
 end;
 
 procedure TfmIndex.bsSkinTabSheet5Show(Sender: TObject);
@@ -12080,7 +12064,7 @@ end;
 procedure TfmIndex.btAnotTempoClick(Sender: TObject);
 var
   i: integer;
-  Item: TbsSkinOfficeItem;
+  Item: TListItem {LAZARUS: TbsSkinOfficeItem};
   tempo: string;
 begin
   if (loadCol.Strings.Values['CRONO:ID_TEMPO_GR'] = '') then
@@ -12103,7 +12087,7 @@ end;
 
 procedure TfmIndex.btSortearClick(Sender: TObject);
 begin
-  if (Sender <> nil) and (not TbsSkinSpeedButton(Sender).Enabled) then Exit;
+  if (Sender <> nil) and (not TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Enabled) then Exit;
 
   if DM.tmrSorteio.Enabled = false then
     DM.tmrSorteio.Enabled := true;
@@ -12205,7 +12189,7 @@ begin
   if ((Key = 84) and (Shift = [ssCtrl]) or
       (Key = 65) and (Shift = [ssCtrl])) then
   begin
-    TbsSkinEdit(Sender).SelectAll;
+    TEdit {LAZARUS: TbsSkinEdit}(Sender).SelectAll;
   end;
 end;
 
@@ -12314,7 +12298,7 @@ begin
   DBCtrlGridBibliaVersiculoClick(DBCtrlGridBibliaVersiculo);
 end;
 
-procedure TfmIndex.Localizar(ValorBusca: string; RichEdit: TbsSkinRichEdit; recolore: boolean);
+procedure TfmIndex.Localizar(ValorBusca: string; RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit}; recolore: boolean);
 var
   ProcurePor: LongInt;
   PosInicial, PosFinal: integer;
@@ -12401,7 +12385,7 @@ begin
   Result := S;
 end;
 
-procedure TfmIndex.formataTexto(RichEdit: TbsSkinRichEdit);
+procedure TfmIndex.formataTexto(RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit});
 var
   iPosINI, iPosTAM: integer;
   txt_pre, txt, txt_pos: string;
@@ -12636,7 +12620,7 @@ var
 begin
   if (paramexec.Strings.Values['internet'] <> '0') then
   begin
-    if not InternetGetConnectedState(@Flags, 0) then
+    if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
     begin
       if FileExists(dir_dados + 'configweb.ja') then
         Param.Strings.LoadFromFile(dir_dados + 'configweb.ja');
@@ -12788,7 +12772,7 @@ procedure TfmIndex.Excluir1Click(Sender: TObject);
 var
   id, mComponente: string;
 begin
-  mComponente := TbsSkinPopupMenu(TMenuItem(Sender).GetParentMenu).PopupComponent.Name;
+  mComponente := TPopupMenu {LAZARUS: TbsSkinPopupMenu}(TMenuItem(Sender).GetParentMenu).PopupComponent.Name;
   id := Copy(mComponente, Pos('_', mComponente) + 1, Length(mComponente));
 
   DM.cdsCOLETANEAS_PERSO.Locate('ID', id, []);
@@ -12822,7 +12806,7 @@ begin
 
   DM.cdsVideosOnPerso.Locate('ID', id, []);
   DM.cdsVideosOnPerso.Delete;
-  stVideosOnPerso_1.Caption := qtItens(TFDQuery(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+  stVideosOnPerso_1.Caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
 
   btVidOnlPExcluir.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
   btVidOnlPCopiarLink.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
@@ -12953,7 +12937,7 @@ begin
     dia_semana := TComponent(Sender).Tag;
   loadCol.Strings.Values['LITURGIA:SEMANA'] := inttostr(dia_semana);
   for i := 1 to 7 do
-    TbsSkinSpeedButton(FindComponent('lcal_' + inttostr(i)) as TbsSkinSpeedButton).Down := (TbsSkinSpeedButton(FindComponent('lcal_' + inttostr(i)) as TbsSkinSpeedButton).Tag = dia_semana);
+    TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('lcal_' + inttostr(i)) as TSpeedButton {LAZARUS: TbsSkinSpeedButton}).Down := (TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('lcal_' + inttostr(i)) as TSpeedButton {LAZARUS: TbsSkinSpeedButton}).Tag = dia_semana);
 
   RichEdit1.Lines.Clear;
   if FileExists(dir_dados+'AnotacoesLiturgia_'+IntToStr(dia_semana)+'.rtf') then
@@ -13027,7 +13011,7 @@ begin
   DM.ADO.GetTableNames('','','',slbTabelas.Items);
 end;
 
-function TfmIndex.verificaURL(url: string; input: TbsSkinEdit; reverso: Boolean = False): string;
+function TfmIndex.verificaURL(url: string; input: TEdit {LAZARUS: TbsSkinEdit}; reverso: Boolean = False): string;
 var
   dirCol: string;
   dirArqPart: string;
@@ -13070,11 +13054,11 @@ var
   item: Integer;
   URL: string;
 begin
-  item := TbsSkinListView(Sender).ItemIndex;
+  item := TListView {LAZARUS: TbsSkinListView}(Sender).ItemIndex;
   if (item < 0) then
     Exit;
 
-  URL := TbsSkinListView(Sender).Items[item].SubItems[1];
+  URL := TListView {LAZARUS: TbsSkinListView}(Sender).Items[item].SubItems[1];
   if (trim(URL) = '') then
     Exit;
 
@@ -13115,19 +13099,19 @@ procedure TfmIndex.processaArquivo(arq: string);
 var
   ext: string;
   audio: Boolean;
-  ZipFile: TZipFile;
+  ZipFile: TUnZipper; {LAZARUS: TZipFile→TUnZipper}
   dir_t: string;
 begin
   ext := (ExtractFileExt(arq));
   if (ext = '.slja') then
   begin
-    ZipFile := TZipFile.Create;
+    ZipFile := TUnZipper.Create; {LAZARUS: TZipFile zmRead}
     try
       dir_t := dir_temp+'~read_'+FormatDateTime('yyyymmddHHMMSSZZZ', now());
-      ZipFile.Open(arq, zmRead);
-      ZipFile.ExtractAll(dir_t);
-      ZipFile.Close;
-      arq := dir_t+'\slides.lja';
+      ZipFile.FileName := arq;
+      ZipFile.OutputPath := dir_t;
+      ZipFile.UnZipAllFiles;
+      arq := dir_t+'/slides.lja';
     finally
       ZipFile.Free;
     end;
@@ -13223,7 +13207,7 @@ begin
     end;
   end;
   confereAbasAbertas();
-  PaginaMenuAtiva(bsColetaneas);
+  PaginaMenuAtiva(tsColetaneas);
 end;
 
 procedure TfmIndex.mnSelecionaAbaClick(Sender: TObject);
@@ -13244,7 +13228,7 @@ procedure TfmIndex.Modificar1Click(Sender: TObject);
 var
   id, mComponente: string;
 begin
-  mComponente := TbsSkinPopupMenu(TMenuItem(Sender).GetParentMenu).PopupComponent.Name;
+  mComponente := TPopupMenu {LAZARUS: TbsSkinPopupMenu}(TMenuItem(Sender).GetParentMenu).PopupComponent.Name;
   id := Copy(mComponente, Pos('_', mComponente) + 1, Length(mComponente));
 
   pnlAltColPerso.Visible := False;
@@ -13294,19 +13278,19 @@ begin
     abre := False
   else
   begin
-    if (TbsSkinMenuSpeedButton(Sender).ImageIndex <> 11) and
-       (TbsSkinMenuSpeedButton(Sender).ImageIndex <> 54) then
+    if (TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex <> 11) and
+       (TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex <> 54) then
       abre := True
     else
       abre := False;
   end;
 
-  botao := TbsSkinMenuSpeedButton(Sender).Name;
+  botao := TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).Name;
 
 
   if abre = True then
   begin
-    item_config := monitor_tp_config(TbsSkinMenuSpeedButton(Sender));
+    item_config := monitor_tp_config(TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender));
     monitor := strtoint(lerParam(item_config, 'Monitor', '2'));
     if (Screen.MonitorCount < monitor) then
     begin
@@ -13713,9 +13697,9 @@ begin
         fMonitorRelogio.Close;
     end;
 
-    if (TbsSkinMenuSpeedButton(Sender).ImageList.Name = 'ico_40x40')
-      then TbsSkinMenuSpeedButton(Sender).ImageIndex := 10
-      else TbsSkinMenuSpeedButton(Sender).ImageIndex := 53;
+    if (TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageList.Name = 'ico_40x40')
+      then TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex := 10
+      else TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex := 53;
 
   end;
 
@@ -13728,7 +13712,7 @@ var
   slide: string;
   tempo: string;
   url: string;
-  ZipFile: TZipFile;
+  ZipFile: TZipper; {LAZARUS: TZipFile zmWrite→TZipper}
   arq: string;
   arq_e: string;
   imgList: TStringList;
@@ -13737,14 +13721,14 @@ begin
   if url <> '' then
   begin
 
-    ZipFile := TZipFile.Create;
+    ZipFile := TZipper.Create; {LAZARUS: TZipper}
     imgList := TStringList.Create;
 
     try
       imgList.Clear;
 
       try
-        ZipFile.Open(url, zmWrite);
+        ZipFile.FileName := url; {LAZARUS: Open zmWrite→FileName}
 
         arq := dir_temp+'~save_'+ExtractFileName(url)+'_'+FormatDateTime('yyyymmddHHMMSSZZZ', now())+'.temp';
         arquivo := Tmeminifile.Create(arq);
@@ -13767,7 +13751,7 @@ begin
               arq_e := dir_config+'musicas\'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString;
               arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
               arq_e := 'audio\'+ExtractFileName(arq_e);
-              ZipFile.Add(dir_config+'musicas\'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString,arq_e);
+              ZipFile.Entries.AddFileEntry(dir_config+'musicas/'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString,arq_e); {LAZARUS: Add→AddFileEntry, slash}
               arquivo.writeString('Geral', 'url_musica', arq_e);
             end
             else
@@ -13783,7 +13767,7 @@ begin
               arq_e := dir_config+'musicas\'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString;
               arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
               arq_e := 'audio\'+ExtractFileName(arq_e);
-              ZipFile.Add(dir_config+'musicas\'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString,arq_e);
+              ZipFile.Entries.AddFileEntry(dir_config+'musicas/'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString,arq_e); {LAZARUS: Add→AddFileEntry, slash}
               arquivo.writeString('Geral', 'url_musica', arq_e);
             end;
           end;
@@ -13822,7 +13806,7 @@ begin
               if imgList.IndexOf(arq_e) < 0 then
               begin
                 imgList.Add(arq_e);
-                ZipFile.Add(dir_config+'imagens\'+DM.qrSLIDE_MUSICA.FieldByName('IMAGEM').AsString,arq_e);
+                ZipFile.Entries.AddFileEntry(dir_config+'imagens/'+DM.qrSLIDE_MUSICA.FieldByName('IMAGEM').AsString,arq_e); {LAZARUS: Add→AddFileEntry, slash}
               end;
               arquivo.writeString(slide, 'imagem', arq_e);
             end;
@@ -13841,7 +13825,8 @@ begin
           arquivo.Free;
         end;
 
-        ZipFile.Add(arq,'slides.lja');
+        ZipFile.Entries.AddFileEntry(arq,'slides.lja'); {LAZARUS: Add→Entries.AddFileEntry}
+        ZipFile.ZipAllFiles; {LAZARUS: zipper write}
         DeleteFile(arq);
       finally
         ZipFile.Free;
@@ -14375,13 +14360,13 @@ begin
   application.messagebox(PChar('Link ''' + txt + ''' copiado para a Área de Transferência!'), TITULO, mb_ok + MB_ICONINFORMATION)
 end;
 
-procedure TfmIndex.copiaSlidesParaArquivo(url: string; cds: TClientDataSet);
+procedure TfmIndex.copiaSlidesParaArquivo(url: string; cds: TBufDataset); {LAZARUS: TClientDataSet→TBufDataset}
 var
   arquivo : TMemIniFile;
   slide: string;
   tempo: string;
   pos: integer;
-  ZipFile: TZipFile;
+  ZipFile: TZipper; {LAZARUS: TZipFile zmWrite→TZipper}
   arq: string;
   arq_e: string;
   imgList: TStringList;
@@ -14390,14 +14375,14 @@ var
   bass_channel: HCHANNEL;
 begin
 //url := url+'.zip';
-  ZipFile := TZipFile.Create;
+  ZipFile := TZipper.Create; {LAZARUS: TZipper}
   imgList := TStringList.Create;
 
   try
     imgList.Clear;
 
     try
-      ZipFile.Open(url, zmWrite);
+      ZipFile.FileName := url; {LAZARUS: Open zmWrite→FileName}
 
       arq := dir_temp+'~save_'+ExtractFileName(url)+'_'+FormatDateTime('yyyymmddHHMMSSZZZ', now())+'.temp';
       arquivo := Tmeminifile.Create(arq);
@@ -14417,7 +14402,7 @@ begin
           arq_e := StringReplace(cds.FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
           arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
           arq_e := 'audio\'+ExtractFileName(arq_e);
-          ZipFile.Add(StringReplace(cds.FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]),arq_e);
+          ZipFile.Entries.AddFileEntry(StringReplace(cds.FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]),arq_e); {LAZARUS: Add→AddFileEntry}
           arquivo.writeString('Geral', 'url_musica', arq_e);
           arquivo.writeString('Geral', 'audio', '1');
 
@@ -14481,7 +14466,7 @@ begin
             if imgList.IndexOf(arq_e) < 0 then
             begin
               imgList.Add(arq_e);
-              ZipFile.Add(StringReplace(cds.FieldByName('IMAGEM').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]),arq_e);
+              ZipFile.Entries.AddFileEntry(StringReplace(cds.FieldByName('IMAGEM').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]),arq_e); {LAZARUS: Add→AddFileEntry}
             end;
             arquivo.writeString(slide, 'imagem', arq_e);
           end;
@@ -14517,7 +14502,8 @@ begin
         //
       end;
 
-      ZipFile.Add(arq,'slides.lja');
+      ZipFile.Entries.AddFileEntry(arq,'slides.lja'); {LAZARUS: Add→AddFileEntry}
+      ZipFile.ZipAllFiles; {LAZARUS: zipper write}
       DeleteFile(arq);
     finally
       ZipFile.Free;
@@ -14693,7 +14679,7 @@ begin
   sbPlayerAreaExtendida.ItemIndex := StrToInt(lerParam('Player', 'Monitor', '2')) - 1;
 end;
 
-procedure TfmIndex.monitor_bt_label(botao: TbsSkinMenuSpeedButton);
+procedure TfmIndex.monitor_bt_label(botao: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton});
 var
   monitor: Integer;
   item_config: string;
@@ -14706,7 +14692,7 @@ begin
   botao.Tag := monitor-1;
 end;
 
-function TfmIndex.monitor_tp_config(botao: TbsSkinMenuSpeedButton): string;
+function TfmIndex.monitor_tp_config(botao: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}): string;
 var
   tp: string;
 begin
@@ -14730,7 +14716,7 @@ var
   data: TDate;
   id: string;
 //  title: string;
-  info: TbsSkinEdit;
+  info: TEdit {LAZARUS: TbsSkinEdit};
   arq,dir: string;
 begin
   data := MonthCalendar1.Date;
@@ -14747,7 +14733,7 @@ begin
   arq := openDialog('arquivo', '', 'ItensAgendados', False, '', 'Escolher arquivo para o dia '+formatdatetime('dd/mm/yyyy',data));
   if (arq <> '') then
   begin
-    info := TbsSkinEdit.Create(nil);
+    info := TEdit {LAZARUS: TbsSkinEdit}.Create(nil);
     dir := verificaURL(arq, info, false);
 
     id := FormatDateTime('ddmmyyyyhhnnsszzz', Now);
@@ -14798,8 +14784,8 @@ var
   Rct: TRect;
   i: integer;
   Delta: Integer;
-  ScrollBox: TbsSkinScrollBox;
-  DBCtrlGrid: TDBCtrlGrid;
+  ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox};
+  DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL};
 begin
   GetCursorPos(Pt);
 
@@ -14810,9 +14796,9 @@ begin
 
     for i := 0 to ComponentCount - 1 do
     begin
-      if Components[i].ClassType = TbsSkinScrollBox then
+      if Components[i].ClassType = TScrollBox {LAZARUS: TbsSkinScrollBox} then
       begin
-        ScrollBox := TbsSkinScrollBox(Components[i]);
+        ScrollBox := TScrollBox {LAZARUS: TbsSkinScrollBox}(Components[i]);
         GetWindowRect(ScrollBox.Handle, Rct);
         if (PtInRect(Rct, Pt)) and (ScrollBox.Parent.Visible) then
         begin
@@ -14822,9 +14808,9 @@ begin
             ScrollBox.VScrollBar.Position := ScrollBox.VScrollBar.Position + 10;
         end;
       end
-      else if Components[i].ClassType = TDBCtrlGrid then
+      else if Components[i].ClassType = TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL} then
       begin
-        DBCtrlGrid := TDBCtrlGrid(Components[i]);
+        DBCtrlGrid := TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL}(Components[i]);
         GetWindowRect(DBCtrlGrid.Handle, Rct);
         if (PtInRect(Rct, Pt)) and (DBCtrlGrid.Parent.Visible) then
         begin
@@ -14845,9 +14831,9 @@ begin
       end;
            (*
       else
-      if fmIndex.Components[i].ClassType = TbsRibbon then
+      if fmIndex.Components[i].ClassType = TPageControl {LAZARUS: TbsRibbon} then
       begin
-        Ribbon := TbsRibbon(fmIndex.Components[i]);
+        Ribbon := TPageControl {LAZARUS: TbsRibbon}(fmIndex.Components[i]);
         GetWindowRect(Ribbon.Handle,Rct);
         if (PtInRect(Rct, Pt)) and (Ribbon.Visible) then
         begin
@@ -14931,7 +14917,7 @@ begin
 
     if (DM.pwd.Password = '') then
     begin
-      TbsSkinSpeedButton(Sender).Down := False;
+      TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down := False;
       exit;
     end;
 
@@ -14942,7 +14928,7 @@ begin
   if Trim(pwd) <> '' then
   begin
     application.MessageBox('Senha incorreta!', titulo, mb_ok + mb_iconerror);
-    TbsSkinSpeedButton(Sender).Down := False;
+    TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down := False;
     exit;
   end;
 
@@ -15064,105 +15050,105 @@ begin
   if carrega_opc then
     Exit;
 
-  tag := TbsSkinColorButton(Sender).tag;
+  tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).tag;
   if (tag = 1) then
   begin
-    gravaParam('Biblia', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Biblia', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 12) then
   begin
-    gravaParam('Biblia', 'Cor Passagem', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Biblia', 'Cor Passagem', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 19) then
   begin
-    gravaParam('Biblia', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Biblia', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 2) then
   begin
-    gravaParam('Busca Biblica', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Busca Biblica', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 22) then
   begin
-    gravaParam('Busca Biblica', 'Cor Passagem', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Busca Biblica', 'Cor Passagem', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 29) then
   begin
-    gravaParam('Busca Biblica', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Busca Biblica', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 3) then
   begin
-    gravaParam('Escola Sabatina', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('ES');
   end
   else if (tag = 32) then
   begin
-    gravaParam('Escola Sabatina', 'Cor 2', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor 2', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('ES');
   end
   else if (tag = 33) then
   begin
-    gravaParam('Escola Sabatina', 'Cor 3', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor 3', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('ES');
   end
   else if (tag = 39) then
   begin
-    gravaParam('Escola Sabatina', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('ES');
   end
   else if (tag = 4) then
   begin
-    gravaParam('Sorteio', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Sorteio', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 49) then
   begin
-    gravaParam('Sorteio', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Sorteio', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 5) then
   begin
-    gravaParam('Cronometro', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Cronometro', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 59) then
   begin
-    gravaParam('Cronometro', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Cronometro', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 6) then
   begin
-    gravaParam('Sorteio Nomes', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Sorteio Nomes', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 69) then
   begin
-    gravaParam('Sorteio Nomes', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Sorteio Nomes', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 7) then
   begin
-    gravaParam('Painel Dinamico', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Painel Dinamico', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 79) then
   begin
-    gravaParam('Painel Dinamico', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Painel Dinamico', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 9) then
   begin
-    gravaParam('Relogio', 'Cor', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Relogio', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('RELOGIO');
   end
   else if (tag = 99) then
   begin
-    gravaParam('Relogio', 'Cor Fundo', ColorToString(TbsSkinColorButton(Sender).ColorValue));
+    gravaParam('Relogio', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
     carregaConfiguracoes('RELOGIO');
   end;
 end;
@@ -15187,7 +15173,7 @@ begin
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaBuscaPaintPanel(
-  DBCtrlGrid: TbsSkinDBCtrlGrid; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
+  DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox}; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
 var
   R: TRect;
 begin
@@ -15242,7 +15228,7 @@ begin
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaCapituloPaintPanel(
-  DBCtrlGrid: TbsSkinDBCtrlGrid; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
+  DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox}; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
 var
   R: TRect;
 begin
@@ -15303,7 +15289,7 @@ begin
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaHistoricoPaintPanel(
-  DBCtrlGrid: TbsSkinDBCtrlGrid; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
+  DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox}; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
 var
   R: TRect;
 begin
@@ -15365,7 +15351,7 @@ begin
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaLivroPaintPanel(
-  DBCtrlGrid: TbsSkinDBCtrlGrid; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
+  DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox}; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
 var
   R: TRect;
 begin
@@ -15456,7 +15442,7 @@ begin
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaVersiculoPaintPanel(
-  DBCtrlGrid: TbsSkinDBCtrlGrid; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
+  DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox}; Index: Integer; Cnvs: TCanvas; ClRect: TRect);
 var
   R: TRect;
 begin
@@ -15494,7 +15480,7 @@ end;
 procedure TfmIndex.dbctrlMusicasClick(Sender: TObject);
 var
   tag: integer;
-  QUERY: TFDQuery;
+  QUERY: TZQuery {LAZARUS: TFDQuery};
   txt: string;
 begin
   tag := TComponent(Sender).tag;
@@ -15543,45 +15529,45 @@ begin
   if carrega_opc then
     Exit;
 
-  tag := TbsSkinFontComboBox(Sender).tag;
+  tag := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).tag;
   if (tag = 1) then
   begin
-    gravaParam('Biblia', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Biblia', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 2) then
   begin
-    gravaParam('Busca Biblica', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Busca Biblica', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 3) then
   begin
-    gravaParam('Escola Sabatina', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Escola Sabatina', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('ES');
   end
   else if (tag = 4) then
   begin
-    gravaParam('Sorteio', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Sorteio', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 5) then
   begin
-    gravaParam('Cronometro', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Cronometro', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 6) then
   begin
-    gravaParam('Sorteio Nomes', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Sorteio Nomes', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 7) then
   begin
-    gravaParam('Painel Dinamico', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Painel Dinamico', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 9) then
   begin
-    gravaParam('Relogio', 'Fonte', TbsSkinFontComboBox(Sender).FontName);
+    gravaParam('Relogio', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
     carregaConfiguracoes('RELOGIO');
   end;
 end;
@@ -15589,11 +15575,11 @@ end;
 procedure TfmIndex.fcTxtIChange(Sender: TObject);
 var
   tag: Integer;
-  RichEdit:TbsSkinRichEdit;
+  RichEdit:TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinFontComboBox(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.SelAttributes.Name := TbsSkinFontComboBox(Sender).FontName;
+  tag := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
+  RichEdit.SelAttributes.Name := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName;
 end;
 
 procedure TfmIndex.seOpcTamanhoChange(Sender: TObject);
@@ -15603,66 +15589,66 @@ begin
  if carrega_opc then
     Exit;
 
-  TbsSkinComboBox(Sender).Text := Trim(TbsSkinComboBox(Sender).Text);
-  if Trim(TbsSkinComboBox(Sender).Text) = '' then
+  TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text := Trim(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
+  if Trim(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text) = '' then
     Exit;
-  //if StrToInt(TbsSkinComboBox(Sender).Text) < 10 then
+  //if StrToInt(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text) < 10 then
   //  Exit;
 
-  tag := TbsSkinComboBox(Sender).tag;
+  tag := TComboBox {LAZARUS: TbsSkinComboBox}(Sender).tag;
   if (tag = 1) then
   begin
-    gravaParam('Biblia', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Biblia', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 12) then
   begin
-    gravaParam('Biblia', 'Tamanho Passagem', TbsSkinComboBox(Sender).Text);
+    gravaParam('Biblia', 'Tamanho Passagem', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 2) then
   begin
-    gravaParam('Busca Biblica', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Busca Biblica', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 22) then
   begin
-    gravaParam('Busca Biblica', 'Tamanho Passagem', TbsSkinComboBox(Sender).Text);
+    gravaParam('Busca Biblica', 'Tamanho Passagem', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 3) then
   begin
-    gravaParam('Escola Sabatina', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Escola Sabatina', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('ES');
   end
   else if (tag = 32) then
   begin
-    gravaParam('Escola Sabatina', 'Tamanho 2', TbsSkinComboBox(Sender).Text);
+    gravaParam('Escola Sabatina', 'Tamanho 2', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('ES');
   end
   else if (tag = 4) then
   begin
-    gravaParam('Sorteio', 'Tamanho', FloatToStr(TbsSkinSpinEdit(Sender).Value));
+    gravaParam('Sorteio', 'Tamanho', FloatToStr(TSpinEdit {LAZARUS: TbsSkinSpinEdit}(Sender).Value));
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 5) then
   begin
-    gravaParam('Cronometro', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Cronometro', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 6) then
   begin
-    gravaParam('Sorteio Nomes', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Sorteio Nomes', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 7) then
   begin
-    gravaParam('Painel Dinamico', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Painel Dinamico', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 9) then
   begin
-    gravaParam('Relogio', 'Tamanho', TbsSkinComboBox(Sender).Text);
+    gravaParam('Relogio', 'Tamanho', TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
     carregaConfiguracoes('RELOGIO');
   end;
 end;
@@ -15680,23 +15666,23 @@ end;
 procedure TfmIndex.seTxtITamanhoChange(Sender: TObject);
 var
   tag: Integer;
-  RichEdit:TbsSkinRichEdit;
+  RichEdit:TRichMemo {LAZARUS: TbsSkinRichEdit};
 begin
-  tag := TbsSkinComboBox(Sender).Tag;
-  RichEdit := TbsSkinRichEdit(FindComponent('RichEdit'+inttostr(tag)));
+  tag := TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Tag;
+  RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
 
-  TbsSkinComboBox(Sender).Text := Trim(TbsSkinComboBox(Sender).Text);
-  if Trim(TbsSkinComboBox(Sender).Text) = '' then
+  TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text := Trim(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
+  if Trim(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text) = '' then
     Exit;
 
-  RichEdit.SelAttributes.Size := StrToInt(TbsSkinComboBox(Sender).Text);
+  RichEdit.SelAttributes.Size := StrToInt(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
 end;
 
 procedure TfmIndex.ShowTrackMenu(Sender: TObject);
 var
   tag: integer;
 begin
-  botao_trmenu := TbsSkinMenuSpeedButton(Sender);
+  botao_trmenu := TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender);
   tag := botao_trmenu.tag;
   monitores(tag);
 end;
@@ -15809,136 +15795,136 @@ end;
 
 procedure TfmIndex.btOpcFileNameEditEnter(Sender: TObject);
 var
-  btOpcFileNameEditInfo: TbsSkinFileEdit;
+  btOpcFileNameEditInfo: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
 begin
   if carrega_opc then
     Exit;
 
-  btOpcFileNameEditInfo := TbsSkinFileEdit(FindComponent(TbsSkinFileEdit(Sender).Name + 'Info'));
-  TbsSkinFileEdit(Sender).Text := verificaURL(TbsSkinFileEdit(Sender).Text, btOpcFileNameEditInfo, true);
+  btOpcFileNameEditInfo := TFileNameEdit {LAZARUS: TbsSkinFileEdit}(FindComponent(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Name + 'Info'));
+  TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text := verificaURL(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text, btOpcFileNameEditInfo, true);
 end;
 
 procedure TfmIndex.btOpcFileNameEditExit(Sender: TObject);
 var
   tag: integer;
-  btOpcFileNameEditInfo: TbsSkinFileEdit;
+  btOpcFileNameEditInfo: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
 begin
   if carrega_opc then
     Exit;
 
-  btOpcFileNameEditInfo := TbsSkinFileEdit(FindComponent(TbsSkinFileEdit(Sender).Name + 'Info'));
-  TbsSkinFileEdit(Sender).Text := StringReplace(TbsSkinFileEdit(Sender).Text, '|', '', [rfIgnoreCase, rfReplaceAll]);
-  TbsSkinFileEdit(Sender).Text := verificaURL(TbsSkinFileEdit(Sender).Text, btOpcFileNameEditInfo, false);
+  btOpcFileNameEditInfo := TFileNameEdit {LAZARUS: TbsSkinFileEdit}(FindComponent(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Name + 'Info'));
+  TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text := StringReplace(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text, '|', '', [rfIgnoreCase, rfReplaceAll]);
+  TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text := verificaURL(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text, btOpcFileNameEditInfo, false);
 
-  tag := TbsSkinFileEdit(Sender).tag;
+  tag := TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).tag;
   if (tag = 1) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Biblia', 'Imagem Fundo');
       apagaParam('Biblia', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Biblia', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Biblia', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Biblia', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 2) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Busca Biblica', 'Imagem Fundo');
       apagaParam('Busca Biblica', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Busca Biblica', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Busca Biblica', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Busca Biblica', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 3) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Escola Sabatina', 'Imagem Fundo');
       apagaParam('Escola Sabatina', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Escola Sabatina', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Escola Sabatina', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Escola Sabatina', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('ES');
   end
   else if (tag = 4) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Sorteio', 'Imagem Fundo');
       apagaParam('Sorteio', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Sorteio', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Sorteio', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Sorteio', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 5) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Cronometro', 'Imagem Fundo');
       apagaParam('Cronometro', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Cronometro', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Cronometro', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Cronometro', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 6) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Sorteio Nomes', 'Imagem Fundo');
       apagaParam('Sorteio Nomes', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Sorteio Nomes', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Sorteio Nomes', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Sorteio Nomes', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 7) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Painel Dinamico', 'Imagem Fundo');
       apagaParam('Painel Dinamico', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Painel Dinamico', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Painel Dinamico', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Painel Dinamico', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 9) then
   begin
-    if (TbsSkinFileEdit(Sender).Text = '') then
+    if (TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text = '') then
     begin
       apagaParam('Relogio', 'Imagem Fundo');
       apagaParam('Relogio', 'Imagem Fundo - UrlInfo');
     end
     else
     begin
-      gravaParam('Relogio', 'Imagem Fundo', TbsSkinFileEdit(Sender).Text);
+      gravaParam('Relogio', 'Imagem Fundo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text);
       gravaParam('Relogio', 'Imagem Fundo - UrlInfo', btOpcFileNameEditInfo.Text);
     end;
     carregaConfiguracoes('RELOGIO');
@@ -16039,7 +16025,7 @@ begin
         CopyFile(PChar(arq),PChar(dir_dados+ExtractFileName(arq)),false);
         application.MessageBox('Arquivo importado com sucesso!'+#13#10+'O sistema será reiniciado para que as novas configurações tenham efeito!',TITULO,mb_ok+mb_iconinformation);
 
-        ShellExecute(Handle,'open', PChar(Application.ExeName), nil, nil, SW_SHOWNORMAL);
+        RunCommand(Application.ExeName, [], '') {LAZARUS: ShellExecute→RunCommand};
         Application.Terminate;
       end;
     end;
@@ -16106,16 +16092,16 @@ procedure TfmIndex.inputOpenDialog(Sender: TObject);
 var
   arq: string;
 begin
-  arq := openDialog('arquivo', TbsSkinFileEdit(Sender).Filter,'',False,ExtractFileDir(TbsSkinFileEdit(Sender).Text));
-  if arq <> '' then TbsSkinFileEdit(Sender).Text := arq;
+  arq := openDialog('arquivo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Filter,'',False,ExtractFileDir(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text));
+  if arq <> '' then TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text := arq;
 end;
 
 procedure TfmIndex.inputOpenPictureDialog(Sender: TObject);
 var
   arq: string;
 begin
-  arq := openDialog('imagem', TbsSkinFileEdit(Sender).Filter,'',False,ExtractFileDir(TbsSkinFileEdit(Sender).Text));
-  if arq <> '' then TbsSkinFileEdit(Sender).Text := arq;
+  arq := openDialog('imagem', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Filter,'',False,ExtractFileDir(TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text));
+  if arq <> '' then TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text := arq;
 end;
 
 procedure TfmIndex.usaFontes(usar: boolean);

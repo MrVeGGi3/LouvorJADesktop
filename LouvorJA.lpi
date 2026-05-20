@@ -33,10 +33,10 @@
     </RunParams>
     <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="zeosdbo"/>
+        <PackageName Value="zcomponent"/>
       </Item1>
       <Item2>
-        <PackageName Value="richmemo"/>
+        <PackageName Value="richmemopackage"/>
       </Item2>
       <Item3>
         <PackageName Value="LCL"/>

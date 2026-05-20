@@ -9,7 +9,7 @@ uses
   SysUtils, Classes, ExtCtrls, LCLIntf, LCLType,
   Forms, DB, BufDataset, Dialogs, ImgList, Controls, Menus, ExtDlgs,
   Graphics, StdCtrls,
-  ZConnection, ZQuery, ZDataset,
+  ZConnection, ZDataset,
   FPHTTPClient, opensslsockets,
   base64;
 
@@ -113,10 +113,10 @@ type
     ico_40x40: TImageList; {LAZARUS: TbsPngImageList→TImageList}
     OpenDialog: TOpenDialog;
     OpenPictureDialog: TOpenPictureDialog;
-    OpenTextFileDialog: TOpenTextFileDialog;
+    OpenTextFileDialog: TOpenDialog; {LAZARUS: TOpenTextFileDialog→TOpenDialog}
     ColorDialog: TColorDialog;
     SaveDialog: TSaveDialog;
-    SaveTextFileDialog: TSaveTextFileDialog;
+    SaveTextFileDialog: TSaveDialog; {LAZARUS: TSaveTextFileDialog→TSaveDialog}
     SavePictureDialog: TSavePictureDialog;
     qrARQUIVOS_HELP_DELETE: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     qrARQUIVOS_HELP: TZQuery; {LAZARUS: TFDQuery→TZQuery}
