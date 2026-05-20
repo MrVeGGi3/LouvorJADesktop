@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <PathDelim Value="/"/>
+    <General>
+      <Flags>
+        <MainUnitHasUsesSectionForAllUnits Value="True"/>
+        <MainUnitHasTitleStatement Value="True"/>
+        <MainUnitHasScaledStatement Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="LouvorJA"/>
+      <Scaled Value="True"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="False"/>
+      <XPManifest>
+        <DpiAware Value="True"/>
+      </XPManifest>
+      <Icon Value="0"/>
+    </General>
+    <BuildModes Count="2">
+      <Item1 Name="Debug" Default="True"/>
+      <Item2 Name="Release"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages Count="5">
+      <Item1>
+        <PackageName Value="zeosdbo"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="richmemo"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="IDEIntf"/>
+      </Item5>
+    </RequiredPackages>
+    <Units Count="34">
+      <Unit0>
+        <Filename Value="LouvorJA.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="dmComponentes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DM"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="fmIniciando.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fIniciando"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="fmMenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmIndex"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="fmLetra.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fLetra"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="fmNovaVersao.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fNovaVersao"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="fmAtualiza.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fAtualiza"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="fmHelp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fHelp"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="fmVideoOn.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fVideoOn"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="fmFavoritos.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFavoritos"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="fmMusica.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMusica"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="fmListaMusica.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fListaMusica"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="fmMusicaOperador.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMusicaOperador"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="fmLiturgia.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fLiturgia"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="fmArquivosFalta.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fArquivosFalta"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="fmBuscaMusica.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fBuscaMusica"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="fmArquivosExcesso.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fArquivosExcesso"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="fmItensAgendados.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fItensAgendados"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="fmFormatacao.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFormatacao"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="fmEditorSlides.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fEditorSlides"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="fmPlayer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fPlayer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="fmTransmitir.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTransmitir"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="fmMusicaRetorno.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMusicaRetorno"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="fmMonitorRelogio.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorRelogio"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="fmMonitorTextoInterativo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorTextoInterativo"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="fmMonitorPainelDinamico.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorPainelDinamico"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="fmMonitorCronometro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorCronometro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="fmMonitorSorteioNomes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorSorteioNomes"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="fmMonitorSorteio.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorSorteio"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="fmMonitorCronometroCulto.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorCronometroCulto"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="fmMonitorBibliaBusca.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorBibliaBusca"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="fmMonitorBiblia.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorBiblia"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="fmMonitorMenuMusicas.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMonitorMenuMusicas"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="fmIdentificaMonitores.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fIdentificaMonitores"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit33>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="/"/>
+    <Target>
+      <Filename Value="LouvorJA"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="components/bass24/delphi"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Linking>
+      <Options>
+        <LinkerOptions Value="-L/usr/local/lib"/>
+        <Win32>
+          <GraphicApp Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-dLCL -dLCLgtk2"/>
+    </Other>
+  </CompilerOptions>
+  <BuildModes>
+    <Item Name="Debug" Default="True"/>
+    <Item Name="Release">
+      <CompilerOptions>
+        <Version Value="11"/>
+        <PathDelim Value="/"/>
+        <Target>
+          <Filename Value="LouvorJA"/>
+        </Target>
+        <SearchPaths>
+          <IncludeFiles Value="$(ProjOutDir)"/>
+          <OtherUnitFiles Value="components/bass24/delphi"/>
+          <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        </SearchPaths>
+        <CodeGeneration>
+          <OptimizationLevel Value="2"/>
+        </CodeGeneration>
+        <Linking>
+          <Debugging>
+            <GenerateDebugInfo Value="False"/>
+            <UseExternalDbgSyms Value="False"/>
+          </Debugging>
+          <Options>
+            <LinkerOptions Value="-L/usr/local/lib"/>
+          </Options>
+        </Linking>
+        <Other>
+          <CustomOptions Value="-dLCL -dLCLgtk2"/>
+        </Other>
+      </CompilerOptions>
+    </Item>
+  </BuildModes>
+</CONFIG>

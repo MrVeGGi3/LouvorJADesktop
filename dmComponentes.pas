@@ -3,19 +3,15 @@ unit dmComponentes;
 interface
 
 uses
-  System.SysUtils, System.Classes, Vcl.ExtCtrls, bsSkinExCtrls,
-  Windows, Forms, Data.Win.ADODB, Data.DB, Datasnap.DBClient, IdCoder,
-  IdCoder3to4, IdCoderMIME, IdBaseComponent, IdComponent, IdTCPConnection,
-  IdTCPClient, IdHTTP, bsDialogs, bsSkinShellCtrls,
-  bsPngImageList, System.ImageList, Vcl.ImgList, Vcl.Controls, bsSkinData,
-  Vcl.Menus, Vcl.ExtDlgs, Vcl.Dialogs, Graphics, IdIOHandler, IdIOHandlerSocket,
-  IdIOHandlerStack, IdSSL, IdSSLOpenSSL, Data.DBXMySQL, Data.FMTBcd,
-  Datasnap.Provider, Data.SqlExpr, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.UI.Intf,
-  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  FireDAC.Comp.Client, FireDAC.Comp.DataSet, FireDAC.Phys.SQLite,
-  FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs;
+  {LAZARUS: removidos FireDAC.*, Datasnap.*, Data.Win.ADODB, bsSkin*, Vcl.*, Windows, Indy}
+  {LAZARUS: TFDConnection→TZConnection, TFDQuery→TZQuery, TClientDataSet→TBufDataset}
+  {LAZARUS: TIdHTTP→TFPHTTPClient, TbsPngImageList→TImageList, skin dialogs→LCL dialogs}
+  SysUtils, Classes, ExtCtrls, LCLIntf, LCLType,
+  Forms, DB, BufDataset, Dialogs, ImgList, Controls, Menus, ExtDlgs,
+  Graphics, StdCtrls,
+  ZConnection, ZQuery, ZDataset,
+  FPHTTPClient, opensslsockets,
+  base64;
 
 type
   TDM = class(TDataModule)
@@ -27,51 +23,51 @@ type
     tmrSorteio: TTimer;
     tmrCrono: TTimer;
     tmrMediaPlayer: TTimer;
-    qrALBUNS: TFDQuery;
-    qrMUSICA: TFDQuery;
-    qrSEL_MUSICAS_IDMUS: TFDQuery;
-    qrONL_CANAIS: TFDQuery;
-    ADOQuery: TFDQuery;
-    qrLETRA_MUSICA: TFDQuery;
-    qrONL_PLAYLISTS_TUDO: TFDQuery;
-    qrONL_VIDEOS_TUDO: TFDQuery;
-    qrHINOS_LITURGIA: TFDQuery;
-    qrSEL_COLETANEAS_ID: TFDQuery;
-    qrVERSAO: TFDQuery;
-    qrMUSICAS_INFANTIS: TFDQuery;
-    qrSLIDE_MUSICA_ALBUM: TFDQuery;
-    qrONL_PLAYLISTS: TFDQuery;
-    qrBIBLIA_LIVROS: TFDQuery;
-    qrHINOS: TFDQuery;
-    qrBIBLIA_VERSAO: TFDQuery;
-    qrDOXOLOGIA_CATE: TFDQuery;
-    qrLETRA: TFDQuery;
-    qrBUSCA_MAX_CAPITULOS: TFDQuery;
-    qrSLIDE_MUSICA_GRAVA: TFDQuery;
-    qrONL_VIDEOS: TFDQuery;
-    qrBUSCA_MAX_VERSOS: TFDQuery;
-    qrBUSCA: TFDQuery;
-    qrMUSICAS: TFDQuery;
-    qrSLIDE_MUSICA_TEMPOS: TFDQuery;
-    qrSLIDE_MUSICA: TFDQuery;
-    ADO: TFDConnection;
-    cdsVideosOnPerso: TClientDataSet;
+    qrALBUNS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrMUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSEL_MUSICAS_IDMUS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrONL_CANAIS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    ADOQuery: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrLETRA_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrONL_PLAYLISTS_TUDO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrONL_VIDEOS_TUDO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrHINOS_LITURGIA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSEL_COLETANEAS_ID: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrVERSAO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrMUSICAS_INFANTIS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSLIDE_MUSICA_ALBUM: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrONL_PLAYLISTS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBIBLIA_LIVROS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrHINOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBIBLIA_VERSAO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrDOXOLOGIA_CATE: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrLETRA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBUSCA_MAX_CAPITULOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSLIDE_MUSICA_GRAVA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrONL_VIDEOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBUSCA_MAX_VERSOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBUSCA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrMUSICAS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSLIDE_MUSICA_TEMPOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSLIDE_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    ADO: TZConnection; {LAZARUS: TFDConnection→TZConnection}
+    cdsVideosOnPerso: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     StringField3: TStringField;
     StringField5: TStringField;
     StringField7: TStringField;
     cdsVideosOnPersoVIDEOID: TStringField;
-    cdsFavoritos: TClientDataSet;
+    cdsFavoritos: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     StringField6: TStringField;
     cdsFavoritosNOME: TStringField;
     cdsFavoritosNOME_ABA: TStringField;
     cdsFavoritosIMAGEM: TIntegerField;
     cdsFavoritosORDEM: TIntegerField;
-    cdsSLIDE_MUSICA2: TClientDataSet;
-    cdsItensAgendadosClone: TClientDataSet;
-    cdsSLIDE_MUSICA: TClientDataSet;
-    cdsItensAgendados: TClientDataSet;
-    cdsCategoriasItensAgendados: TClientDataSet;
-    cdsCOLETANEAS_PERSO: TClientDataSet;
+    cdsSLIDE_MUSICA2: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
+    cdsItensAgendadosClone: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
+    cdsSLIDE_MUSICA: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
+    cdsItensAgendados: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
+    cdsCategoriasItensAgendados: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
+    cdsCOLETANEAS_PERSO: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     cdsCOLETANEAS_PERSOID: TStringField;
     cdsCOLETANEAS_PERSONOME: TStringField;
     cdsCOLETANEAS_PERSOURL_INFO: TStringField;
@@ -95,14 +91,12 @@ type
     dsBUSCA: TDataSource;
     dsCategoriasItensAgendados: TDataSource;
     dsBD: TDataSource;
-    IdDecoderMIME: TIdDecoderMIME;
-    IdEncoderMIME: TIdEncoderMIME;
-    IdHTTP1: TIdHTTP;
-    DirectoryDialog: TbsSkinSelectDirectoryDialog;
-    SaveDialog_: TbsSkinSaveDialog;
-    progressDialog: TbsSkinProgressDialog;
-    bsSkinData1: TbsSkinData;
-    bsCompressedSkinList1: TbsCompressedSkinList;
+    {LAZARUS: TIdDecoderMIME/TIdEncoderMIME removidos — usar base64 unit diretamente}
+    FHttp: TFPHTTPClient; {LAZARUS: TIdHTTP→TFPHTTPClient}
+    DirectoryDialog: TSelectDirectoryDialog; {LAZARUS: TbsSkinSelectDirectoryDialog→TSelectDirectoryDialog}
+    SaveDialog_: TSaveDialog; {LAZARUS: TbsSkinSaveDialog→TSaveDialog}
+    {LAZARUS: progressDialog (TbsSkinProgressDialog) removido — usar FDownloadProgress/FDownloadTotal}
+    {LAZARUS: bsSkinData1+bsCompressedSkinList1 removidos — sem equivalente necessário}
     imCapas: TImageList;
     ico_janela_hot: TImageList;
     ico_albuns: TImageList;
@@ -113,10 +107,10 @@ type
     ico_on_playlists: TImageList;
     ico_doxologia: TImageList;
     ico_on_videos: TImageList;
-    ico_16x16: TbsPngImageList;
-    ico_64x64: TbsPngImageList;
-    ico_24x24: TbsPngImageList;
-    ico_40x40: TbsPngImageList;
+    ico_16x16: TImageList; {LAZARUS: TbsPngImageList→TImageList}
+    ico_64x64: TImageList; {LAZARUS: TbsPngImageList→TImageList}
+    ico_24x24: TImageList; {LAZARUS: TbsPngImageList→TImageList}
+    ico_40x40: TImageList; {LAZARUS: TbsPngImageList→TImageList}
     OpenDialog: TOpenDialog;
     OpenPictureDialog: TOpenPictureDialog;
     OpenTextFileDialog: TOpenTextFileDialog;
@@ -124,16 +118,16 @@ type
     SaveDialog: TSaveDialog;
     SaveTextFileDialog: TSaveTextFileDialog;
     SavePictureDialog: TSavePictureDialog;
-    qrARQUIVOS_HELP_DELETE: TFDQuery;
-    qrARQUIVOS_HELP: TFDQuery;
-    qrBD: TFDQuery;
+    qrARQUIVOS_HELP_DELETE: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrARQUIVOS_HELP: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBD: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     tmrBusca: TTimer;
-    PasswordDialog: TbsSkinPasswordDialog;
-    qrBIBLIA_CAPITULOS: TFDQuery;
+    {LAZARUS: PasswordDialog (TbsSkinPasswordDialog) removido — usar InputQuery diretamente}
+    qrBIBLIA_CAPITULOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsBIBLIA_CAPITULOS: TDataSource;
-    qrBIBLIA_VERSICULOS: TFDQuery;
+    qrBIBLIA_VERSICULOS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsBIBLIA_VERSICULOS: TDataSource;
-    cdsBIBLIA_HISTORICO: TClientDataSet;
+    cdsBIBLIA_HISTORICO: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     dsBIBLIA_HISTORICO: TDataSource;
     cdsBIBLIA_HISTORICOVERSAO: TStringField;
     cdsBIBLIA_HISTORICOLIVRO: TIntegerField;
@@ -142,47 +136,47 @@ type
     cdsBIBLIA_HISTORICODATAHORA: TDateTimeField;
     cdsBIBLIA_HISTORICOID: TStringField;
     cdsBIBLIA_HISTORICOBRANCO: TStringField;
-    qrBIBLIA_BUS_LIVROS: TFDQuery;
+    qrBIBLIA_BUS_LIVROS: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsBIBLIA_BUSCA: TDataSource;
-    qrBIBLIA_BUSCA: TFDQuery;
-    qrBIBLIA_VERSAO_2: TFDQuery;
+    qrBIBLIA_BUSCA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBIBLIA_VERSAO_2: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsBIBLIA_VERSAO_2: TDataSource;
-    pwd: TbsSkinPasswordDialog;
+    {LAZARUS: pwd (TbsSkinPasswordDialog) removido — usar InputQuery diretamente}
     cdsBIBLIA_HISTORICOVERSICULO: TStringField;
     cdsBIBLIA_HISTORICODESC_PASSAGEM: TStringField;
-    qrALBUM_ATIV: TFDQuery;
+    qrALBUM_ATIV: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsALBUM_ATIV: TDataSource;
-    qrDEL_ALBUM_IGNORAR: TFDQuery;
-    qrADD_ALBUM_IGNORAR: TFDQuery;
-    qrALBUM_INATIV: TFDQuery;
+    qrDEL_ALBUM_IGNORAR: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrADD_ALBUM_IGNORAR: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrALBUM_INATIV: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsALBUM_INATIV: TDataSource;
-    qrARQUIVOS_SISTEMA: TFDQuery;
-    qrGRAVA_TAMANHO_ARQUIVO: TFDQuery;
-    qrINSERE_LETRA_MUSICA: TFDQuery;
-    cdsArquivos: TClientDataSet;
+    qrARQUIVOS_SISTEMA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrGRAVA_TAMANHO_ARQUIVO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrINSERE_LETRA_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    cdsArquivos: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     dsArquivos: TDataSource;
     tmrPlayer: TTimer;
-    qrALTERA_LETRA_MUSICA: TFDQuery;
-    qrSELECT_LETRA_MUSICA: TFDQuery;
-    qrINSERE_MUSICA: TFDQuery;
-    qrSELECT_MAX_MUSICA: TFDQuery;
-    qrINSERE_MUSICA_ALBUM: TFDQuery;
-    ico_flags: TbsPngImageList;
-    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
-    qrHINOSN: TFDQuery;
+    qrALTERA_LETRA_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSELECT_LETRA_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrINSERE_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrSELECT_MAX_MUSICA: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrINSERE_MUSICA_ALBUM: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    ico_flags: TImageList; {LAZARUS: TbsPngImageList→TImageList}
+    {LAZARUS: TIdSSLIOHandlerSocketOpenSSL removido — SSL via opensslsockets (FPHTTPClient)}
+    qrHINOSN: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     dsHINOSN: TDataSource;
-    qrMUSICA_ATUALIZAR: TFDQuery;
-    qrALBUM_IGNORAR: TFDQuery;
-    cdsCOLETANEAS_PERSO_IMP: TClientDataSet;
+    qrMUSICA_ATUALIZAR: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrALBUM_IGNORAR: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    cdsCOLETANEAS_PERSO_IMP: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     StringField1: TStringField;
     StringField2: TStringField;
     StringField4: TStringField;
     StringField8: TStringField;
     StringField9: TStringField;
     StringField10: TStringField;
-    qrDEL_COLETANEAS_PERSO: TFDQuery;
-    qrADD_COLETANEAS_PERSO: TFDQuery;
-    cdsMonitores: TClientDataSet;
+    qrDEL_COLETANEAS_PERSO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrADD_COLETANEAS_PERSO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    cdsMonitores: TBufDataset; {LAZARUS: TClientDataSet→TBufDataset}
     StringField11: TStringField;
     cdsMonitoresTOP: TIntegerField;
     cdsMonitoresWIDTH: TIntegerField;
@@ -191,8 +185,8 @@ type
     cdsMonitoresLEFT: TIntegerField;
     dsMonitores: TDataSource;
     cdsMonitoresX: TStringField;
-    qrBUSCA_VERSAO: TFDQuery;
-    qrBUSCA_VERSAO_1: TFDQuery;
+    qrBUSCA_VERSAO: TZQuery; {LAZARUS: TFDQuery→TZQuery}
+    qrBUSCA_VERSAO_1: TZQuery; {LAZARUS: TFDQuery→TZQuery}
     procedure tmrSortearTimer(Sender: TObject);
     procedure tmrSortearNMTimer(Sender: TObject);
     procedure tmrSorteioTimer(Sender: TObject);
@@ -203,18 +197,20 @@ type
     procedure tmrVersaoTimer(Sender: TObject);
     procedure ClientDataSetSaveToFile(DataSet: TDataSet);
     procedure progressDialogCancel(Sender: TObject);
-    procedure IdHTTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode;
-      AWorkCountMax: Int64);
-    procedure IdHTTP1Work(ASender: TObject; AWorkMode: TWorkMode;
-      AWorkCount: Int64);
+    procedure HttpWorkBegin(TotalBytes: Int64); {LAZARUS: TIdHTTP.OnWorkBegin→HttpWorkBegin}
+    procedure HttpWork(CurrentBytes: Int64); {LAZARUS: TIdHTTP.OnWork→HttpWork}
     procedure ppVideosOnPersoPopup(Sender: TObject);
     procedure bsPopupMenuFavoritosPopup(Sender: TObject);
     procedure tmrBuscaTimer(Sender: TObject);
     procedure tmrPlayerTimer(Sender: TObject);
   private
-    { Private declarations }
+    FDownloadProgress: Int64; {LAZARUS: substitui progressDialog.Value}
+    FDownloadTotal: Int64; {LAZARUS: substitui progressDialog.MaxValue}
+    FDownloadCanceled: Boolean;
   public
-    { Public declarations }
+    property DownloadProgress: Int64 read FDownloadProgress;
+    property DownloadTotal: Int64 read FDownloadTotal;
+    property DownloadCanceled: Boolean read FDownloadCanceled write FDownloadCanceled;
   end;
 
 var
@@ -222,13 +218,14 @@ var
 
 implementation
 
-{%CLASSGROUP 'Vcl.Controls.TControl'}
+{%CLASSGROUP 'Controls.TControl'} {LAZARUS: removido prefixo Vcl.}
 
 uses fmMenu, fmArquivosFalta, fmHelp, fmIniciando, fmTransmitir,
   fmMonitorRelogio, fmMonitorCronometro, fmMonitorSorteioNomes,
-  fmMonitorSorteio, fmMonitorCronometroCulto;
+  fmMonitorSorteio, fmMonitorCronometroCulto,
+  bass; {LAZARUS: BASS audio — BASS_ChannelGetPosition, BASS_ChannelGetLength, BASS_ChannelStop}
 
-{$R *.dfm}
+{$R *.lfm} {LAZARUS: .dfm→.lfm}
 
 procedure TDM.bsPopupMenuFavoritosPopup(Sender: TObject);
 begin
@@ -252,28 +249,29 @@ begin
   else if nome = 'cdsVideosOnPerso'
     then arquivo := fmIndex.dir_dados + 'videosOnUsuario.xml';
 
-  TClientDataSet(FindComponent(nome)).MergeChangeLog;
-  TClientDataSet(FindComponent(nome)).SaveToFile(arquivo);
+  {LAZARUS: MergeChangeLog removido — TBufDataset confirma edições automaticamente no SaveToFile}
+  TBufDataset(FindComponent(nome)).SaveToFile(arquivo);
 
   if nome = 'cdsItensAgendados'
     then cdsItensAgendadosClone.LoadFromFile(arquivo);
 end;
 
-procedure TDM.IdHTTP1Work(ASender: TObject; AWorkMode: TWorkMode;
-  AWorkCount: Int64);
+procedure TDM.HttpWork(CurrentBytes: Int64);
+{LAZARUS: ex-IdHTTP1Work — chamado manualmente durante download com FPHTTPClient}
 begin
-  if AWorkCount >= progressDialog.MaxValue then
-    progressDialog.MaxValue := AWorkCount + 1;
-
-  progressDialog.Value := AWorkCount;
-  fmIndex.Buffer := AWorkCount;
+  if CurrentBytes >= FDownloadTotal then
+    FDownloadTotal := CurrentBytes + 1;
+  FDownloadProgress := CurrentBytes;
+  fmIndex.Buffer := CurrentBytes;
 end;
 
-procedure TDM.IdHTTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode;
-  AWorkCountMax: Int64);
+procedure TDM.HttpWorkBegin(TotalBytes: Int64);
+{LAZARUS: ex-IdHTTP1WorkBegin — chamado antes de iniciar download com FPHTTPClient}
 begin
-  if (AWorkCountMax > 0) then
-    progressDialog.MaxValue := AWorkCountMax;
+  if TotalBytes > 0 then
+    FDownloadTotal := TotalBytes;
+  FDownloadProgress := 0;
+  FDownloadCanceled := False;
 end;
 
 procedure TDM.ppVideosOnPersoPopup(Sender: TObject);
@@ -291,9 +289,10 @@ begin
 end;
 
 procedure TDM.progressDialogCancel(Sender: TObject);
+{LAZARUS: progressDialog removido — sinaliza cancelamento via FDownloadCanceled}
 begin
-  if progressDialog.Value < progressDialog.MaxValue then
-    progressDialog.Execute;
+  if FDownloadProgress < FDownloadTotal then
+    FDownloadCanceled := True;
 end;
 
 procedure TDM.tmrBuscaTimer(Sender: TObject);
@@ -353,7 +352,7 @@ begin
         if tsCronometro.TabVisible = false then
           abrePagina(tsCronometro);
         PageControl1.ActivePage := tsCronometro;
-        //application.messagebox('Tempo esgotado!', PChar(TITULO + ' - Cron�metro'), mb_ok + mb_iconinformation);
+        //application.messagebox('Tempo esgotado!', PChar(TITULO + ' - Cron�metro'), mb_ok + mb_iconinformation);
         btZerarCrono.Tag := 1;
         btZerarCronoClick(Sender);
       end;
@@ -362,13 +361,15 @@ begin
 end;
 
 procedure TDM.tmrMediaPlayerTimer(Sender: TObject);
+{LAZARUS: TMediaPlayer.mpMusica→BASS — posição verificada via BASS_ChannelGetPosition}
 begin
   with fmIndex do
   begin
     try
-      if (mpMusica.Position >= mpMusica.Length) then
+      if (BASS_ChannelGetPosition(BassPreviewChannel, BASS_POS_BYTE) >=
+          BASS_ChannelGetLength(BassPreviewChannel, BASS_POS_BYTE)) then
       begin
-        mpMusica.Stop;
+        BASS_ChannelStop(BassPreviewChannel);
         btOuvir.Caption := 'Ouvir';
         btOuvir.Down := False;
         btOuvir.ImageIndex := 7;
@@ -384,10 +385,15 @@ begin
 end;
 
 procedure TDM.tmrPlayerTimer(Sender: TObject);
+{LAZARUS: TMediaPlayer.MediaPlayer1→BASS — PlayerStream declarado em fmMenu}
+var
+  Pos, Len: QWORD;
 begin
-  fmIndex.pbPlayer.Value := fmIndex.MediaPlayer1.Position;
-  if fmIndex.MediaPlayer1.Position >= fmIndex.MediaPlayer1.Length
-    then fmIndex.btplFecharClick(Sender);
+  Pos := BASS_ChannelGetPosition(fmIndex.PlayerStream, BASS_POS_BYTE);
+  Len := BASS_ChannelGetLength(fmIndex.PlayerStream, BASS_POS_BYTE);
+  fmIndex.pbPlayer.Position := Pos;
+  if (Len > 0) and (Pos >= Len) then
+    fmIndex.btplFecharClick(Sender);
 end;
 
 procedure TDM.tmrRelogioTimer(Sender: TObject);
@@ -444,7 +450,7 @@ end;
 procedure TDM.tmrSortearNMTimer(Sender: TObject);
 var
   sorteado: string;
-  Item: TbsSkinOfficeItem;
+  {LAZARUS: TbsSkinOfficeItem removido — TCheckListBox usa Items.Insert(idx, caption)}
 begin
   with fmIndex do
   begin
@@ -464,11 +470,10 @@ begin
       lmdSorteioNM.Caption := sorteado;
 
       lbSorteioNM.ItemIndex := StrToInt(vlSorteioNM.Strings.Values[sorteado]);
-      lbSorteioNM.Items[lbSorteioNM.ItemIndex].Checked := True;
+      lbSorteioNM.Checked[lbSorteioNM.ItemIndex] := True; {LAZARUS: Items[i].Checked→Checked[i]}
       lbSorteioNMItemCheckClick(Sender);
 
-      Item := lbSorteadoNM.Items.Insert(0);
-      Item.Caption := sorteado;
+      lbSorteadoNM.Items.Insert(0, sorteado); {LAZARUS: TbsSkinOfficeItem.Insert→Items.Insert(idx,caption)}
 
       SorteioContador();
       gSorteioNM.Value := gSorteioNM.MaxValue;
@@ -513,7 +518,7 @@ end;
 procedure TDM.tmrSortearTimer(Sender: TObject);
 var
   sorteado: string;
-  Item: TbsSkinOfficeItem;
+  {LAZARUS: TbsSkinOfficeItem removido — TCheckListBox usa Items.Insert(idx, caption)}
 begin
   with fmIndex do
   begin
@@ -532,11 +537,10 @@ begin
       lmdSorteio.Caption := sorteado;
 
       lbSorteio.ItemIndex := StrToInt(vlSorteio.Strings.Values[sorteado]);
-      lbSorteio.Items[lbSorteio.ItemIndex].Checked := True;
+      lbSorteio.Checked[lbSorteio.ItemIndex] := True; {LAZARUS: Items[i].Checked→Checked[i]}
       lbSorteioItemCheckClick(Sender);
 
-      Item := lbSorteado.Items.Insert(0);
-      Item.Caption := sorteado;
+      lbSorteado.Items.Insert(0, sorteado); {LAZARUS: TbsSkinOfficeItem.Insert→Items.Insert(idx,caption)}
 
       SorteioContador();
       gSorteio.Value := gSorteio.MaxValue;
