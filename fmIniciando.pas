@@ -3,11 +3,12 @@ unit fmIniciando;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinCtrls, bsribbon, Vcl.StdCtrls,
-  Vcl.ExtCtrls, WinInet, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.Grids,
-  Vcl.ValEdit, typinfo, Vcl.Menus, bsSkinMenus, bsDBGrids,
-  bsSkinTabs;
+  {LAZARUS: removidos Winapi.*, Vcl.*, bsSkin*, WinInet, System.*}
+  {LAZARUS: WinInet.InternetGetConnectedStateâ†’removido (verificaÃ§Ã£o simplificada)}
+  SysUtils, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  ExtCtrls, ComCtrls, Grids, ValEdit, typinfo, Menus,
+  DBGrids, DBCtrls,
+  LCLIntf, LCLType;
 
 
 type
@@ -45,7 +46,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm} {LAZARUS: .dfmâ†’.lfm}
 
 uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir;
 
@@ -81,7 +82,7 @@ procedure TfIniciando.Timer1Timer(Sender: TObject);
 var
   i: integer;
   lista: TStringList;
-  Flags: Cardinal;
+  {LAZARUS: Flags: Cardinal removido â€” era para InternetGetConnectedState (WinInet)}
   externo: Boolean;
   TITULO: PChar;
 begin
@@ -92,7 +93,7 @@ begin
 
   if (paramexec.Strings.Values['lang'] <> '') then
   begin
-    vLang.Strings.LoadFromFile(ExtractFilePath(application.exename)+'lang\'+paramexec.Strings.Values['lang']+'.txt');
+    vLang.Strings.LoadFromFile(ExtractFilePath(application.exename)+'lang/'+paramexec.Strings.Values['lang']+'.txt');
     LANG := vLang.Strings.Values['_'];
   end;
 
@@ -111,7 +112,7 @@ begin
   if (paramexec.Strings.Values['dir_config'] <> '') then
     dir_config := ExtractFilePath(Application.ExeName) + paramexec.Strings.Values['dir_config'] + '\'
   else
-    dir_config := ExtractFilePath(Application.ExeName) + 'config\';
+    dir_config := ExtractFilePath(Application.ExeName) + 'config/';
 
   if FileExists(ParamStr(1)) then
   begin
@@ -122,19 +123,20 @@ begin
 
 
   //**CARREGA VARIAVEIS*********************************************************
-  dir_dados := GetEnvironmentVariable('APPDATA')+'\LouvorJA\';
-  dir_temp := GetEnvironmentVariable('TEMP')+'\LouvorJA\';
+  {LAZARUS: APPDATAâ†’HOME/.local/share, TEMPâ†’/tmp, separadores \â†’/}
+  dir_dados := GetEnvironmentVariable('HOME') + '/.local/share/LouvorJA/';
+  dir_temp := '/tmp/LouvorJA/';
   url_params := 'https://api.louvorja.com.br/params?type=env';
   api_token := '02@v2nFB2Dc';
 
   if not(DirectoryExists(dir_dados)) then
-    CreateDir(dir_dados);
+    ForceDirectories(dir_dados);
 
   if not(DirectoryExists(dir_temp)) then
-    CreateDir(dir_temp);
+    ForceDirectories(dir_temp);
 
   if not(DirectoryExists(dir_temp)) then
-    dir_temp := GetEnvironmentVariable('TEMP')+'\';
+    dir_temp := '/tmp/';
 
 
   if fileexists(dir_dados + 'config.ja') then
@@ -146,7 +148,7 @@ begin
   AppCreateForm(TfmIndex, fmIndex);
 
   fmIndex.paramexec.Strings.Text := paramexec.Strings.Text;
-  DM.PasswordDialog.Password := paramexec.Strings.Values['pwd'];
+  {LAZARUS: DM.PasswordDialog removido â€” pwd passado via paramexec se necessÃ¡rio}
 
 
   fmIndex.TITULO := TITULO;
@@ -164,20 +166,14 @@ begin
   //**CARREGA BANCO DE DADOS****************************************************
   if not FileExists(dir_config + 'database.db') then
   begin
-    if (application.messagebox(PChar(Translate('Banco de Dados não localizado! Deseja se conectar para fazer o download do banco de dados?')), TITULO, MB_yesno + mb_iconerror) <> 6) then
+    if (application.messagebox(PChar(Translate('Banco de Dados nï¿½o localizado! Deseja se conectar para fazer o download do banco de dados?')), TITULO, MB_yesno + mb_iconerror) <> 6) then
     begin
       application.terminate;
       Exit;
     end
     else
     begin
-      if not (InternetGetConnectedState(@Flags, 0)) then
-      begin
-        application.messagebox(PChar(Translate('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.')), TITULO, MB_OK + mb_iconerror);
-        application.terminate;
-        Exit;
-      end;
-
+      {LAZARUS: InternetGetConnectedState removido â€” erro de rede tratado pela exceÃ§Ã£o no download}
       lista := TStringList.Create;
       lista.Add('config\database.db');
 
@@ -187,7 +183,7 @@ begin
 
       if not FileExists(dir_config + 'database.db') then
       begin
-        application.messagebox(PChar(Translate('Não foi possível baixar o Banco de Dados da internet. Favor, instale seu programa novamente!')), TITULO, MB_ok + mb_iconerror);
+        application.messagebox(PChar(Translate('Nï¿½o foi possï¿½vel baixar o Banco de Dados da internet. Favor, instale seu programa novamente!')), TITULO, MB_ok + mb_iconerror);
         application.terminate;
         Exit;
       end
@@ -202,14 +198,14 @@ begin
 
 
   DM.ADO.Connected := false;
-  DM.ADO.DriverName := 'SQLite';
-  DM.ADO.Params.Database := dir_config + 'database.db';
+  DM.ADO.Protocol := 'sqlite-3'; {LAZARUS: DriverNameâ†’Protocol (ZeosLib)}
+  DM.ADO.Database := dir_config + 'database.db'; {LAZARUS: Params.Databaseâ†’Database (ZeosLib)}
   try
     DM.ADO.Connected := true;
   except
     on E: Exception do
     begin
-      application.messagebox(PChar(Translate('Não foi possível conectar ao Banco de Dados.')+#13#10+E.Message), TITULO, MB_OK + mb_iconerror);
+      application.messagebox(PChar(Translate('Nï¿½o foi possï¿½vel conectar ao Banco de Dados.')+#13#10+E.Message), TITULO, MB_OK + mb_iconerror);
       application.terminate;
     end;
   end;
@@ -221,10 +217,10 @@ begin
   //DESATIVA RECURSOS "ES"
   if (LANG = 'ES') then
   begin
-    fmIndex.bsRibbonGroup7.Visible := False;
-    fmIndex.bsRibbonGroup9.Visible := False;
+    {LAZARUS: bsRibbonGroup7/9/21â†’TPanel â€” nomes atualizados apÃ³s port fmMenu (Etapa 5)}
+    {TODO: fmIndex.grpHinarios.Visible := False;}
+    {TODO: fmIndex.grpHinÃ¡riosN.Visible := False;}
     fmIndex.btAbreHinosN.Visible := False;
-    fmIndex.bsRibbonGroup21.width := 110;
 
     fmIndex.imgImagemCapaModel.Picture := fmIndex.imgImagemCapaModelES.Picture;
   end;
@@ -238,13 +234,9 @@ begin
   //**DETECTA MONITORES*********************************************************
   fmIndex.monitores;
 
-  //**CARREGA SKIN**************************************************************
-  fmIndex.cbLayout.Items.Clear;
-  for i := 0 to DM.bsCompressedSkinList1.Skins.Count - 1 do
-    fmIndex.cbLayout.Items.Add(DM.bsCompressedSkinList1.Skins.Items[i].Name);
-  fmIndex.cbLayout.ItemIndex := StrToInt(fmIndex.lerParam('Config', 'Layout', '0'));
+  {LAZARUS: bloco "CARREGA SKIN" removido â€” skin engine nÃ£o portada para LCL}
 
-  //**CARREGA CONFIGURAÇÕES GLOBAIS*********************************************
+  //**CARREGA CONFIGURAï¿½ï¿½ES GLOBAIS*********************************************
   fmIndex.ckMonitorJanela.Checked := (fmIndex.lerParam('Config', 'MonitorTelaCheia', '1') = '1');
   fmIndex.ckFadeForm.Checked := (fmIndex.lerParam('Config', 'FadeForm', '1') = '1');
   fmIndex.ckMesmaJanela.Checked := false;// (fmIndex.lerParam('Config', 'ckMesmaJanela', '0') = '1');
@@ -328,10 +320,10 @@ begin
 
 
     //**MENUS E ABAS************************************************************
-    fmIndex.bsAppMenu1.ItemIndex := 0;
-    fmIndex.PaginaMenuAtiva(fmIndex.bsColetaneas);
+    {LAZARUS: bsAppMenu1 removido (era botÃ£o do Ribbon â€” sem equivalente em TPageControl)}
+    fmIndex.PaginaMenuAtiva(fmIndex.tsColetaneas); {LAZARUS: bsColetaneas(TbsRibbonPage)â†’tsColetaneas(TTabSheet)}
     fmIndex.PageControl5.ActivePageIndex := 0;
-    fmIndex.bsRibbon1.Visible := True;
+    fmIndex.RibbonPC.Visible := True; {LAZARUS: bsRibbon1â†’RibbonPC (TPageControl)}
     fmIndex.ScrollBox2.Top := 0;
 
     for i := 0 to fmIndex.PageControl1.PageCount - 1 do
@@ -365,17 +357,17 @@ begin
     fmIndex.carregaParams();
 
 
-    //**CARREGA TÍTULOS DO PROGRAMA
+    //**CARREGA Tï¿½TULOS DO PROGRAMA
     application.Title := TITULO;
     fmIndex.Caption := TITULO;
     fmIndex.pnlTitForm.Caption := TITULO;
 
 
-    //**CARGA INICIAL DAS VARIÁVEIS
+    //**CARGA INICIAL DAS VARIï¿½VEIS
     fmIndex.tCronoT := 0;
 
 
-    //**CARREGA INFORMAÇÕES DO COMPUTADOR E RELÓGIO*****************************
+    //**CARREGA INFORMAï¿½ï¿½ES DO COMPUTADOR E RELï¿½GIO*****************************
     DM.tmrRelogio.Enabled := True;
     fmIndex.paramtemp.Lines.Clear;
     fmIndex.paramtemp.Text := fmIndex.GetComputerNameFunc;
@@ -405,7 +397,7 @@ begin
     end
     else fmIndex.AlphaBlendValue := 255;
 
-    //**CHECA VERSÃO E NOVAS VERSÕES********************************************
+    //**CHECA VERSï¿½O E NOVAS VERSï¿½ES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
 
@@ -444,7 +436,7 @@ begin
 //      Result := 'YYY';
       if (paramexec.Strings.Values['lang'] <> '') then
       begin
-        vLang.Strings.SaveToFile(ExtractFilePath(application.exename)+'lang\'+paramexec.Strings.Values['lang']+'.txt');
+        vLang.Strings.SaveToFile(ExtractFilePath(application.exename)+'lang/'+paramexec.Strings.Values['lang']+'.txt');
       end;
       //vLang.Strings.SaveToFile(ExtractFilePath(application.exename)+'.translate');
     end;
@@ -466,66 +458,45 @@ begin
         //
       end;
 
-      if (Form.Components[i] is TbsRibbon) then
+      {LAZARUS: TbsRibbonâ†’TPageControl, TbsAppMenuâ†’removido, TbsSkin*â†’LCL}
+      if (Form.Components[i] is TPageControl) then
       begin
-        for j := 0 to TbsRibbon(Form.Components[i]).Tabs.Count-1 do
+        for j := 0 to TPageControl(Form.Components[i]).PageCount-1 do
         begin
-          if TbsRibbon(Form.Components[i]).Tabs[j].Page.Caption <> '' then
-            TbsRibbon(Form.Components[i]).Tabs[j].Page.Caption := Translate(TbsRibbon(Form.Components[i]).Tabs[j].Page.Caption);
-        end;
-        for j := 0 to TbsRibbon(Form.Components[i]).Buttons.Count-1 do
-        begin
-          if TbsRibbon(Form.Components[i]).Buttons[j].Caption <> '' then
-            TbsRibbon(Form.Components[i]).Buttons[j].Caption := Translate(TbsRibbon(Form.Components[i]).Buttons[j].Caption);
+          if TPageControl(Form.Components[i]).Pages[j].Caption <> '' then
+            TPageControl(Form.Components[i]).Pages[j].Caption :=
+              Translate(TPageControl(Form.Components[i]).Pages[j].Caption);
         end;
       end
       else
-      if (Form.Components[i] is TbsAppMenu) then
+      if (Form.Components[i] is TRadioGroup) then
       begin
-        for j := 0 to TbsAppMenu(Form.Components[i]).Items.Count-1 do
-        begin
-          TbsAppMenu(Form.Components[i]).Items[j].Caption := Translate(TbsAppMenu(Form.Components[i]).Items[j].Caption);
-        end;
+        for j := 0 to TRadioGroup(Form.Components[i]).Items.Count-1 do
+          TRadioGroup(Form.Components[i]).Items[j] := Translate(TRadioGroup(Form.Components[i]).Items[j]);
       end
       else
-      if (Form.Components[i] is TbsSkinRadioGroup) then
+      if (Form.Components[i] is TCheckGroup) then
       begin
-        for j := 0 to TbsSkinRadioGroup(Form.Components[i]).Items.Count-1 do
-        begin
-          TbsSkinRadioGroup(Form.Components[i]).Items[j] := Translate(TbsSkinRadioGroup(Form.Components[i]).Items[j]);
-        end;
+        for j := 0 to TCheckGroup(Form.Components[i]).Items.Count-1 do
+          TCheckGroup(Form.Components[i]).Items[j] := Translate(TCheckGroup(Form.Components[i]).Items[j]);
       end
       else
-      if (Form.Components[i] is TbsSkinCheckGroup) then
+      if (Form.Components[i] is TPopupMenu) then
       begin
-        for j := 0 to TbsSkinCheckGroup(Form.Components[i]).Items.Count-1 do
-        begin
-          TbsSkinCheckGroup(Form.Components[i]).Items[j] := Translate(TbsSkinCheckGroup(Form.Components[i]).Items[j]);
-        end;
+        for j := 0 to TPopupMenu(Form.Components[i]).Items.Count-1 do
+          TPopupMenu(Form.Components[i]).Items[j].Caption := Translate(TPopupMenu(Form.Components[i]).Items[j].Caption);
       end
       else
-      if (Form.Components[i] is TbsSkinPopupMenu) then
+      if (Form.Components[i] is TDBGrid) then
       begin
-        for j := 0 to TbsSkinPopupMenu(Form.Components[i]).Items.Count-1 do
-        begin
-          TbsSkinPopupMenu(Form.Components[i]).Items[j].caption := Translate(TbsSkinPopupMenu(Form.Components[i]).Items[j].caption);
-        end;
+        for j := 0 to TDBGrid(Form.Components[i]).Columns.Count-1 do
+          TDBGrid(Form.Components[i]).Columns[j].Title.Caption := Translate(TDBGrid(Form.Components[i]).Columns[j].Title.Caption);
       end
       else
-      if (Form.Components[i] is TbsSkinDBGrid) then
+      if (Form.Components[i] is TTabControl) then
       begin
-        for j := 0 to TbsSkinDBGrid(Form.Components[i]).Columns.Count-1 do
-        begin
-          TbsSkinDBGrid(Form.Components[i]).Columns[j].Title.Caption := Translate(TbsSkinDBGrid(Form.Components[i]).Columns[j].Title.Caption);
-        end;
-      end
-      else
-      if (Form.Components[i] is TbsSkinTabControl) then
-      begin
-        for j := 0 to TbsSkinTabControl(Form.Components[i]).Tabs.Count-1 do
-        begin
-          TbsSkinTabControl(Form.Components[i]).Tabs[j] := Translate(TbsSkinTabControl(Form.Components[i]).Tabs[j]);
-        end;
+        for j := 0 to TTabControl(Form.Components[i]).Tabs.Count-1 do
+          TTabControl(Form.Components[i]).Tabs[j] := Translate(TTabControl(Form.Components[i]).Tabs[j]);
       end;
     except
       //
@@ -540,44 +511,44 @@ end.
 |
 |
 |---------------|
-| ATUALIZAÇÕES: |
+| ATUALIZAï¿½ï¿½ES: |
 |---------------|
 |
-|- Ajuste na letra no servidor de transmissão
+|- Ajuste na letra no servidor de transmissï¿½o
 |
 |------------|
-| CORREÇÕES: |
+| CORREï¿½ï¿½ES: |
 |------------|
 |
 |- Ver erro ao desconectar monitor 2 durante musica
-|- Na liturgia, correção de bug ao selecionar um arquivo que tenha acentuações e 'ç' pois o sistema não consegue fazer o encode correto
-|- Bug na tela de help. As vezes não fecha
+|- Na liturgia, correï¿½ï¿½o de bug ao selecionar um arquivo que tenha acentuaï¿½ï¿½es e 'ï¿½' pois o sistema nï¿½o consegue fazer o encode correto
+|- Bug na tela de help. As vezes nï¿½o fecha
 |- Bug nos itens agendados - CDS
-|- Os slides com playback do cd jovem 2011 estão todos fora de tempo!
-|- Depois de clicar no campo Geral "Ligar", com a contagem do tempo, se já tiver tocado alguma das músicas, minimizando e retgornando ao programa Louvor JA, a música pára.
-|- Bug ao fechar/minimizar algumas janela (como lista de músicas, por exemplo)
-|- Problema ao cancelar download (não fecha a janela, tendo que fechar pelo gerenciador de tarefas)
+|- Os slides com playback do cd jovem 2011 estï¿½o todos fora de tempo!
+|- Depois de clicar no campo Geral "Ligar", com a contagem do tempo, se jï¿½ tiver tocado alguma das mï¿½sicas, minimizando e retgornando ao programa Louvor JA, a mï¿½sica pï¿½ra.
+|- Bug ao fechar/minimizar algumas janela (como lista de mï¿½sicas, por exemplo)
+|- Problema ao cancelar download (nï¿½o fecha a janela, tendo que fechar pelo gerenciador de tarefas)
 |
 |------------|
 | MELHORIAS: |
 |------------|
 |
-|- Agrupar hinos do hinário por temas
-|- Fazer sumir o ponteiro do mouse durante apresentação da musica (ser parametrizavel = sim/nao)
-|- Colocar número do hino no slide e no título
+|- Agrupar hinos do hinï¿½rio por temas
+|- Fazer sumir o ponteiro do mouse durante apresentaï¿½ï¿½o da musica (ser parametrizavel = sim/nao)
+|- Colocar nï¿½mero do hino no slide e no tï¿½tulo
 |- Playlist personalizada
 |- Wallpaper agendado
-|- Mesclar módulos Cronometro e Escola Sabatina
-|- Dar a opção de selecionar alguns blocos para a tela de início (talvez contendo os favoritos caso não seja possível movê-los)
+|- Mesclar mï¿½dulos Cronometro e Escola Sabatina
+|- Dar a opï¿½ï¿½o de selecionar alguns blocos para a tela de inï¿½cio (talvez contendo os favoritos caso nï¿½o seja possï¿½vel movï¿½-los)
 |- Ao abrir programa, abrir as abas favoritas
-|- As músicas estão com tempo sem áudio extenso no final: Coração aberto e Eu sou a mensagem, principalmente, do cd jovem Eu sou a mensagem.
-|- Na liturgia, correção de bug ao selecionar um arquivo que tenha acentuações e 'ç' pois o sistema não consegue fazer o encode correto
-|- Dar a opção de selecionar alguns blocos para a tela de início (talvez contendo os favoritos caso não seja possível movê-los)
-|- Música para sorteio
+|- As mï¿½sicas estï¿½o com tempo sem ï¿½udio extenso no final: Coraï¿½ï¿½o aberto e Eu sou a mensagem, principalmente, do cd jovem Eu sou a mensagem.
+|- Na liturgia, correï¿½ï¿½o de bug ao selecionar um arquivo que tenha acentuaï¿½ï¿½es e 'ï¿½' pois o sistema nï¿½o consegue fazer o encode correto
+|- Dar a opï¿½ï¿½o de selecionar alguns blocos para a tela de inï¿½cio (talvez contendo os favoritos caso nï¿½o seja possï¿½vel movï¿½-los)
+|- Mï¿½sica para sorteio
 |- Criar categoria Desbravadores e Aventureiros
 |- Colocar texto no cronometro
-|- Mudar posição do cronometro
-|- Colocar opção do usuario colcoar audio no sorteio
+|- Mudar posiï¿½ï¿½o do cronometro
+|- Colocar opï¿½ï¿½o do usuario colcoar audio no sorteio
 |
 |-------------------------------------------------------------------------------
 
