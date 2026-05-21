@@ -1731,8 +1731,8 @@ type
     procedure FormActivate(Sender: TObject);
     procedure tsHinarioShow(Sender: TObject);
     procedure txtHinoChange(Sender: TObject);
-    procedure corCampoBusca(Query: TZQuery; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
-    function qtItens(Query: TZQuery {LAZARUS: TFDQuery};texto_sing,texto_plu,texto_nenh:string): string;
+    procedure corCampoBusca(Query: TDataSet {LAZARUS: TZQuery→TDataSet}; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
+    function qtItens(Query: TDataSet {LAZARUS: TZQuery/TFDQuery→TDataSet};texto_sing,texto_plu,texto_nenh:string): string;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure txtHinoKeyPress(Sender: TObject; var Key: Char);
     procedure abreLetra(ID: integer; BUSCA: string = '');
@@ -2937,7 +2937,7 @@ begin
   dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
 end;
 
-procedure TfmIndex.corCampoBusca(Query: TZQuery; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
+procedure TfmIndex.corCampoBusca(Query: TDataSet {LAZARUS: TZQuery→TDataSet}; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
 begin
   if DBGrid <> nil then
     {LAZARUS: DBGrid.VScrollBar removido - TDBGrid nao tem VScrollBar}
@@ -2986,7 +2986,7 @@ begin
   gravaParam('Musicas', 'Cor Titulo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
-function TfmIndex.qtItens(Query: TZQuery {LAZARUS: TFDQuery}; texto_sing,
+function TfmIndex.qtItens(Query: TDataSet {LAZARUS: TZQuery/TFDQuery→TDataSet}; texto_sing,
   texto_plu,texto_nenh: string): string;
 begin
   if Query.Active = false then
@@ -3641,7 +3641,7 @@ begin
     btVidOnlPExec.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
 
 
-    stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.caption->Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+    stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.caption->Text} := qtItens(DM.cdsVideosOnPerso,'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
   end;
   carrega_opc := False;
 end;
@@ -4989,7 +4989,7 @@ begin
       DM.qrBIBLIA_VERSICULOS.SQL.Add('ORDER BY VERSICULO');
     end;
     DM.qrBIBLIA_VERSICULOS.Open;
-    corCampoBusca(TZQuery {LAZARUS: TFDQuery}(DM.qrBIBLIA_VERSICULOS),busBibliaVersiculo,nil);
+    corCampoBusca(DM.qrBIBLIA_VERSICULOS,busBibliaVersiculo,nil);
 
     if (not (DM.qrBIBLIA_LIVROS.Eof)) and (trim(loadCol.Strings.Values['BIBLIA_VERSICULO']) <> '') then
       DM.qrBIBLIA_VERSICULOS.Locate('VERSICULO',loadCol.Strings.Values['BIBLIA_VERSICULO'],[]);
@@ -7843,9 +7843,9 @@ begin
       stColetPerso_0.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
     end;
 
-    stColetPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),'álbum encontrado','álbuns encontrados','Nenhum álbum encontrado');
+    stColetPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.cdsCOLETANEAS_PERSO,'álbum encontrado','álbuns encontrados','Nenhum álbum encontrado');
 
-    corCampoBusca(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),txtBuscaColetPeso,nil);
+    corCampoBusca(DM.cdsCOLETANEAS_PERSO,txtBuscaColetPeso,nil);
     fExibeColetaneasPerso(sbColPERSO);
   end;
 end;
@@ -9347,7 +9347,7 @@ end;
 
 procedure TfmIndex.bsSkinButton44Click(Sender: TObject);
 var
-  bass_musica: HSAMPLE;
+  bass_musica: HSAMPLE = 0;
   bass_channel: HCHANNEL;
   mus: Boolean;
   musica: string;
@@ -11779,7 +11779,7 @@ begin
 
   txtNomeVideoOn3.Text := '';
   txtUrlVideoOn3.Text := '';
-  stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+  stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.cdsVideosOnPerso,'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
 
   btVidOnlPExcluir.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
   btVidOnlPCopiarLink.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
@@ -12664,7 +12664,7 @@ begin
 
   DM.cdsVideosOnPerso.Locate('ID', id, []);
   DM.cdsVideosOnPerso.Delete;
-  stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+  stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.cdsVideosOnPerso,'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
 
   btVidOnlPExcluir.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
   btVidOnlPCopiarLink.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
