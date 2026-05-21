@@ -8,6 +8,9 @@ uses
   Interfaces,
   Classes,
   LResources,
+  StdCtrls,
+  Buttons,
+  ExtCtrls,
   dmComponentes in 'dmComponentes.pas' {DM: TDataModule},
   fmIniciando in 'fmIniciando.pas' {fIniciando},
   fmMenu in 'fmMenu.pas' {fmIndex},
@@ -204,6 +207,9 @@ begin
   RegisterPropertyToSkip(TComponent, 'SupportUpDownKeys',      BSF, '');
   RegisterPropertyToSkip(TComponent, 'TitleAlignment',         BSF, '');
   RegisterPropertyToSkip(TComponent, 'OverwritePromt',         BSF, '');
+  // Flat não existe em TCheckBox/TRadioButton no LCL
+  RegisterPropertyToSkip(TCheckBox,    'Flat', BSF, '');
+  RegisterPropertyToSkip(TRadioButton, 'Flat', BSF, '');
   // VCL-only (Windows)
   RegisterPropertyToSkip(TComponent, 'Ctl3D',                  VCL, '');
   RegisterPropertyToSkip(TComponent, 'ParentCtl3D',            VCL, '');
