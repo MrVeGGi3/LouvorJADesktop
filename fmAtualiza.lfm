@@ -46,7 +46,6 @@ object fAtualiza: TfAtualiza
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = '..........'
       AutoSize = False
@@ -70,7 +69,6 @@ object fAtualiza: TfAtualiza
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = '          '
       AutoSize = False
@@ -94,7 +92,6 @@ object fAtualiza: TfAtualiza
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = '          '
       AutoSize = False
@@ -110,7 +107,6 @@ object fAtualiza: TfAtualiza
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
@@ -147,7 +143,6 @@ object fAtualiza: TfAtualiza
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = '..........'
       AutoSize = False

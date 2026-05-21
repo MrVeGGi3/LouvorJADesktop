@@ -717,7 +717,7 @@ object fMusicaOperador: TfMusicaOperador
         DefaultWidth = 0
         DefaultHeight = 0
         Transparent = True
-        BorderStyle = bvFrame
+        BorderStyle = bsSingle
         Align = alClient
         AutoSize = False
       end
@@ -872,7 +872,7 @@ object fMusicaOperador: TfMusicaOperador
             DefaultWidth = 0
             DefaultHeight = 0
             Transparent = True
-            BorderStyle = bvFrame
+            BorderStyle = bsSingle
             Alignment = taCenter
             Align = alClient
             Caption = 'SLIDE    1 / 5'

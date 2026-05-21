@@ -111,7 +111,7 @@ object fTransmitir: TfTransmitir
         Width = 90
         Height = 20
         Text = '0'
-        Increment = 1.000000000000000000
+        Increment = 1
         SupportUpDownKeys = False
         ValueType = vtInteger
         DefaultWidth = 0
@@ -195,7 +195,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -255,7 +254,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -270,7 +268,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Status: '
       AutoSize = True
@@ -285,7 +282,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = 'Desconectado'
       AutoSize = True
@@ -301,7 +297,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -360,7 +355,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Link - Transmiss'#227'o: '
       AutoSize = True
@@ -376,7 +370,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -435,7 +428,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Link - Tela de Retorno: '
       AutoSize = True
@@ -451,7 +443,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -466,7 +457,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = 'M'#250'sica'
       AutoSize = True
@@ -482,7 +472,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -497,7 +486,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alClient
       Caption = 'B'#237'blia'
       AutoSize = True
@@ -513,7 +501,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -572,7 +559,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Link - Transmiss'#227'o: '
       AutoSize = True
@@ -588,7 +574,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
@@ -626,7 +611,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel8'
@@ -712,7 +696,6 @@ object fTransmitir: TfTransmitir
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel10'
@@ -771,7 +754,6 @@ object fTransmitir: TfTransmitir
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Link: '
       AutoSize = True

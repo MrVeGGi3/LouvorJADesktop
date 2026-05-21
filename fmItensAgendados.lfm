@@ -24,7 +24,6 @@ object fItensAgendados: TfItensAgendados
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'pnlCategoria'
@@ -66,7 +65,6 @@ object fItensAgendados: TfItensAgendados
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Nome da Categoria:'
       AutoSize = True
@@ -133,7 +131,6 @@ object fItensAgendados: TfItensAgendados
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'pnlCategoria'
@@ -148,7 +145,6 @@ object fItensAgendados: TfItensAgendados
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Arquivo:'
       AutoSize = True

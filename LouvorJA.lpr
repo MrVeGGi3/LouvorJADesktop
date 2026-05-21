@@ -214,47 +214,39 @@ begin
   RegisterPropertyToSkip(TSpinEdit,      'EditorEnabled', BSF, '');
   RegisterPropertyToSkip(TFloatSpinEdit, 'Text',          BSF, '');
   RegisterPropertyToSkip(TFloatSpinEdit, 'EditorEnabled', BSF, '');
-  // EditorEnabled globalmente (BSF-specific em grids/edits)
-  RegisterPropertyToSkip(TComponent,     'EditorEnabled', BSF, '');
-  // TCheckBox: GroupIndex/Down/Layout não existem no LCL
-  RegisterPropertyToSkip(TCheckBox,    'GroupIndex',  BSF, '');
-  RegisterPropertyToSkip(TCheckBox,    'Down',        BSF, '');
-  RegisterPropertyToSkip(TCheckBox,    'Layout',      BSF, '');
-  RegisterPropertyToSkip(TCheckBox,    'Flat',        BSF, '');
-  // TRadioButton
-  RegisterPropertyToSkip(TRadioButton, 'Flat',        BSF, '');
-  RegisterPropertyToSkip(TRadioButton, 'Down',        BSF, '');
-  RegisterPropertyToSkip(TRadioButton, 'Layout',      BSF, '');
-  // TLabel: Layout, TabOrder não existem no LCL TLabel (TGraphicControl)
-  RegisterPropertyToSkip(TLabel,       'Layout',      BSF, '');
-  RegisterPropertyToSkip(TLabel,       'TabOrder',    BSF, '');
-  RegisterPropertyToSkip(TLabel,       'TabStop',     BSF, '');
-  // TButton: Down/GroupIndex/Layout/Transparent não em TButton LCL
-  RegisterPropertyToSkip(TButton,      'Down',        BSF, '');
-  RegisterPropertyToSkip(TButton,      'GroupIndex',  BSF, '');
-  RegisterPropertyToSkip(TButton,      'Layout',      BSF, '');
-  RegisterPropertyToSkip(TButton,      'Transparent', BSF, '');
-  RegisterPropertyToSkip(TButton,      'NumGlyphs',   BSF, '');
-  RegisterPropertyToSkip(TButton,      'Spacing',     BSF, '');
-  // TPanel: Checked, OnClose, OnDialogButtonClick não em TPanel LCL
-  RegisterPropertyToSkip(TPanel,       'Checked',     BSF, '');
-  RegisterPropertyToSkip(TPanel,       'OnClose',     BSF, '');
-  RegisterPropertyToSkip(TPanel,       'OnDialogButtonClick', BSF, '');
-  // Radio, Execute — BSF toggle/action, sem equivalente no LCL
-  RegisterPropertyToSkip(TComponent,   'Radio',       BSF, '');
-  RegisterPropertyToSkip(TComponent,   'Execute',     BSF, '');
-  // BorderStyle em TLabel/TCheckBox — não existe no LCL (só TForm/TPanel têm)
-  RegisterPropertyToSkip(TLabel,       'BorderStyle', BSF, '');
-  RegisterPropertyToSkip(TCheckBox,    'BorderStyle', BSF, '');
-  RegisterPropertyToSkip(TRadioButton, 'BorderStyle', BSF, '');
-  // AlphaBlend em controles não-TForm (TForm LCL tem AlphaBlend, outros não)
-  RegisterPropertyToSkip(TCheckBox,    'AlphaBlend',      BSF, '');
-  RegisterPropertyToSkip(TCheckBox,    'AlphaBlendValue', BSF, '');
-  RegisterPropertyToSkip(TLabel,       'AlphaBlend',      BSF, '');
-  RegisterPropertyToSkip(TLabel,       'AlphaBlendValue', BSF, '');
+  // Propriedades BSF que aparecem em muitos tipos de componentes — registradas em
+  // TComponent para cobertura geral. DoPropertyNotFound só dispara quando a propriedade
+  // NÃO está publicada no RTTI do componente, portanto componentes LCL que possuem
+  // a propriedade real (ex: TForm.BorderStyle, TWinControl.TabOrder, TCheckBox.Checked)
+  // não são afetados.
+  RegisterPropertyToSkip(TComponent,   'EditorEnabled',  BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Checked',        BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Down',           BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Flat',           BSF, '');
+  RegisterPropertyToSkip(TComponent,   'GroupIndex',     BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Layout',         BSF, '');
+  RegisterPropertyToSkip(TComponent,   'TabOrder',       BSF, ''); // TWinControl tem real TabOrder → não afetado
+  RegisterPropertyToSkip(TComponent,   'TabStop',        BSF, ''); // TWinControl tem real TabStop → não afetado
+  RegisterPropertyToSkip(TComponent,   'Transparent',    BSF, '');
+  RegisterPropertyToSkip(TComponent,   'AlphaBlend',     BSF, ''); // TForm tem real AlphaBlend → não afetado
+  RegisterPropertyToSkip(TComponent,   'AlphaBlendValue',BSF, '');
+  RegisterPropertyToSkip(TComponent,   'BorderStyle',    BSF, ''); // TForm/TMemo/TEdit têm real BorderStyle → não afetados
+  RegisterPropertyToSkip(TComponent,   'OnClose',             BSF, ''); // TForm tem real OnClose → não afetado
+  RegisterPropertyToSkip(TComponent,   'OnDialogButtonClick', BSF, '');
+  // Eventos BSF-específicos que não existem no LCL
+  RegisterPropertyToSkip(TComponent,   'OnShowTrackMenu',     BSF, '');
+  RegisterPropertyToSkip(TComponent,   'OnPaintPanel',        BSF, '');
+  RegisterPropertyToSkip(TComponent,   'OnButtonClick',       BSF, '');
+  RegisterPropertyToSkip(TComponent,   'OnButtonClicked',     BSF, '');
+  RegisterPropertyToSkip(TComponent,   'OnCommandGet',        BSF, '');
+  RegisterPropertyToSkip(TComponent,   'OnItemCheckClick',    BSF, '');
+  RegisterPropertyToSkip(TComponent,   'OnChangeColor',       BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Radio',          BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Execute',        BSF, '');
   // VCL-only (Windows)
   RegisterPropertyToSkip(TComponent, 'Ctl3D',                  VCL, '');
   RegisterPropertyToSkip(TComponent, 'ParentCtl3D',            VCL, '');
+  RegisterPropertyToSkip(TComponent, 'DoubleBuffered',         VCL, '');
   RegisterPropertyToSkip(TComponent, 'ParentDoubleBuffered',   VCL, '');
   RegisterPropertyToSkip(TComponent, 'ParentBackground',       VCL, '');
   // Skins/nomes de skin referenciados (não existem no LCL)
@@ -263,6 +255,13 @@ begin
   RegisterPropertyToSkip(TComponent, 'ButtonsSkinDataName',    BSF, '');
   RegisterPropertyToSkip(TComponent, 'ButtonTabSkinDataName',  BSF, '');
   RegisterPropertyToSkip(TComponent, 'CheckSkinDataName',      BSF, '');
+  // Sub-objetos de fonte BSF-específicos (Font sub-objects não existem no LCL)
+  RegisterPropertyToSkip(TComponent, 'ButtonDefaultFont',      BSF, '');
+  RegisterPropertyToSkip(TComponent, 'DefaultCaptionFont',     BSF, '');
+  RegisterPropertyToSkip(TComponent, 'ListBoxDefaultCaptionFont', BSF, '');
+  RegisterPropertyToSkip(TComponent, 'ListBoxDefaultFont',     BSF, '');
+  RegisterPropertyToSkip(TComponent, 'ListBoxFont',            BSF, '');
+  RegisterPropertyToSkip(TComponent, 'MenuDefaultFont',        BSF, '');
 end;
 
 begin

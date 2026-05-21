@@ -206,8 +206,8 @@ object fFormatacao: TfFormatacao
             DefaultColor = clWindow
             ValueType = vtInteger
             Align = alClient
-            MinValue = 1.000000000000000000
-            Increment = 1.000000000000000000
+            MinValue = 1
+            Increment = 1
             EditorEnabled = True
             MaxLength = 0
           end

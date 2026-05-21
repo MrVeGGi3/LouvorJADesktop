@@ -77,7 +77,6 @@ object fLiturgia: TfLiturgia
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
@@ -131,7 +130,6 @@ object fLiturgia: TfLiturgia
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Nome do Item:'
       AutoSize = True
@@ -174,7 +172,6 @@ object fLiturgia: TfLiturgia
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alLeft
       Caption = 'Tipo de Item:'
       AutoSize = True
@@ -244,7 +241,6 @@ object fLiturgia: TfLiturgia
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = False
-      BorderStyle = bvNone
       Align = alRight
       Caption = 'Cor:'
       AutoSize = True
@@ -272,7 +268,6 @@ object fLiturgia: TfLiturgia
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'bsSkinPanel1'
@@ -296,7 +291,6 @@ object fLiturgia: TfLiturgia
         DefaultHeight = 0
         CheckedMode = False
         Checked = False
-        BorderStyle = bvNone
         NumGlyphs = 1
         Spacing = 2
         Caption = 'bsSkinPanel1'
@@ -334,7 +328,6 @@ object fLiturgia: TfLiturgia
         DefaultHeight = 0
         CheckedMode = False
         Checked = False
-        BorderStyle = bvNone
         NumGlyphs = 1
         Spacing = 2
         Caption = 'bsSkinPanel1'
@@ -384,7 +377,6 @@ object fLiturgia: TfLiturgia
           DefaultHeight = 0
           CheckedMode = False
           Checked = False
-          BorderStyle = bvNone
           NumGlyphs = 1
           Spacing = 2
           Caption = 'bsSkinPanel4'
@@ -419,7 +411,6 @@ object fLiturgia: TfLiturgia
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'bsSkinPanel1'
@@ -443,7 +434,6 @@ object fLiturgia: TfLiturgia
         DefaultHeight = 0
         CheckedMode = False
         Checked = False
-        BorderStyle = bvNone
         NumGlyphs = 1
         Spacing = 2
         Caption = 'bsSkinPanel1'
@@ -500,7 +490,6 @@ object fLiturgia: TfLiturgia
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'pnlSite'
@@ -524,7 +513,6 @@ object fLiturgia: TfLiturgia
         DefaultHeight = 0
         CheckedMode = False
         Checked = False
-        BorderStyle = bvNone
         NumGlyphs = 1
         Spacing = 2
         Caption = 'bsSkinPanel1'
@@ -606,7 +594,6 @@ object fLiturgia: TfLiturgia
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'bsSkinPanel1'
@@ -630,7 +617,6 @@ object fLiturgia: TfLiturgia
         DefaultHeight = 0
         CheckedMode = False
         Checked = False
-        BorderStyle = bvNone
         NumGlyphs = 1
         Spacing = 2
         Caption = 'bsSkinPanel1'
@@ -764,7 +750,6 @@ object fLiturgia: TfLiturgia
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'bsSkinPanel1'
@@ -788,7 +773,6 @@ object fLiturgia: TfLiturgia
         DefaultHeight = 0
         CheckedMode = False
         Checked = False
-        BorderStyle = bvNone
         NumGlyphs = 1
         Spacing = 2
         Caption = 'bsSkinPanel1'
@@ -829,7 +813,6 @@ object fLiturgia: TfLiturgia
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'bsSkinPanel1'

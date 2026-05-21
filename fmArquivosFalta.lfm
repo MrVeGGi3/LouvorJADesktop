@@ -25,7 +25,6 @@ object fArquivosFalta: TfArquivosFalta
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
@@ -119,7 +118,6 @@ object fArquivosFalta: TfArquivosFalta
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'

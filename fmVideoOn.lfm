@@ -106,7 +106,6 @@ object fVideoOn: TfVideoOn
       DefaultWidth = 0
       DefaultHeight = 0
       Transparent = True
-      BorderStyle = bvNone
       Alignment = taCenter
       Align = alClient
       Caption = 'Carregando...'

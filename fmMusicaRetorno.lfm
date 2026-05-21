@@ -101,7 +101,6 @@ object fMusicaRetorno: TfMusicaRetorno
         DefaultWidth = 0
         DefaultHeight = 0
         Transparent = True
-        BorderStyle = bvNone
         Align = alClient
         AutoSize = False
       end
@@ -126,7 +125,7 @@ object fMusicaRetorno: TfMusicaRetorno
         DefaultWidth = 0
         DefaultHeight = 0
         Transparent = True
-        BorderStyle = bvFrame
+        BorderStyle = bsSingle
         Alignment = taCenter
         Align = alClient
         Caption = '1 / 5'

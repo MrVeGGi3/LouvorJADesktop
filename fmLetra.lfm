@@ -38,7 +38,6 @@ object fLetra: TfLetra
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Align = alClient
@@ -236,7 +235,6 @@ object fLetra: TfLetra
       DefaultHeight = 0
       CheckedMode = False
       Checked = False
-      BorderStyle = bvNone
       NumGlyphs = 1
       Spacing = 2
       Caption = 'bsSkinPanel1'

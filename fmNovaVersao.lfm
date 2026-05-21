@@ -28,7 +28,6 @@ object fNovaVersao: TfNovaVersao
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
@@ -88,7 +87,6 @@ object fNovaVersao: TfNovaVersao
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
@@ -114,7 +112,6 @@ object fNovaVersao: TfNovaVersao
     DefaultHeight = 0
     CheckedMode = False
     Checked = False
-    BorderStyle = bvNone
     NumGlyphs = 1
     Spacing = 2
     Caption = 'bsSkinPanel1'
