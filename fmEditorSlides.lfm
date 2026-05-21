@@ -24,14 +24,6 @@ object fEditorSlides: TfEditorSlides
     Align = alTop
     TabIndex = 0
     ActivePage = bsArquivo
-    AppButtonSpacing = 1
-    AppButtonMargin = -1
-    AppButtonWidth = 54
-    AppButtonImageIndex = 0
-    Buttons = <>
-    ButtonsImageList = DM.ico_16x16
-    ButtonsShowHint = False
-    TabBoldStyle = False
     object bsRibbonPage1: TTabSheet
       Left = 1
       Top = 26

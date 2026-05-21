@@ -757,56 +757,6 @@ object fmIndex: TfmIndex
     Align = alTop
     TabIndex = 0
     ActivePage = bsColetaneas
-    AppButtonSpacing = -1
-    AppButtonMargin = -1
-    AppButtonWidth = 40
-    AppButtonImageList = DM.ico_16x16
-    AppButtonImageIndex = 62
-    Buttons = <
-      item
-        ImageIndex = 27
-        Enabled = True
-        Visible = True
-        Caption = 'Busca R'#225'pida'
-        OnClick = bsRibbon1Buttons0Click
-      end
-      item
-        ImageIndex = 10
-        Hint = 'Abas'
-        Enabled = True
-        Visible = True
-        PopupMenu = bsPopupMenuRibon
-      end
-      item
-        ImageIndex = 9
-        Hint = 'Favoritos'
-        Enabled = True
-        Visible = True
-        PopupMenu = bsPopupMenuFavoritos
-      end
-      item
-        ImageIndex = 64
-        Enabled = True
-        Visible = True
-        OnClick = bsRibbon1Buttons3Click
-      end
-      item
-        ImageIndex = 63
-        Enabled = True
-        Visible = True
-        OnClick = bsRibbon1Buttons4Click
-      end
-      item
-        ImageIndex = 66
-        Enabled = True
-        Visible = True
-        OnClick = bsRibbon1Buttons5Click
-      end>
-    ButtonsImageList = DM.ico_16x16
-    ButtonsShowHint = False
-    AppMenu = bsAppMenu1
-    TabBoldStyle = False
-    OnChangePage = bsRibbon1ChangePage
     object bsUtilitarios: TTabSheet
       Left = 1
       Top = 26
