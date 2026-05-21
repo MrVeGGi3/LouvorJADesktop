@@ -9,57 +9,53 @@ LazarusResources.Add('TfItensAgendados','FORMDATA',[
   +#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bv'
   +'None'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'pnlCategoria'#5'Align'
   +#7#5'alTop'#0#5'TEdit'#12'txtCategoria'#16'AlignWithMargins'#9#4'Left'#2't'#3
-  +'Top'#2#5#5'Width'#3#136#1#6'Height'#2#19#11'Margins.Top'#2#5#13'Margins.Rig'
-  +'ht'#2#10#14'Margins.Bottom'#2#5#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'
-  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#5'Align'#7#8'al'
-  +'Client'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'
-  +#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'Parent'
-  +'Font'#8#8'TabOrder'#2#1#16'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255
-  +#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'#2#255#15'RightImageIndex'
-  +#2#255#18'RightImageHotIndex'#2#255#19'RightImageDownIndex'#2#255#0#0#6'TLab'
-  +'el'#12'lblDescricao'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'
-  +#2'd'#6'Height'#2#19#12'Margins.Left'#2#10#11'Margins.Top'#2#5#14'Margins.Bo'
-  +'ttom'#2#5#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Tra'
-  +'nsparent'#8#11'BorderStyle'#7#6'bvNone'#5'Align'#7#6'alLeft'#7'Caption'#6#18
-  +'Nome da Categoria:'#8'AutoSize'#9#0#0#0#6'TPanel'#10'GridPanel2'#4'Left'#2#0
-  +#3'Top'#2'a'#5'Width'#3#6#2#6'Height'#2'+'#5'Align'#7#8'alBottom'#10'BevelOu'
-  +'ter'#7#6'bvNone'#8'TabOrder'#2#2#0#7'TButton'#6'btSave'#4'Left'#3#157#1#3'T'
-  +'op'#2#5#5'Width'#2'd'#6'Height'#2'!'#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13
-  +'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12'DM'
-  +'.ico_24x24'#10'ImageIndex'#2#2#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7
-  +'Caption'#6#7' Salvar'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#8'alClient'
-  +#7'OnClick'#7#11'btSaveClick'#0#0#7'TButton'#5'btDel'#4'Left'#3'4'#1#3'Top'#2
-  +#5#5'Width'#2'd'#6'Height'#2'!'#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'Defa'
-  +'ultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico'
-  +'_24x24'#10'ImageIndex'#2#1#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7'Capt'
-  +'ion'#6#8' Excluir'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#8'alClient'#7
-  +'OnClick'#7#10'btDelClick'#0#0#0#6'TPanel'#7'pnlItem'#4'Left'#2#0#3'Top'#2#29
-  +#5'Width'#3#6#2#6'Height'#2#29#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'Defau'
-  +'ltHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9
-  +'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'pnlCategoria'#5'Align'#7#5'al'
-  +'Top'#0#6'TLabel'#12'bsSkinLabel1'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'
-  +#2#5#5'Width'#2'-'#6'Height'#2#19#12'Margins.Left'#2#10#11'Margins.Top'#2#5
-  +#14'Margins.Bottom'#2#5#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeigh'
-  +'t'#2#0#11'Transparent'#8#11'BorderStyle'#7#6'bvNone'#5'Align'#7#6'alLeft'#7
-  +'Caption'#6#8'Arquivo:'#8'AutoSize'#9#0#0#13'TFileNameEdit'#10'txtArquivo'#3
-  +'Tag'#2#7#16'AlignWithMargins'#9#4'Left'#2'='#3'Top'#2#5#5'Width'#3#191#1#6
-  +'Height'#2#19#11'Margins.Top'#2#5#13'Margins.Right'#2#10#14'Margins.Bottom'#2
-  +#5#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'Defaul'
-  +'tHeight'#2#0#10'ButtonMode'#9#5'Align'#7#8'alClient'#12'Font.Charset'#7#15
-  +'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#245#9'Font.N'
-  +'ame'#6#13'MS Sans Serif'#10'Font.Style'#11#0#9'MaxLength'#3#255#0#10'Parent'
-  +'Font'#8#8'TabOrder'#2#2#6'Images'#7#12'DM.ico_16x16'#16'ButtonImageIndex'#2
-  +'&'#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownInd'
-  +'ex'#2#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255#19'RightIm'
-  +'ageDownIndex'#2#255#13'OnButtonClick'#7#21'txtArquivoButtonClick'#7'OnEnter'
-  +#7#15'txtArquivoEnter'#6'OnExit'#7#14'txtArquivoExit'#6'Filter'#6#27'Todos o'
-  +'s Arquivos (*.*)|*.*'#20'LVHeaderSkinDataName'#6#6'header'#0#0#5'TEdit'#14
-  +'txtArquivoInfo'#4'Left'#2't'#3'Top'#2#3#5'Width'#2'8'#6'Height'#2#19#4'Text'
-  +#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2
-  +#0#10'ButtonMode'#8#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7
-  +'clBlack'#11'Font.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#10'Font.Sty'
-  +'le'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#7'Visible'#8#16'ButtonImageIndex'
-  +#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDown'
-  +'Index'#2#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255#19'Righ'
-  +'tImageDownIndex'#2#255#0#0#0#0
+  +'Top'#2#5#5'Width'#3#136#1#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'c'
+  +'lWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#5'Alig'
+  +'n'#7#8'alClient'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7
+  +'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0
+  +#10'ParentFont'#8#8'TabOrder'#2#1#16'ButtonImageIndex'#2#255#14'LeftImageInd'
+  +'ex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'#2#255#15'Right'
+  +'ImageIndex'#2#255#18'RightImageHotIndex'#2#255#19'RightImageDownIndex'#2#255
+  +#0#0#6'TLabel'#12'lblDescricao'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2
+  +#5#5'Width'#2'd'#6'Height'#2#19#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'Defa'
+  +'ultHeight'#2#0#11'Transparent'#8#11'BorderStyle'#7#6'bvNone'#5'Align'#7#6'a'
+  +'lLeft'#7'Caption'#6#18'Nome da Categoria:'#8'AutoSize'#9#0#0#0#6'TPanel'#10
+  +'GridPanel2'#4'Left'#2#0#3'Top'#2'a'#5'Width'#3#6#2#6'Height'#2'+'#5'Align'#7
+  +#8'alBottom'#10'BevelOuter'#7#6'bvNone'#8'TabOrder'#2#2#0#7'TButton'#6'btSav'
+  +'e'#4'Left'#3#157#1#3'Top'#2#5#5'Width'#2'd'#6'Height'#2'!'#8'TabOrder'#2#1
+  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'
+  +#8#9'ImageList'#7#12'DM.ico_24x24'#10'ImageIndex'#2#2#7'TabStop'#9#4'Down'#8
+  +#10'GroupIndex'#2#0#7'Caption'#6#7' Salvar'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5
+  +'Align'#7#8'alClient'#7'OnClick'#7#11'btSaveClick'#0#0#7'TButton'#5'btDel'#4
+  +'Left'#3'4'#1#3'Top'#2#5#5'Width'#2'd'#6'Height'#2'!'#8'TabOrder'#2#0#12'Def'
+  +'aultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8#9
+  +'ImageList'#7#12'DM.ico_24x24'#10'ImageIndex'#2#1#7'TabStop'#9#4'Down'#8#10
+  +'GroupIndex'#2#0#7'Caption'#6#8' Excluir'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5
+  +'Align'#7#8'alClient'#7'OnClick'#7#10'btDelClick'#0#0#0#6'TPanel'#7'pnlItem'
+  +#4'Left'#2#0#3'Top'#2#29#5'Width'#3#6#2#6'Height'#2#29#8'TabOrder'#2#1#12'De'
+  +'faultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'Bor'
+  +'derStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'pnlCa'
+  +'tegoria'#5'Align'#7#5'alTop'#0#6'TLabel'#12'bsSkinLabel1'#16'AlignWithMargi'
+  +'ns'#9#4'Left'#2#10#3'Top'#2#5#5'Width'#2'-'#6'Height'#2#19#8'TabOrder'#2#1
+  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'BorderStyle'
+  +#7#6'bvNone'#5'Align'#7#6'alLeft'#7'Caption'#6#8'Arquivo:'#8'AutoSize'#9#0#0
+  +#13'TFileNameEdit'#10'txtArquivo'#3'Tag'#2#7#16'AlignWithMargins'#9#4'Left'#2
+  +'='#3'Top'#2#5#5'Width'#3#191#1#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7
+  +#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMode'#9#5'A'
+  +'lign'#7#8'alClient'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7
+  +#7'clBlack'#11'Font.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#10'Font.S'
+  +'tyle'#11#0#9'MaxLength'#3#255#0#10'ParentFont'#8#8'TabOrder'#2#2#6'Images'#7
+  +#12'DM.ico_16x16'#16'ButtonImageIndex'#2'&'#14'LeftImageIndex'#2#255#17'Left'
+  +'ImageHotIndex'#2#255#18'LeftImageDownIndex'#2#255#15'RightImageIndex'#2#255
+  +#18'RightImageHotIndex'#2#255#19'RightImageDownIndex'#2#255#13'OnButtonClick'
+  +#7#21'txtArquivoButtonClick'#7'OnEnter'#7#15'txtArquivoEnter'#6'OnExit'#7#14
+  +'txtArquivoExit'#6'Filter'#6#27'Todos os Arquivos (*.*)|*.*'#20'LVHeaderSkin'
+  +'DataName'#6#6'header'#0#0#5'TEdit'#14'txtArquivoInfo'#4'Left'#2't'#3'Top'#2
+  +#3#5'Width'#2'8'#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#12'Font.Charset'#7
+  +#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#245#9'Fon'
+  +'t.Name'#6#13'MS Sans Serif'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'
+  +#2#0#7'Visible'#8#16'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255#17'Lef'
+  +'tImageHotIndex'#2#255#18'LeftImageDownIndex'#2#255#15'RightImageIndex'#2#255
+  +#18'RightImageHotIndex'#2#255#19'RightImageDownIndex'#2#255#0#0#0#0
 ]);

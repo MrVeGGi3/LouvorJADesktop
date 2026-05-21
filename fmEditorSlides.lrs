@@ -7,68 +7,63 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +#12'FormActivate'#7'OnClose'#7#9'FormClose'#7'OnKeyUp'#7#9'FormKeyUp'#0#12'T'
   +'PageControl'#9'bsRibbon1'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#239#4#6'Height'
   +#2'c'#8'TabOrder'#2#0#5'Align'#7#5'alTop'#8'TabIndex'#2#0#10'ActivePage'#7#9
-  +'bsArquivo'#16'AppButtonSpacing'#2#1#15'AppButtonMargin'#2#255#14'AppButtonW'
-  +'idth'#2'6'#19'AppButtonImageIndex'#2#0#7'Buttons'#14#0#16'ButtonsImageList'
-  +#7#12'DM.ico_16x16'#15'ButtonsShowHint'#8#12'TabBoldStyle'#8#10'DesignSize'#1
-  +#3#239#4#2'c'#0#0#9'TTabSheet'#13'bsRibbonPage1'#4'Left'#2#1#3'Top'#2#26#5'W'
-  +'idth'#3#237#4#6'Height'#2'F'#9'HotScroll'#8#12'ScrollOffset'#2#0#19'ScrollT'
-  +'imerInterval'#2'2'#9'CanScroll'#9#7'Caption'#18#12#0#0#0'V'#0'i'#0's'#0'u'#0
-  +'a'#0'l'#0'i'#0'z'#0'a'#0#231#0#227#0'o'#0#0#6'TPanel'#14'bsRibbonGroup6'#4
-  +'Left'#2#0#3'Top'#2#0#5'Width'#3#169#0#6'Height'#2'F'#8'TabOrder'#2#0#12'Def'
-  +'aultWidth'#2#0#13'DefaultHeight'#2#0#5'Align'#7#6'alLeft'#7'Caption'#18#9#0
-  +#0#0'R'#0'e'#0's'#0'o'#0'l'#0'u'#0#231#0#227#0'o'#0#16'ShowDialogButton'#8#0
-  +#12'TSpeedButton'#8'btRes169'#3'Tag'#3#169#0#4'Left'#2'u'#3'Top'#2#2#5'Width'
-  +#2'2'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMo'
-  +'de'#9#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWith'
-  +'outCaption'#2#0#10'ImageIndex'#2'h'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10
-  +'GroupIndex'#2#255#7'Caption'#6#4'16:9'#9'NumGlyphs'#2#1#5'Align'#7#7'alRigh'
-  +'t'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#11'btRes0Click'#0
-  +#0#12'TSpeedButton'#6'btRes0'#4'Left'#2#2#3'Top'#2#2#5'Width'#2'A'#6'Height'
+  +'bsArquivo'#0#9'TTabSheet'#13'bsRibbonPage1'#4'Left'#2#1#3'Top'#2#26#5'Width'
+  +#3#237#4#6'Height'#2'F'#9'HotScroll'#8#12'ScrollOffset'#2#0#19'ScrollTimerIn'
+  +'terval'#2'2'#9'CanScroll'#9#7'Caption'#18#12#0#0#0'V'#0'i'#0's'#0'u'#0'a'#0
+  +'l'#0'i'#0'z'#0'a'#0#231#0#227#0'o'#0#0#6'TPanel'#14'bsRibbonGroup6'#4'Left'
+  +#2#0#3'Top'#2#0#5'Width'#3#169#0#6'Height'#2'F'#8'TabOrder'#2#0#12'DefaultWi'
+  +'dth'#2#0#13'DefaultHeight'#2#0#5'Align'#7#6'alLeft'#7'Caption'#18#9#0#0#0'R'
+  +#0'e'#0's'#0'o'#0'l'#0'u'#0#231#0#227#0'o'#0#16'ShowDialogButton'#8#0#12'TSp'
+  +'eedButton'#8'btRes169'#3'Tag'#3#169#0#4'Left'#2'u'#3'Top'#2#2#5'Width'#2'2'
+  +#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#9
+  +#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCap'
+  +'tion'#2#0#10'ImageIndex'#2'h'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'Grou'
+  +'pIndex'#2#255#7'Caption'#6#4'16:9'#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7
+  +'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#11'btRes0Click'#0#0#12
+  +'TSpeedButton'#6'btRes0'#4'Left'#2#2#3'Top'#2#2#5'Width'#2'A'#6'Height'#2'1'
+  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#9#9'ImageList'#7
+  +#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'Im'
+  +'ageIndex'#2'f'#11'Transparent'#8#4'Flat'#9#4'Down'#9#10'GroupIndex'#2#255#7
+  +'Caption'#6#10'Tela Cheia'#9'NumGlyphs'#2#1#5'Align'#7#8'alClient'#7'Spacing'
+  +#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#11'btRes0Click'#0#0#12'TSpeedBu'
+  +'tton'#7'btRes43'#3'Tag'#2'+'#4'Left'#2'C'#3'Top'#2#2#5'Width'#2'2'#6'Height'
   +#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#9#9'ImageLi'
   +'st'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0
-  +#10'ImageIndex'#2'f'#11'Transparent'#8#4'Flat'#9#4'Down'#9#10'GroupIndex'#2
-  +#255#7'Caption'#6#10'Tela Cheia'#9'NumGlyphs'#2#1#5'Align'#7#8'alClient'#7'S'
-  +'pacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#11'btRes0Click'#0#0#12
-  +'TSpeedButton'#7'btRes43'#3'Tag'#2'+'#4'Left'#2'C'#3'Top'#2#2#5'Width'#2'2'#6
-  +'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#9#9
-  +'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCapti'
-  +'on'#2#0#10'ImageIndex'#2'g'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupI'
-  +'ndex'#2#255#7'Caption'#6#3'4:3'#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Sp'
-  +'acing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#11'btRes0Click'#0#0#0#0#9
-  +'TTabSheet'#13'bsRibbonPage4'#4'Left'#2#1#3'Top'#2#26#5'Width'#3#237#4#6'Hei'
-  +'ght'#2'F'#9'HotScroll'#8#12'ScrollOffset'#2#0#19'ScrollTimerInterval'#2'2'#9
-  +'CanScroll'#9#7'Caption'#6#8'Formatar'#0#6'TPanel'#14'bsRibbonGroup8'#4'Left'
-  +#3#20#2#3'Top'#2#0#5'Width'#3#130#0#6'Height'#2'F'#8'TabOrder'#2#2#12'Defaul'
-  +'tWidth'#2#0#13'DefaultHeight'#2#0#5'Align'#7#6'alLeft'#7'Caption'#6#15'Text'
-  +'o Principal'#16'ShowDialogButton'#8#0#6'TPanel'#10'GridPanel1'#4'Left'#2#2#3
-  +'Top'#2#2#5'Width'#2'~'#6'Height'#2'1'#5'Align'#7#8'alClient'#10'BevelOuter'
-  +#7#6'bvNone'#7'Caption'#6#10'GridPanel1'#8'TabOrder'#2#0#0#9'TSpinEdit'#12't'
-  +'amanhoLetra'#3'Tag'#3#15''''#16'AlignWithMargins'#9#4'Left'#2'?'#3'Top'#2#2
-  +#5'Width'#2'?'#6'Height'#2#21#12'Margins.Left'#2#0#11'Margins.Top'#2#2#13'Ma'
-  +'rgins.Right'#2#0#14'Margins.Bottom'#2#1#8'TabOrder'#2#0#12'DefaultWidth'#2#0
-  +#13'DefaultHeight'#2#0#12'DefaultColor'#7#8'clWindow'#9'ValueType'#7#9'vtInt'
-  +'eger'#5'Align'#7#8'alClient'#9'Increment'#5#0#0#0#0#0#0#0#128#255'?'#13'Edi'
-  +'torEnabled'#9#9'MaxLength'#2#0#8'OnChange'#7#18'tamanhoLetraChange'#0#0#12
-  +'TColorButton'#8'corLetra'#16'AlignWithMargins'#9#4'Left'#2'?'#3'Top'#2#25#5
-  +'Width'#2'?'#6'Height'#2#21#4'Hint'#6#12'Cor da Fonte'#12'Margins.Left'#2#0
-  +#11'Margins.Top'#2#1#13'Margins.Right'#2#0#12'DefaultWidth'#2#0#13'DefaultHe'
-  +'ight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCap'
-  +'tion'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'2'#11'Transparent'#8
-  +#4'Flat'#8#8'ShowHint'#8#14'ParentShowHint'#8#4'Down'#8#10'GroupIndex'#2#0#9
-  +'NumGlyphs'#2#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#8'NewStyle'#8#13'Track'
-  +'Position'#7#9'bstpRight'#18'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8
+  +#10'ImageIndex'#2'g'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2
+  +#255#7'Caption'#6#3'4:3'#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2
+  +#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#11'btRes0Click'#0#0#0#0#9'TTabShe'
+  +'et'#13'bsRibbonPage4'#4'Left'#2#1#3'Top'#2#26#5'Width'#3#237#4#6'Height'#2
+  +'F'#9'HotScroll'#8#12'ScrollOffset'#2#0#19'ScrollTimerInterval'#2'2'#9'CanSc'
+  +'roll'#9#7'Caption'#6#8'Formatar'#0#6'TPanel'#14'bsRibbonGroup8'#4'Left'#3#20
+  +#2#3'Top'#2#0#5'Width'#3#130#0#6'Height'#2'F'#8'TabOrder'#2#2#12'DefaultWidt'
+  +'h'#2#0#13'DefaultHeight'#2#0#5'Align'#7#6'alLeft'#7'Caption'#6#15'Texto Pri'
+  +'ncipal'#16'ShowDialogButton'#8#0#6'TPanel'#10'GridPanel1'#4'Left'#2#2#3'Top'
+  +#2#2#5'Width'#2'~'#6'Height'#2'1'#5'Align'#7#8'alClient'#10'BevelOuter'#7#6
+  +'bvNone'#7'Caption'#6#10'GridPanel1'#8'TabOrder'#2#0#0#9'TSpinEdit'#12'taman'
+  +'hoLetra'#3'Tag'#3#15''''#16'AlignWithMargins'#9#4'Left'#2'?'#3'Top'#2#2#5'W'
+  +'idth'#2'?'#6'Height'#2#21#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHe'
+  +'ight'#2#0#12'DefaultColor'#7#8'clWindow'#9'ValueType'#7#9'vtInteger'#5'Alig'
+  +'n'#7#8'alClient'#9'Increment'#5#0#0#0#0#0#0#0#128#255'?'#13'EditorEnabled'#9
+  +#9'MaxLength'#2#0#8'OnChange'#7#18'tamanhoLetraChange'#0#0#12'TColorButton'#8
+  +'corLetra'#16'AlignWithMargins'#9#4'Left'#2'?'#3'Top'#2#25#5'Width'#2'?'#6'H'
+  +'eight'#2#21#4'Hint'#6#12'Cor da Fonte'#12'DefaultWidth'#2#0#13'DefaultHeigh'
+  +'t'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCaptio'
+  +'n'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'2'#11'Transparent'#8#4
+  +'Flat'#8#8'ShowHint'#8#14'ParentShowHint'#8#4'Down'#8#10'GroupIndex'#2#0#9'N'
+  +'umGlyphs'#2#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#8'NewStyle'#8#13'TrackP'
+  +'osition'#7#9'bstpRight'#18'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8
   +#15'TrackButtonMode'#8#9'AutoColor'#7#7'clBlack'#10'ColorValue'#7#7'clBlack'
   +#13'ShowAutoColor'#9#13'ShowMoreColor'#9#15'MenuUseSkinFont'#9#23'MenuDefaul'
   +'tFont.Charset'#7#15'DEFAULT_CHARSET'#21'MenuDefaultFont.Color'#7#12'clWindo'
   +'wText'#22'MenuDefaultFont.Height'#2#13#20'MenuDefaultFont.Name'#6#6'Tahoma'
   +#21'MenuDefaultFont.Style'#11#0#14'MenuAlphaBlend'#8#19'MenuAlphaBlendValue'
   +#3#200#0#23'MenuAlphaBlendAnimation'#8#13'OnChangeColor'#7#19'corLetraChange'
-  ,'Color'#0#0#6'TLabel'#15'bsSkinStdLabel1'#4'Left'#2#0#3'Top'#2#0#5'Width'#2
+  +'Color'#0#0#6'TLabel'#15'bsSkinStdLabel1'#4'Left'#2#0#3'Top'#2#0#5'Width'#2
   +'?'#6'Height'#2#24#12'UseSkinColor'#9#5'Align'#7#8'alClient'#8'AutoSize'#8#7
   +'Caption'#6#8'Tamanho:'#6'Layout'#7#8'tlCenter'#0#0#6'TLabel'#15'bsSkinStdLa'
   +'bel2'#4'Left'#2#0#3'Top'#2#24#5'Width'#2'?'#6'Height'#2#25#12'UseSkinColor'
   +#9#5'Align'#7#8'alClient'#8'AutoSize'#8#7'Caption'#6#4'Cor:'#6'Layout'#7#8't'
-  +'lCenter'#0#0#0#0#6'TPanel'#14'bsRibbonGroup9'#4'Left'#2#0#3'Top'#2#0#5'Widt'
+  ,'lCenter'#0#0#0#0#6'TPanel'#14'bsRibbonGroup9'#4'Left'#2#0#3'Top'#2#0#5'Widt'
   +'h'#3''''#1#6'Height'#2'F'#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHe'
   +'ight'#2#0#5'Align'#7#6'alLeft'#7'Caption'#6#5'Fundo'#16'ShowDialogButton'#8
   +#0#12'TSpeedButton'#18'bsSkinSpeedButton6'#3'Tag'#2#1#4'Left'#2#2#3'Top'#2#2
@@ -86,94 +81,89 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'lyphTop'#7'OnClick'#7#19'btRemoveImagemClick'#0#0#6'TPanel'#10'GridPanel4'#4
   +'Left'#3#149#0#3'Top'#2#2#5'Width'#3#144#0#6'Height'#2'1'#5'Align'#7#8'alCli'
   +'ent'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#10'GridPanel1'#8'TabOrder'#2#0
-  +#10'DesignSize'#1#3#144#0#2'1'#0#0#6'TLabel'#15'bsSkinStdLabel8'#4'Left'#2#0
-  +#3'Top'#2#3#5'Width'#2'2'#6'Height'#2#20#12'UseSkinColor'#9#5'Align'#7#8'alC'
-  +'lient'#8'AutoSize'#8#7'Caption'#18#8#0#0#0'P'#0'o'#0's'#0'i'#0#231#0#227#0
-  +'o'#0':'#0#6'Layout'#7#8'tlCenter'#0#0#9'TComboBox'#12'posicaoFundo'#3'Tag'#3
-  +#15''''#4'Left'#2'2'#3'Top'#2#3#5'Width'#2'^'#6'Height'#2#20#12'Margins.Left'
-  +#2#0#11'Margins.Top'#2#1#13'Margins.Right'#2#0#7'Anchors'#11#6'akLeft'#5'akT'
-  +'op'#7'akRight'#8'akBottom'#0#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'Defaul'
-  +'tHeight'#2#0#15'ToolButtonStyle'#8#7'ItemsEx'#14#1#7'Caption'#6#9'Topo Esq.'
-  +#10'ImageIndex'#2'\'#18'SelectedImageIndex'#2'\'#0#1#7'Caption'#6#4'Topo'#10
-  +'ImageIndex'#2']'#18'SelectedImageIndex'#2']'#0#1#7'Caption'#6#9'Topo Dir.'
-  +#10'ImageIndex'#2'^'#18'SelectedImageIndex'#2'^'#0#1#7'Caption'#6#11'Centro '
-  +'Esq.'#10'ImageIndex'#2'_'#18'SelectedImageIndex'#2'_'#0#1#7'Caption'#6#6'Ce'
-  +'ntro'#10'ImageIndex'#2'`'#18'SelectedImageIndex'#2'`'#0#1#7'Caption'#6#11'C'
-  +'entro Dir.'#10'ImageIndex'#2'a'#18'SelectedImageIndex'#2'a'#0#1#7'Caption'
-  +#18#11#0#0#0'R'#0'o'#0'd'#0'a'#0'p'#0#233#0' '#0'E'#0's'#0'q'#0'.'#0#10'Imag'
-  +'eIndex'#2'b'#18'SelectedImageIndex'#2'b'#0#1#7'Caption'#18#6#0#0#0'R'#0'o'#0
-  +'d'#0'a'#0'p'#0#233#0#10'ImageIndex'#2'c'#18'SelectedImageIndex'#2'c'#0#1#7
-  +'Caption'#18#11#0#0#0'R'#0'o'#0'd'#0'a'#0'p'#0#233#0' '#0'D'#0'i'#0'r'#0'.'#0
-  +#10'ImageIndex'#2'd'#18'SelectedImageIndex'#2'd'#0#0#5'Style'#7#14'bscbFixed'
-  +'Style'#13'HideSelection'#9#12'AutoComplete'#9#18'ListBoxUseSkinFont'#9#24'L'
-  +'istBoxUseSkinItemHeight'#9#12'ListBoxWidth'#2#0#6'Images'#7#12'DM.ico_16x16'
-  +#10'AlphaBlend'#8#15'AlphaBlendValue'#2#0#18'ListBoxCaptionMode'#8#26'ListBo'
-  +'xDefaultFont.Charset'#7#15'DEFAULT_CHARSET'#24'ListBoxDefaultFont.Color'#7
-  +#12'clWindowText'#25'ListBoxDefaultFont.Height'#2#13#23'ListBoxDefaultFont.N'
-  +'ame'#6#6'Tahoma'#24'ListBoxDefaultFont.Style'#11#0'!ListBoxDefaultCaptionFo'
-  +'nt.Charset'#7#15'DEFAULT_CHARSET'#31'ListBoxDefaultCaptionFont.Color'#7#12
-  +'clWindowText ListBoxDefaultCaptionFont.Height'#2#13#30'ListBoxDefaultCaptio'
-  +'nFont.Name'#6#6'Tahoma'#31'ListBoxDefaultCaptionFont.Style'#11#0#24'ListBox'
-  +'DefaultItemHeight'#2#20#23'ListBoxCaptionAlignment'#7#13'taLeftJustify'#13
-  +'DropDownCount'#2#8#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7
-  +#12'clWindowText'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Styl'
-  +'e'#11#0#7'OnClick'#7#17'posicaoFundoClick'#0#0#6'TLabel'#15'bsSkinStdLabel9'
-  +#4'Left'#2#0#3'Top'#2#25#5'Width'#2'2'#6'Height'#2#20#12'Margins.Left'#2#5#11
-  +'Margins.Top'#2#0#13'Margins.Right'#2#0#14'Margins.Bottom'#2#0#12'UseSkinCol'
-  +'or'#9#5'Align'#7#8'alClient'#8'AutoSize'#8#7'Caption'#6#5' Cor:'#6'Layout'#7
-  +#8'tlCenter'#0#0#12'TColorButton'#8'corFundo'#3'Tag'#2#19#4'Left'#2'2'#3'Top'
-  +#2#25#5'Width'#2'^'#6'Height'#2#20#12'Margins.Left'#2#0#11'Margins.Top'#2#1
-  +#13'Margins.Right'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Checked'
-  +'Mode'#8#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'
-  +#2#0#11'Transparent'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2
-  +#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#8'NewStyle'#8#13'TrackPosition'#7#9
-  ,'bstpRight'#18'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8#15'TrackButt'
-  +'onMode'#8#9'AutoColor'#7#7'clBlack'#10'ColorValue'#7#7'clBlack'#13'ShowAuto'
-  +'Color'#9#13'ShowMoreColor'#9#15'MenuUseSkinFont'#9#23'MenuDefaultFont.Chars'
-  +'et'#7#15'DEFAULT_CHARSET'#21'MenuDefaultFont.Color'#7#12'clWindowText'#22'M'
-  +'enuDefaultFont.Height'#2#13#20'MenuDefaultFont.Name'#6#6'Tahoma'#21'MenuDef'
-  +'aultFont.Style'#11#0#14'MenuAlphaBlend'#8#19'MenuAlphaBlendValue'#3#200#0#23
-  +'MenuAlphaBlendAnimation'#8#13'OnChangeColor'#7#19'corFundoChangeColor'#0#0#0
-  +#0#6'TPanel'#15'bsRibbonGroup12'#4'Left'#3#150#2#3'Top'#2#0#5'Width'#3#130#0
-  +#6'Height'#2'F'#8'TabOrder'#2#3#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#5
-  +'Align'#7#6'alLeft'#7'Caption'#6#14'Texto Auxiliar'#16'ShowDialogButton'#8#0
-  +#6'TPanel'#10'GridPanel3'#4'Left'#2#2#3'Top'#2#2#5'Width'#2'~'#6'Height'#2'1'
-  +#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#10'GridPanel'
-  +'1'#8'TabOrder'#2#0#0#9'TSpinEdit'#16'tamanhoLetra_aux'#3'Tag'#3#15''''#16'A'
-  +'lignWithMargins'#9#4'Left'#2'?'#3'Top'#2#2#5'Width'#2'?'#6'Height'#2#21#12
-  +'Margins.Left'#2#0#11'Margins.Top'#2#2#13'Margins.Right'#2#0#14'Margins.Bott'
-  +'om'#2#1#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#12'Defau'
-  +'ltColor'#7#8'clWindow'#9'ValueType'#7#9'vtInteger'#5'Align'#7#8'alClient'#9
-  +'Increment'#5#0#0#0#0#0#0#0#128#255'?'#13'EditorEnabled'#9#9'MaxLength'#2#0#8
-  +'OnChange'#7#22'tamanhoLetra_auxChange'#0#0#6'TLabel'#15'bsSkinStdLabel3'#4
-  +'Left'#2#0#3'Top'#2#0#5'Width'#2'?'#6'Height'#2#24#12'UseSkinColor'#9#5'Alig'
-  +'n'#7#8'alClient'#8'AutoSize'#8#7'Caption'#6#8'Tamanho:'#6'Layout'#7#8'tlCen'
-  +'ter'#0#0#6'TLabel'#15'bsSkinStdLabel4'#4'Left'#2#0#3'Top'#2#24#5'Width'#2'?'
-  +#6'Height'#2#25#12'UseSkinColor'#9#5'Align'#7#8'alClient'#8'AutoSize'#8#7'Ca'
-  +'ption'#6#4'Cor:'#6'Layout'#7#8'tlCenter'#0#0#12'TColorButton'#12'corLetra_a'
-  +'ux'#16'AlignWithMargins'#9#4'Left'#2'?'#3'Top'#2#25#5'Width'#2'?'#6'Height'
-  +#2#21#4'Hint'#6#12'Cor da Fonte'#12'Margins.Left'#2#0#11'Margins.Top'#2#1#13
-  +'Margins.Right'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMod'
-  +'e'#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCaption'#2#0#19'WidthWitho'
-  +'utCaption'#2#0#10'ImageIndex'#2'2'#11'Transparent'#8#4'Flat'#8#8'ShowHint'#8
-  +#14'ParentShowHint'#8#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'
-  +#7#8'alClient'#7'Spacing'#2#1#8'NewStyle'#8#13'TrackPosition'#7#9'bstpRight'
-  +#18'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8#15'TrackButtonMode'#8#9
-  +'AutoColor'#7#7'clBlack'#10'ColorValue'#7#7'clBlack'#13'ShowAutoColor'#9#13
-  +'ShowMoreColor'#9#15'MenuUseSkinFont'#9#23'MenuDefaultFont.Charset'#7#15'DEF'
-  +'AULT_CHARSET'#21'MenuDefaultFont.Color'#7#12'clWindowText'#22'MenuDefaultFo'
-  +'nt.Height'#2#13#20'MenuDefaultFont.Name'#6#6'Tahoma'#21'MenuDefaultFont.Sty'
-  +'le'#11#0#14'MenuAlphaBlend'#8#19'MenuAlphaBlendValue'#3#200#0#23'MenuAlphaB'
-  +'lendAnimation'#8#13'OnChangeColor'#7#23'corLetra_auxChangeColor'#0#0#0#0#6
-  +'TPanel'#15'bsRibbonGroup13'#4'Left'#3''''#1#3'Top'#2#0#5'Width'#3#237#0#6'H'
-  +'eight'#2'F'#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#5'Al'
-  +'ign'#7#6'alLeft'#7'Caption'#6#14'Replicar Fundo'#16'ShowDialogButton'#8#0#12
-  +'TSpeedButton'#18'bsSkinSpeedButton2'#3'Tag'#2#3#4'Left'#3#164#0#3'Top'#2#2#5
-  +'Width'#2'G'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Ch'
-  +'eckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'Wi'
-  +'dthWithoutCaption'#2#0#10'ImageIndex'#2'W'#11'Transparent'#9#4'Flat'#9#4'Do'
-  +'wn'#8#10'GroupIndex'#2#0#7'Caption'#6#12'Todos Slides'#9'NumGlyphs'#2#1#5'A'
-  +'lign'#7#7'alRight'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#22
+  +#0#6'TLabel'#15'bsSkinStdLabel8'#4'Left'#2#0#3'Top'#2#3#5'Width'#2'2'#6'Heig'
+  +'ht'#2#20#12'UseSkinColor'#9#5'Align'#7#8'alClient'#8'AutoSize'#8#7'Caption'
+  +#18#8#0#0#0'P'#0'o'#0's'#0'i'#0#231#0#227#0'o'#0':'#0#6'Layout'#7#8'tlCenter'
+  +#0#0#9'TComboBox'#12'posicaoFundo'#3'Tag'#3#15''''#4'Left'#2'2'#3'Top'#2#3#5
+  +'Width'#2'^'#6'Height'#2#20#7'Anchors'#11#6'akLeft'#5'akTop'#7'akRight'#8'ak'
+  +'Bottom'#0#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#15'Too'
+  +'lButtonStyle'#8#7'ItemsEx'#14#1#7'Caption'#6#9'Topo Esq.'#10'ImageIndex'#2
+  +'\'#18'SelectedImageIndex'#2'\'#0#1#7'Caption'#6#4'Topo'#10'ImageIndex'#2']'
+  +#18'SelectedImageIndex'#2']'#0#1#7'Caption'#6#9'Topo Dir.'#10'ImageIndex'#2
+  +'^'#18'SelectedImageIndex'#2'^'#0#1#7'Caption'#6#11'Centro Esq.'#10'ImageInd'
+  +'ex'#2'_'#18'SelectedImageIndex'#2'_'#0#1#7'Caption'#6#6'Centro'#10'ImageInd'
+  +'ex'#2'`'#18'SelectedImageIndex'#2'`'#0#1#7'Caption'#6#11'Centro Dir.'#10'Im'
+  +'ageIndex'#2'a'#18'SelectedImageIndex'#2'a'#0#1#7'Caption'#18#11#0#0#0'R'#0
+  +'o'#0'd'#0'a'#0'p'#0#233#0' '#0'E'#0's'#0'q'#0'.'#0#10'ImageIndex'#2'b'#18'S'
+  +'electedImageIndex'#2'b'#0#1#7'Caption'#18#6#0#0#0'R'#0'o'#0'd'#0'a'#0'p'#0
+  +#233#0#10'ImageIndex'#2'c'#18'SelectedImageIndex'#2'c'#0#1#7'Caption'#18#11#0
+  +#0#0'R'#0'o'#0'd'#0'a'#0'p'#0#233#0' '#0'D'#0'i'#0'r'#0'.'#0#10'ImageIndex'#2
+  +'d'#18'SelectedImageIndex'#2'd'#0#0#5'Style'#7#14'bscbFixedStyle'#13'HideSel'
+  +'ection'#9#12'AutoComplete'#9#18'ListBoxUseSkinFont'#9#24'ListBoxUseSkinItem'
+  +'Height'#9#12'ListBoxWidth'#2#0#6'Images'#7#12'DM.ico_16x16'#10'AlphaBlend'#8
+  +#15'AlphaBlendValue'#2#0#18'ListBoxCaptionMode'#8#26'ListBoxDefaultFont.Char'
+  +'set'#7#15'DEFAULT_CHARSET'#24'ListBoxDefaultFont.Color'#7#12'clWindowText'
+  +#25'ListBoxDefaultFont.Height'#2#13#23'ListBoxDefaultFont.Name'#6#6'Tahoma'
+  +#24'ListBoxDefaultFont.Style'#11#0'!ListBoxDefaultCaptionFont.Charset'#7#15
+  +'DEFAULT_CHARSET'#31'ListBoxDefaultCaptionFont.Color'#7#12'clWindowText List'
+  +'BoxDefaultCaptionFont.Height'#2#13#30'ListBoxDefaultCaptionFont.Name'#6#6'T'
+  +'ahoma'#31'ListBoxDefaultCaptionFont.Style'#11#0#24'ListBoxDefaultItemHeight'
+  +#2#20#23'ListBoxCaptionAlignment'#7#13'taLeftJustify'#13'DropDownCount'#2#8
+  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11
+  +'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#7'OnClick'#7
+  +#17'posicaoFundoClick'#0#0#6'TLabel'#15'bsSkinStdLabel9'#4'Left'#2#0#3'Top'#2
+  +#25#5'Width'#2'2'#6'Height'#2#20#12'UseSkinColor'#9#5'Align'#7#8'alClient'#8
+  +'AutoSize'#8#7'Caption'#6#5' Cor:'#6'Layout'#7#8'tlCenter'#0#0#12'TColorButt'
+  +'on'#8'corFundo'#3'Tag'#2#19#4'Left'#2'2'#3'Top'#2#25#5'Width'#2'^'#6'Height'
+  +#2#20#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#16'WidthW'
+  +'ithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2#0#11'Transpare'
+  +'nt'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'#7#8
+  +'alClient'#7'Spacing'#2#1#8'NewStyle'#8#13'TrackPosition'#7#9'bstpRight'#18
+  +'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8#15'TrackButtonMode'#8#9'Au'
+  +'toColor'#7#7'clBlack'#10'ColorValue'#7#7'clBlack'#13'ShowAutoColor'#9#13'Sh'
+  +'owMoreColor'#9#15'MenuUseSkinFont'#9#23'MenuDefaultFont.Charset'#7#15'DEFAU'
+  +'LT_CHARSET'#21'MenuDefaultFont.Color'#7#12'clWindowText'#22'MenuDefaultFont'
+  +'.Height'#2#13#20'MenuDefaultFont.Name'#6#6'Tahoma'#21'MenuDefaultFont.Style'
+  +#11#0#14'MenuAlphaBlend'#8#19'MenuAlphaBlendValue'#3#200#0#23'MenuAlphaBlend'
+  +'Animation'#8#13'OnChangeColor'#7#19'corFundoChangeColor'#0#0#0#0#6'TPanel'
+  +#15'bsRibbonGroup12'#4'Left'#3#150#2#3'Top'#2#0#5'Width'#3#130#0#6'Height'#2
+  ,'F'#8'TabOrder'#2#3#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#5'Align'#7#6
+  +'alLeft'#7'Caption'#6#14'Texto Auxiliar'#16'ShowDialogButton'#8#0#6'TPanel'
+  +#10'GridPanel3'#4'Left'#2#2#3'Top'#2#2#5'Width'#2'~'#6'Height'#2'1'#5'Align'
+  +#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#10'GridPanel1'#8'TabO'
+  +'rder'#2#0#0#9'TSpinEdit'#16'tamanhoLetra_aux'#3'Tag'#3#15''''#16'AlignWithM'
+  +'argins'#9#4'Left'#2'?'#3'Top'#2#2#5'Width'#2'?'#6'Height'#2#21#8'TabOrder'#2
+  +#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#12'DefaultColor'#7#8'clWindow'
+  +#9'ValueType'#7#9'vtInteger'#5'Align'#7#8'alClient'#9'Increment'#5#0#0#0#0#0
+  +#0#0#128#255'?'#13'EditorEnabled'#9#9'MaxLength'#2#0#8'OnChange'#7#22'tamanh'
+  +'oLetra_auxChange'#0#0#6'TLabel'#15'bsSkinStdLabel3'#4'Left'#2#0#3'Top'#2#0#5
+  +'Width'#2'?'#6'Height'#2#24#12'UseSkinColor'#9#5'Align'#7#8'alClient'#8'Auto'
+  +'Size'#8#7'Caption'#6#8'Tamanho:'#6'Layout'#7#8'tlCenter'#0#0#6'TLabel'#15'b'
+  +'sSkinStdLabel4'#4'Left'#2#0#3'Top'#2#24#5'Width'#2'?'#6'Height'#2#25#12'Use'
+  +'SkinColor'#9#5'Align'#7#8'alClient'#8'AutoSize'#8#7'Caption'#6#4'Cor:'#6'La'
+  +'yout'#7#8'tlCenter'#0#0#12'TColorButton'#12'corLetra_aux'#16'AlignWithMargi'
+  +'ns'#9#4'Left'#2'?'#3'Top'#2#25#5'Width'#2'?'#6'Height'#2#21#4'Hint'#6#12'Co'
+  +'r da Fonte'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9
+  +'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCaption'#2#0#19'WidthWithoutCapti'
+  +'on'#2#0#10'ImageIndex'#2'2'#11'Transparent'#8#4'Flat'#8#8'ShowHint'#8#14'Pa'
+  +'rentShowHint'#8#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'#7#8
+  +'alClient'#7'Spacing'#2#1#8'NewStyle'#8#13'TrackPosition'#7#9'bstpRight'#18
+  +'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8#15'TrackButtonMode'#8#9'Au'
+  +'toColor'#7#7'clBlack'#10'ColorValue'#7#7'clBlack'#13'ShowAutoColor'#9#13'Sh'
+  +'owMoreColor'#9#15'MenuUseSkinFont'#9#23'MenuDefaultFont.Charset'#7#15'DEFAU'
+  +'LT_CHARSET'#21'MenuDefaultFont.Color'#7#12'clWindowText'#22'MenuDefaultFont'
+  +'.Height'#2#13#20'MenuDefaultFont.Name'#6#6'Tahoma'#21'MenuDefaultFont.Style'
+  +#11#0#14'MenuAlphaBlend'#8#19'MenuAlphaBlendValue'#3#200#0#23'MenuAlphaBlend'
+  +'Animation'#8#13'OnChangeColor'#7#23'corLetra_auxChangeColor'#0#0#0#0#6'TPan'
+  +'el'#15'bsRibbonGroup13'#4'Left'#3''''#1#3'Top'#2#0#5'Width'#3#237#0#6'Heigh'
+  +'t'#2'F'#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#5'Align'
+  +#7#6'alLeft'#7'Caption'#6#14'Replicar Fundo'#16'ShowDialogButton'#8#0#12'TSp'
+  +'eedButton'#18'bsSkinSpeedButton2'#3'Tag'#2#3#4'Left'#3#164#0#3'Top'#2#2#5'W'
+  +'idth'#2'G'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Che'
+  +'ckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'Wid'
+  +'thWithoutCaption'#2#0#10'ImageIndex'#2'W'#11'Transparent'#9#4'Flat'#9#4'Dow'
+  +'n'#8#10'GroupIndex'#2#0#7'Caption'#6#12'Todos Slides'#9'NumGlyphs'#2#1#5'Al'
+  +'ign'#7#7'alRight'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#22
   +'replicaFormatacaoFundo'#0#0#12'TSpeedButton'#18'bsSkinSpeedButton8'#3'Tag'#2
   +#1#4'Left'#2#2#3'Top'#2#2#5'Width'#2'M'#6'Height'#2'1'#12'DefaultWidth'#2#0
   +#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16
@@ -191,7 +181,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'th'#3#237#0#6'Height'#2'F'#8'TabOrder'#2#5#12'DefaultWidth'#2#0#13'DefaultH'
   +'eight'#2#0#5'Align'#7#6'alLeft'#7'Caption'#18#28#0#0#0'R'#0'e'#0'p'#0'l'#0
   +'i'#0'c'#0'a'#0'r'#0' '#0'F'#0'o'#0'r'#0'm'#0'a'#0't'#0'a'#0#231#0#227#0'o'#0
-  ,' '#0'd'#0'e'#0' '#0'T'#0'e'#0'x'#0't'#0'o'#0#16'ShowDialogButton'#8#0#12'TS'
+  +' '#0'd'#0'e'#0' '#0'T'#0'e'#0'x'#0't'#0'o'#0#16'ShowDialogButton'#8#0#12'TS'
   +'peedButton'#19'bsSkinSpeedButton17'#3'Tag'#2#3#4'Left'#3#164#0#3'Top'#2#2#5
   +'Width'#2'G'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Ch'
   +'eckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'Wi'
@@ -201,7 +191,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'replicaFormatacaoTexto'#0#0#12'TSpeedButton'#19'bsSkinSpeedButton18'#3'Tag'
   +#2#1#4'Left'#2#2#3'Top'#2#2#5'Width'#2'M'#6'Height'#2'1'#12'DefaultWidth'#2#0
   +#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16
-  +'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'X'#11'Tr'
+  ,'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'X'#11'Tr'
   +'ansparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#14'Slide S'
   +'eguinte'#9'NumGlyphs'#2#1#5'Align'#7#6'alLeft'#7'Spacing'#2#1#6'Layout'#7#10
   +'blGlyphTop'#7'OnClick'#7#22'replicaFormatacaoTexto'#0#0#12'TSpeedButton'#19
@@ -255,7 +245,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'ption'#18#5#0#0#0'A'#0#231#0#245#0'e'#0's'#0#16'ShowDialogButton'#8#0#12'TS'
   +'peedButton'#11'btNovoSlide'#3'Tag'#2#1#4'Left'#2#2#3'Top'#2#2#5'Width'#2'P'
   +#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8
-  ,#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCap'
+  +#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCap'
   +'tion'#2#0#10'ImageIndex'#2'['#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'Grou'
   +'pIndex'#2#0#7'Caption'#6#10'Novo Slide'#9'NumGlyphs'#2#1#5'Align'#7#6'alLef'
   +'t'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#16'btNovoSlideCli'
@@ -265,7 +255,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'WithoutCaption'#2#0#10'ImageIndex'#2'\'#11'Transparent'#9#4'Flat'#9#4'Down'
   +#8#10'GroupIndex'#2#0#7'Caption'#6#13'Excluir Slide'#9'NumGlyphs'#2#1#5'Alig'
   +'n'#7#6'alLeft'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#18'bt'
-  +'ExcluiSlideClick'#0#0#12'TSpeedButton'#14'btDuplicaSlide'#3'Tag'#2#2#4'Left'
+  ,'ExcluiSlideClick'#0#0#12'TSpeedButton'#14'btDuplicaSlide'#3'Tag'#2#2#4'Left'
   +#2'R'#3'Top'#2#2#5'Width'#2'P'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'Defaul'
   +'tHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWith'
   +'Caption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2']'#11'Transparent'
@@ -319,7 +309,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'h'#2'7'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Checke'
   +'dMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthW'
   +'ithoutCaption'#2#0#10'ImageIndex'#2#8#11'Transparent'#9#4'Flat'#9#4'Down'#8
-  ,#10'GroupIndex'#2#0#7'Caption'#6#10'Reproduzir'#9'NumGlyphs'#2#1#5'Align'#7#6
+  +#10'GroupIndex'#2#0#7'Caption'#6#10'Reproduzir'#9'NumGlyphs'#2#1#5'Align'#7#6
   +'alLeft'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#16'btPausePl'
   +'ayClick'#0#0#6'TBevel'#16'bsRibbonDivider5'#4'Left'#2'9'#3'Top'#2#2#5'Width'
   +#2#15#6'Height'#2'1'#11'DividerType'#7#16'bsdtVerticalLine'#5'Align'#7#6'alL'
@@ -329,7 +319,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'aption'#2#0#10'ImageIndex'#2'c'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'Gr'
   +'oupIndex'#2#0#7'Caption'#18#13#0#0#0'G'#0'r'#0'a'#0'v'#0'a'#0'r'#0' '#0'I'#0
   +'n'#0#237#0'c'#0'i'#0'o'#0#9'NumGlyphs'#2#1#5'Align'#7#6'alLeft'#7'Spacing'#2
-  +#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#13'btGravaIClick'#0#0#6'TBevel'#16
+  ,#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#13'btGravaIClick'#0#0#6'TBevel'#16
   +'bsRibbonDivider6'#4'Left'#3#169#0#3'Top'#2#2#5'Width'#2#15#6'Height'#2'1'#11
   +'DividerType'#7#16'bsdtVerticalLine'#5'Align'#7#6'alLeft'#0#0#6'TBevel'#16'b'
   +'sRibbonDivider7'#4'Left'#3'`'#1#3'Top'#2#2#5'Width'#2#15#6'Height'#2'1'#11
@@ -383,7 +373,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'T'#11'Tr'
   +'ansparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#11'Salvar '
   +'como'#9'NumGlyphs'#2#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#6'Layout'#7#10
-  ,'blGlyphTop'#7'OnClick'#7#17'btSalvarComoClick'#0#0#12'TSpeedButton'#6'btNov'
+  +'blGlyphTop'#7'OnClick'#7#17'btSalvarComoClick'#0#0#12'TSpeedButton'#6'btNov'
   +'o'#4'Left'#2#2#3'Top'#2#2#5'Width'#2'<'#6'Height'#2'1'#12'DefaultWidth'#2#0
   +#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16
   +'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'C'#11'Tr'
@@ -393,7 +383,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +#11#1#3'Top'#2#2#5'Width'#2#15#6'Height'#2'1'#11'DividerType'#7#16'bsdtVerti'
   +'calLine'#5'Align'#7#7'alRight'#0#0#12'TSpeedButton'#10'brImportar'#4'Left'#3
   +#26#1#3'Top'#2#2#5'Width'#2'<'#6'Height'#2'1'#12'DefaultWidth'#2#0#13'Defaul'
-  +'tHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWith'
+  ,'tHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWith'
   +'Caption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'a'#11'Transparent'
   +#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#8'Importar'#9'NumGlyp'
   +'hs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'O'
@@ -447,7 +437,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'vNone'#5'Align'#7#5'alTop'#7'Caption'#6#15'Texto Auxiliar:'#8'AutoSize'#9#0
   +#0#10'TScrollBar'#16'bsSkinScrollBar1'#4'Left'#3#25#1#3'Top'#2#19#5'Width'#2
   +#19#6'Height'#2#31#8'TabOrder'#2#2#7'Visible'#8#12'DefaultWidth'#2#19#13'Def'
-  ,'aultHeight'#2#0#4'Both'#8#15'BothMarkerWidth'#2#19#16'BothSkinDataName'#6#14
+  +'aultHeight'#2#0#4'Both'#8#15'BothMarkerWidth'#2#19#16'BothSkinDataName'#6#14
   +'bothhscrollbar'#5'Align'#7#7'alRight'#4'Kind'#7#10'sbVertical'#8'PageSize'#2
   +#1#3'Min'#2#0#3'Max'#2#1#8'Position'#2#0#11'SmallChange'#2#1#11'LargeChange'
   +#2#1#0#0#5'TMemo'#13'textoLetraAux'#3'Tag'#3#15''''#4'Left'#2#0#3'Top'#2#19#5
@@ -457,7 +447,7 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'ings'#1#6#11'bsSkinMemo3'#0#10'ParentFont'#8#10'ScrollBars'#7#6'ssBoth'#8'T'
   +'abOrder'#2#1#8'OnChange'#7#19'textoLetraAuxChange'#11'Transparent'#8#16'Wal'
   +'lpaperStretch'#8#8'BitMapBG'#9#10'VScrollBar'#7#16'bsSkinScrollBar1'#0#0#0#6
-  +'TPanel'#6'Panel5'#4'Left'#2#0#3'Top'#2#0#5'Width'#3','#1#6'Height'#2'<'#8'T'
+  ,'TPanel'#6'Panel5'#4'Left'#2#0#3'Top'#2#0#5'Width'#3','#1#6'Height'#2'<'#8'T'
   +'abOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7
   +'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Ca'
   +'ption'#6#6'Panel4'#5'Align'#7#5'alTop'#0#6'TLabel'#15'bsSkinStdLabel5'#16'A'
@@ -500,233 +490,232 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'ShowProgressText'#8#11'ShowPercent'#8#8'MinValue'#2#0#8'MaxValue'#2#1#5'Val'
   +'ue'#2#1#8'Vertical'#8#22'ProgressAnimationPause'#3#184#11#5'Align'#7#8'alCl'
   +'ient'#0#0#6'TLabel'#8'lblTempo'#16'AlignWithMargins'#9#4'Left'#3#220#1#3'To'
-  +'p'#2#0#5'Width'#2'Z'#6'Height'#2''''#12'Margins.Left'#2#10#11'Margins.Top'#2
-  +#0#13'Margins.Right'#2#0#14'Margins.Bottom'#2#0#12'UseSkinColor'#9#5'Align'#7
-  +#8'alClient'#8'AutoSize'#8#0#0#0#6'TPanel'#9'areaPanel'#4'Left'#2#0#3'Top'#2
-  +#0#5'Width'#3'6'#2#6'Height'#3#133#0#5'Align'#7#8'alClient'#10'BevelOuter'#7
-  +#6'bvNone'#8'TabOrder'#2#0#0#6'TPanel'#5'Panel'#4'Left'#2#0#3'Top'#2#0#5'Wid'
+  +'p'#2#0#5'Width'#2'Z'#6'Height'#2''''#12'UseSkinColor'#9#5'Align'#7#8'alClie'
+  +'nt'#8'AutoSize'#8#0#0#0#6'TPanel'#9'areaPanel'#4'Left'#2#0#3'Top'#2#0#5'Wid'
   +'th'#3'6'#2#6'Height'#3#133#0#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNo'
-  +'ne'#7'Caption'#6#5'Panel'#16'ParentBackground'#8#8'TabOrder'#2#0#0#6'TPanel'
-  +#8'pnlLetra'#4'Left'#2#0#3'Top'#2#0#5'Width'#3'6'#2#6'Height'#3#133#0#5'Alig'
-  +'n'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#5'Color'#7#7'clBlack'#5'Ctl3D'#8
-  +#14'DoubleBuffered'#8#16'ParentBackground'#8#11'ParentCtl3D'#8#20'ParentDoub'
-  +'leBuffered'#8#8'TabOrder'#2#0#0#6'TImage'#8'imgFundo'#4'Left'#2#16#3'Top'#2
-  ,#15#5'Width'#2'A'#6'Height'#2'2'#6'Center'#9#7'Stretch'#9#11'Transparent'#9#0
-  +#0#6'TImage'#13'imgFundoTexto'#4'Left'#2'('#3'Top'#2'('#5'Width'#2'i'#6'Heig'
-  +'ht'#2'9'#12'Picture.Data'#10'e:'#0#0#9'TPngImage'#137'PNG'#13#10#26#10#0#0#0
-  +#13'IHDR'#0#0#0#10#0#0#0#10#8#6#0#0#0#141'2'#207#189#0#0#0#9'pHYs'#0#0#11#19
-  +#0#0#11#19#1#0#154#156#24#0#0'9'#236'iTXtXML:com.adobe.xmp'#0#0#0#0#0'<?xpac'
-  +'ket begin="'#239#187#191'" id="W5M0MpCehiHzreSzNTczkc9d"?>'#10'<x:xmpmeta x'
-  +'mlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c138 79.159824, 2016/09'
-  +'/14-01:09:01        ">'#10'   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02'
-  +'/22-rdf-syntax-ns#">'#10'      <rdf:Description rdf:about=""'#10'          '
-  +'  xmlns:xmp="http://ns.adobe.com/xap/1.0/"'#10'            xmlns:xmpMM="htt'
-  +'p://ns.adobe.com/xap/1.0/mm/"'#10'            xmlns:stEvt="http://ns.adobe.'
-  +'com/xap/1.0/sType/ResourceEvent#"'#10'            xmlns:dc="http://purl.org'
-  +'/dc/elements/1.1/"'#10'            xmlns:photoshop="http://ns.adobe.com/pho'
-  +'toshop/1.0/"'#10'            xmlns:tiff="http://ns.adobe.com/tiff/1.0/"'#10
-  +'            xmlns:exif="http://ns.adobe.com/exif/1.0/">'#10'         <xmp:C'
-  +'reatorTool>Adobe Photoshop CC 2017 (Windows)</xmp:CreatorTool>'#10'        '
-  +' <xmp:CreateDate>2017-12-18T11:44:13-02:00</xmp:CreateDate>'#10'         <x'
-  +'mp:MetadataDate>2017-12-18T11:44:13-02:00</xmp:MetadataDate>'#10'         <'
-  +'xmp:ModifyDate>2017-12-18T11:44:13-02:00</xmp:ModifyDate>'#10'         <xmp'
-  +'MM:InstanceID>xmp.iid:5c5324b8-82cf-f240-a3aa-eb8cb75767cf</xmpMM:InstanceI'
-  +'D>'#10'         <xmpMM:DocumentID>adobe:docid:photoshop:778bc732-e3f9-11e7-'
-  +'b547-89994b82f48d</xmpMM:DocumentID>'#10'         <xmpMM:OriginalDocumentID'
-  +'>xmp.did:16ad038d-6bf0-9b45-9f63-4a01cbeaee34</xmpMM:OriginalDocumentID>'#10
-  +'         <xmpMM:History>'#10'            <rdf:Seq>'#10'               <rdf:'
-  +'li rdf:parseType="Resource">'#10'                  <stEvt:action>created</s'
-  +'tEvt:action>'#10'                  <stEvt:instanceID>xmp.iid:16ad038d-6bf0-'
-  +'9b45-9f63-4a01cbeaee34</stEvt:instanceID>'#10'                  <stEvt:when'
-  +'>2017-12-18T11:44:13-02:00</stEvt:when>'#10'                  <stEvt:softwa'
-  +'reAgent>Adobe Photoshop CC 2017 (Windows)</stEvt:softwareAgent>'#10'       '
-  +'        </rdf:li>'#10'               <rdf:li rdf:parseType="Resource">'#10
-  +'                  <stEvt:action>saved</stEvt:action>'#10'                  '
-  +'<stEvt:instanceID>xmp.iid:5c5324b8-82cf-f240-a3aa-eb8cb75767cf</stEvt:insta'
-  +'nceID>'#10'                  <stEvt:when>2017-12-18T11:44:13-02:00</stEvt:w'
-  +'hen>'#10'                  <stEvt:softwareAgent>Adobe Photoshop CC 2017 (Wi'
-  +'ndows)</stEvt:softwareAgent>'#10'                  <stEvt:changed>/</stEvt:'
-  +'changed>'#10'               </rdf:li>'#10'            </rdf:Seq>'#10'      '
-  +'   </xmpMM:History>'#10'         <dc:format>image/png</dc:format>'#10'     '
-  +'    <photoshop:ColorMode>3</photoshop:ColorMode>'#10'         <tiff:Orienta'
-  +'tion>1</tiff:Orientation>'#10'         <tiff:XResolution>720000/10000</tiff'
-  +':XResolution>'#10'         <tiff:YResolution>720000/10000</tiff:YResolution'
-  +'>'#10'         <tiff:ResolutionUnit>2</tiff:ResolutionUnit>'#10'         <e'
-  +'xif:ColorSpace>65535</exif:ColorSpace>'#10'         <exif:PixelXDimension>1'
-  +'0</exif:PixelXDimension>'#10'         <exif:PixelYDimension>10</exif:PixelY'
-  +'Dimension>'#10'      </rdf:Description>'#10'   </rdf:RDF>'#10'</x:xmpmeta>'
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'ne'#8'TabOrder'#2#0#0#6'TPanel'#5'Panel'#4'Left'#2#0#3'Top'#2#0#5'Width'#3
+  +'6'#2#6'Height'#3#133#0#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7
+  +'Caption'#6#5'Panel'#16'ParentBackground'#8#8'TabOrder'#2#0#0#6'TPanel'#8'pn'
+  +'lLetra'#4'Left'#2#0#3'Top'#2#0#5'Width'#3'6'#2#6'Height'#3#133#0#5'Align'#7
+  +#8'alClient'#10'BevelOuter'#7#6'bvNone'#5'Color'#7#7'clBlack'#5'Ctl3D'#8#14
+  +'DoubleBuffered'#8#16'ParentBackground'#8#11'ParentCtl3D'#8#20'ParentDoubleB'
+  +'uffered'#8#8'TabOrder'#2#0#0#6'TImage'#8'imgFundo'#4'Left'#2#16#3'Top'#2#15
+  +#5'Width'#2'A'#6'Height'#2'2'#6'Center'#9#7'Stretch'#9#11'Transparent'#9#0#0
+  +#6'TImage'#13'imgFundoTexto'#4'Left'#2'('#3'Top'#2'('#5'Width'#2'i'#6'Height'
+  +#2'9'#12'Picture.Data'#10'e:'#0#0#9'TPngImage'#137'PNG'#13#10#26#10#0#0#0#13
+  +'IHDR'#0#0#0#10#0#0#0#10#8#6#0#0#0#141'2'#207#189#0#0#0#9'pHYs'#0#0#11#19#0#0
+  +#11#19#1#0#154#156#24#0#0'9'#236'iTXtXML:com.adobe.xmp'#0#0#0#0#0'<?xpacket '
+  +'begin="'#239#187#191'" id="W5M0MpCehiHzreSzNTczkc9d"?>'#10'<x:xmpmeta xmlns'
+  +':x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c138 79.159824, 2016/09/14-'
+  +'01:09:01        ">'#10'   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-'
+  +'rdf-syntax-ns#">'#10'      <rdf:Description rdf:about=""'#10'            xm'
+  +'lns:xmp="http://ns.adobe.com/xap/1.0/"'#10'            xmlns:xmpMM="http://'
+  +'ns.adobe.com/xap/1.0/mm/"'#10'            xmlns:stEvt="http://ns.adobe.com/'
+  ,'xap/1.0/sType/ResourceEvent#"'#10'            xmlns:dc="http://purl.org/dc/'
+  +'elements/1.1/"'#10'            xmlns:photoshop="http://ns.adobe.com/photosh'
+  +'op/1.0/"'#10'            xmlns:tiff="http://ns.adobe.com/tiff/1.0/"'#10'   '
+  +'         xmlns:exif="http://ns.adobe.com/exif/1.0/">'#10'         <xmp:Crea'
+  +'torTool>Adobe Photoshop CC 2017 (Windows)</xmp:CreatorTool>'#10'         <x'
+  +'mp:CreateDate>2017-12-18T11:44:13-02:00</xmp:CreateDate>'#10'         <xmp:'
+  +'MetadataDate>2017-12-18T11:44:13-02:00</xmp:MetadataDate>'#10'         <xmp'
+  +':ModifyDate>2017-12-18T11:44:13-02:00</xmp:ModifyDate>'#10'         <xmpMM:'
+  +'InstanceID>xmp.iid:5c5324b8-82cf-f240-a3aa-eb8cb75767cf</xmpMM:InstanceID>'
+  +#10'         <xmpMM:DocumentID>adobe:docid:photoshop:778bc732-e3f9-11e7-b547'
+  +'-89994b82f48d</xmpMM:DocumentID>'#10'         <xmpMM:OriginalDocumentID>xmp'
+  +'.did:16ad038d-6bf0-9b45-9f63-4a01cbeaee34</xmpMM:OriginalDocumentID>'#10'  '
+  +'       <xmpMM:History>'#10'            <rdf:Seq>'#10'               <rdf:li'
+  +' rdf:parseType="Resource">'#10'                  <stEvt:action>created</stE'
+  +'vt:action>'#10'                  <stEvt:instanceID>xmp.iid:16ad038d-6bf0-9b'
+  +'45-9f63-4a01cbeaee34</stEvt:instanceID>'#10'                  <stEvt:when>2'
+  +'017-12-18T11:44:13-02:00</stEvt:when>'#10'                  <stEvt:software'
+  +'Agent>Adobe Photoshop CC 2017 (Windows)</stEvt:softwareAgent>'#10'         '
+  +'      </rdf:li>'#10'               <rdf:li rdf:parseType="Resource">'#10'  '
+  +'                <stEvt:action>saved</stEvt:action>'#10'                  <s'
+  +'tEvt:instanceID>xmp.iid:5c5324b8-82cf-f240-a3aa-eb8cb75767cf</stEvt:instanc'
+  +'eID>'#10'                  <stEvt:when>2017-12-18T11:44:13-02:00</stEvt:whe'
+  +'n>'#10'                  <stEvt:softwareAgent>Adobe Photoshop CC 2017 (Wind'
+  +'ows)</stEvt:softwareAgent>'#10'                  <stEvt:changed>/</stEvt:ch'
+  +'anged>'#10'               </rdf:li>'#10'            </rdf:Seq>'#10'        '
+  +' </xmpMM:History>'#10'         <dc:format>image/png</dc:format>'#10'       '
+  +'  <photoshop:ColorMode>3</photoshop:ColorMode>'#10'         <tiff:Orientati'
+  +'on>1</tiff:Orientation>'#10'         <tiff:XResolution>720000/10000</tiff:X'
+  +'Resolution>'#10'         <tiff:YResolution>720000/10000</tiff:YResolution>'
+  +#10'         <tiff:ResolutionUnit>2</tiff:ResolutionUnit>'#10'         <exif'
+  +':ColorSpace>65535</exif:ColorSpace>'#10'         <exif:PixelXDimension>10</'
+  +'exif:PixelXDimension>'#10'         <exif:PixelYDimension>10</exif:PixelYDim'
+  +'ension>'#10'      </rdf:Description>'#10'   </rdf:RDF>'#10'</x:xmpmeta>'#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  ,'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  ,'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  ,#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  ,'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +'                                                                         '
-  +#10'                                                                        '
-  +'                            '#10'                                          '
-  +'                                                          '#10'            '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
   +'                                                                           '
-  +'             '#10'                                                         '
-  +'                                           '#10'                           '
-  +' '#10'<?xpacket end="w"?>5'#227#230'9'#0#0#0#21'IDATx'#218'cd``'#216#207'@'
-  +#4'`'#28'UH_'#133#0#127'\'#7#129'-'#188#16#197#0#0#0#0'IEND'#174'B`'#130#7'S'
-  +'tretch'#9#7'Visible'#8#0#0#6'TLabel'#8'lblLetra'#4'Left'#2'4'#3'Top'#2#0#5
-  +'Width'#3#224#0#6'Height'#2'('#12'UseSkinColor'#8#12'Font.Charset'#7#15'DEFA'
-  +'ULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2'('#9'Font.Name'#6
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  ,'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  ,'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                            '
+  +#10'<?xpacket end="w"?>5'#227#230'9'#0#0#0#21'IDATx'#218'cd``'#216#207'@'#4
+  +'`'#28'UH_'#133#0#127'\'#7#129'-'#188#16#197#0#0#0#0'IEND'#174'B`'#130#7'Str'
+  +'etch'#9#7'Visible'#8#0#0#6'TLabel'#8'lblLetra'#4'Left'#2'4'#3'Top'#2#0#5'Wi'
+  +'dth'#3#224#0#6'Height'#2'('#12'UseSkinColor'#8#12'Font.Charset'#7#15'DEFAUL'
+  +'T_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2'('#9'Font.Name'#6
   +#12'Arial Narrow'#10'Font.Style'#11#6'fsBold'#0#9'Alignment'#7#8'taCenter'#7
   +'Caption'#6#13'CARREGANDO...'#5'Color'#7#7'clWhite'#11'ParentColor'#8#10'Par'
   +'entFont'#8#6'Layout'#7#8'tlCenter'#7'Visible'#8#8'WordWrap'#9#0#0#6'TLabel'
@@ -767,18 +756,17 @@ LazarusResources.Add('TfEditorSlides','FORMDATA',[
   +'op'#7'OnClick'#7#23'bsSkinSpeedButton4Click'#0#0#12'TSpeedButton'#18'bsSkin'
   +'SpeedButton5'#4'Left'#2#0#3'Top'#2#0#5'Width'#2#30#6'Height'#2')'#12'Defaul'
   +'tWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ic'
-  ,'o_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'
+  +'o_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'
   +#2'O'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2
   +#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClic'
   +'k'#7#23'bsSkinSpeedButton5Click'#0#0#6'TPanel'#6'Panel1'#4'Left'#2'Z'#3'Top'
   +#2#0#5'Width'#3#160#1#6'Height'#2')'#5'Align'#7#8'alClient'#10'BevelOuter'#7
   +#6'bvNone'#7'Caption'#6#6'Panel1'#8'TabOrder'#2#0#0#6'TLabel'#9'lblSlides'#4
-  +'Left'#2#0#3'Top'#2#0#5'Width'#3#160#1#6'Height'#2')'#12'Margins.Left'#2#10
-  +#11'Margins.Top'#2#0#13'Margins.Right'#2#0#14'Margins.Bottom'#2#0#8'TabOrder'
-  +#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#9#11'BorderS'
-  +'tyle'#7#7'bvFrame'#9'Alignment'#7#8'taCenter'#5'Align'#7#8'alClient'#7'Capt'
-  +'ion'#6#14'SLIDE    1 / 5'#8'AutoSize'#8#0#0#0#0#0#0#6'TTimer'#17'tmrSlideCa'
-  +'rregado'#8'Interval'#2#1#7'OnTimer'#7#22'tmrSlideCarregadoTimer'#4'Left'#3
-  +#128#0#3'Top'#3#24#1#0#0#6'TTimer'#8'tmrTempo'#7'Enabled'#8#8'Interval'#2'd'
-  +#7'OnTimer'#7#13'tmrTempoTimer'#4'Left'#2'`'#3'Top'#3#200#0#0#0#0
+  +'Left'#2#0#3'Top'#2#0#5'Width'#3#160#1#6'Height'#2')'#8'TabOrder'#2#0#12'Def'
+  +'aultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#9#11'BorderStyle'#7#7
+  +'bvFrame'#9'Alignment'#7#8'taCenter'#5'Align'#7#8'alClient'#7'Caption'#6#14
+  +'SLIDE    1 / 5'#8'AutoSize'#8#0#0#0#0#0#0#6'TTimer'#17'tmrSlideCarregado'#8
+  +'Interval'#2#1#7'OnTimer'#7#22'tmrSlideCarregadoTimer'#4'Left'#3#128#0#3'Top'
+  ,#3#24#1#0#0#6'TTimer'#8'tmrTempo'#7'Enabled'#8#8'Interval'#2'd'#7'OnTimer'#7
+  +#13'tmrTempoTimer'#4'Left'#2'`'#3'Top'#3#200#0#0#0#0
 ]);

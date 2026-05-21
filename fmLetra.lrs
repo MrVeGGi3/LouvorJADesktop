@@ -67,28 +67,26 @@ LazarusResources.Add('TfLetra','FORMDATA',[
   +#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'
   +#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'#0#6'TL'
   +'abel'#15'bsSkinStdLabel2'#16'AlignWithMargins'#9#4'Left'#2#0#3'Top'#2#0#5'W'
-  +'idth'#2'$'#6'Height'#2'2'#12'Margins.Left'#2#0#11'Margins.Top'#2#0#13'Margi'
-  +'ns.Right'#2#10#14'Margins.Bottom'#2#0#12'UseSkinColor'#9#5'Align'#7#6'alLef'
-  +'t'#7'Caption'#18#7#0#0#0#193#0'l'#0'b'#0'u'#0'n'#0's'#0':'#0#6'Layout'#7#8
-  +'tlCenter'#0#0#16'TDBLookupListBox'#22'bsSkinDBLookupListBox1'#16'AlignWithM'
-  +'argins'#9#4'Left'#2'.'#3'Top'#2#0#5'Width'#3#164#1#6'Height'#2'2'#12'Margin'
-  +'s.Left'#2#0#11'Margins.Top'#2#0#14'Margins.Bottom'#2#0#8'TabOrder'#2#0#12'D'
-  +'efaultWidth'#2#0#13'DefaultHeight'#2#0#5'Align'#7#8'alClient'#8'KeyField'#6
-  +#2'ID'#9'ListField'#6#4'NOME'#10'ListSource'#7#8'dsALBUNS'#11'ParentCtl3D'#8
-  +#8'RowCount'#2#2#17'DefaultItemHeight'#2#20#17'UseSkinItemHeight'#9#0#0#0#0
-  +#16'TDBLookupListBox'#7'dbLista'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#181#0#6'H'
-  +'eight'#3'}'#2#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#5
-  +'Align'#7#6'alLeft'#8'KeyField'#6#2'ID'#9'ListField'#6#4'NOME'#10'ListSource'
-  +#7#7'dsBUSCA'#11'ParentCtl3D'#8#8'RowCount'#2#31#17'DefaultItemHeight'#2#20
-  +#17'UseSkinItemHeight'#9#7'OnClick'#7#12'dbListaClick'#0#0#7'TZQuery'#7'qrBU'
-  +'SCA'#8'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6'-SELECT M'
-  +'USICAS.ID AS ID, MUSICAS.NOME AS NOME'#6#12'FROM MUSICAS'#6#21'ORDER BY MUS'
-  +'ICAS.NOME'#0#4'Left'#3#0#1#3'Top'#3#196#0#0#0#11'TDataSource'#7'dsBUSCA'#7
-  +'DataSet'#7#7'qrBUSCA'#4'Left'#3'D'#1#3'Top'#3#196#0#0#0#7'TZQuery'#7'qrLETR'
-  +'A'#8'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6'3SELECT ID,'
-  +'MUSICA,LETRA,LETRA_AUX FROM MUSICAS_LETRA'#6#22'WHERE MUSICA = :MUSICA'#6#14
-  +'ORDER BY ORDEM'#0#4'Left'#3#0#1#3'Top'#3#244#0#9'ParamData'#14#1#4'Name'#6#6
-  +'MUSICA'#9'ParamType'#7#7'ptInput'#0#0#0#0#7'TZQuery'#8'qrALBUNS'#8'Filtered'
+  +'idth'#2'$'#6'Height'#2'2'#12'UseSkinColor'#9#5'Align'#7#6'alLeft'#7'Caption'
+  +#18#7#0#0#0#193#0'l'#0'b'#0'u'#0'n'#0's'#0':'#0#6'Layout'#7#8'tlCenter'#0#0
+  +#16'TDBLookupListBox'#22'bsSkinDBLookupListBox1'#16'AlignWithMargins'#9#4'Le'
+  +'ft'#2'.'#3'Top'#2#0#5'Width'#3#164#1#6'Height'#2'2'#8'TabOrder'#2#0#12'Defa'
+  +'ultWidth'#2#0#13'DefaultHeight'#2#0#5'Align'#7#8'alClient'#8'KeyField'#6#2
+  +'ID'#9'ListField'#6#4'NOME'#10'ListSource'#7#8'dsALBUNS'#11'ParentCtl3D'#8#8
+  +'RowCount'#2#2#17'DefaultItemHeight'#2#20#17'UseSkinItemHeight'#9#0#0#0#0#16
+  +'TDBLookupListBox'#7'dbLista'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#181#0#6'Heig'
+  +'ht'#3'}'#2#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#5'Ali'
+  +'gn'#7#6'alLeft'#8'KeyField'#6#2'ID'#9'ListField'#6#4'NOME'#10'ListSource'#7
+  +#7'dsBUSCA'#11'ParentCtl3D'#8#8'RowCount'#2#31#17'DefaultItemHeight'#2#20#17
+  +'UseSkinItemHeight'#9#7'OnClick'#7#12'dbListaClick'#0#0#7'TZQuery'#7'qrBUSCA'
+  +#8'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6'-SELECT MUSICA'
+  +'S.ID AS ID, MUSICAS.NOME AS NOME'#6#12'FROM MUSICAS'#6#21'ORDER BY MUSICAS.'
+  +'NOME'#0#4'Left'#3#0#1#3'Top'#3#196#0#0#0#11'TDataSource'#7'dsBUSCA'#7'DataS'
+  +'et'#7#7'qrBUSCA'#4'Left'#3'D'#1#3'Top'#3#196#0#0#0#7'TZQuery'#7'qrLETRA'#8
+  +'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6'3SELECT ID,MUSIC'
+  +'A,LETRA,LETRA_AUX FROM MUSICAS_LETRA'#6#22'WHERE MUSICA = :MUSICA'#6#14'ORD'
+  +'ER BY ORDEM'#0#4'Left'#3#0#1#3'Top'#3#244#0#9'ParamData'#14#1#4'Name'#6#6'M'
+  +'USICA'#9'ParamType'#7#7'ptInput'#0#0#0#0#7'TZQuery'#8'qrALBUNS'#8'Filtered'
   +#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6'(SELECT A.ID,A.NOME FROM A'
   +'LBUM_MUSICAS AM'#6')LEFT JOIN ALBUM A ON (A.ID = AM.ID_ALBUM)'#6#28'WHERE A'
   +'M.ID_MUSICA = :MUSICA'#6#15'ORDER BY A.NOME'#0#4'Left'#3#0#1#3'Top'#3'$'#1#9

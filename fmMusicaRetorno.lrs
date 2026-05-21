@@ -28,30 +28,27 @@ LazarusResources.Add('TfMusicaRetorno','FORMDATA',[
   +#11'ShowPercent'#8#8'MinValue'#2#0#8'MaxValue'#2#1#5'Value'#2#1#8'Vertical'#8
   +#22'ProgressAnimationPause'#3#184#11#5'Align'#7#8'alClient'#0#0#6'TLabel'#8
   +'lblTempo'#16'AlignWithMargins'#9#4'Left'#3#25#2#3'Top'#2#0#5'Width'#2'Z'#6
-  +'Height'#2''''#12'Margins.Left'#2#10#11'Margins.Top'#2#0#13'Margins.Right'#2
-  +#0#14'Margins.Bottom'#2#0#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHei'
-  +'ght'#2#0#11'Transparent'#9#11'BorderStyle'#7#6'bvNone'#5'Align'#7#8'alClien'
-  +'t'#8'AutoSize'#8#0#0#0#6'TPanel'#6'Panel2'#4'Left'#2#0#3'Top'#3'U'#1#5'Widt'
-  +'h'#3's'#2#6'Height'#2')'#5'Align'#7#8'alBottom'#10'BevelOuter'#7#6'bvNone'#7
-  +'Caption'#6#6'Panel1'#5'Color'#7#7'clBlack'#16'ParentBackground'#8#8'TabOrde'
-  +'r'#2#1#0#6'TLabel'#9'lblSlides'#4'Left'#2#0#3'Top'#2#0#5'Width'#3's'#2#6'He'
-  +'ight'#2')'#12'Margins.Left'#2#10#11'Margins.Top'#2#0#13'Margins.Right'#2#0
-  +#14'Margins.Bottom'#2#0#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeigh'
-  +'t'#2#0#11'Transparent'#9#11'BorderStyle'#7#7'bvFrame'#9'Alignment'#7#8'taCe'
-  +'nter'#5'Align'#7#8'alClient'#7'Caption'#6#5'1 / 5'#8'AutoSize'#8#0#0#0#6'TP'
-  +'anel'#8'pnlLetra'#4'Left'#2#0#3'Top'#2#0#5'Width'#3's'#2#6'Height'#3'-'#1#5
-  +'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#2''''''#5'Colo'
-  +'r'#7#7'clBlack'#5'Ctl3D'#8#14'DoubleBuffered'#8#16'ParentBackground'#8#11'P'
-  +'arentCtl3D'#8#20'ParentDoubleBuffered'#8#8'TabOrder'#2#2#0#6'TLabel'#8'lblL'
-  +'etra'#4'Left'#2'2'#3'Top'#2#0#5'Width'#2#8#6'Height'#2'P'#12'UseSkinColor'#8
-  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.'
-  +'Height'#2'('#9'Font.Name'#6#12'Arial Narrow'#10'Font.Style'#11#6'fsBold'#0#9
-  +'Alignment'#7#8'taCenter'#7'Caption'#6#4'    '#5'Color'#7#7'clWhite'#11'Pare'
-  +'ntColor'#8#10'ParentFont'#8#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#6'TLa'
-  +'bel'#12'lblLetra_aux'#4'Left'#2'<'#3'Top'#2'G'#5'Width'#2#8#6'Height'#2'P'
-  +#12'UseSkinColor'#8#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7
-  +'clWhite'#11'Font.Height'#2'('#9'Font.Name'#6#12'Arial Narrow'#10'Font.Style'
-  +#11#6'fsBold'#0#9'Alignment'#7#8'taCenter'#7'Caption'#6#4'    '#5'Color'#7#7
-  +'clWhite'#11'ParentColor'#8#10'ParentFont'#8#6'Layout'#7#8'tlCenter'#8'WordW'
-  +'rap'#9#0#0#0#0#0
+  +'Height'#2''''#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
+  +'Transparent'#9#11'BorderStyle'#7#6'bvNone'#5'Align'#7#8'alClient'#8'AutoSiz'
+  +'e'#8#0#0#0#6'TPanel'#6'Panel2'#4'Left'#2#0#3'Top'#3'U'#1#5'Width'#3's'#2#6
+  +'Height'#2')'#5'Align'#7#8'alBottom'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6
+  +#6'Panel1'#5'Color'#7#7'clBlack'#16'ParentBackground'#8#8'TabOrder'#2#1#0#6
+  +'TLabel'#9'lblSlides'#4'Left'#2#0#3'Top'#2#0#5'Width'#3's'#2#6'Height'#2')'#8
+  +'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#9
+  +#11'BorderStyle'#7#7'bvFrame'#9'Alignment'#7#8'taCenter'#5'Align'#7#8'alClie'
+  +'nt'#7'Caption'#6#5'1 / 5'#8'AutoSize'#8#0#0#0#6'TPanel'#8'pnlLetra'#4'Left'
+  +#2#0#3'Top'#2#0#5'Width'#3's'#2#6'Height'#3'-'#1#5'Align'#7#8'alClient'#10'B'
+  +'evelOuter'#7#6'bvNone'#7'Caption'#6#2''''''#5'Color'#7#7'clBlack'#5'Ctl3D'#8
+  +#14'DoubleBuffered'#8#16'ParentBackground'#8#11'ParentCtl3D'#8#20'ParentDoub'
+  +'leBuffered'#8#8'TabOrder'#2#2#0#6'TLabel'#8'lblLetra'#4'Left'#2'2'#3'Top'#2
+  +#0#5'Width'#2#8#6'Height'#2'P'#12'UseSkinColor'#8#12'Font.Charset'#7#15'DEFA'
+  +'ULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2'('#9'Font.Name'#6
+  +#12'Arial Narrow'#10'Font.Style'#11#6'fsBold'#0#9'Alignment'#7#8'taCenter'#7
+  +'Caption'#6#4'    '#5'Color'#7#7'clWhite'#11'ParentColor'#8#10'ParentFont'#8
+  +#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#6'TLabel'#12'lblLetra_aux'#4'Left'
+  +#2'<'#3'Top'#2'G'#5'Width'#2#8#6'Height'#2'P'#12'UseSkinColor'#8#12'Font.Cha'
+  +'rset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2'('
+  +#9'Font.Name'#6#12'Arial Narrow'#10'Font.Style'#11#6'fsBold'#0#9'Alignment'#7
+  +#8'taCenter'#7'Caption'#6#4'    '#5'Color'#7#7'clWhite'#11'ParentColor'#8#10
+  +'ParentFont'#8#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#0#0#0
 ]);

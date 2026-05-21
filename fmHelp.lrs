@@ -14,19 +14,17 @@ LazarusResources.Add('TfHelp','FORMDATA',[
   +'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Ca'
   +'ption'#6#12'bsSkinPanel1'#5'Align'#7#8'alBottom'#0#6'TLabel'#9'lblStatus'#16
   +'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#3#5'Width'#3'>'#2#6'Height'#2'$'
-  +#12'Margins.Left'#2#10#12'UseSkinColor'#9#5'Align'#7#8'alClient'#6'Layout'#7
-  +#8'tlCenter'#0#0#7'TButton'#13'bsSkinButton2'#16'AlignWithMargins'#9#4'Left'
-  +#3'P'#2#3'Top'#2#5#5'Width'#2'}'#6'Height'#2' '#12'Margins.Left'#2#5#11'Marg'
-  +'ins.Top'#2#5#13'Margins.Right'#2#5#14'Margins.Bottom'#2#5#8'TabOrder'#2#0#12
-  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8
-  +#9'ImageList'#7#12'DM.ico_24x24'#10'ImageIndex'#2'l'#7'TabStop'#9#4'Down'#8
-  +#10'GroupIndex'#2#0#7'Caption'#6#13'Acessar Ajuda'#9'NumGlyphs'#2#1#7'Spacin'
-  +'g'#2#1#5'Align'#7#7'alRight'#7'OnClick'#7#18'bsSkinButton2Click'#0#0#7'TBut'
-  +'ton'#13'bsSkinButton1'#16'AlignWithMargins'#9#4'Left'#3#215#2#3'Top'#2#5#5
-  +'Width'#2'\'#6'Height'#2' '#12'Margins.Left'#2#5#11'Margins.Top'#2#5#13'Marg'
-  +'ins.Right'#2#5#14'Margins.Bottom'#2#5#8'TabOrder'#2#1#12'DefaultWidth'#2#0
-  +#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12
-  +'DM.ico_24x24'#10'ImageIndex'#2#1#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7
-  +'Caption'#6#6'Fechar'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#7'alRight'#7
-  +'OnClick'#7#18'bsSkinButton1Click'#0#0#0#0#0
+  +#12'UseSkinColor'#9#5'Align'#7#8'alClient'#6'Layout'#7#8'tlCenter'#0#0#7'TBu'
+  +'tton'#13'bsSkinButton2'#16'AlignWithMargins'#9#4'Left'#3'P'#2#3'Top'#2#5#5
+  +'Width'#2'}'#6'Height'#2' '#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultH'
+  +'eight'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x'
+  +'24'#10'ImageIndex'#2'l'#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'
+  +#6#13'Acessar Ajuda'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#7'alRight'#7
+  +'OnClick'#7#18'bsSkinButton2Click'#0#0#7'TButton'#13'bsSkinButton1'#16'Align'
+  +'WithMargins'#9#4'Left'#3#215#2#3'Top'#2#5#5'Width'#2'\'#6'Height'#2' '#8'Ta'
+  +'bOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11
+  +'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#10'ImageIndex'#2#1#7'TabStop'
+  +#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#6'Fechar'#9'NumGlyphs'#2#1#7'Sp'
+  +'acing'#2#1#5'Align'#7#7'alRight'#7'OnClick'#7#18'bsSkinButton1Click'#0#0#0#0
+  +#0
 ]);
