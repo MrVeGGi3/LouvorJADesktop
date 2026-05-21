@@ -37092,8 +37092,6 @@ object DM: TDM
     Top = 376
   end
   object ico_16x16: TImageList
-    PngWidth = 16
-    PngHeight = 16
     Left = 88
     Top = 40
     Bitmap = {
@@ -40801,8 +40799,6 @@ object DM: TDM
       000000000000}
   end
   object ico_64x64: TImageList
-    PngWidth = 64
-    PngHeight = 64
     Left = 136
     Top = 40
     Bitmap = {
@@ -45038,8 +45034,6 @@ object DM: TDM
       000000000000}
   end
   object ico_24x24: TImageList
-    PngWidth = 24
-    PngHeight = 24
     Left = 184
     Top = 40
     Bitmap = {
@@ -53367,8 +53361,6 @@ object DM: TDM
       000000000000}
   end
   object ico_40x40: TImageList
-    PngWidth = 40
-    PngHeight = 40
     Left = 232
     Top = 40
     Bitmap = {
@@ -66057,8 +66049,6 @@ object DM: TDM
     Top = 376
   end
   object ico_flags: TImageList
-    PngWidth = 24
-    PngHeight = 24
     Left = 280
     Top = 40
     Bitmap = {
