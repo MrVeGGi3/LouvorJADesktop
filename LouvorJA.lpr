@@ -207,9 +207,21 @@ begin
   RegisterPropertyToSkip(TComponent, 'SupportUpDownKeys',      BSF, '');
   RegisterPropertyToSkip(TComponent, 'TitleAlignment',         BSF, '');
   RegisterPropertyToSkip(TComponent, 'OverwritePromt',         BSF, '');
-  // Flat não existe em TCheckBox/TRadioButton no LCL
-  RegisterPropertyToSkip(TCheckBox,    'Flat', BSF, '');
-  RegisterPropertyToSkip(TRadioButton, 'Flat', BSF, '');
+  // Flat não existe em TCheckBox/TRadioButton/TColorButton no LCL
+  RegisterPropertyToSkip(TCheckBox,    'Flat',        BSF, '');
+  RegisterPropertyToSkip(TRadioButton, 'Flat',        BSF, '');
+  // Radio, Execute — BSF toggle/action, sem equivalente no LCL
+  RegisterPropertyToSkip(TComponent,   'Radio',       BSF, '');
+  RegisterPropertyToSkip(TComponent,   'Execute',     BSF, '');
+  // BorderStyle em TLabel/TCheckBox — não existe no LCL (só TForm/TPanel têm)
+  RegisterPropertyToSkip(TLabel,       'BorderStyle', BSF, '');
+  RegisterPropertyToSkip(TCheckBox,    'BorderStyle', BSF, '');
+  RegisterPropertyToSkip(TRadioButton, 'BorderStyle', BSF, '');
+  // AlphaBlend em controles não-TForm (TForm LCL tem AlphaBlend, outros não)
+  RegisterPropertyToSkip(TCheckBox,    'AlphaBlend',      BSF, '');
+  RegisterPropertyToSkip(TCheckBox,    'AlphaBlendValue', BSF, '');
+  RegisterPropertyToSkip(TLabel,       'AlphaBlend',      BSF, '');
+  RegisterPropertyToSkip(TLabel,       'AlphaBlendValue', BSF, '');
   // VCL-only (Windows)
   RegisterPropertyToSkip(TComponent, 'Ctl3D',                  VCL, '');
   RegisterPropertyToSkip(TComponent, 'ParentCtl3D',            VCL, '');
