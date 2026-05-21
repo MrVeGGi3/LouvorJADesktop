@@ -1,0 +1,14 @@
+LazarusResources.Add('TfMonitorTextoInterativo','FORMDATA',[
+  'TPF0'#24'TfMonitorTextoInterativo'#23'fMonitorTextoInterativo'#4'Left'#2#0#3
+  +'Top'#2#0#11'BorderStyle'#7#6'bsNone'#7'Caption'#6#16'Texto Interativo'#12'C'
+  +'lientHeight'#3#144#1#11'ClientWidth'#3'X'#2#5'Color'#7#9'clBtnFace'#12'Font'
+  +'.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.H'
+  +'eight'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPreview'#9
+  +#10'OnActivate'#7#12'FormActivate'#7'OnClose'#7#9'FormClose'#7'OnKeyUp'#7#9
+  +'FormKeyUp'#0#9'TRichMemo'#9'RichEdit0'#4'Left'#2#0#3'Top'#2#0#5'Width'#3'X'
+  +#2#6'Height'#3#144#1#10'ScrollBars'#7#6'ssBoth'#5'Align'#7#8'alClient'#12'Fo'
+  +'nt.Charset'#7#12'ANSI_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.He'
+  +'ight'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8
+  +'ReadOnly'#9#8'TabOrder'#2#0#11'Transparent'#8#16'WallpaperStretch'#8#11'Ski'
+  +'nSupport'#8#12'DefaultColor'#7#8'clWindow'#0#0#0
+]);

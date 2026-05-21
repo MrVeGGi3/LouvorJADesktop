@@ -1,0 +1,31 @@
+LazarusResources.Add('TfFavoritos','FORMDATA',[
+  'TPF0'#11'TfFavoritos'#10'fFavoritos'#4'Left'#2#0#3'Top'#2#0#11'BorderIcons'
+  +#11#0#11'BorderStyle'#7#8'bsDialog'#7'Caption'#6#27'Alterar Ordem dos Favori'
+  +'tos'#12'ClientHeight'#3's'#1#11'ClientWidth'#3#138#1#5'Color'#7#9'clBtnFace'
+  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11
+  +'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPrevi'
+  +'ew'#9#7'OnKeyUp'#7#9'FormKeyUp'#0#10'TScrollBox'#12'dbcFavoritos'#4'Left'#2
+  +#0#3'Top'#2#0#5'Width'#3#138#1#6'Height'#3's'#1#5'Align'#7#8'alClient'#5'Col'
+  +'or'#7#7'clWhite'#10'DataSource'#7#14'DM.dsFavoritos'#11'PanelHeight'#2#26#10
+  +'PanelWidth'#3'w'#1#11'ParentColor'#8#8'TabOrder'#2#0#8'RowCount'#2#14#13'Se'
+  +'lectedColor'#7#9'clSkyBlue'#0#6'TImage'#6'Image1'#4'Left'#3'\'#1#3'Top'#2#1
+  +#5'Width'#2#26#6'Height'#2#23#14'DoubleBuffered'#8#8'AutoSize'#8#10'ImageInd'
+  +'ex'#2#14#5'Align'#7#7'alRight'#6'Center'#9#7'OnClick'#7#11'Image1Click'#0#0
+  +#6'TImage'#12'imgFavBtDown'#4'Left'#3'B'#1#3'Top'#2#1#5'Width'#2#26#6'Height'
+  +#2#23#14'DoubleBuffered'#8#8'AutoSize'#8#10'ImageIndex'#2#18#5'Align'#7#7'al'
+  +'Right'#6'Center'#9#7'OnClick'#7#17'imgFavBtDownClick'#0#0#6'TImage'#10'imgF'
+  +'avBtUp'#4'Left'#3'('#1#3'Top'#2#1#5'Width'#2#26#6'Height'#2#23#14'DoubleBuf'
+  +'fered'#8#8'AutoSize'#8#10'ImageIndex'#2#17#5'Align'#7#7'alRight'#6'Center'#9
+  +#7'OnClick'#7#15'imgFavBtUpClick'#0#0#7'TDBText'#9'skLitItem'#4'Left'#2#27#3
+  +'Top'#2#1#5'Width'#3#13#1#6'Height'#2#23#12'UseSkinColor'#9#12'Font.Charset'
+  +#7#12'ANSI_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#243#9
+  +'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#5'Align'#7#8'alClient'#7'Caption'
+  +#6#9'skLitItem'#10'ParentFont'#8#13'ShowAccelChar'#8#6'Layout'#7#8'tlCenter'
+  +#9'DataField'#6#4'NOME'#10'DataSource'#7#14'DM.dsFavoritos'#11'Transparent'#9
+  +#0#0#6'TImage'#9'imFavIcon'#4'Left'#2#1#3'Top'#2#1#5'Width'#2#26#6'Height'#2
+  +#23#14'DoubleBuffered'#8#8'AutoSize'#8#10'ImageIndex'#2#255#5'Align'#7#6'alL'
+  +'eft'#6'Center'#9#0#0#6'TPanel'#6'Panel1'#4'Left'#2#1#3'Top'#2#24#5'Width'#3
+  +'u'#1#6'Height'#2#1#5'Align'#7#8'alBottom'#10'BevelOuter'#7#6'bvNone'#7'Capt'
+  +'ion'#6#6'Panel1'#5'Color'#4#232#232#232#0#16'ParentBackground'#8#8'TabOrder'
+  +#2#0#0#0#0#0
+]);

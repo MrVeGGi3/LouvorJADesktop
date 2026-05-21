@@ -1,0 +1,23 @@
+LazarusResources.Add('TfMonitorCronometroCulto','FORMDATA',[
+  'TPF0'#24'TfMonitorCronometroCulto'#23'fMonitorCronometroCulto'#4'Left'#2#0#3
+  +'Top'#2#0#11'BorderStyle'#7#6'bsNone'#7'Caption'#18#19#0#0#0'C'#0'r'#0'o'#0
+  +'n'#0#244#0'm'#0'e'#0't'#0'r'#0'o'#0' '#0'd'#0'e'#0' '#0'C'#0'u'#0'l'#0't'#0
+  +'o'#0#12'ClientHeight'#3#144#1#11'ClientWidth'#3'X'#2#5'Color'#7#9'clBtnFace'
+  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11
+  +'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPrevi'
+  +'ew'#9#10'OnActivate'#7#12'FormActivate'#7'OnClose'#7#9'FormClose'#7'OnKeyUp'
+  +#7#9'FormKeyUp'#8'OnResize'#7#10'FormResize'#0#6'TPanel'#8'pnlEscSB'#4'Left'
+  +#2#0#3'Top'#2#0#5'Width'#3'X'#2#6'Height'#3#138#1#5'Align'#7#8'alClient'#10
+  +'BevelOuter'#7#6'bvNone'#5'Color'#7#7'clWhite'#16'ParentBackground'#8#8'TabO'
+  +'rder'#2#0#0#6'TImage'#8'imgEscSB'#4'Left'#2#6#3'Top'#2#1#5'Width'#3#219#4#6
+  +'Height'#3#26#2#6'Center'#9#7'Stretch'#9#11'Transparent'#9#0#0#6'TLabel'#9'l'
+  +'mdEscSbR'#4'Left'#2#25#3'Top'#3#188#0#5'Width'#3#184#1#6'Height'#2'u'#9'Ali'
+  +'gnment'#7#8'taCenter'#8'AutoSize'#8#7'Caption'#6#8'00:00:00'#0#0#6'TLabel'#8
+  +'lmdEscSb'#4'Left'#2#25#3'Top'#2'='#5'Width'#3#160#1#6'Height'#2'O'#9'Alignm'
+  +'ent'#7#8'taCenter'#8'AutoSize'#8#7'Caption'#6#8'00:00:00'#6'Layout'#7#8'tlB'
+  +'ottom'#0#0#0#12'TProgressBar'#7'gEscSbR'#4'Left'#2#0#3'Top'#3#138#1#5'Width'
+  +#3'X'#2#6'Height'#2#6#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'
+  +#2#0#16'ShowProgressText'#8#11'ShowPercent'#8#8'MinValue'#2#0#8'MaxValue'#2#1
+  +#5'Value'#2#1#8'Vertical'#8#22'ProgressAnimationPause'#3#184#11#5'Align'#7#8
+  +'alBottom'#0#0#0
+]);

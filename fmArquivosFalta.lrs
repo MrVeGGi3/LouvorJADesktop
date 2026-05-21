@@ -1,0 +1,87 @@
+LazarusResources.Add('TfArquivosFalta','FORMDATA',[
+  'TPF0'#15'TfArquivosFalta'#14'fArquivosFalta'#4'Left'#2#0#3'Top'#2#0#11'Borde'
+  +'rIcons'#11#0#7'Caption'#6#27'Verificar arquivos em falta'#12'ClientHeight'#3
+  +'<'#1#11'ClientWidth'#3#161#2#5'Color'#7#9'clBtnFace'#12'Font.Charset'#7#15
+  +'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#245#9
+  +'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPreview'#9#6'Scaled'#8#10
+  +'OnActivate'#7#12'FormActivate'#7'OnKeyUp'#7#9'FormKeyUp'#0#6'TPanel'#12'bsS'
+  +'kinPanel1'#4'Left'#2#0#3'Top'#3#18#1#5'Width'#3#161#2#6'Height'#2'*'#8'TabO'
+  +'rder'#2#4#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Ch'
+  +'ecked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Capt'
+  +'ion'#6#12'bsSkinPanel1'#5'Align'#7#8'alBottom'#0#6'TLabel'#9'lblStatus'#16
+  +'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#3#5'Width'#3#204#0#6'Height'#2'$'
+  +#12'Margins.Left'#2#10#12'UseSkinColor'#9#5'Align'#7#8'alClient'#6'Layout'#7
+  +#8'tlCenter'#0#0#7'TButton'#13'bsSkinButton2'#16'AlignWithMargins'#9#4'Left'
+  +#3'@'#2#3'Top'#2#5#5'Width'#2'\'#6'Height'#2' '#12'Margins.Left'#2#5#11'Marg'
+  +'ins.Top'#2#5#13'Margins.Right'#2#5#14'Margins.Bottom'#2#5#8'TabOrder'#2#2#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8
+  +#9'ImageList'#7#12'DM.ico_24x24'#10'ImageIndex'#2#1#7'TabStop'#9#4'Down'#8#10
+  +'GroupIndex'#2#0#7'Caption'#6#6'Fechar'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Al'
+  +'ign'#7#7'alRight'#7'OnClick'#7#18'bsSkinButton2Click'#0#0#7'TButton'#7'btBa'
+  +'ixa'#16'AlignWithMargins'#9#4'Left'#3#222#0#3'Top'#2#5#5'Width'#3#192#0#6'H'
+  +'eight'#2' '#12'Margins.Left'#2#5#11'Margins.Top'#2#5#13'Margins.Right'#2#5
+  +#14'Margins.Bottom'#2#5#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeigh'
+  +'t'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'
+  +#10'ImageIndex'#2'$'#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6
+  +#29' Baixar Arquivos Selecionados'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7
+  +#7'alRight'#7'Enabled'#8#7'OnClick'#7#12'btBaixaClick'#0#0#7'TButton'#10'btV'
+  +'erifica'#16'AlignWithMargins'#9#4'Left'#3#168#1#3'Top'#2#5#5'Width'#3#142#0
+  +#6'Height'#2' '#12'Margins.Left'#2#5#11'Margins.Top'#2#5#13'Margins.Right'#2
+  +#5#14'Margins.Bottom'#2#5#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHei'
+  +'ght'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'
+  +#10'ImageIndex'#2'H'#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6
+  +#19'Verificar Novamente'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#7'alRigh'
+  +'t'#7'Enabled'#8#7'OnClick'#7#15'btVerificaClick'#0#0#0#6'TPanel'#12'bsSkinP'
+  +'anel2'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#161#2#6'Height'#2' '#8'TabOrder'#2
+  +#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8
+  +#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12
+  +'bsSkinPanel1'#5'Align'#7#5'alTop'#0#6'TLabel'#4'lbl1'#16'AlignWithMargins'#9
+  +#4'Left'#2#10#3'Top'#2#3#5'Width'#3#27#1#6'Height'#2#26#12'Margins.Left'#2#10
+  +#12'UseSkinColor'#9#5'Align'#7#8'alClient'#7'Caption'#18'%'#0#0#0'V'#0'e'#0
+  +'r'#0'i'#0'f'#0'i'#0'c'#0'a'#0#231#0#227#0'o'#0' '#0'd'#0'e'#0' '#0'a'#0'r'#0
+  +'q'#0'u'#0'i'#0'v'#0'o'#0's'#0' '#0'd'#0'a'#0' '#0'c'#0'o'#0'l'#0'e'#0't'#0
+  +#226#0'n'#0'e'#0'a'#0':'#0#6'Layout'#7#8'tlCenter'#0#0#6'TPanel'#8'gpBotoes'
+  +#4'Left'#3'('#1#3'Top'#2#0#5'Width'#3'y'#1#6'Height'#2' '#5'Align'#7#7'alRig'
+  +'ht'#10'BevelOuter'#7#6'bvNone'#8'TabOrder'#2#0#0#12'TSpeedButton'#19'bsSkin'
+  +'SpeedButton53'#16'AlignWithMargins'#9#4'Left'#2#3#3'Top'#2#3#5'Width'#2'w'#6
+  +'Height'#2#26#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9
+  +'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCapti'
+  +'on'#2#0#10'ImageIndex'#2'D'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupI'
+  +'ndex'#2#0#7'Caption'#6#12'Marcar Todos'#9'NumGlyphs'#2#1#5'Align'#7#8'alCli'
+  +'ent'#6'Margin'#2#5#7'Spacing'#2#1#7'OnClick'#7#24'bsSkinSpeedButton53Click'
+  +#0#0#12'TSpeedButton'#19'bsSkinSpeedButton54'#16'AlignWithMargins'#9#4'Left'
+  +#3#128#0#3'Top'#2#3#5'Width'#2'w'#6'Height'#2#26#12'DefaultWidth'#2#0#13'Def'
+  +'aultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthW'
+  +'ithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'F'#11'Transpar'
+  +'ent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#15'Desmarcar Tod'
+  +'os'#9'NumGlyphs'#2#1#5'Align'#7#8'alClient'#6'Margin'#2#5#7'Spacing'#2#1#7
+  +'OnClick'#7#24'bsSkinSpeedButton54Click'#0#0#12'TSpeedButton'#19'bsSkinSpeed'
+  +'Button55'#16'AlignWithMargins'#9#4'Left'#3#253#0#3'Top'#2#3#5'Width'#2'y'#6
+  +'Height'#2#26#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9
+  +'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCapti'
+  +'on'#2#0#10'ImageIndex'#2'E'#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupI'
+  +'ndex'#2#0#7'Caption'#18#16#0#0#0'I'#0'n'#0'v'#0'e'#0'r'#0't'#0'e'#0'r'#0' '
+  +#0'S'#0'e'#0'l'#0'e'#0#231#0#227#0'o'#0#9'NumGlyphs'#2#1#5'Align'#7#8'alClie'
+  +'nt'#6'Margin'#2#5#7'Spacing'#2#1#7'OnClick'#7#24'bsSkinSpeedButton55Click'#0
+  ,#0#0#0#9'TListView'#10'lvArquivos'#4'Left'#2#0#3'Top'#2' '#5'Width'#3#142#2#6
+  +'Height'#3#236#0#8'DrawSkin'#8#13'DrawSkinLines'#8#16'ItemSkinDataName'#6#7
+  +'listbox'#12'AlternateRow'#8#17'CheckSkinDataName'#6#8'checkbox'#12'DefaultC'
+  +'olor'#7#8'clWindow'#5'Align'#7#8'alClient'#10'Checkboxes'#9#7'Columns'#14#1
+  +#7'Caption'#6#7'Arquivo'#5'Width'#3#200#0#0#1#7'Caption'#18#9#0#0#0'D'#0'i'#0
+  +'r'#0'e'#0't'#0#243#0'r'#0'i'#0'o'#0#5'Width'#3','#1#0#1#7'Caption'#6#6'Stat'
+  +'us'#5'Width'#3#150#0#0#0#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Col'
+  +'or'#7#12'clWindowText'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Fon'
+  +'t.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#1#9'ViewStyle'#7#8'vsReport'#18
+  +'HeaderSkinDataName'#6#6'header'#10'VScrollBar'#7#16'bsSkinScrollBar8'#0#0#12
+  +'TProgressBar'#10'gProgresso'#4'Left'#2#0#3'Top'#3#12#1#5'Width'#3#161#2#6'H'
+  +'eight'#2#6#8'TabOrder'#2#3#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#16'Sh'
+  +'owProgressText'#8#11'ShowPercent'#8#8'MinValue'#2#0#8'MaxValue'#2#1#5'Value'
+  +#2#0#8'Vertical'#8#22'ProgressAnimationPause'#3#184#11#5'Align'#7#8'alBottom'
+  +#0#0#10'TScrollBar'#16'bsSkinScrollBar8'#4'Left'#3#142#2#3'Top'#2' '#5'Width'
+  +#2#19#6'Height'#3#236#0#8'TabOrder'#2#2#7'Visible'#8#12'DefaultWidth'#2#19#13
+  +'DefaultHeight'#2#0#4'Both'#8#15'BothMarkerWidth'#2#19#16'BothSkinDataName'#6
+  +#14'bothhscrollbar'#5'Align'#7#7'alRight'#4'Kind'#7#10'sbVertical'#8'PageSiz'
+  +'e'#2#0#3'Min'#2#0#3'Max'#2#0#8'Position'#2#0#11'SmallChange'#2#1#11'LargeCh'
+  +'ange'#2#1#0#0#6'TTimer'#8'tmrFecha'#7'Enabled'#8#8'Interval'#2#10#7'OnTimer'
+  +#7#13'tmrFechaTimer'#4'Left'#2'('#3'Top'#3#184#0#0#0#0
+]);

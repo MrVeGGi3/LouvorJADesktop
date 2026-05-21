@@ -1,0 +1,19 @@
+LazarusResources.Add('TfMonitorRelogio','FORMDATA',[
+  'TPF0'#16'TfMonitorRelogio'#15'fMonitorRelogio'#4'Left'#2#0#3'Top'#2#0#11'Bor'
+  +'derStyle'#7#6'bsNone'#7'Caption'#18#7#0#0#0'R'#0'e'#0'l'#0#243#0'g'#0'i'#0
+  +'o'#0#12'ClientHeight'#3#144#1#11'ClientWidth'#3'X'#2#5'Color'#7#9'clBtnFace'
+  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11
+  +'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPrevi'
+  +'ew'#9#10'OnActivate'#7#12'FormActivate'#7'OnClose'#7#9'FormClose'#7'OnKeyUp'
+  +#7#9'FormKeyUp'#0#6'TPanel'#10'pnlRelogio'#4'Left'#2#0#3'Top'#2#0#5'Width'#3
+  +'X'#2#6'Height'#3#144#1#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#5
+  +'Color'#7#7'clWhite'#16'ParentBackground'#8#8'TabOrder'#2#0#0#6'TImage'#10'i'
+  +'mgRelogio'#4'Left'#2#2#3'Top'#2#2#5'Width'#3#12#3#6'Height'#3#167#1#6'Cente'
+  +'r'#9#7'Stretch'#9#11'Transparent'#9#0#0#6'TLabel'#10'lmdRelogio'#4'Left'#2#0
+  +#3'Top'#2#0#5'Width'#3'X'#2#6'Height'#3#144#1#5'Align'#7#8'alClient'#9'Align'
+  +'ment'#7#8'taCenter'#8'AutoSize'#8#7'Caption'#6#8'00:00:00'#5'Color'#7#9'clB'
+  +'tnFace'#12'Font.Charset'#7#12'ANSI_CHARSET'#10'Font.Color'#7#7'clBlack'#11
+  +'Font.Height'#2#229#9'Font.Name'#6#21'Arial Rounded MT Bold'#10'Font.Style'
+  +#11#0#11'ParentColor'#8#10'ParentFont'#8#14'ParentShowHint'#8#8'ShowHint'#8#6
+  +'Layout'#7#8'tlCenter'#0#0#0#0
+]);

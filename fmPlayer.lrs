@@ -1,0 +1,10 @@
+LazarusResources.Add('TfPlayer','FORMDATA',[
+  'TPF0'#8'TfPlayer'#7'fPlayer'#4'Left'#2#0#3'Top'#2#0#7'Caption'#6#7'fPlayer'
+  +#12'ClientHeight'#3'i'#1#11'ClientWidth'#3#172#2#5'Color'#7#9'clBtnFace'#12
+  +'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Fo'
+  +'nt.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPreview'
+  +#9#7'OnClose'#7#9'FormClose'#7'OnKeyUp'#7#9'FormKeyUp'#8'OnResize'#7#10'Form'
+  +'Resize'#0#6'TPanel'#6'Panel1'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#172#2#6'Hei'
+  +'ght'#3'i'#1#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#6
+  +'Panel1'#5'Color'#7#7'clBlack'#16'ParentBackground'#8#8'TabOrder'#2#0#0#0#0
+]);

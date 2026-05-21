@@ -362,7 +362,6 @@ object DM: TDM
     Top = 184
   end
   object cdsVideosOnPerso: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'ID'
@@ -414,7 +413,6 @@ object DM: TDM
     end
   end
   object cdsFavoritos: TBufDataset
-    Aggregates = <>
     FieldDefs = <>
     IndexDefs = <
       item
@@ -447,7 +445,6 @@ object DM: TDM
     end
   end
   object cdsSLIDE_MUSICA2: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'LOCAL'
@@ -538,7 +535,6 @@ object DM: TDM
     Top = 88
   end
   object cdsItensAgendadosClone: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'ID'
@@ -575,7 +571,6 @@ object DM: TDM
     Top = 88
   end
   object cdsSLIDE_MUSICA: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'LOCAL'
@@ -665,7 +660,6 @@ object DM: TDM
     Top = 40
   end
   object cdsItensAgendados: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'ID'
@@ -704,7 +698,6 @@ object DM: TDM
     Top = 40
   end
   object cdsCategoriasItensAgendados: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'ID'
@@ -725,7 +718,6 @@ object DM: TDM
     Top = 88
   end
   object cdsCOLETANEAS_PERSO: TBufDataset
-    Aggregates = <>
     FieldDefs = <>
     IndexDefs = <
       item
@@ -65889,7 +65881,6 @@ object DM: TDM
     Top = 136
   end
   object cdsBIBLIA_HISTORICO: TBufDataset
-    Aggregates = <>
     FieldDefs = <>
     IndexDefs = <
       item
@@ -66042,7 +66033,6 @@ object DM: TDM
     Top = 328
   end
   object cdsArquivos: TBufDataset
-    Aggregates = <>
     FieldDefs = <
       item
         Name = 'FAIXA'
@@ -66467,7 +66457,6 @@ object DM: TDM
     Top = 328
   end
   object cdsCOLETANEAS_PERSO_IMP: TBufDataset
-    Aggregates = <>
     FieldDefs = <>
     IndexDefs = <
       item
@@ -66522,7 +66511,6 @@ object DM: TDM
     Top = 232
   end
   object cdsMonitores: TBufDataset
-    Aggregates = <>
     FieldDefs = <>
     IndexDefs = <>
     Params = <>

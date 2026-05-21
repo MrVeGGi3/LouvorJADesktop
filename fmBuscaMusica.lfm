@@ -1,0 +1,247 @@
+object fBuscaMusica: TfBuscaMusica
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Busca de M'#250'sicas'
+  ClientHeight = 296
+  ClientWidth = 701
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  Scaled = False
+  OnActivate = FormActivate
+  OnKeyUp = FormKeyUp
+  OnResize = FormResize
+  object GridPanel3: TPanel
+    Left = 0
+    Top = 0
+    Width = 701
+    Height = 57
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'GridPanel2'
+    TabOrder = 0
+    object txtBusca: TEdit
+      Left = 30
+      Top = 19
+      Width = 641
+      Height = 19
+      Text = ''
+      DefaultColor = clWindow
+      DefaultWidth = 0
+      DefaultHeight = 0
+      ButtonMode = False
+      Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = 13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      ButtonImageIndex = -1
+      LeftImageIndex = -1
+      LeftImageHotIndex = -1
+      LeftImageDownIndex = -1
+      RightImageIndex = -1
+      RightImageHotIndex = -1
+      RightImageDownIndex = -1
+      OnChange = txtBuscaChange
+      OnKeyPress = txtBuscaKeyPress
+      OnKeyUp = txtBuscaKeyUp
+    end
+    object bsSkinStdLabel5: TLabel
+      Left = 30
+      Top = 0
+      Width = 641
+      Height = 19
+      UseSkinColor = True
+      Align = alClient
+      Caption = 'Localizar M'#250'sica:'
+      Layout = tlCenter
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 57
+    Width = 682
+    Height = 220
+    TabOrder = 1
+    Transparent = False
+    WallpaperStretch = False
+    UseSkinCellHeight = True
+    VScrollBar = bsSkinScrollBar7
+    GridLineColor = clBtnFace
+    DefaultCellHeight = 20
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ColSizingWithLine = False
+    DrawGraphicFields = False
+    UseColumnsFont = False
+    MouseWheelSupport = True
+    SaveMultiSelection = False
+    PickListBoxSkinDataName = 'listbox'
+    PickListBoxCaptionMode = False
+    Align = alClient
+    Ctl3D = False
+    DataSource = dsBUSCA
+    Options = [dgTitles, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
+    ParentFont = False
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    OnDblClick = DBGrid1DblClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'NOME_ALBUM_COM'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Title.Caption = #193'lbum'
+        Width = 305
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICONE1'
+        Title.Caption = '  '
+        Width = 20
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Title.Caption = 'M'#250'sica'
+        Width = 367
+        Visible = True
+      end>
+  end
+  object stBusca: TStatusBar
+    Left = 0
+    Top = 277
+    Width = 701
+    Height = 19
+    TabOrder = 3
+    DefaultWidth = 0
+    DefaultHeight = 0
+    CheckedMode = False
+    Checked = False
+    BorderStyle = bvNone
+    NumGlyphs = 1
+    Spacing = 2
+    Align = alBottom
+    SizeGrip = False
+    object stBusca_0: TbsSkinStatusPanel
+      Left = 0
+      Top = 0
+      Width = 320
+      Height = 19
+      TabOrder = 0
+      DefaultWidth = 0
+      DefaultHeight = 0
+      Transparent = False
+      BorderStyle = bvFrame
+      Align = alClient
+      AutoSize = False
+      ImageIndex = -1
+      NumGlyphs = 1
+    end
+    object stBusca_1: TbsSkinStatusPanel
+      Left = 320
+      Top = 0
+      Width = 381
+      Height = 19
+      TabOrder = 1
+      DefaultWidth = 0
+      DefaultHeight = 0
+      Transparent = False
+      BorderStyle = bvFrame
+      Align = alRight
+      AutoSize = False
+      ImageIndex = -1
+      NumGlyphs = 1
+    end
+  end
+  object bsSkinScrollBar7: TScrollBar
+    Left = 682
+    Top = 57
+    Width = 19
+    Height = 220
+    TabOrder = 2
+    Visible = False
+    DefaultWidth = 19
+    DefaultHeight = 0
+    Both = False
+    BothMarkerWidth = 19
+    BothSkinDataName = 'bothhscrollbar'
+    Align = alRight
+    Kind = sbVertical
+    PageSize = 0
+    Min = 0
+    Max = 0
+    Position = 0
+    SmallChange = 1
+    LargeChange = 1
+  end
+  object qrBUSCA: TZQuery
+    Filtered = True
+    Connection = DM.ADO
+    SQL.Strings = (
+      
+        'SELECT DISTINCT '#39#39' AS ICONE1,'#39#39' AS ICONE2,'#39#39' AS ICONE3, M.ID ID,' +
+        ' M.ID_ALBUM ID_ALBUM, M.NOME_ALBUM NOME_ALBUM, M.NOME_ALBUM_COM ' +
+        'NOME_ALBUM_COM, M.FAIXA FAIXA, M.NOME NOME,'
+      
+        '    M.NOME_COM NOME_COM, M.TIPO_HASD TIPO_HASD, M.TIPO_JA TIPO_J' +
+        'A, M.TIPO_BAIXADA TIPO_BAIXADA, M.TIPO_WEB TIPO_WEB, M.TIPO_PERS' +
+        'O TIPO_PERSO, M.TIPO TIPO, M.URL_ALBUM URL_ALBUM,'
+      
+        '    M.ALBUM ALBUM, M.URL URL, M.URL_INSTRUMENTAL URL_INSTRUMENTA' +
+        'L,'
+      
+        '    M.IDIOMA IDIOMA, M.LETRA LETRA, M.NOME_SEMAC NOME_SEMAC, M.N' +
+        'OME_ALBUM_COM_SEMAC NOME_ALBUM_COM_SEMAC'
+      'FROM LISTA_MUSICAS M'
+      'WHERE'
+      
+        '    (CAST(:VALOR AS INTEGER) > 0 AND TIPO_HASD = '#39'S'#39' AND FAIXA =' +
+        ' :VALOR)'
+      '    OR'
+      
+        '    (CAST(:VALOR AS INTEGER) <= 0 AND NOME_SEMAC LIKE '#39'%'#39' || :VA' +
+        'LOR || '#39'%'#39')'
+      '')
+    Left = 354
+    Top = 148
+    ParamData = <
+      item
+        Name = 'VALOR'
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object dsBUSCA: TDataSource
+    DataSet = qrBUSCA
+    Left = 390
+    Top = 148
+  end
+end

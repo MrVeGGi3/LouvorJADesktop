@@ -1,0 +1,283 @@
+object fNovaVersao: TfNovaVersao
+  Left = 379
+  Top = 277
+  BorderIcons = []
+  BorderStyle = bsNone
+  Caption = 'Atualizar Colet'#226'nea...'
+  ClientHeight = 196
+  ClientWidth = 588
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  Position = poScreenCenter
+  Scaled = False
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnKeyUp = FormKeyUp
+  object bsSkinPanel1: TPanel
+    Left = 0
+    Top = 154
+    Width = 588
+    Height = 42
+    TabOrder = 2
+    DefaultWidth = 0
+    DefaultHeight = 0
+    CheckedMode = False
+    Checked = False
+    BorderStyle = bvNone
+    NumGlyphs = 1
+    Spacing = 2
+    Caption = 'bsSkinPanel1'
+    Align = alBottom
+    object bsSkinButton2: TButton
+      AlignWithMargins = True
+      Left = 473
+      Top = 5
+      Width = 110
+      Height = 32
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      TabOrder = 1
+      DefaultWidth = 0
+      DefaultHeight = 0
+      Transparent = False
+      CheckedMode = False
+      ImageList = DM.ico_24x24
+      ImageIndex = 1
+      TabStop = True
+      Down = False
+      GroupIndex = 0
+      Caption = ' N'#227'o'
+      NumGlyphs = 1
+      Spacing = 1
+      Align = alRight
+      OnClick = bsSkinButton2Click
+    end
+    object bsSkinButton3: TButton
+      AlignWithMargins = True
+      Left = 353
+      Top = 5
+      Width = 110
+      Height = 32
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      TabOrder = 0
+      DefaultWidth = 0
+      DefaultHeight = 0
+      Transparent = False
+      CheckedMode = False
+      ImageList = DM.ico_24x24
+      ImageIndex = 0
+      TabStop = True
+      Down = False
+      GroupIndex = 0
+      Caption = ' Sim'
+      NumGlyphs = 1
+      Spacing = 1
+      Align = alRight
+      OnClick = bsSkinButton3Click
+    end
+  end
+  object bsSkinPanel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 105
+    Height = 154
+    TabOrder = 0
+    DefaultWidth = 0
+    DefaultHeight = 0
+    CheckedMode = False
+    Checked = False
+    BorderStyle = bvNone
+    NumGlyphs = 1
+    Spacing = 2
+    Caption = 'bsSkinPanel1'
+    Align = alLeft
+    object Image1: TImage
+      Left = 0
+      Top = 0
+      Width = 105
+      Height = 154
+      DoubleBuffered = False
+      ImageIndex = 4
+      Align = alClient
+      Center = True
+    end
+  end
+  object bsSkinPanel3: TPanel
+    Left = 105
+    Top = 0
+    Width = 483
+    Height = 154
+    TabOrder = 1
+    DefaultWidth = 0
+    DefaultHeight = 0
+    CheckedMode = False
+    Checked = False
+    BorderStyle = bvNone
+    NumGlyphs = 1
+    Spacing = 2
+    Caption = 'bsSkinPanel1'
+    Align = alClient
+    object lbl1: TLabel
+      AlignWithMargins = True
+      Left = 5
+      Top = 15
+      Width = 473
+      Height = 13
+      Margins.Left = 5
+      Margins.Top = 15
+      Margins.Right = 5
+      Margins.Bottom = 5
+      UseSkinColor = True
+      Align = alTop
+      Caption = 'H'#225' uma nova vers'#227'o dispon'#237'vel de sua colet'#226'nea.'
+      Layout = tlCenter
+    end
+    object lblMsg: TLabel
+      AlignWithMargins = True
+      Left = 5
+      Top = 103
+      Width = 473
+      Height = 13
+      Margins.Left = 5
+      Margins.Top = 10
+      Margins.Right = 5
+      Margins.Bottom = 5
+      UseSkinColor = True
+      Align = alTop
+      Caption = 'Deseja baixar e atualizar sua colet'#226'nea?'
+      Layout = tlCenter
+      WordWrap = True
+    end
+    object GridPanel4: TPanel
+      AlignWithMargins = True
+      Left = 5
+      Top = 43
+      Width = 473
+      Height = 45
+      Margins.Left = 5
+      Margins.Top = 10
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object lbl2: TLabel
+        Left = 0
+        Top = 0
+        Width = 110
+        Height = 22
+        UseSkinColor = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Align = alClient
+        Caption = 'Vers'#227'o atual:'
+        ParentFont = False
+        Layout = tlCenter
+      end
+      object lblVAtu: TLabel
+        Left = 110
+        Top = 0
+        Width = 363
+        Height = 22
+        UseSkinColor = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Align = alClient
+        AutoSize = False
+        Caption = '00.00.00.00'
+        ParentFont = False
+        Layout = tlCenter
+      end
+      object lbl3: TLabel
+        Left = 0
+        Top = 22
+        Width = 110
+        Height = 23
+        UseSkinColor = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Align = alClient
+        Caption = 'Nova vers'#227'o:'
+        ParentFont = False
+        Layout = tlCenter
+      end
+      object lblVNova: TLabel
+        Left = 110
+        Top = 22
+        Width = 363
+        Height = 23
+        UseSkinColor = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Align = alClient
+        AutoSize = False
+        Caption = '00.00.00.00'
+        ParentFont = False
+        Layout = tlCenter
+      end
+    end
+  end
+  object progress: TProgressBar
+    AlignWithMargins = True
+    Left = 105
+    Top = 97
+    Width = 469
+    Height = 21
+    Margins.Top = 7
+    Margins.Bottom = 7
+    Style = pbstMarquee
+    TabOrder = 3
+    Visible = False
+  end
+  object OpenDialog1: TOpenDialog
+    ShowThumbnails = True
+    ShowHiddenFiles = False
+    ToolButtonsTransparent = False
+    OverwritePromt = False
+    DialogWidth = 0
+    DialogHeight = 0
+    DialogMinWidth = 0
+    DialogMinHeight = 0
+    CheckFileExists = True
+    MultiSelection = False
+    AlphaBlend = False
+    AlphaBlendValue = 225
+    CtrlAlphaBlend = False
+    CtrlAlphaBlendValue = 225
+    CtrlAlphaBlendAnimation = False
+    LVHeaderSkinDataName = 'header'
+    Title = 'Open file'
+    Filter = 'All files|*.*'
+    FilterIndex = 1
+    Left = 496
+    Top = 16
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 246
+    Top = 67
+  end
+end

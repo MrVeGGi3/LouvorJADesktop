@@ -1,0 +1,18 @@
+LazarusResources.Add('TfMonitorBiblia','FORMDATA',[
+  'TPF0'#15'TfMonitorBiblia'#14'fMonitorBiblia'#4'Left'#2#0#3'Top'#2#0#11'Borde'
+  +'rStyle'#7#6'bsNone'#7'Caption'#18#6#0#0#0'B'#0#237#0'b'#0'l'#0'i'#0'a'#0#12
+  +'ClientHeight'#3#144#1#11'ClientWidth'#3'X'#2#5'Color'#7#9'clBtnFace'#12'Fon'
+  +'t.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.'
+  +'Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPreview'#9
+  +#10'OnActivate'#7#12'FormActivate'#7'OnClose'#7#9'FormClose'#7'OnKeyUp'#7#9
+  +'FormKeyUp'#0#6'TPanel'#9'pnlBiblia'#4'Left'#2#0#3'Top'#2#0#5'Width'#3'X'#2#6
+  +'Height'#3#144#1#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#5'Color'#7
+  +#7'clWhite'#16'ParentBackground'#8#8'TabOrder'#2#0#0#6'TImage'#9'imgBiblia'#4
+  +'Left'#2#2#3'Top'#3#176#0#5'Width'#3#165#1#6'Height'#2';'#6'Center'#9#7'Stre'
+  +'tch'#9#11'Transparent'#9#0#0#6'TLabel'#12'lmdBibliaTxt'#4'Left'#2#3#3'Top'#2
+  +#3#5'Width'#2'>'#6'Height'#2#30#9'Alignment'#7#8'taCenter'#8'AutoSize'#8#7'C'
+  +'aption'#6#5'Texto'#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#6'TLabel'#13'l'
+  +'mdBibliaInfo'#4'Left'#3#8#1#3'Top'#2'P'#5'Width'#2'y'#6'Height'#2#21#9'Alig'
+  +'nment'#7#14'taRightJustify'#8'AutoSize'#8#7'Caption'#6#8'Passagem'#6'Layout'
+  +#7#8'tlCenter'#8'WordWrap'#9#0#0#0#0
+]);

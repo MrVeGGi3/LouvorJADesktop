@@ -1,0 +1,341 @@
+LazarusResources.Add('TfMusicaOperador','FORMDATA',[
+  'TPF0'#16'TfMusicaOperador'#15'fMusicaOperador'#4'Left'#2#0#3'Top'#2#0#7'Capt'
+  +'ion'#18'&'#0#0#0'A'#0'p'#0'r'#0'e'#0's'#0'e'#0'n'#0't'#0'a'#0#231#0#227#0'o'
+  +#0' '#0'd'#0'e'#0' '#0'M'#0#250#0's'#0'i'#0'c'#0'a'#0' '#0'-'#0' '#0'M'#0'o'
+  +#0'd'#0'o'#0' '#0'O'#0'p'#0'e'#0'r'#0'a'#0'd'#0'o'#0'r'#0#12'ClientHeight'#3
+  +'o'#1#11'ClientWidth'#3#207#2#5'Color'#7#9'clBtnFace'#12'Font.Charset'#7#15
+  +'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#245#9
+  +'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPreview'#9#8'Position'#7#14
+  +'poScreenCenter'#11'WindowState'#7#11'wsMaximized'#10'OnActivate'#7#12'FormA'
+  +'ctivate'#7'OnClose'#7#9'FormClose'#7'OnKeyUp'#7#9'FormKeyUp'#16'OnMouseWhee'
+  +'lDown'#7#18'FormMouseWheelDown'#14'OnMouseWheelUp'#7#16'FormMouseWheelUp'#0
+  +#6'TPanel'#6'Panel2'#4'Left'#2#0#3'Top'#2#0#5'Width'#3','#1#6'Height'#3'o'#1
+  +#5'Align'#7#6'alLeft'#10'BevelOuter'#7#6'bvNone'#5'Color'#4'555'#0#16'Parent'
+  +'Background'#8#8'TabOrder'#2#0#0#7'TDBGrid'#7'DBGrid1'#4'Left'#2#0#3'Top'#2#0
+  +#5'Width'#3#25#1#6'Height'#3'o'#1#8'TabOrder'#2#0#11'Transparent'#8#16'Wallp'
+  +'aperStretch'#8#17'UseSkinCellHeight'#8#10'VScrollBar'#7#16'bsSkinScrollBar7'
+  +#13'GridLineColor'#4'RRR'#0#17'DefaultCellHeight'#2'<'#12'Font.Charset'#7#15
+  +'DEFAULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2#227#9'Font.N'
+  +'ame'#6#13'DIN Condensed'#10'Font.Style'#11#0#17'ColSizingWithLine'#8#17'Dra'
+  +'wGraphicFields'#8#14'UseColumnsFont'#8#16'DefaultRowHeight'#2'<'#17'MouseWh'
+  +'eelSupport'#8#18'SaveMultiSelection'#8#23'PickListBoxSkinDataName'#6#7'list'
+  +'box'#22'PickListBoxCaptionMode'#8#5'Align'#7#8'alClient'#5'Color'#4'555'#0#5
+  +'Ctl3D'#8#10'DataSource'#7#17'DM.dsSLIDE_MUSICA'#7'Options'#11#10'dgRowLines'
+  +#6'dgTabs'#11'dgRowSelect'#15'dgConfirmDelete'#14'dgCancelOnExit'#0#11'Paren'
+  +'tCtl3D'#8#10'ParentFont'#8#17'TitleFont.Charset'#7#15'DEFAULT_CHARSET'#15'T'
+  +'itleFont.Color'#7#12'clWindowText'#16'TitleFont.Height'#2#245#14'TitleFont.'
+  +'Name'#6#13'MS Sans Serif'#15'TitleFont.Style'#11#6'fsBold'#0#11'OnCellClick'
+  +#7#16'DBGrid1CellClick'#16'OnDrawColumnCell'#7#21'DBGrid1DrawColumnCell'#9'O'
+  +'nKeyDown'#7#14'DBGrid1KeyDown'#10'OnKeyPress'#7#15'DBGrid1KeyPress'#7'OnKey'
+  +'Up'#7#14'DBGrid1KeyDown'#7'Columns'#14#1#8'Expanded'#8#5'Width'#2'('#7'Visi'
+  +'ble'#9#0#1#8'Expanded'#8#9'FieldName'#6#11'LETRA_UCASE'#12'Font.Charset'#7
+  +#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2#22#9'Font'
+  +'.Name'#6#13'DIN Condensed'#10'Font.Style'#11#0#5'Width'#3#131#1#7'Visible'#9
+  +#0#0#0#0#10'TScrollBar'#16'bsSkinScrollBar7'#4'Left'#3#25#1#3'Top'#2#0#5'Wid'
+  +'th'#2#19#6'Height'#3'o'#1#8'TabOrder'#2#1#7'Visible'#8#12'DefaultWidth'#2#19
+  +#13'DefaultHeight'#2#0#4'Both'#8#15'BothMarkerWidth'#2#19#16'BothSkinDataNam'
+  +'e'#6#14'bothhscrollbar'#5'Align'#7#7'alRight'#4'Kind'#7#10'sbVertical'#8'Pa'
+  +'geSize'#2#0#3'Min'#2#0#3'Max'#2#0#8'Position'#2#0#11'SmallChange'#2#1#11'La'
+  +'rgeChange'#2#1#0#0#0#6'TPanel'#5'Panel'#4'Left'#3','#1#3'Top'#2#0#5'Width'#3
+  +#163#1#6'Height'#3'o'#1#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7
+  +'Caption'#6#5'Panel'#16'ParentBackground'#8#8'TabOrder'#2#1#0#6'TPanel'#8'pn'
+  +'lLetra'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#163#1#6'Height'#3#246#0#5'Align'#7
+  +#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#2''''''#5'Color'#7#7'cl'
+  +'Black'#5'Ctl3D'#8#14'DoubleBuffered'#8#16'ParentBackground'#8#11'ParentCtl3'
+  +'D'#8#20'ParentDoubleBuffered'#8#8'TabOrder'#2#0#0#6'TImage'#8'imgFundo'#4'L'
+  +'eft'#2#16#3'Top'#2#15#5'Width'#2'2'#6'Height'#2'2'#6'Center'#9#7'Stretch'#9
+  +#11'Transparent'#9#0#0#6'TImage'#13'imgFundoTexto'#4'Left'#2'('#3'Top'#2'('#5
+  +'Width'#2'i'#6'Height'#2'9'#12'Picture.Data'#10'e:'#0#0#9'TPngImage'#137'PNG'
+  +#13#10#26#10#0#0#0#13'IHDR'#0#0#0#10#0#0#0#10#8#6#0#0#0#141'2'#207#189#0#0#0
+  +#9'pHYs'#0#0#11#19#0#0#11#19#1#0#154#156#24#0#0'9'#236'iTXtXML:com.adobe.xmp'
+  +#0#0#0#0#0'<?xpacket begin="'#239#187#191'" id="W5M0MpCehiHzreSzNTczkc9d"?>'
+  +#10'<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c138 79.'
+  +'159824, 2016/09/14-01:09:01        ">'#10'   <rdf:RDF xmlns:rdf="http://www'
+  +'.w3.org/1999/02/22-rdf-syntax-ns#">'#10'      <rdf:Description rdf:about=""'
+  +#10'            xmlns:xmp="http://ns.adobe.com/xap/1.0/"'#10'            xml'
+  +'ns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"'#10'            xmlns:stEvt="htt'
+  +'p://ns.adobe.com/xap/1.0/sType/ResourceEvent#"'#10'            xmlns:dc="ht'
+  +'tp://purl.org/dc/elements/1.1/"'#10'            xmlns:photoshop="http://ns.'
+  +'adobe.com/photoshop/1.0/"'#10'            xmlns:tiff="http://ns.adobe.com/t'
+  +'iff/1.0/"'#10'            xmlns:exif="http://ns.adobe.com/exif/1.0/">'#10' '
+  +'        <xmp:CreatorTool>Adobe Photoshop CC 2017 (Windows)</xmp:CreatorTool'
+  +'>'#10'         <xmp:CreateDate>2017-12-18T11:44:13-02:00</xmp:CreateDate>'
+  +#10'         <xmp:MetadataDate>2017-12-18T11:44:13-02:00</xmp:MetadataDate>'
+  +#10'         <xmp:ModifyDate>2017-12-18T11:44:13-02:00</xmp:ModifyDate>'#10
+  +'         <xmpMM:InstanceID>xmp.iid:5c5324b8-82cf-f240-a3aa-eb8cb75767cf</xm'
+  ,'pMM:InstanceID>'#10'         <xmpMM:DocumentID>adobe:docid:photoshop:778bc7'
+  +'32-e3f9-11e7-b547-89994b82f48d</xmpMM:DocumentID>'#10'         <xmpMM:Origi'
+  +'nalDocumentID>xmp.did:16ad038d-6bf0-9b45-9f63-4a01cbeaee34</xmpMM:OriginalD'
+  +'ocumentID>'#10'         <xmpMM:History>'#10'            <rdf:Seq>'#10'     '
+  +'          <rdf:li rdf:parseType="Resource">'#10'                  <stEvt:ac'
+  +'tion>created</stEvt:action>'#10'                  <stEvt:instanceID>xmp.iid'
+  +':16ad038d-6bf0-9b45-9f63-4a01cbeaee34</stEvt:instanceID>'#10'              '
+  +'    <stEvt:when>2017-12-18T11:44:13-02:00</stEvt:when>'#10'                '
+  +'  <stEvt:softwareAgent>Adobe Photoshop CC 2017 (Windows)</stEvt:softwareAge'
+  +'nt>'#10'               </rdf:li>'#10'               <rdf:li rdf:parseType="'
+  +'Resource">'#10'                  <stEvt:action>saved</stEvt:action>'#10'   '
+  +'               <stEvt:instanceID>xmp.iid:5c5324b8-82cf-f240-a3aa-eb8cb75767'
+  +'cf</stEvt:instanceID>'#10'                  <stEvt:when>2017-12-18T11:44:13'
+  +'-02:00</stEvt:when>'#10'                  <stEvt:softwareAgent>Adobe Photos'
+  +'hop CC 2017 (Windows)</stEvt:softwareAgent>'#10'                  <stEvt:ch'
+  +'anged>/</stEvt:changed>'#10'               </rdf:li>'#10'            </rdf:'
+  +'Seq>'#10'         </xmpMM:History>'#10'         <dc:format>image/png</dc:fo'
+  +'rmat>'#10'         <photoshop:ColorMode>3</photoshop:ColorMode>'#10'       '
+  +'  <tiff:Orientation>1</tiff:Orientation>'#10'         <tiff:XResolution>720'
+  +'000/10000</tiff:XResolution>'#10'         <tiff:YResolution>720000/10000</t'
+  +'iff:YResolution>'#10'         <tiff:ResolutionUnit>2</tiff:ResolutionUnit>'
+  +#10'         <exif:ColorSpace>65535</exif:ColorSpace>'#10'         <exif:Pix'
+  +'elXDimension>10</exif:PixelXDimension>'#10'         <exif:PixelYDimension>1'
+  +'0</exif:PixelYDimension>'#10'      </rdf:Description>'#10'   </rdf:RDF>'#10
+  +'</x:xmpmeta>'#10'                                                          '
+  +'                                          '#10'                            '
+  +'                                                                        '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  ,'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  ,'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'                                                                           '
+  +'          '#10'                                                            '
+  +'                                        '#10'                              '
+  +'                                                                      '#10
+  +'                                                                           '
+  +'                         '#10'                                             '
+  +'                                                       '#10'               '
+  +'             '#10'<?xpacket end="w"?>5'#227#230'9'#0#0#0#21'IDATx'#218'cd``'
+  ,#216#207'@'#4'`'#28'UH_'#133#0#127'\'#7#129'-'#188#16#197#0#0#0#0'IEND'#174
+  +'B`'#130#7'Stretch'#9#7'Visible'#8#0#0#6'TLabel'#8'lblLetra'#4'Left'#2'4'#3
+  +'Top'#2#0#5'Width'#3#224#0#6'Height'#2'('#12'UseSkinColor'#8#12'Font.Charset'
+  +#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11'Font.Height'#2'('#9'Fo'
+  +'nt.Name'#6#12'Arial Narrow'#10'Font.Style'#11#6'fsBold'#0#9'Alignment'#7#8
+  +'taCenter'#7'Caption'#6#13'CARREGANDO...'#5'Color'#7#7'clWhite'#11'ParentCol'
+  +'or'#8#10'ParentFont'#8#6'Layout'#7#8'tlCenter'#7'Visible'#8#8'WordWrap'#9#0
+  +#0#6'TLabel'#12'lblLetra_aux'#4'Left'#2'<'#3'Top'#2'G'#5'Width'#3#224#0#6'He'
+  +'ight'#2'('#12'UseSkinColor'#8#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Fon'
+  +'t.Color'#7#7'clWhite'#11'Font.Height'#2'('#9'Font.Name'#6#12'Arial Narrow'
+  +#10'Font.Style'#11#6'fsBold'#0#9'Alignment'#7#8'taCenter'#7'Caption'#6#13'CA'
+  +'RREGANDO...'#5'Color'#7#7'clWhite'#11'ParentColor'#8#10'ParentFont'#8#6'Lay'
+  +'out'#7#8'tlCenter'#7'Visible'#8#8'WordWrap'#9#0#0#0#6'TPanel'#11'pnlProgres'
+  +'s'#4'Left'#2#0#3'Top'#3'H'#1#5'Width'#3#163#1#6'Height'#2''''#5'Align'#7#8
+  +'alBottom'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#11'pnlProgress'#5'Color'#7
+  +#7'clBlack'#16'ParentBackground'#8#8'TabOrder'#2#2#0#12'TProgressBar'#6'gSli'
+  +'de'#4'Left'#2'2'#3'Top'#2#0#5'Width'#3#13#1#6'Height'#2#19#8'TabOrder'#2#0
+  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#16'ShowProgressText'#8#11'ShowPe'
+  +'rcent'#8#8'MinValue'#2#0#8'MaxValue'#2#1#5'Value'#2#1#8'Vertical'#8#22'Prog'
+  +'ressAnimationPause'#3#184#11#5'Align'#7#8'alClient'#0#0#12'TProgressBar'#11
+  +'gSlideTotal'#4'Left'#2'2'#3'Top'#2#19#5'Width'#3#13#1#6'Height'#2#20#8'TabO'
+  +'rder'#2#2#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#16'ShowProgressText'#8
+  +#11'ShowPercent'#8#8'MinValue'#2#0#8'MaxValue'#2#1#5'Value'#2#1#8'Vertical'#8
+  +#22'ProgressAnimationPause'#3#184#11#5'Align'#7#8'alClient'#0#0#6'TLabel'#8
+  +'lblTempo'#16'AlignWithMargins'#9#4'Left'#3'I'#1#3'Top'#2#0#5'Width'#2'Z'#6
+  +'Height'#2''''#12'Margins.Left'#2#10#11'Margins.Top'#2#0#13'Margins.Right'#2
+  +#0#14'Margins.Bottom'#2#0#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHei'
+  +'ght'#2#0#11'Transparent'#9#11'BorderStyle'#7#7'bvFrame'#5'Align'#7#8'alClie'
+  +'nt'#8'AutoSize'#8#0#0#0#6'TPanel'#6'Panel3'#4'Left'#2#0#3'Top'#3#31#1#5'Wid'
+  +'th'#3#163#1#6'Height'#2')'#5'Align'#7#8'alBottom'#10'BevelOuter'#7#6'bvNone'
+  +#7'Caption'#6#6'Panel3'#5'Color'#7#7'clBlack'#16'ParentBackground'#8#8'TabOr'
+  +'der'#2#1#0#6'TPanel'#10'GridPanel2'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#163#1
+  +#6'Height'#2')'#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Caption'
+  +#6#10'GridPanel1'#5'Color'#7#7'clBlack'#16'ParentBackground'#8#8'TabOrder'#2
+  +#0#0#12'TSpeedButton'#18'bsSkinSpeedButton1'#4'Left'#2#30#3'Top'#2#0#5'Width'
+  +#2#30#6'Height'#2')'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMo'
+  +'de'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWith'
+  +'outCaption'#2#0#10'ImageIndex'#2#22#11'Transparent'#9#4'Flat'#9#4'Down'#8#10
+  +'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#6'La'
+  +'yout'#7#10'blGlyphTop'#7'OnClick'#7#23'bsSkinSpeedButton1Click'#0#0#12'TSpe'
+  +'edButton'#11'btPausePlay'#4'Left'#2'<'#3'Top'#2#0#5'Width'#2#30#6'Height'#2
+  +')'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'
+  +#7#12'DM.ico_24x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10
+  +'ImageIndex'#2#15#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#9
+  +'NumGlyphs'#2#1#5'Align'#7#8'alClient'#7'Spacing'#2#1#6'Layout'#7#10'blGlyph'
+  +'Top'#7'OnClick'#7#16'btPausePlayClick'#0#0#12'TSpeedButton'#18'bsSkinSpeedB'
+  +'utton3'#4'Left'#3'g'#1#3'Top'#2#0#5'Width'#2#30#6'Height'#2')'#12'DefaultWi'
+  +'dth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_2'
+  +'4x24'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2
+  +#21#11'Transparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1
+  +#5'Align'#7#8'alClient'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'
+  +#7#23'bsSkinSpeedButton3Click'#0#0#12'TSpeedButton'#18'bsSkinSpeedButton4'#4
+  +'Left'#3#133#1#3'Top'#2#0#5'Width'#2#30#6'Height'#2')'#12'DefaultWidth'#2#0
+  +#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16
+  +'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'N'#11'Tr'
+  +'ansparent'#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Alig'
+  +'n'#7#8'alClient'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#23
+  +'bsSkinSpeedButton4Click'#0#0#12'TSpeedButton'#18'bsSkinSpeedButton5'#4'Left'
+  +#2#0#3'Top'#2#0#5'Width'#2#30#6'Height'#2')'#12'DefaultWidth'#2#0#13'Default'
+  +'Height'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_24x24'#16'WidthWithC'
+  +'aption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'O'#11'Transparent'
+  +#9#4'Flat'#9#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'#7#8'alCl'
+  +'ient'#7'Spacing'#2#1#6'Layout'#7#10'blGlyphTop'#7'OnClick'#7#23'bsSkinSpeed'
+  +'Button5Click'#0#0#6'TPanel'#6'Panel1'#4'Left'#2'Z'#3'Top'#2#0#5'Width'#3#13
+  ,#1#6'Height'#2')'#5'Align'#7#8'alClient'#10'BevelOuter'#7#6'bvNone'#7'Captio'
+  +'n'#6#6'Panel1'#8'TabOrder'#2#0#0#6'TLabel'#9'lblSlides'#4'Left'#2#0#3'Top'#2
+  +#0#5'Width'#3#189#0#6'Height'#2')'#12'Margins.Left'#2#10#11'Margins.Top'#2#0
+  +#13'Margins.Right'#2#0#14'Margins.Bottom'#2#0#8'TabOrder'#2#0#12'DefaultWidt'
+  +'h'#2#0#13'DefaultHeight'#2#0#11'Transparent'#9#11'BorderStyle'#7#7'bvFrame'
+  +#9'Alignment'#7#8'taCenter'#5'Align'#7#8'alClient'#7'Caption'#6#14'SLIDE    '
+  +'1 / 5'#8'AutoSize'#8#0#0#6'TPanel'#7'pnlInfo'#16'AlignWithMargins'#9#4'Left'
+  +#3#192#0#3'Top'#2#10#5'Width'#2'J'#6'Height'#2#21#11'Margins.Top'#2#10#14'Ma'
+  +'rgins.Bottom'#2#10#5'Align'#7#7'alRight'#10'BevelOuter'#7#6'bvNone'#7'Capti'
+  +'on'#18#9#0#0#0'S'#0'E'#0'M'#0' '#0#193#0'U'#0'D'#0'I'#0'O'#0#5'Color'#7#6'c'
+  +'lNavy'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clWhite'#11
+  +'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#6'fsBold'#0#16
+  +'ParentBackground'#8#10'ParentFont'#8#8'TabOrder'#2#1#7'Visible'#8#0#0#0#0#0
+  +#6'TPanel'#10'pnlErroMsg'#4'Left'#2#0#3'Top'#3#246#0#5'Width'#3#163#1#6'Heig'
+  +'ht'#2')'#5'Align'#7#8'alBottom'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#10
+  +'pnlErroMsg'#5'Color'#7#5'clRed'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'F'
+  +'ont.Color'#7#7'clWhite'#11'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'F'
+  +'ont.Style'#11#6'fsBold'#0#16'ParentBackground'#8#10'ParentFont'#8#8'TabOrde'
+  +'r'#2#3#7'Visible'#8#0#0#0#0
+]);

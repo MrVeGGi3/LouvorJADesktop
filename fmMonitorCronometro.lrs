@@ -1,0 +1,34 @@
+LazarusResources.Add('TfMonitorCronometro','FORMDATA',[
+  'TPF0'#19'TfMonitorCronometro'#18'fMonitorCronometro'#4'Left'#2#0#3'Top'#2#0
+  +#11'BorderStyle'#7#6'bsNone'#7'Caption'#18#10#0#0#0'C'#0'r'#0'o'#0'n'#0#244#0
+  +'m'#0'e'#0't'#0'r'#0'o'#0#12'ClientHeight'#3#144#1#11'ClientWidth'#3'X'#2#5
+  +'Color'#7#9'clBtnFace'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'
+  +#7#12'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.S'
+  +'tyle'#11#0#10'KeyPreview'#9#10'OnActivate'#7#12'FormActivate'#7'OnClose'#7#9
+  +'FormClose'#7'OnKeyUp'#7#9'FormKeyUp'#0#6'TPanel'#8'pnlCrono'#4'Left'#2#0#3
+  +'Top'#2#0#5'Width'#3#194#1#6'Height'#3#144#1#5'Align'#7#8'alClient'#10'Bevel'
+  +'Outer'#7#6'bvNone'#5'Color'#7#7'clWhite'#16'ParentBackground'#8#8'TabOrder'
+  +#2#0#0#6'TImage'#8'imgCrono'#4'Left'#2#24#3'Top'#2#21#5'Width'#3'x'#2#6'Heig'
+  +'ht'#3#163#1#6'Center'#9#7'Stretch'#9#11'Transparent'#9#0#0#6'TLabel'#8'lmdC'
+  +'rono'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#194#1#6'Height'#3#138#1#5'Align'#7#8
+  +'alClient'#9'Alignment'#7#8'taCenter'#8'AutoSize'#8#7'Caption'#6#12'00:00:00'
+  +'.000'#5'Color'#7#7'clWhite'#12'Font.Charset'#7#12'ANSI_CHARSET'#10'Font.Col'
+  +'or'#7#7'clBlack'#11'Font.Height'#2#229#9'Font.Name'#6#21'Arial Rounded MT B'
+  +'old'#10'Font.Style'#11#0#11'ParentColor'#8#10'ParentFont'#8#14'ParentShowHi'
+  +'nt'#8#8'ShowHint'#8#6'Layout'#7#8'tlCenter'#0#0#12'TProgressBar'#6'gCrono'#4
+  +'Left'#2#0#3'Top'#3#138#1#5'Width'#3#194#1#6'Height'#2#6#8'TabOrder'#2#0#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#16'ShowProgressText'#8#11'ShowPerce'
+  +'nt'#8#8'MinValue'#2#0#8'MaxValue'#2#1#5'Value'#2#1#8'Vertical'#8#22'Progres'
+  +'sAnimationPause'#3#184#11#5'Align'#7#8'alBottom'#0#0#0#6'TPanel'#15'pnlTemp'
+  +'oGravado'#4'Left'#3#194#1#3'Top'#2#0#5'Width'#3#150#0#6'Height'#3#144#1#8'T'
+  +'abOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#9'NumGlyphs'#2#1#7
+  +'Spacing'#2#2#9'RealWidth'#2#0#14'ShowRollButton'#8#15'ShowCloseButton'#8#9
+  +'RollState'#8#8'RollKind'#7#14'rkRollVertical'#8'Moveable'#8#8'Sizeable'#8#5
+  +'Align'#7#7'alRight'#7'Caption'#6#16'Tempos gravados:'#0#13'TCheckListBox'#7
+  +'lbCrono'#4'Left'#2#1#3'Top'#2#21#5'Width'#3#148#0#6'Height'#3'z'#1#8'TabOrd'
+  +'er'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#12'AlternateRow'#8#14'Sh'
+  +'owCheckBoxes'#8#19'HeaderLeftAlignment'#8#18'HeaderSkinDataName'#6#10'menuh'
+  +'eader'#16'ItemSkinDataName'#6#7'listbox'#5'Items'#14#0#14'ShowItemTitles'#9
+  +#10'ItemHeight'#2#30#12'HeaderHeight'#2#20#9'ItemIndex'#2#255#9'ShowLines'#9
+  +#20'MouseMoveChangeIndex'#8#5'Align'#7#8'alClient'#0#0#0#0
+]);

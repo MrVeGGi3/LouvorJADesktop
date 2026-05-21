@@ -1,0 +1,62 @@
+object fIdentificaMonitores: TfIdentificaMonitores
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'fIdentificaMonitores'
+  ClientHeight = 300
+  ClientWidth = 543
+  Color = clBlack
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  object rotulo: TLabel
+    Left = 0
+    Top = 0
+    Width = 543
+    Height = 224
+    Align = alClient
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '0'
+    Color = clWhite
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -200
+    Font.Name = 'Arial Rounded MT Bold'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = False
+    Layout = tlCenter
+  end
+  object detalhes: TLabel
+    Left = 0
+    Top = 224
+    Width = 543
+    Height = 76
+    Align = alBottom
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '0'
+    Color = clWhite
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -67
+    Font.Name = 'Arial Rounded MT Bold'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = False
+    Layout = tlCenter
+  end
+  object Timer1: TTimer
+    Interval = 5000
+    OnTimer = Timer1Timer
+    Left = 312
+    Top = 128
+  end
+end

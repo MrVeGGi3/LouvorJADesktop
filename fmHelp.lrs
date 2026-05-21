@@ -1,0 +1,32 @@
+LazarusResources.Add('TfHelp','FORMDATA',[
+  'TPF0'#6'TfHelp'#5'fHelp'#4'Left'#2#0#3'Top'#2#0#11'BorderIcons'#11#0#7'Capti'
+  +'on'#18#17#0#0#0'O'#0' '#0'q'#0'u'#0'e'#0' '#0'h'#0#225#0' '#0'd'#0'e'#0' '#0
+  +'n'#0'o'#0'v'#0'o'#0'?'#0#12'ClientHeight'#3#205#1#11'ClientWidth'#3'8'#3#5
+  +'Color'#7#9'clBtnFace'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'
+  +#7#12'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.S'
+  +'tyle'#11#0#10'KeyPreview'#9#6'Scaled'#8#10'OnActivate'#7#12'FormActivate'#0
+  +#6'TPanel'#12'bsSkinPanel2'#4'Left'#2#0#3'Top'#2#0#5'Width'#3'8'#3#6'Height'
+  +#3#205#1#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Check'
+  +'edMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spaci'
+  +'ng'#2#2#7'Caption'#6#12'bsSkinPanel2'#5'Align'#7#8'alClient'#0#6'TPanel'#12
+  +'bsSkinPanel1'#4'Left'#2#0#3'Top'#3#163#1#5'Width'#3'8'#3#6'Height'#2'*'#8'T'
+  +'abOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7
+  +'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Ca'
+  +'ption'#6#12'bsSkinPanel1'#5'Align'#7#8'alBottom'#0#6'TLabel'#9'lblStatus'#16
+  +'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#3#5'Width'#3'>'#2#6'Height'#2'$'
+  +#12'Margins.Left'#2#10#12'UseSkinColor'#9#5'Align'#7#8'alClient'#6'Layout'#7
+  +#8'tlCenter'#0#0#7'TButton'#13'bsSkinButton2'#16'AlignWithMargins'#9#4'Left'
+  +#3'P'#2#3'Top'#2#5#5'Width'#2'}'#6'Height'#2' '#12'Margins.Left'#2#5#11'Marg'
+  +'ins.Top'#2#5#13'Margins.Right'#2#5#14'Margins.Bottom'#2#5#8'TabOrder'#2#0#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8
+  +#9'ImageList'#7#12'DM.ico_24x24'#10'ImageIndex'#2'l'#7'TabStop'#9#4'Down'#8
+  +#10'GroupIndex'#2#0#7'Caption'#6#13'Acessar Ajuda'#9'NumGlyphs'#2#1#7'Spacin'
+  +'g'#2#1#5'Align'#7#7'alRight'#7'OnClick'#7#18'bsSkinButton2Click'#0#0#7'TBut'
+  +'ton'#13'bsSkinButton1'#16'AlignWithMargins'#9#4'Left'#3#215#2#3'Top'#2#5#5
+  +'Width'#2'\'#6'Height'#2' '#12'Margins.Left'#2#5#11'Margins.Top'#2#5#13'Marg'
+  +'ins.Right'#2#5#14'Margins.Bottom'#2#5#8'TabOrder'#2#1#12'DefaultWidth'#2#0
+  +#13'DefaultHeight'#2#0#11'Transparent'#8#11'CheckedMode'#8#9'ImageList'#7#12
+  +'DM.ico_24x24'#10'ImageIndex'#2#1#7'TabStop'#9#4'Down'#8#10'GroupIndex'#2#0#7
+  +'Caption'#6#6'Fechar'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#7'alRight'#7
+  +'OnClick'#7#18'bsSkinButton1Click'#0#0#0#0#0
+]);
