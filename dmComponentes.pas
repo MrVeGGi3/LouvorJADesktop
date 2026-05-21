@@ -1,4 +1,5 @@
 unit dmComponentes;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
@@ -7,11 +8,11 @@ uses
   {LAZARUS: TFDConnection→TZConnection, TFDQuery→TZQuery, TClientDataSet→TBufDataset}
   {LAZARUS: TIdHTTP→TFPHTTPClient, TbsPngImageList→TImageList, skin dialogs→LCL dialogs}
   SysUtils, Classes, ExtCtrls, LCLIntf, LCLType,
-  Forms, DB, BufDataset, Dialogs, ImgList, Controls, Menus, ExtDlgs,
-  Graphics, StdCtrls,
+  Forms, Dialogs, DB, BufDataset, ImgList, Controls, Menus, ExtDlgs,
+  FileCtrl, Graphics, StdCtrls,
   ZConnection, ZDataset,
   FPHTTPClient, opensslsockets,
-  base64;
+  base64, LResources; {LAZARUS: LResources necessario para include .lrs}
 
 type
   TDM = class(TDataModule)
@@ -225,8 +226,6 @@ uses fmMenu, fmArquivosFalta, fmHelp, fmIniciando, fmTransmitir,
   fmMonitorSorteio, fmMonitorCronometroCulto,
   bass; {LAZARUS: BASS audio — BASS_ChannelGetPosition, BASS_ChannelGetLength, BASS_ChannelStop}
 
-{$R *.lfm} {LAZARUS: .dfm→.lfm}
-
 procedure TDM.bsPopupMenuFavoritosPopup(Sender: TObject);
 begin
   if not DM.cdsFavoritos.Active then
@@ -312,15 +311,15 @@ begin
     begin
       tCronoT := tCrono + Now - tCronoOld;
       lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], tCrono + Now - tCronoOld);
-      if (gCrono.MaxValue <= 1) then
-        gCrono.MaxValue := 1000;
-      gCrono.Value := gCrono.Value + 1;
-      gCrono.MaxValue := gCrono.MaxValue + 2;
+      if (gCrono.Max <= 1) then
+        gCrono.Max := 1000;
+      gCrono.Position := gCrono.Position + 1;
+      gCrono.Max := gCrono.Max + 2;
       if fMonitorCronometro <> nil then
       begin
         fMonitorCronometro.lmdCrono.Caption := lmdCrono.Caption;
-        fMonitorCronometro.gCrono.Value := gCrono.Value;
-        fMonitorCronometro.gCrono.MaxValue := gCrono.MaxValue;
+        fMonitorCronometro.gCrono.Position := gCrono.Position;
+        fMonitorCronometro.gCrono.Max := gCrono.Max;
         fMonitorCronometro.pnlCrono.DoubleBuffered := pnlCrono.DoubleBuffered;
       end;
     end
@@ -331,15 +330,15 @@ begin
 
       DecodeTime(tCrono - (Now - tCronoOld), MyHora, MyMinuto, MySegundo, MyMiliSegundo);
       Segundos := MyMiliSegundo + (MySegundo * 1000) + (MyMinuto * 60000) + (MyHora * 3600000);
-      if (Segundos > gCrono.MaxValue) then
-        gCrono.MaxValue := Segundos;
-      gCrono.Value := Segundos;
+      if (Segundos > gCrono.Max) then
+        gCrono.Max := Segundos;
+      gCrono.Position := Segundos;
 
       if fMonitorCronometro <> nil then
       begin
         fMonitorCronometro.lmdCrono.Caption := lmdCrono.Caption;
-        fMonitorCronometro.gCrono.Value := gCrono.Value;
-        fMonitorCronometro.gCrono.MaxValue := gCrono.MaxValue;
+        fMonitorCronometro.gCrono.Position := gCrono.Position;
+        fMonitorCronometro.gCrono.Max := gCrono.Max;
         fMonitorCronometro.pnlCrono.DoubleBuffered := pnlCrono.DoubleBuffered;
       end;
 
@@ -400,8 +399,8 @@ procedure TDM.tmrRelogioTimer(Sender: TObject);
 begin
   with fmIndex do
   begin
-    spData.Caption := formatdatetime('dd/mm/yyyy', now());
-    spRelogio.Caption := formatdatetime('hh:mm:ss', now());
+    spData.Text := formatdatetime('dd/mm/yyyy', now()); {LAZARUS: TStatusPanel.Caption→.Text}
+    spRelogio.Text := formatdatetime('hh:mm:ss', now()); {LAZARUS: TStatusPanel.Caption→.Text}
     if (PageControl1.ActivePage = tsRelogio) or (fMonitorRelogio <> nil) then
     begin
       pnlRelogio.DoubleBuffered := True;
@@ -476,7 +475,7 @@ begin
       lbSorteadoNM.Items.Insert(0, sorteado); {LAZARUS: TbsSkinOfficeItem.Insert→Items.Insert(idx,caption)}
 
       SorteioContador();
-      gSorteioNM.Value := gSorteioNM.MaxValue;
+      gSorteioNM.Position := gSorteioNM.Max;
 
       if fMonitorSorteioNomes <> nil then
       begin
@@ -485,9 +484,9 @@ begin
         fMonitorSorteioNomes.lbSorteioNM.ItemIndex := lbSorteioNM.ItemIndex;
         fMonitorSorteioNomes.lbSorteadoNM.Items := lbSorteadoNM.Items;
         fMonitorSorteioNomes.lbSorteadoNM.ItemIndex := lbSorteadoNM.ItemIndex;
-        fMonitorSorteioNomes.gSorteioNM.MaxValue := gSorteioNM.MaxValue;
-        fMonitorSorteioNomes.gSorteioNM.MinValue := gSorteioNM.MinValue;
-        fMonitorSorteioNomes.gSorteioNM.Value := gSorteioNM.Value;
+        fMonitorSorteioNomes.gSorteioNM.Max := gSorteioNM.Max;
+        fMonitorSorteioNomes.gSorteioNM.Min := gSorteioNM.Min;
+        fMonitorSorteioNomes.gSorteioNM.Position := gSorteioNM.Position;
         fMonitorSorteioNomes.pnlSorteioNM.DoubleBuffered := pnlSorteioNM.DoubleBuffered;
       end;
     end
@@ -501,14 +500,15 @@ begin
       btImpSorteioNM.Enabled := false;
 
       lmdSorteioNM.Caption := opNumSorteadoNM.text;
-      gSorteioNM.Value := trunc(now * 10000000000);
+      if gSorteioNM.Max > 0 then
+        gSorteioNM.Position := Random(gSorteioNM.Max); {LAZARUS: trunc(now*10^10) − TProgressBar exige Position<=Max}
 
       if fMonitorSorteioNomes <> nil then
       begin
         fMonitorSorteioNomes.lmdSorteioNM.Caption := lmdSorteioNM.Caption;
-        fMonitorSorteioNomes.gSorteioNM.MaxValue := gSorteioNM.MaxValue;
-        fMonitorSorteioNomes.gSorteioNM.MinValue := gSorteioNM.MinValue;
-        fMonitorSorteioNomes.gSorteioNM.Value := gSorteioNM.Value;
+        fMonitorSorteioNomes.gSorteioNM.Max := gSorteioNM.Max;
+        fMonitorSorteioNomes.gSorteioNM.Min := gSorteioNM.Min;
+        fMonitorSorteioNomes.gSorteioNM.Position := gSorteioNM.Position;
         fMonitorSorteioNomes.pnlSorteioNM.DoubleBuffered := pnlSorteioNM.DoubleBuffered;
       end;
     end;
@@ -543,7 +543,7 @@ begin
       lbSorteado.Items.Insert(0, sorteado); {LAZARUS: TbsSkinOfficeItem.Insert→Items.Insert(idx,caption)}
 
       SorteioContador();
-      gSorteio.Value := gSorteio.MaxValue;
+      gSorteio.Position := gSorteio.Max;
 
       if fMonitorSorteio <> nil then
       begin
@@ -552,9 +552,9 @@ begin
         fMonitorSorteio.lbSorteio.ItemIndex := lbSorteio.ItemIndex;
         fMonitorSorteio.lbSorteado.Items := lbSorteado.Items;
         fMonitorSorteio.lbSorteado.ItemIndex := lbSorteado.ItemIndex;
-        fMonitorSorteio.gSorteio.MaxValue := gSorteio.MaxValue;
-        fMonitorSorteio.gSorteio.MinValue := gSorteio.MinValue;
-        fMonitorSorteio.gSorteio.Value := gSorteio.Value;
+        fMonitorSorteio.gSorteio.Max := gSorteio.Max;
+        fMonitorSorteio.gSorteio.Min := gSorteio.Min;
+        fMonitorSorteio.gSorteio.Position := gSorteio.Position;
         fMonitorSorteio.pnlSorteio.DoubleBuffered := pnlSorteio.DoubleBuffered;
       end;
     end
@@ -567,14 +567,15 @@ begin
       btAddSorteio.Enabled := false;
 
       lmdSorteio.Caption := opNumSorteado.text;
-      gSorteio.Value := trunc(now * 10000000000);
+      if gSorteio.Max > 0 then
+        gSorteio.Position := Random(gSorteio.Max); {LAZARUS: trunc(now*10^10) − TProgressBar exige Position<=Max}
 
       if fMonitorSorteio <> nil then
       begin
         fMonitorSorteio.lmdSorteio.Caption := lmdSorteio.Caption;
-        fMonitorSorteio.gSorteio.MaxValue := gSorteio.MaxValue;
-        fMonitorSorteio.gSorteio.MinValue := gSorteio.MinValue;
-        fMonitorSorteio.gSorteio.Value := gSorteio.Value;
+        fMonitorSorteio.gSorteio.Max := gSorteio.Max;
+        fMonitorSorteio.gSorteio.Min := gSorteio.Min;
+        fMonitorSorteio.gSorteio.Position := gSorteio.Position;
         fMonitorSorteio.pnlSorteio.DoubleBuffered := pnlSorteio.DoubleBuffered;
       end;
     end;
@@ -651,5 +652,8 @@ begin
         fTransmitir.btServidorClick(Sender);
   end;
 end;
+
+initialization
+  {$I dmComponentes.lrs} {LAZARUS: .lfm pre-compilado com lazres — FPC LFM parser falha em Bitmap blocks grandes}
 
 end.

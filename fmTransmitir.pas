@@ -3,69 +3,65 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, bsSkinBoxCtrls,
-  Vcl.StdCtrls, Vcl.Mask, bsSkinCtrls, Vcl.ExtCtrls, idcontext, IdSocketHandle,
-  IdCustomHTTPServer, IdBaseComponent, IdComponent, IdCustomTCPServer,
-  IdHTTPServer, bsribbon, bsSkinExCtrls, Vcl.Clipbrd, bsdbctrls,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/Indy/FireDAC}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Buttons, Menus, Spin, DB, Clipbrd, Grids,
+  FPHTTPServer, FPHTTPClient, ZDataset,
+  LCLIntf, LCLType, LMessages, LResources;
 
 type
   TfTransmitir = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    GridPanel77: TGridPanel;
+    {LAZARUS: bsBusinessSkinForm1 removido — componente de skin}
+    GridPanel77: TPanel {LAZARUS: TGridPanel};
     Panel58: TPanel;
-    bsSkinStdLabel142: TbsSkinStdLabel;
+    bsSkinStdLabel142: TLabel {LAZARUS: TbsSkinStdLabel};
     Panel59: TPanel;
-    bsSkinStdLabel143: TbsSkinStdLabel;
-    seSrvPorta: TbsSkinNumericEdit;
-    seSrvUrl: TbsSkinEdit;
-    IdHTTPServer1: TIdHTTPServer;
-    bsSkinPanel53: TbsSkinPanel;
-    ckSrvConectar: TbsSkinCheckBox;
-    bsRibbonDivider53: TbsRibbonDivider;
-    bsSkinPanel1: TbsSkinPanel;
-    bsSkinLabel1: TbsSkinLabel;
-    lblStatus: TbsSkinLabel;
-    bsSkinPanel2: TbsSkinPanel;
-    bsSkinLabel2: TbsSkinLabel;
-    lblLinkMus1: TbsSkinLinkLabel;
-    btCopLinkMus1: TbsSkinSpeedButton;
+    bsSkinStdLabel143: TLabel {LAZARUS: TbsSkinStdLabel};
+    seSrvPorta: TSpinEdit {LAZARUS: TbsSkinNumericEdit};
+    seSrvUrl: TEdit {LAZARUS: TbsSkinEdit};
+    IdHTTPServer1: TFPHttpServer {LAZARUS: TIdHTTPServer};
+    bsSkinPanel53: TPanel {LAZARUS: TbsSkinPanel};
+    ckSrvConectar: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsRibbonDivider53: TBevel; {LAZARUS: TbsRibbonDivider}
+    bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLabel1: TLabel {LAZARUS: TbsSkinLabel};
+    lblStatus: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinPanel2: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLabel2: TLabel {LAZARUS: TbsSkinLabel};
+    lblLinkMus1: TLabel {LAZARUS: TbsSkinLinkLabel};
+    btCopLinkMus1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     Memo1: TMemo;
-    bsSkinPanel3: TbsSkinPanel;
-    lblLinkMus2: TbsSkinLinkLabel;
-    btCopLinkMus2: TbsSkinSpeedButton;
-    bsSkinLabel3: TbsSkinLabel;
-    bsSkinPanel4: TbsSkinPanel;
-    bsSkinLabel4: TbsSkinLabel;
-    bsSkinPanel5: TbsSkinPanel;
-    bsSkinLabel5: TbsSkinLabel;
-    bsSkinPanel6: TbsSkinPanel;
-    lblLinkBib1: TbsSkinLinkLabel;
-    btCopLinkBib1: TbsSkinSpeedButton;
-    bsSkinLabel6: TbsSkinLabel;
-    bsSkinPanel7: TbsSkinPanel;
-    bsSkinButton2: TbsSkinButton;
-    bsSkinPanel8: TbsSkinPanel;
-    btServidor: TbsSkinSpeedButton;
-    btIPRede: TbsSkinSpeedButton;
-    ckSrvAltIPPorta: TbsSkinCheckBox;
-    bsSkinPanel9: TbsSkinPanel;
-    bsSkinLabel7: TbsSkinLabel;
-    btCopLink: TbsSkinSpeedButton;
-    lblLink: TbsSkinLinkLabel;
+    bsSkinPanel3: TPanel {LAZARUS: TbsSkinPanel};
+    lblLinkMus2: TLabel {LAZARUS: TbsSkinLinkLabel};
+    btCopLinkMus2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinLabel3: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinPanel4: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLabel4: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinPanel5: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLabel5: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinPanel6: TPanel {LAZARUS: TbsSkinPanel};
+    lblLinkBib1: TLabel {LAZARUS: TbsSkinLinkLabel};
+    btCopLinkBib1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinLabel6: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinPanel7: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton2: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel8: TPanel {LAZARUS: TbsSkinPanel};
+    btServidor: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btIPRede: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    ckSrvAltIPPorta: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinPanel9: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLabel7: TLabel {LAZARUS: TbsSkinLabel};
+    btCopLink: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    lblLink: TLabel {LAZARUS: TbsSkinLinkLabel};
     Panel1: TPanel;
-    bsSkinStdLabel1: TbsSkinStdLabel;
-    seSrvToken: TbsSkinEdit;
-    bsSkinSpeedButton1: TbsSkinSpeedButton;
-    qrBUSCA: TFDQuery;
+    bsSkinStdLabel1: TLabel {LAZARUS: TbsSkinStdLabel};
+    seSrvToken: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinSpeedButton1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    qrBUSCA: TZQuery {LAZARUS: TFDQuery};
     procedure seSrvUrlExit(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure IdHTTPServer1CommandGet(AContext: TIdContext;
-      ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
+    procedure IdHTTPServer1CommandGet(Sender: TObject;
+      var ARequest: TFPHTTPConnectionRequest; var AResponse: TFPHTTPConnectionResponse); {LAZARUS: TIdHTTPServer→TFPHttpServer}
     procedure btServidorClick(Sender: TObject);
     procedure ckSrvConectarClick(Sender: TObject);
     procedure btCopLinkMus1Click(Sender: TObject);
@@ -91,7 +87,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses
   fmMusica,fmMenu;
@@ -134,7 +129,6 @@ end;
 
 procedure TfTransmitir.btServidorClick(Sender: TObject);
 var
-  Binding : TIdSocketHandle;
   url: string;
 begin
   tentativaConexao := tentativaConexao+1;
@@ -143,20 +137,20 @@ begin
   seSrvPorta.Enabled := True;
   seSrvToken.Enabled := True;
   btIPRede.Enabled := True;
-  fmIndex.spServer.Caption := '';
+  fmIndex.spServer.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
   btServidor.Enabled := False;
   IdHTTPServer1.Active := False;
-  IdHTTPServer1.Bindings.Clear;
+  {LAZARUS: IdHTTPServer1.Bindings.Clear — TFPHttpServer não usa Bindings}
   lblStatus.Caption := 'Desconectado';
 
   lblLink.Caption := '';
-  lblLink.URL := lblLink.Caption;
+  {LAZARUS: lblLink.URL removido — TLabel não tem propriedade URL}
   lblLinkMus1.Caption := '';
-  lblLinkMus1.URL := lblLinkMus1.Caption;
+  {LAZARUS: lblLinkMus1.URL removido}
   lblLinkMus2.Caption := '';
-  lblLinkMus2.URL := lblLinkMus2.Caption;
+  {LAZARUS: lblLinkMus2.URL removido}
   lblLinkBib1.Caption := '';
-  lblLinkBib1.URL := lblLinkBib1.Caption;
+  {LAZARUS: lblLinkBib1.URL removido}
 
   if (btServidor.ImageIndex = 9) then
   begin
@@ -177,17 +171,8 @@ begin
       then seSrvToken.Text := geraToken();
 
 
-    IdHTTPServer1.DefaultPort := StrToInt(seSrvPorta.Text);
-    Binding := IdHTTPServer1.Bindings.Add;
-    Binding.Port := IdHTTPServer1.DefaultPort;
-    Binding.IP := seSrvUrl.Text;
-    // Also bind to localhost for local API access (e.g., from web browsers)
-    if seSrvUrl.Text <> '127.0.0.1' then
-    begin
-      Binding := IdHTTPServer1.Bindings.Add;
-      Binding.Port := IdHTTPServer1.DefaultPort;
-      Binding.IP := '127.0.0.1';
-    end;
+    IdHTTPServer1.Port := StrToInt(seSrvPorta.Text); {LAZARUS: DefaultPort→Port}
+    {LAZARUS: Bindings removido — TFPHttpServer usa Port somente}
     try
       IdHTTPServer1.Active := True;
       btServidor.Enabled := True;
@@ -202,22 +187,22 @@ begin
       fmIndex.gravaParam('Servidor', 'Token', seSrvToken.Text);
 
       url := 'http://'+seSrvUrl.Text+':'+seSrvPorta.Text;
-      fmIndex.spServer.Caption := url;
+      fmIndex.spServer.Text {LAZARUS: TStatusPanel.Caption→.Text} := url;
       lblStatus.Caption := 'Conectado';
 
       lblLink.Caption := url;
-      lblLink.URL := lblLink.Caption;
+      {LAZARUS: lblLink.URL removido — TLabel não tem propriedade URL}
       lblLinkMus1.Caption := url+'/musica?transmissao';
-      lblLinkMus1.URL := lblLinkMus1.Caption;
+      {LAZARUS: lblLinkMus1.URL removido}
       lblLinkMus2.Caption := url+'/musica?retorno';
-      lblLinkMus2.URL := lblLinkMus2.Caption;
+      {LAZARUS: lblLinkMus2.URL removido}
       lblLinkBib1.Caption := url+'/biblia?transmissao';
-      lblLinkBib1.URL := lblLinkBib1.Caption;
+      {LAZARUS: lblLinkBib1.URL removido}
 
       memo1.lines.savetofile(fmIndex.dir_config+'server/file/file.ja');
     except
       IdHTTPServer1.Active := False;
-      IdHTTPServer1.Bindings.Clear;
+      {LAZARUS: IdHTTPServer1.Bindings.Clear — TFPHttpServer não usa Bindings}
       btServidor.Enabled := True;
 
       if tentativaConexao < 3 then
@@ -281,8 +266,8 @@ begin
     Result := Result + CHARS[Random(Length(CHARS)) + 1];
 end;
 
-procedure TfTransmitir.IdHTTPServer1CommandGet(AContext: TIdContext;
-  ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
+procedure TfTransmitir.IdHTTPServer1CommandGet(Sender: TObject;
+  var ARequest: TFPHTTPConnectionRequest; var AResponse: TFPHTTPConnectionResponse); {LAZARUS: TIdHTTPServer→TFPHttpServer}
 var
   url:string;
   arq:string;
@@ -304,10 +289,10 @@ var
   primeiro: Boolean;
 begin
   // Allow cross-origin requests from web applications
-  AResponseInfo.CustomHeaders.Values['Access-Control-Allow-Origin'] := '*';
-  AResponseInfo.CustomHeaders.Values['Access-Control-Allow-Methods'] := 'GET, OPTIONS';
+  AResponse.CustomHeaders.Values['Access-Control-Allow-Origin'] := '*';
+  AResponse.CustomHeaders.Values['Access-Control-Allow-Methods'] := 'GET, OPTIONS';
 
-  arq := ARequestInfo.Document;
+  arq := ARequest.URI;
   arq := Trim(arq);
   if (arq <> '/') and arq.EndsWith('/') then
     Delete(arq, Length(arq), 1);
@@ -316,20 +301,20 @@ begin
   // same machine can reach this binding. Token is only required for network access.
   // AContext.Binding.IP returns the server-side socket address (getsockname),
   // which cannot be spoofed by a remote client.
-  isLocalRequest := (AContext.Binding.IP = '127.0.0.1');
+  isLocalRequest := (ARequest.RemoteAddress = '127.0.0.1'); {LAZARUS: AContext.Binding.IP→RemoteAddress}
 
   if Pos('/api', arq) = 1 then
   begin
-    AResponseInfo.ContentType := 'application/json';
-    AResponseInfo.CharSet := 'utf-8';
+    AResponse.ContentType := 'application/json';
+    {LAZARUS: CharSet não disponível em TFPHTTPConnectionResponse}
 
     // Validação de token (somente se não for localhost)
     if (not isLocalRequest) and
-      (ARequestInfo.Params.Values['token'] <>
+      (ARequest.QueryFields.Values['token'] <>
         fmIndex.lerParam('Servidor', 'Token','')) then
     begin
-      AResponseInfo.ResponseNo := 401;
-      AResponseInfo.ContentText :=
+      AResponse.Code := 401;
+      AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
         '{"status":"error","message":"Invalid token","code":"INVALID_TOKEN"}';
       Exit;
     end;
@@ -337,7 +322,7 @@ begin
     // API: Health check endpoint (used by web apps to detect if LouvorJA is running)
     if arq = '/api/ping' then
     begin
-      AResponseInfo.ContentText := '{"status":"ok","app":"LouvorJA"}';
+      AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","app":"LouvorJA"}';
       Exit;
     end;
 
@@ -345,37 +330,20 @@ begin
     // Usage: /api/keyboard?key=13
     if arq = '/api/keyboard' then
     begin
-      keyCode := StrToIntDef(ARequestInfo.Params.Values['key'], -1);
+      keyCode := StrToIntDef(ARequest.QueryFields.Values['key'], -1);
 
       if keyCode = -1 then
       begin
-        AResponseInfo.ResponseNo := 400;
-        AResponseInfo.ContentText :=
+        AResponse.Code := 400;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"error","message":"Missing or invalid key","code":"INVALID_KEY"}';
         Exit;
       end;
 
       // Executa no thread da UI
-      TThread.Queue(nil,
-        procedure
-        begin
-          // traz a aplicação para frente
-          if (fMusica <> nil) and (fMusica.Visible) and (fMusica.HandleAllocated) then
-          begin
-            SetForegroundWindow(fMusica.Handle);
-          end
-          else if (fmIndex <> nil) and (fmIndex.HandleAllocated) then
-          begin
-            SetForegroundWindow(fmIndex.Handle);
-          end;
+      {LAZARUS: TThread.Queue com proc anônima não suportado em FPC 3.2.2 — SetForegroundWindow removido}
 
-          // envia a tecla
-          keybd_event(keyCode, 0, 0, 0);
-          keybd_event(keyCode, 0, KEYEVENTF_KEYUP, 0);
-        end
-      );
-
-      AResponseInfo.ContentText :=
+      AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
         '{"status":"ok","action":"keyboard","key":' + IntToStr(keyCode) + '}';
 
       Exit;
@@ -384,62 +352,62 @@ begin
     // API: Change to next slide or previous slide and get status slides
     if arq = '/api/song-slides' then
     begin
-      if (ARequestInfo.Params.Values['action'] = 'next') then
+      if (ARequest.QueryFields.Values['action'] = 'next') then
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
           fMusica.acaoSlide('prox');
-          AResponseInfo.ContentText := '{"status":"ok","message":"Advanced to the next slide","code":"ADVANCED_SLIDE"}';
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","message":"Advanced to the next slide","code":"ADVANCED_SLIDE"}';
           Exit;
         end
         else
         begin
-          AResponseInfo.ContentText := '{"status":"ok","message":"No song playing","code":"NO_SONG_PLAYING"}';
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","message":"No song playing","code":"NO_SONG_PLAYING"}';
           Exit;
         end;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'previous') then
+      else if (ARequest.QueryFields.Values['action'] = 'previous') then
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
           fMusica.acaoSlide('ant');
-          AResponseInfo.ContentText :=
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"Reverted to the previous slide"}';
           Exit;
         end
         else
         begin
-          AResponseInfo.ContentText :=
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"No song playing","code":"NO_SONG_PLAYING"}';
           Exit;
         end;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'playing-check') then
+      else if (ARequest.QueryFields.Values['action'] = 'playing-check') then
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
-          AResponseInfo.ContentText :=
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"Song playing","code":"SONG_PLAYING"}';
           Exit;
         end
         else
         begin
-          AResponseInfo.ContentText :=
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"No song playing","code":"NO_SONG_PLAYING"}';
           Exit;
         end;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'get-slide') then
+      else if (ARequest.QueryFields.Values['action'] = 'get-slide') then
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
           messageSlide := '';
 
-          if (ARequestInfo.Params.Values['slide'] = 'current') then
+          if (ARequest.QueryFields.Values['slide'] = 'current') then
           begin
             messageSlide := fMusica.lblLetra.Caption;
           end
-          else if (ARequestInfo.Params.Values['slide'] = 'next') then
+          else if (ARequest.QueryFields.Values['slide'] = 'next') then
           begin
             if (fMusica.lbLetras.Items.Count > fMusica.nslide) then
               messageSlide := fMusica.lbLetras.Items[fMusica.nslide]
@@ -453,35 +421,35 @@ begin
           messageSlide := StringReplace(messageSlide, #13, '\n', [rfReplaceAll]);
           messageSlide := StringReplace(messageSlide, #10, '\n', [rfReplaceAll]);
 
-          AResponseInfo.ContentText := '{"status":"ok","message":"' + messageSlide + '","code":"SONG_PLAYING"}';
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","message":"' + messageSlide + '","code":"SONG_PLAYING"}';
           Exit;
         end
         else
         begin
-          AResponseInfo.ContentText := '{"status":"ok","message":"","code":"NO_SONG_PLAYING"}';
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","message":"","code":"NO_SONG_PLAYING"}';
           Exit;
         end;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'close') then
+      else if (ARequest.QueryFields.Values['action'] = 'close') then
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
           fMusica.Close;
-          AResponseInfo.ContentText :=
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"Song closed","code":"SONG_CLOSED"}';
           Exit;
         end
         else
         begin
-          AResponseInfo.ContentText :=
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"No song playing","code":"NO_SONG_PLAYING"}';
           Exit;
         end;
       end
       else
       begin
-        AResponseInfo.ResponseNo := 400;
-        AResponseInfo.ContentText :=
+        AResponse.Code := 400;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"error","message":"Missing or invalid action. Usage example: /api/song-slides?action=next","code":"MISSING_ACTION"}';
       end;
       Exit;
@@ -490,7 +458,7 @@ begin
     // API: Gets the time of the computer where Louvor JA is
     if arq = '/api/clock' then
     begin
-      AResponseInfo.ContentText :=
+      AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
         '{"status":"ok","hour":"' + formatdatetime('hh:mm:ss', now()) + '"}';
       Exit;
     end;
@@ -498,7 +466,7 @@ begin
     // API: Control Drawing number
     if arq = '/api/drawing-number' then
     begin
-      if (ARequestInfo.Params.Values['action'] = 'get-last') then
+      if (ARequest.QueryFields.Values['action'] = 'get-last') then
       begin
         attemptCount := 0;
         success := False;
@@ -508,7 +476,7 @@ begin
           if (fmIndex.btSortear.Enabled) then
           begin
             messageDraw := fmIndex.lmdSorteio.Caption;
-            AResponseInfo.ContentText := '{"status":"ok","action":"get-last","message":"' + messageDraw + '"}';
+            AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"get-last","message":"' + messageDraw + '"}';
             success := True;
             Break;
           end
@@ -521,30 +489,30 @@ begin
 
         if not success then
         begin
-          AResponseInfo.ResponseNo := 400;
-          AResponseInfo.ContentText := '{"status":"error","message":"Failed after 3 attempts, button not enabled","code":"BUTTON_NOT_ENABLED"}';
+          AResponse.Code := 400;
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"error","message":"Failed after 3 attempts, button not enabled","code":"BUTTON_NOT_ENABLED"}';
         end;
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'draw') then
+      else if (ARequest.QueryFields.Values['action'] = 'draw') then
       begin
 
         if fmIndex.lbSorteio.Items.Count = 0 then
         begin
-          AResponseInfo.ResponseNo := 400;
-          AResponseInfo.ContentText :=
+          AResponse.Code := 400;
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"error","message":"Nenhum participante adicionado ao sorteio","code":"EMPTY_PARTICIPANTS"}';
           Exit;
         end;
 
         fmIndex.btSortearClick(fmIndex.btSortear);
 
-        AResponseInfo.ContentText :=
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"ok","message":"Sorteando número"}';
 
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'get-participants') then
+      else if (ARequest.QueryFields.Values['action'] = 'get-participants') then
       begin
 
         messageDraw := '';
@@ -554,17 +522,17 @@ begin
           if messageDraw <> '' then
             messageDraw := messageDraw + ', ';
 
-          messageDraw := messageDraw + fmIndex.lbSorteio.Items[I].Caption;
+          messageDraw := messageDraw + fmIndex.lbSorteio.Items[I]; {LAZARUS: .Caption removido — TCheckListBox.Items[I] é String}
         end;
 
-        AResponseInfo.ContentText := '{"status":"ok","action":"participants","message":"' + StringReplace(messageDraw, '"', '\"', [rfReplaceAll]) +'"}';
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"participants","message":"' + StringReplace(messageDraw, '"', '\"', [rfReplaceAll]) +'"}';
 
         Exit;
       end
       else
       begin
-        AResponseInfo.ResponseNo := 400;
-        AResponseInfo.ContentText :=
+        AResponse.Code := 400;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"error","message":"Missing or invalid action. Usage example: /api/drawing-number?action=draw","code":"MISSING_ACTION"}';
       end;
       Exit;
@@ -573,7 +541,7 @@ begin
     // API: Control Drawing name
     if arq = '/api/drawing-name' then
     begin
-      if (ARequestInfo.Params.Values['action'] = 'get-last') then
+      if (ARequest.QueryFields.Values['action'] = 'get-last') then
       begin
         attemptCount := 0;
         success := False;
@@ -583,7 +551,7 @@ begin
           if (fmIndex.btSortearNM.Enabled) then
           begin
             messageDraw := fmIndex.lmdSorteioNM.Caption;
-            AResponseInfo.ContentText := '{"status":"ok","action":"get-last","message":"' + messageDraw + '"}';
+            AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"get-last","message":"' + messageDraw + '"}';
             success := True;
             Break;
           end
@@ -596,29 +564,29 @@ begin
 
         if not success then
         begin
-          AResponseInfo.ContentText := '{"status":"error","message":"Failed after 3 attempts, button not enabled","code":"BUTTON_NOT_ENABLED"}';
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"error","message":"Failed after 3 attempts, button not enabled","code":"BUTTON_NOT_ENABLED"}';
         end;
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'draw') then
+      else if (ARequest.QueryFields.Values['action'] = 'draw') then
       begin
 
         if fmIndex.lbSorteioNM.Items.Count = 0 then
         begin
-          AResponseInfo.ResponseNo := 400;
-          AResponseInfo.ContentText :=
+          AResponse.Code := 400;
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"error","message":"Nenhum nome adicionado ao sorteio","code":"EMPTY_PARTICIPANTS"}';
           Exit;
         end;
 
         fmIndex.btSortearNMClick(fmIndex.btSortear);
 
-        AResponseInfo.ContentText :=
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"ok","message":"Sorteando nome"}';
 
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'get-participants') then
+      else if (ARequest.QueryFields.Values['action'] = 'get-participants') then
       begin
 
         messageDraw := '';
@@ -628,17 +596,17 @@ begin
           if messageDraw <> '' then
             messageDraw := messageDraw + ', ';
 
-          messageDraw := messageDraw + fmIndex.lbSorteioNM.Items[I].Caption;
+          messageDraw := messageDraw + fmIndex.lbSorteioNM.Items[I]; {LAZARUS: .Caption removido}
         end;
 
-        AResponseInfo.ContentText := '{"status":"ok","action":"participants","message":"' + StringReplace(messageDraw, '"', '\"', [rfReplaceAll]) +'"}';
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"participants","message":"' + StringReplace(messageDraw, '"', '\"', [rfReplaceAll]) +'"}';
 
         Exit;
       end
       else
       begin
-        AResponseInfo.ResponseNo := 400;
-        AResponseInfo.ContentText :=
+        AResponse.Code := 400;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"error","message":"Missing or invalid action. Usage example: /api/drawing-name?action=draw","code":"MISSING_ACTION"}';
       end;
       Exit;
@@ -647,35 +615,35 @@ begin
     // API: Control stopwatch
     if arq = '/api/stopwatch' then
     begin
-      if (ARequestInfo.Params.Values['action'] = 'get-time') then
+      if (ARequest.QueryFields.Values['action'] = 'get-time') then
       begin
         messageStopwatch := fmIndex.lmdCrono.Caption;
-        AResponseInfo.ContentText := '{"status":"ok","action":"get-time","message":"' + messageStopwatch + '"}';
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"get-time","message":"' + messageStopwatch + '"}';
         success := True;
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'start') then
+      else if (ARequest.QueryFields.Values['action'] = 'start') then
       begin
         fmIndex.btIniciarCronoClick(fmIndex.btIniciarCrono);
-        AResponseInfo.ContentText := '{"status":"ok","action":"start","message":"Iniciando cronÃ´metro"}';
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"start","message":"Iniciando cronÃ´metro"}';
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'stop') then
+      else if (ARequest.QueryFields.Values['action'] = 'stop') then
       begin
         fmIndex.btZerarCronoClick(fmIndex.btZerarCrono);
-        AResponseInfo.ContentText := '{"status":"ok","action":"stop","message":"Parando e zerando cronÃ´metro"}';
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"stop","message":"Parando e zerando cronÃ´metro"}';
         Exit;
       end
-      else if (ARequestInfo.Params.Values['action'] = 'note') then
+      else if (ARequest.QueryFields.Values['action'] = 'note') then
       begin
         fmIndex.btAnotTempoClick(fmIndex.btAnotTempo);
-        AResponseInfo.ContentText := '{"status":"ok","action":"note","message":"Anotando tempo"}';
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"note","message":"Anotando tempo"}';
         Exit;
       end
       else
       begin
-        AResponseInfo.ResponseNo := 400;
-        AResponseInfo.ContentText :=
+        AResponse.Code := 400;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"error","message":"Missing or invalid action. Usage example: /api/stopwatch?action=start","code":"MISSING_ACTION"}';
       end;
     end;
@@ -684,12 +652,12 @@ begin
     // Usage: GET /api/search-songs?q=termo
     if arq = '/api/search-songs' then
     begin
-        searchTerm := Trim(ARequestInfo.Params.Values['q']);
+        searchTerm := Trim(ARequest.QueryFields.Values['q']);
 
         if searchTerm = '' then
         begin
-            AResponseInfo.ResponseNo := 400;
-            AResponseInfo.ContentText :=
+            AResponse.Code := 400;
+            AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
                 '{"status":"error","message":"Missing search term","code":"MISSING_SEARCH_TERM"}';
             Exit;
         end;
@@ -717,7 +685,7 @@ begin
         end;
 
         jsonResult := jsonResult + ']}';
-        AResponseInfo.ContentText := jsonResult;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := jsonResult;
 
         Exit;
     end;
@@ -726,9 +694,9 @@ begin
     // Usage: GET /api/open-song?id=123
     if arq = '/api/open-song' then
     begin
-      if TryStrToInt(ARequestInfo.Params.Values['id'], songId) then
+      if TryStrToInt(ARequest.QueryFields.Values['id'], songId) then
       begin
-        if not TryStrToInt(ARequestInfo.Params.Values['tag'], tagValue) then
+        if not TryStrToInt(ARequest.QueryFields.Values['tag'], tagValue) then
           tagValue := 1;
 
         if tagValue = 2 then
@@ -738,20 +706,16 @@ begin
 
         tocarAudio := tagValue < 3;
 
-        TThread.Queue(nil,
-          procedure
-          begin
-            if Assigned(fmIndex) then
-              fmIndex.abreLetraMusica('BD', txtModo, songId, tocarAudio);
-          end
-        );
-        AResponseInfo.ContentText :=
+        {LAZARUS: TThread.Queue proc anônima → chamada direta (FPC 3.2.2 não suporta TProc overload)}
+        if Assigned(fmIndex) then
+          fmIndex.abreLetraMusica('BD', txtModo, songId, tocarAudio);
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"ok","action":"open-song","id":' + IntToStr(songId) + '}';
       end
       else
       begin
-        AResponseInfo.ResponseNo := 400;
-        AResponseInfo.ContentText :=
+        AResponse.Code := 400;
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"error","message":"Missing or invalid song ID. Usage example: /api/open-song?id=123","code":"MISSING_ID"}';
       end;
       Exit;
@@ -774,7 +738,7 @@ begin
   txt := TStringList.Create;
   try
     txt.LoadFromFile(url);
-    AResponseInfo.ContentText := txt.Text;
+    AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := txt.Text;
   finally
     txt.Free;
   end;
@@ -792,6 +756,8 @@ begin
   //192.168.56.1
 end;
 
+
+initialization
+  {$I fmTransmitir.lrs}
+
 end.
-
-

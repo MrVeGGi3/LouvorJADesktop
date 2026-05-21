@@ -1,25 +1,27 @@
 unit fmFavoritos;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Controls, Vcl.Forms, BusinessSkinForm, Vcl.ExtCtrls,
-  bsdbctrls, Vcl.DBCGrids,
-  bsPngImageList, Vcl.StdCtrls, bsSkinCtrls;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
 
 type
   TfFavoritos = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    dbcFavoritos: TbsSkinDBCtrlGrid;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    dbcFavoritos: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid};
     Panel1: TPanel;
-    Image1: TbsPngImageView;
-    imgFavBtDown: TbsPngImageView;
-    imgFavBtUp: TbsPngImageView;
-    skLitItem: TbsSkinDBText;
-    imFavIcon: TbsPngImageView;
+    Image1: TImage {LAZARUS: TbsPngImageView};
+    imgFavBtDown: TImage {LAZARUS: TbsPngImageView};
+    imgFavBtUp: TImage {LAZARUS: TbsPngImageView};
+    skLitItem: TDBText {LAZARUS: TbsSkinDBText};
+    imFavIcon: TImage {LAZARUS: TbsPngImageView};
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbcFavoritosPaintPanel(DBCtrlGrid: TDBCtrlGrid; Index: Integer);
+    procedure dbcFavoritosPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid}; Index: Integer);
     procedure Image1Click(Sender: TObject);
     procedure imgFavBtUpClick(Sender: TObject);
     procedure imgFavBtDownClick(Sender: TObject);
@@ -34,11 +36,10 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, dmComponentes;
 
-procedure TfFavoritos.dbcFavoritosPaintPanel(DBCtrlGrid: TDBCtrlGrid;
+procedure TfFavoritos.dbcFavoritosPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid};
   Index: Integer);
 var
   icon: Integer;
@@ -78,7 +79,7 @@ begin
   DM.cdsFavoritos.Delete;
 
   fmIndex.carregaFavoritos();
-  application.messagebox(PChar('Página '''+nome+''' removida com sucesso dos favoritos!'), fmIndex.TITULO, MB_OK + MB_ICONINFORMATION);
+  application.messagebox(PChar('Pï¿½gina '''+nome+''' removida com sucesso dos favoritos!'), fmIndex.TITULO, MB_OK + MB_ICONINFORMATION);
 end;
 
 procedure TfFavoritos.imgFavBtDownClick(Sender: TObject);
@@ -138,5 +139,9 @@ begin
 
   fmIndex.carregaFavoritos();
 end;
+
+
+initialization
+  {$I fmFavoritos.lrs}
 
 end.

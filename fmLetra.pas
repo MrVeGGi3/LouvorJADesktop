@@ -1,38 +1,38 @@
 unit fmLetra;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com cÃ³digo portado}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, DBCtrls, DB, ADODB,
-  bsSkinCtrls, bsdbctrls, Vcl.Mask, bsSkinBoxCtrls, BusinessSkinForm,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, ShellApi,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/ADODB/ShellApi}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, DBCtrls, DB, MaskEdit,
+  LCLIntf, LCLType, LMessages,
+  RichMemo, ZDataset, LResources;
 
 type
   TfLetra = class(TForm)
-    sPanel2: TbsSkinPanel;
-    reLetra: TbsSkinRichEdit;
-    sSplitter1: TbsSkinSplitter;
-    qrBUSCA: TFDQuery;
+    sPanel2: TPanel; {LAZARUS: TbsSkinPanel}
+    reLetra: TRichMemo; {LAZARUS: TbsSkinRichEdit}
+    sSplitter1: TSplitter; {LAZARUS: TbsSkinSplitter}
+    qrBUSCA: TZQuery; {LAZARUS: TFDQuery}
     dsBUSCA: TDataSource;
-    dbLista: TbsSkinDBLookupListBox;
-    GridPanel1: TGridPanel;
-    txtLocaliz: TbsSkinEdit;
-    bsSkinStdLabel1: TbsSkinStdLabel;
-    bsSkinScrollBar8: TbsSkinScrollBar;
-    GridPanel2: TGridPanel;
-    tbSlideM: TbsSkinButton;
-    tbSlideSM: TbsSkinButton;
-    btErro: TbsSkinButton;
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    Carregando: TbsSkinDBText;
-    qrLETRA: TFDQuery;
-    bsSkinPanel1: TbsSkinPanel;
-    bsSkinStdLabel2: TbsSkinStdLabel;
-    bsSkinDBLookupListBox1: TbsSkinDBLookupListBox;
-    qrALBUNS: TFDQuery;
+    dbLista: TDBLookupListBox; {LAZARUS: TbsSkinDBLookupListBox}
+    GridPanel1: TPanel; {LAZARUS: TGridPanel}
+    txtLocaliz: TEdit; {LAZARUS: TbsSkinEdit}
+    bsSkinStdLabel1: TLabel; {LAZARUS: TbsSkinStdLabel}
+    bsSkinScrollBar8: TScrollBar; {LAZARUS: TbsSkinScrollBar}
+    GridPanel2: TPanel; {LAZARUS: TGridPanel}
+    tbSlideM: TButton; {LAZARUS: TbsSkinButton}
+    tbSlideSM: TButton; {LAZARUS: TbsSkinButton}
+    btErro: TButton; {LAZARUS: TbsSkinButton}
+    {LAZARUS: bsBusinessSkinForm1 removido â€” componente de skin}
+    Carregando: TDBText; {LAZARUS: TbsSkinDBText}
+    qrLETRA: TZQuery; {LAZARUS: TFDQuery}
+    bsSkinPanel1: TPanel; {LAZARUS: TbsSkinPanel}
+    bsSkinStdLabel2: TLabel; {LAZARUS: TbsSkinStdLabel}
+    bsSkinDBLookupListBox1: TDBLookupListBox; {LAZARUS: TbsSkinDBLookupListBox}
+    qrALBUNS: TZQuery; {LAZARUS: TFDQuery}
     dsALBUNS: TDataSource;
     procedure FormActivate(Sender: TObject);
     procedure tbSlideMClick(Sender: TObject);
@@ -59,7 +59,6 @@ implementation
 uses
   fmMenu, fmIniciando;
 
-{$R *.dfm}
 
 procedure TfLetra.FormActivate(Sender: TObject);
 begin
@@ -139,9 +138,9 @@ var
 begin
   url := fmIndex.param.Strings.Values['form'+fIniciando.LANG];
   if (url = '') then
-    Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
+    Application.MessageBox(PChar('Nï¿½o foi possï¿½vel acessar o formulï¿½rio de contato! Acesse o formulï¿½rio em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
-    ShellExecute(handle, nil, PChar(url), nil, nil, SW_MAXIMIZE);
+    OpenURL(url); {LAZARUS: ShellExecuteâ†’OpenURL}
 end;
 
 procedure TfLetra.dbListaClick(Sender: TObject);
@@ -149,5 +148,8 @@ begin
   abreLetra();
 end;
 
-end.
 
+initialization
+  {$I fmLetra.lrs}
+
+end.

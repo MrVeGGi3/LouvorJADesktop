@@ -1,10 +1,12 @@
 unit fmPlayer;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.MPlayer;
+  {LAZARUS: removidos Winapi.*/Vcl.*/Vcl.MPlayer — player via BASS em fmMenu}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, LCLIntf, LCLType, LResources;
 
 type
   TfPlayer = class(TForm)
@@ -24,9 +26,8 @@ var
 
 implementation
 
-{$R *.dfm}
 
-uses fmMenu, dmComponentes;
+uses fmMenu, dmComponentes, Bass;
 
 procedure TfPlayer.CreateParams(var Params: TCreateParams);
 begin
@@ -52,16 +53,16 @@ begin
   end;
 
   try
-    fmIndex.MediaPlayer1.Stop;
+    BASS_ChannelStop(fmIndex.PlayerStream); {LAZARUS: MediaPlayer1.Stop→BASS}
   except
     //
   end;
-  fmIndex.MediaPlayer1.Close;
-  fmIndex.MediaPlayer1.FileName := '';
+  BASS_StreamFree(fmIndex.PlayerStream); {LAZARUS: MediaPlayer1.Close→BASS_StreamFree}
+  fmIndex.PlayerStream := 0; {LAZARUS: MediaPlayer1.FileName:=''→PlayerStream reset}
   fmIndex.pnlPlayer.Visible := False;
   fmIndex.lblPlayer.Caption := '';
   DM.tmrPlayer.Enabled := False;
-  fmIndex.pbPlayer.Value := 0;
+  fmIndex.pbPlayer.Position := 0; {LAZARUS: TProgressBar.Value->Position}
 end;
 
 procedure TfPlayer.FormKeyUp(Sender: TObject; var Key: Word;
@@ -72,7 +73,11 @@ end;
 
 procedure TfPlayer.FormResize(Sender: TObject);
 begin
-  fmIndex.MediaPlayer1.DisplayRect := Panel1.ClientRect;
+  {LAZARUS: MediaPlayer1.DisplayRect removido — BASS não renderiza vídeo}
 end;
+
+
+initialization
+  {$I fmPlayer.lrs}
 
 end.

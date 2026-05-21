@@ -299,7 +299,7 @@
     </SearchPaths>
     <Linking>
       <Options>
-        <LinkerOptions Value="-L/usr/local/lib"/>
+        <LinkerOptions Value="-L/usr/local/lib -L$(ProjOutDir)/.. -L/home/matheusveras/.local/lib -L/home/matheusveras/Documentos/LouvorJADesktop"/>
         <Win32>
           <GraphicApp Value="True"/>
         </Win32>
@@ -332,7 +332,7 @@
             <UseExternalDbgSyms Value="False"/>
           </Debugging>
           <Options>
-            <LinkerOptions Value="-L/usr/local/lib"/>
+            <LinkerOptions Value="-L/usr/local/lib -L$(ProjOutDir)/.. -L/home/matheusveras/.local/lib -L/home/matheusveras/Documentos/LouvorJADesktop"/>
           </Options>
         </Linking>
         <Other>

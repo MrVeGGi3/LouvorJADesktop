@@ -1,22 +1,23 @@
 unit fmMonitorSorteioNomes;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinExCtrls, bsSkinCtrls,
-  Vcl.StdCtrls, Vcl.ExtCtrls;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.*}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, CheckLst, LCLIntf, LCLType, LResources;
 
 type
   TfMonitorSorteioNomes = class(TForm)
     pnlSorteioNM: TPanel;
     imgSorteioNM: TImage;
     lmdSorteioNM: TLabel;
-    gSorteioNM: TbsSkinGauge;
-    pnlSorteioNME: TbsSkinExPanel;
-    lbSorteioNM: TbsSkinOfficeListBox;
-    pnlSorteioNMD: TbsSkinExPanel;
-    lbSorteadoNM: TbsSkinOfficeListBox;
+    gSorteioNM: TProgressBar {LAZARUS: TbsSkinGauge};
+    pnlSorteioNME: TPanel {LAZARUS: TbsSkinExPanel};
+    lbSorteioNM: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
+    pnlSorteioNMD: TPanel {LAZARUS: TbsSkinExPanel};
+    lbSorteadoNM: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -35,7 +36,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu;
 
@@ -81,7 +81,8 @@ end;
 procedure TfMonitorSorteioNomes.lbSorteioNMItemCheckClick(Sender: TObject);
 begin
   fmIndex.lbSorteioNM.ItemIndex := lbSorteioNM.ItemIndex;
-  fmIndex.lbSorteioNM.Items[lbSorteioNM.ItemIndex].Checked := lbSorteioNM.Items[lbSorteioNM.ItemIndex].Checked;
+  {LAZARUS: TCheckListBox.Items[i].Checked → TCheckListBox.Checked[i]}
+  fmIndex.lbSorteioNM.Checked[lbSorteioNM.ItemIndex] := lbSorteioNM.Checked[lbSorteioNM.ItemIndex];
   fmIndex.lbSorteioNMItemCheckClick(Sender);
 end;
 
@@ -89,14 +90,18 @@ procedure TfMonitorSorteioNomes.pnlSorteioNMDClose(Sender: TObject);
 begin
   fmIndex.gravaParam('Sorteio Nomes', 'Numeros Sorteados (Extendido)', '0');
   fmIndex.copiaDadosTelaExtendida();
-  fmIndex.ckSorteioExpNM.ItemChecked[1] := false;
+  fmIndex.ckSorteioExpNM.Checked {LAZARUS: TCheckListBox.ItemChecked→Checked}[1] := false;
 end;
 
 procedure TfMonitorSorteioNomes.pnlSorteioNMEClose(Sender: TObject);
 begin
   fmIndex.gravaParam('Sorteio Nomes', 'Numeros Sorteio (Extendido)', '0');
   fmIndex.copiaDadosTelaExtendida();
-  fmIndex.ckSorteioExpNM.ItemChecked[0] := false;
+  fmIndex.ckSorteioExpNM.Checked {LAZARUS: TCheckListBox.ItemChecked→Checked}[0] := false;
 end;
+
+
+initialization
+  {$I fmMonitorSorteioNomes.lrs}
 
 end.

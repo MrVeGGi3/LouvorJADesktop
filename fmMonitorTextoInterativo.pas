@@ -1,14 +1,16 @@
 unit fmMonitorTextoInterativo;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, bsSkinCtrls;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.*}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLIntf, LCLType, RichMemo, LResources;
 
 type
   TfMonitorTextoInterativo = class(TForm)
-    RichEdit0: TbsSkinRichEdit;
+    RichEdit0: TRichMemo {LAZARUS: TbsSkinRichEdit};
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -24,7 +26,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu;
 
@@ -66,5 +67,9 @@ procedure TfMonitorTextoInterativo.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
+
+
+initialization
+  {$I fmMonitorTextoInterativo.lrs}
 
 end.

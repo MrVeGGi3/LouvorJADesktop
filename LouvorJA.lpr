@@ -2,9 +2,6 @@ program LouvorJA;
 
 {$mode objfpc}{$H+}
 
-{ Removido: ShareMem, XPMan, Vcl.Themes, Vcl.Styles (incompatíveis com FPC/Lazarus) }
-{ Removido: MidasLib (era necessário para TClientDataSet Delphi — não existe no FPC) }
-
 uses
   {$IFDEF UNIX}cthreads,{$ENDIF}
   Forms,

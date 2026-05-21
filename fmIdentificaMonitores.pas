@@ -1,10 +1,14 @@
 unit fmIdentificaMonitores;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, BufDataset, LResources;
 
 type
   TfIdentificaMonitores = class(TForm)
@@ -23,11 +27,14 @@ var
 
 implementation
 
-{$R *.dfm}
 
 procedure TfIdentificaMonitores.Timer1Timer(Sender: TObject);
 begin
   Close;
 end;
+
+
+initialization
+  {$I fmIdentificaMonitores.lrs}
 
 end.

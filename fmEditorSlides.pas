@@ -1,128 +1,129 @@
 unit fmEditorSlides;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinCtrls, bsribbon,
-  Vcl.StdCtrls, bsSkinBoxCtrls, Vcl.Grids, Vcl.ValEdit, bsSkinGrids,
-  bsDBGrids, IniFiles, Vcl.ExtCtrls, Vcl.Imaging.pngimage, bsColorCtrls,
-  bsSkinShellCtrls, Vcl.DBCtrls, Bass, System.Zip, System.Types;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/bsribbon/bsColorCtrls/bsSkinShellCtrls}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, Grids, DBGrids, DBCtrls,
+  DB, ValEdit, IniFiles, ColorBox, CheckLst, Spin, MaskEdit,
+  zipper, Bass, LCLIntf, LCLType, LResources;
 
 type
   TfEditorSlides = class(TForm)
-    bsRibbon1: TbsRibbon;
-    bsArquivo: TbsRibbonPage;
-    bsRibbonGroup1: TbsRibbonGroup;
-    bsRibbonPage2: TbsRibbonPage;
-    bsRibbonPage3: TbsRibbonPage;
-    bsRibbonPage4: TbsRibbonPage;
-    btSalvar: TbsSkinSpeedButton;
-    btAbrir: TbsSkinSpeedButton;
-    bsRibbonDivider1: TbsRibbonDivider;
-    btSalvarComo: TbsSkinSpeedButton;
-    btNovo: TbsSkinSpeedButton;
-    bsRibbonGroup3: TbsRibbonGroup;
-    bsSkinSpeedButton9: TbsSkinSpeedButton;
-    bsSkinSpeedButton11: TbsSkinSpeedButton;
-    bsRibbonDivider4: TbsRibbonDivider;
-    bsSkinSpeedButton12: TbsSkinSpeedButton;
-    bsSkinSpeedButton13: TbsSkinSpeedButton;
-    bsRibbonGroup4: TbsRibbonGroup;
-    btNovoSlide: TbsSkinSpeedButton;
-    btExcluiSlide: TbsSkinSpeedButton;
-    bsRibbonGroup7: TbsRibbonGroup;
-    btGravaA: TbsSkinSpeedButton;
-    btGravaR: TbsSkinSpeedButton;
-    btPausePlay2: TbsSkinSpeedButton;
-    bsRibbonDivider5: TbsRibbonDivider;
-    btGravaI: TbsSkinSpeedButton;
-    bsRibbonGroup8: TbsRibbonGroup;
-    bsRibbonGroup9: TbsRibbonGroup;
+    bsRibbon1: TPageControl {LAZARUS: TbsRibbon};
+    bsArquivo: TTabSheet {LAZARUS: TbsRibbonPage â†’ TTabSheet};
+    bsRibbonGroup1: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    bsRibbonPage2: TTabSheet {LAZARUS: TbsRibbonPage â†’ TTabSheet};
+    bsRibbonPage3: TTabSheet {LAZARUS: TbsRibbonPage â†’ TTabSheet};
+    bsRibbonPage4: TTabSheet {LAZARUS: TbsRibbonPage â†’ TTabSheet};
+    btSalvar: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btAbrir: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider1: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    btSalvarComo: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btNovo: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup3: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    bsSkinSpeedButton9: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton11: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider4: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    bsSkinSpeedButton12: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton13: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup4: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    btNovoSlide: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btExcluiSlide: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup7: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    btGravaA: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btGravaR: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btPausePlay2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider5: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    btGravaI: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup8: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    bsRibbonGroup9: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
     param: TValueListEditor;
-    dbGrid: TbsSkinDBGrid;
+    dbGrid: TDBGrid {LAZARUS: TbsSkinDBGrid};
     Panel2: TPanel;
-    DBGrid1: TbsSkinDBGrid;
-    bsSkinScrollBar7: TbsSkinScrollBar;
-    bsRibbonGroup12: TbsRibbonGroup;
-    Panel4: TbsSkinPanel;
-    Panel5: TbsSkinPanel;
-    textoLetra: TbsSkinMemo;
-    bsSkinScrollBar1: TbsSkinScrollBar;
-    textoLetraAux: TbsSkinMemo;
-    bsSkinScrollBar2: TbsSkinScrollBar;
+    DBGrid1: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    bsSkinScrollBar7: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    bsRibbonGroup12: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    Panel4: TPanel {LAZARUS: TbsSkinPanel};
+    Panel5: TPanel {LAZARUS: TbsSkinPanel};
+    textoLetra: TMemo {LAZARUS: TbsSkinMemo};
+    bsSkinScrollBar1: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    textoLetraAux: TMemo {LAZARUS: TbsSkinMemo};
+    bsSkinScrollBar2: TScrollBar {LAZARUS: TbsSkinScrollBar};
     tmrSlideCarregado: TTimer;
-    GridPanel1: TGridPanel;
-    tamanhoLetra: TbsSkinSpinEdit;
-    GridPanel3: TGridPanel;
-    tamanhoLetra_aux: TbsSkinSpinEdit;
-    corLetra: TbsSkinColorButton;
-    corLetra_aux: TbsSkinColorButton;
-    bsSkinStdLabel1: TbsSkinStdLabel;
-    bsSkinStdLabel2: TbsSkinStdLabel;
-    bsSkinStdLabel5: TbsSkinLabel;
-    bsSkinStdLabel6: TbsSkinLabel;
-    GridPanel4: TGridPanel;
-    bsSkinStdLabel8: TbsSkinStdLabel;
-    posicaoFundo: TbsSkinComboBoxEx;
-    bsSkinStdLabel9: TbsSkinStdLabel;
-    corFundo: TbsSkinColorButton;
-    bsRibbonGroup13: TbsRibbonGroup;
-    bsSkinSpeedButton2: TbsSkinSpeedButton;
-    bsSkinSpeedButton8: TbsSkinSpeedButton;
-    bsSkinSpeedButton10: TbsSkinSpeedButton;
-    bsRibbonGroup14: TbsRibbonGroup;
-    bsSkinSpeedButton17: TbsSkinSpeedButton;
-    bsSkinSpeedButton18: TbsSkinSpeedButton;
-    bsSkinSpeedButton23: TbsSkinSpeedButton;
+    GridPanel1: TPanel {LAZARUS: TGridPanel};
+    tamanhoLetra: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    GridPanel3: TPanel {LAZARUS: TGridPanel};
+    tamanhoLetra_aux: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
+    corLetra: TColorButton {LAZARUS: TbsSkinColorButton};
+    corLetra_aux: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinStdLabel1: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel2: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinStdLabel5: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinStdLabel6: TLabel {LAZARUS: TbsSkinLabel};
+    GridPanel4: TPanel {LAZARUS: TGridPanel};
+    bsSkinStdLabel8: TLabel {LAZARUS: TbsSkinStdLabel};
+    posicaoFundo: TComboBox {LAZARUS: TbsSkinComboBoxEx â†’ TComboBox};
+    bsSkinStdLabel9: TLabel {LAZARUS: TbsSkinStdLabel};
+    corFundo: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsRibbonGroup13: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    bsSkinSpeedButton2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton8: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton10: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonGroup14: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    bsSkinSpeedButton17: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton18: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton23: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     tmrTempo: TTimer;
-    Panel6: TbsSkinPanel;
-    bsSkinStdLabel10: TbsSkinLabel;
-    bsRibbonGroup15: TbsRibbonGroup;
-    fundoTransparente: TbsSkinCheckBox;
-    btDuplicaSlide: TbsSkinSpeedButton;
-    bsRibbonDivider2: TbsRibbonDivider;
-    btDivideSlide: TbsSkinSpeedButton;
-    btMesclaSlide: TbsSkinSpeedButton;
-    bsRibbonDivider3: TbsRibbonDivider;
-    brImportar: TbsSkinSpeedButton;
-    bsRibbonDivider6: TbsRibbonDivider;
-    bsRibbonGroup2: TbsRibbonGroup;
-    bsRibbonDivider7: TbsRibbonDivider;
-    btRemoveGr: TbsSkinSpeedButton;
+    Panel6: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel10: TLabel {LAZARUS: TbsSkinLabel};
+    bsRibbonGroup15: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    fundoTransparente: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    btDuplicaSlide: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider2: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    btDivideSlide: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btMesclaSlide: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider3: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    brImportar: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonDivider6: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    bsRibbonGroup2: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    bsRibbonDivider7: TBevel {LAZARUS: TbsRibbonDivider â†’ TBevel};
+    btRemoveGr: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     lbTempos: TListBox;
-    bsRibbonGroup5: TbsRibbonGroup;
-    btProjeta: TbsSkinSpeedButton;
-    bsRibbonPage1: TbsRibbonPage;
-    bsRibbonGroup6: TbsRibbonGroup;
-    btRes169: TbsSkinSpeedButton;
-    btRes0: TbsSkinSpeedButton;
-    btRes43: TbsSkinSpeedButton;
+    bsRibbonGroup5: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    btProjeta: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsRibbonPage1: TTabSheet {LAZARUS: TbsRibbonPage â†’ TTabSheet};
+    bsRibbonGroup6: TPanel {LAZARUS: TbsRibbonGroup â†’ TPanel};
+    btRes169: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btRes0: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btRes43: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     Panel7: TPanel;
-    pnlProgress: TGridPanel;
-    gSlide: TbsSkinGauge;
-    gSlideTotal: TbsSkinGauge;
-    lblTempo: TbsSkinStdLabel;
+    pnlProgress: TPanel {LAZARUS: TGridPanel};
+    gSlide: TProgressBar {LAZARUS: TbsSkinGauge};
+    gSlideTotal: TProgressBar {LAZARUS: TbsSkinGauge};
+    lblTempo: TLabel {LAZARUS: TbsSkinStdLabel};
     areaPanel: TPanel;
     Panel: TPanel;
     pnlLetra: TPanel;
     imgFundo: TImage;
     imgFundoTexto: TImage;
-    lblLetra: TbsSkinStdLabel;
-    lblLetra_aux: TbsSkinStdLabel;
+    lblLetra: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblLetra_aux: TLabel {LAZARUS: TbsSkinStdLabel};
     Panel3: TPanel;
-    GridPanel2: TGridPanel;
-    bsSkinSpeedButton1: TbsSkinSpeedButton;
-    btPausePlay: TbsSkinSpeedButton;
-    bsSkinSpeedButton3: TbsSkinSpeedButton;
-    bsSkinSpeedButton4: TbsSkinSpeedButton;
-    bsSkinSpeedButton5: TbsSkinSpeedButton;
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btPausePlay: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton3: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton4: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton5: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     Panel1: TPanel;
-    lblSlides: TbsSkinLabel;
-    bsSkinSpeedButton6: TbsSkinSpeedButton;
-    btRemoveImagem: TbsSkinSpeedButton;
-    btAudio: TbsSkinSpeedButton;
-    btRemoveAudio: TbsSkinSpeedButton;
+    lblSlides: TLabel {LAZARUS: TbsSkinLabel};
+    bsSkinSpeedButton6: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btRemoveImagem: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btAudio: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btRemoveAudio: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btNovoClick(Sender: TObject);
@@ -134,9 +135,9 @@ type
     procedure Text2CDS();
     procedure btAbrirClick(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+      DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
     procedure carregaSlide(setPosicao: Boolean = True);
-    procedure DBGrid1CellClick(Column: TbsColumn);
+    procedure DBGrid1CellClick(Column: TColumn {LAZARUS: TbsColumn});
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -153,7 +154,7 @@ type
     procedure corFundoChangeColor(Sender: TObject);
     procedure posicaoFundoClick(Sender: TObject);
     procedure dbGridDrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+      DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
     procedure carregaImagem(dir: string);
     procedure replicaFormatacaoFundo(Sender: TObject);
     procedure replicaFormatacaoTexto(Sender: TObject);
@@ -200,7 +201,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses dmComponentes, fmMenu;
 
@@ -626,7 +626,7 @@ begin
   DM.cdsSLIDE_MUSICA2.Edit;
   DM.cdsSLIDE_MUSICA2.FieldByName('TEMPO').Value := tempo;
   DM.cdsSLIDE_MUSICA2.Post;
-  gSlide.MinValue := tempo;
+  gSlide.Min {LAZARUS: TProgressBar.MinValue->Min} := tempo;
   lbTempos.Items[DM.cdsSLIDE_MUSICA2.RecNo-1] := IntToStr(tempo);
   modifica;
 end;
@@ -640,7 +640,7 @@ begin
   DM.cdsSLIDE_MUSICA2.RecNo := StrToInt('0'+param.Values['slide']);
   if DM.cdsSLIDE_MUSICA2.RecNo = 1 then
   begin
-    gSlide.MinValue := 0;
+    gSlide.Min {LAZARUS: TProgressBar.MinValue->Min} := 0;
     BASS_ChannelSetPosition(bass_channel, 0, BASS_POS_BYTE);
     Exit;
   end;
@@ -649,7 +649,7 @@ begin
   if tempo <= 0 then
     tempo := 0;
 
-  gSlide.MinValue := tempo;
+  gSlide.Min {LAZARUS: TProgressBar.MinValue->Min} := tempo;
   BASS_ChannelSetPosition(bass_channel, tempo, BASS_POS_BYTE);
 
   DM.cdsSLIDE_MUSICA2.Edit;
@@ -713,7 +713,7 @@ var
 begin
   if (param.Values['modifica'] = '1') then
   begin
-    msg := application.MessageBox('Deseja salvar as modificações deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
+    msg := application.MessageBox('Deseja salvar as modificaï¿½ï¿½es deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
     if (msg = 2) then exit;
     if (msg = 6) then
     begin
@@ -723,7 +723,7 @@ begin
   end;
   try
     fmIndex.Visible := False;
-    arquivo := fmIndex.openDialog('geral', 'Apresentação LouvorJA (*.slja;*.lja)|*.slja;*.lja', '');
+    arquivo := fmIndex.openDialog('geral', 'Apresentaï¿½ï¿½o LouvorJA (*.slja;*.lja)|*.slja;*.lja', '');
     fmIndex.Visible := True;
     BringToFront;
     if arquivo <> '' then
@@ -828,7 +828,7 @@ var
 begin
   if (param.Values['modifica'] = '1') then
   begin
-    msg := application.MessageBox('Deseja salvar as modificações deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
+    msg := application.MessageBox('Deseja salvar as modificaï¿½ï¿½es deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
     if (msg = 2) then exit;
 
     if (msg = 6) then
@@ -852,17 +852,17 @@ begin
   begin
     if (Trim(param.Values['audio']) = '') then
     begin
-      application.MessageBox('Escolha um arquivo de áudio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
+      application.MessageBox('Escolha um arquivo de ï¿½udio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
       Exit;
     end
     else if not (FileExists(param.Values['audio'])) then
     begin
-      application.MessageBox('Arquivo de áudio não localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
+      application.MessageBox('Arquivo de ï¿½udio nï¿½o localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
       Exit;
     end
     else if (StrToInt('0'+param.Values['slide']) > 1) and (StrToInt(lbTempos.Items[StrToInt('0'+param.Values['slide'])-1]) <= 0) then
     begin
-      application.MessageBox('Não há tempo gravado neste slide! Reproduza a partir do primeiro slide para começar a gravar os tempos.', fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
+      application.MessageBox('Nï¿½o hï¿½ tempo gravado neste slide! Reproduza a partir do primeiro slide para comeï¿½ar a gravar os tempos.', fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
       Exit;
     end
   end;
@@ -894,7 +894,7 @@ var
   tag: integer;
   w,h: integer;
 begin
-  tag := TbsSkinSpeedButton(Sender).Tag;
+  tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
 
   btRes0.Down := (tag = 0);
   btRes43.Down := (tag = 43);
@@ -958,7 +958,7 @@ var
   arquivo: string;
 begin
   fmIndex.Visible := False;
-  arquivo := fmIndex.saveDialog('geral', 'Apresentação LouvorJA (*.slja)|*.slja');
+  arquivo := fmIndex.saveDialog('geral', 'Apresentaï¿½ï¿½o LouvorJA (*.slja)|*.slja');
   fmIndex.Visible := True;
   BringToFront;
   if arquivo <> '' then
@@ -1013,15 +1013,15 @@ begin
   // check the correct BASS was loaded
   if (HIWORD(BASS_GetVersion) <> BASSVERSION) then
   begin
-    application.MessageBox('A versão do seu arquivo "BASS.DLL" está incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
+    application.MessageBox('A versï¿½o do seu arquivo "BASS.DLL" estï¿½ incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
     Exit;
     //Halt;
   end;
 
   // Initialize audio - default device, 44100hz, stereo, 16 bits
-  if not BASS_Init(-1, 44100, 0, Handle, nil) then
+  if not BASS_Init(-1, 44100, 0, nil, nil) {LAZARUS: Handleâ†’nil (Linux BASS_Init)} then
   begin
-    Error('Erro ao iniciar áudio "'+musica+'"!');
+    Error('Erro ao iniciar ï¿½udio "'+musica+'"!');
     Exit;
   end;
 
@@ -1033,11 +1033,11 @@ begin
 //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
     if not BASS_ChannelPlay(bass_channel, False) then
     begin
-      Error('Erro ao reproduzir áudio "'+musica+'"!');
+      Error('Erro ao reproduzir ï¿½udio "'+musica+'"!');
       Exit;
     end;
   except
-    Application.MessageBox(PChar('O programa travou ao tentar reproduzir áudio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
+    Application.MessageBox(PChar('O programa travou ao tentar reproduzir ï¿½udio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
     Exit;
   end;
 
@@ -1076,9 +1076,9 @@ begin
     textoLetraAux.Text := FieldByName('LETRA_AUX').Value;
     tamanhoLetra.Value := FieldByName('TAMANHO_LETRA').Value;
     tamanhoLetra_aux.Value := FieldByName('TAMANHO_LETRA_AUX').Value;
-    corLetra.ColorValue := StringToColor(FieldByName('COR_LETRA').Value);
-    corLetra_aux.ColorValue := StringToColor(FieldByName('COR_LETRA_AUX').Value);
-    corFundo.ColorValue := StringToColor(FieldByName('COR_FUNDO').Value);
+    corLetra.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_LETRA').Value);
+    corLetra_aux.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_LETRA_AUX').Value);
+    corFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_FUNDO').Value);
     btRemoveImagem.Enabled := (FieldByName('IMAGEM').Value <> '');
     posicaoFundo.ItemIndex := StrToInt(FieldByName('IMAGEM_POSICAO').Value)-1;
     fundoTransparente.Checked := not FieldByName('FUNDO_LETRA').AsBoolean;
@@ -1118,9 +1118,9 @@ begin
     if (tamanhoLetra_aux.Value <= 0) then tamanhoLetra_aux.Value := 10;
     lblLetra.Caption := Ansiuppercase(textoLetra.Text);
     lblLetra_aux.Caption := Ansiuppercase(textoLetraAux.Text);
-    lblLetra.Font.Color := corLetra.ColorValue;
-    lblLetra_aux.Font.Color := corLetra_aux.ColorValue;
-    pnlLetra.Color := corFundo.ColorValue;
+    lblLetra.Font.Color := corLetra.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    lblLetra_aux.Font.Color := corLetra_aux.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    pnlLetra.Color := corFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
     lblSlides.Caption := 'SLIDE    '+inttostr(RecNo)+' / '+inttostr(RecordCount);
   end;
 
@@ -1149,21 +1149,21 @@ begin
 
     if (nslide > 0) and (posT = 0) then
     begin
-      gSlide.Value := 0;
+      gSlide.Position {LAZARUS: TProgressBar.Value->Position} := 0;
       pauseplay;
     end
     else
     begin
-      gSlide.MinValue := posT;
+      gSlide.Min {LAZARUS: TProgressBar.MinValue->Min} := posT;
       BASS_ChannelSetPosition(bass_channel, posT, BASS_POS_BYTE);
       tmrTempo.Enabled := True;
     end;
   end
   else
   begin
-    gSlide.Value := 0;
-    gSlideTotal.MaxValue := DM.cdsSLIDE_MUSICA2.RecordCount;
-    gSlideTotal.Value := StrToInt(param.Values['slide'])-1;
+    gSlide.Position {LAZARUS: TProgressBar.Value->Position} := 0;
+    gSlideTotal.Max {LAZARUS: TProgressBar.MaxValue->Max} := DM.cdsSLIDE_MUSICA2.RecordCount;
+    gSlideTotal.Position {LAZARUS: TProgressBar.Value->Position} := StrToInt(param.Values['slide'])-1;
   end;
 
   tmrSlideCarregado.Enabled := True;
@@ -1184,7 +1184,7 @@ begin
 
   DM.cdsSLIDE_MUSICA2.RecNo := StrToInt('0'+param.Values['slide']);
   DM.cdsSLIDE_MUSICA2.Edit;
-  DM.cdsSLIDE_MUSICA2.FieldByName('COR_FUNDO').Value := ColorToString(corFundo.ColorValue);
+  DM.cdsSLIDE_MUSICA2.FieldByName('COR_FUNDO').Value := ColorToString(corFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
   DM.cdsSLIDE_MUSICA2.Post;
   carregaSlide();
   modifica();
@@ -1196,7 +1196,7 @@ begin
 
   DM.cdsSLIDE_MUSICA2.RecNo := StrToInt('0'+param.Values['slide']);
   DM.cdsSLIDE_MUSICA2.Edit;
-  DM.cdsSLIDE_MUSICA2.FieldByName('COR_LETRA').Value := ColorToString(corLetra.ColorValue);
+  DM.cdsSLIDE_MUSICA2.FieldByName('COR_LETRA').Value := ColorToString(corLetra.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
   DM.cdsSLIDE_MUSICA2.Post;
   carregaSlide();
   modifica();
@@ -1208,7 +1208,7 @@ begin
 
   DM.cdsSLIDE_MUSICA2.RecNo := StrToInt('0'+param.Values['slide']);
   DM.cdsSLIDE_MUSICA2.Edit;
-  DM.cdsSLIDE_MUSICA2.FieldByName('COR_LETRA_AUX').Value := ColorToString(corLetra_aux.ColorValue);
+  DM.cdsSLIDE_MUSICA2.FieldByName('COR_LETRA_AUX').Value := ColorToString(corLetra_aux.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
   DM.cdsSLIDE_MUSICA2.Post;
   carregaSlide();
   modifica();
@@ -1222,14 +1222,14 @@ begin
     then Params.WndParent := 0;
 end;
 
-procedure TfEditorSlides.DBGrid1CellClick(Column: TbsColumn);
+procedure TfEditorSlides.DBGrid1CellClick(Column: TColumn {LAZARUS: TbsColumn});
 begin
   param.Values['slide'] := IntToStr(DBGrid1.DataSource.DataSet.RecNo);
   carregaSlide();
 end;
 
 procedure TfEditorSlides.DBGrid1DrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TbsColumn;
+  const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn};
   State: TGridDrawState);
 var
   R: TRect;
@@ -1260,7 +1260,7 @@ begin
   if Column.Index = 0 then
   begin
     DBGrid1.Canvas.FillRect(Rect);
-    DrawText(DBGrid1.Canvas.Handle, IntToStr(DM.cdsSLIDE_MUSICA2.RecNo), Length(IntToStr(DM.cdsSLIDE_MUSICA2.RecNo)), R, DT_WORDBREAK);
+    DrawText(DBGrid1.Canvas.Handle, PChar(IntToStr(DM.cdsSLIDE_MUSICA2.RecNo)), Length(IntToStr(DM.cdsSLIDE_MUSICA2.RecNo)), R, DT_WORDBREAK);
   end
   else if Column.Field = DM.cdsSLIDE_MUSICA2.FieldByName('LETRA_UCASE') then
   begin
@@ -1286,7 +1286,7 @@ begin
 end;
 
 procedure TfEditorSlides.dbGridDrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TbsColumn;
+  const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn};
   State: TGridDrawState);
 begin
   fmIndex.DBGridDrawColumnCell(Sender,Rect,DataCol,Column,State);
@@ -1296,7 +1296,7 @@ procedure TfEditorSlides.Error(msg: string);
 var
 	s: string;
 begin
-	s := msg + #13#10 + 'Verifique se o dispositivo de áudio está conectado em seu computador.' + #13#10 + '(Código do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
+	s := msg + #13#10 + 'Verifique se o dispositivo de ï¿½udio estï¿½ conectado em seu computador.' + #13#10 + '(Cï¿½digo do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
   application.MessageBox(PChar(s), fmIndex.titulo, mb_ok + mb_iconerror);
 end;
 
@@ -1314,10 +1314,12 @@ begin
     if not DM.cdsSLIDE_MUSICA2.Active then
     begin
       DM.cdsSLIDE_MUSICA2.CreateDataSet;
-      DM.cdsSLIDE_MUSICA2.LogChanges := False;
+      {LAZARUS: LogChanges removido â€” TBufDataset nao tem LogChanges}
     end;
     DM.cdsSLIDE_MUSICA2.Open;
-    DM.cdsSLIDE_MUSICA2.EmptyDataSet;
+    {LAZARUS: EmptyDataSet -> loop de delecao (TBufDataset)}
+    DM.cdsSLIDE_MUSICA2.First;
+    while not DM.cdsSLIDE_MUSICA2.EOF do DM.cdsSLIDE_MUSICA2.Delete;
 
     lblLetra.Font.Name := 'DIN Condensed';
     lblLetra_aux.Font.Name := 'DIN Condensed';
@@ -1339,7 +1341,7 @@ begin
 
   if (param.Values['modifica'] = '1') then
   begin
-    msg := application.MessageBox('Deseja salvar as modificações deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
+    msg := application.MessageBox('Deseja salvar as modificaï¿½ï¿½es deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
     if (msg = 2) then
     begin
       Action := caNone;
@@ -1388,7 +1390,7 @@ begin
   else
     titulo := titulo + 'Novo';
 
-  titulo := titulo + ' - Editor de Músicas';
+  titulo := titulo + ' - Editor de Mï¿½sicas';
   Caption := titulo;
 end;
 
@@ -1504,10 +1506,12 @@ procedure TfEditorSlides.Text2CDS;
 var
   arquivo: string;
   arquivo_tmp: TStringList;
-  ZipFile: TZipFile;
+  Unzip: TUnZipper; {LAZARUS: TZipFile â†’ TUnZipper (zipper unit)}
   dir_t: string;
 begin
-  DM.cdsSLIDE_MUSICA2.EmptyDataSet;
+  {LAZARUS: EmptyDataSet -> loop de delecao (TBufDataset)}
+    DM.cdsSLIDE_MUSICA2.First;
+    while not DM.cdsSLIDE_MUSICA2.EOF do DM.cdsSLIDE_MUSICA2.Delete;
 
   arquivo := param.Values['arquivo'];
   if (Trim(arquivo) = '') then
@@ -1519,7 +1523,7 @@ begin
     arquivo_tmp.Add('slides=3');
     arquivo_tmp.Add('[Slide:1]');
     arquivo_tmp.Add('tipo=CAPA');
-    arquivo_tmp.Add('letra=Título');
+    arquivo_tmp.Add('letra=Tï¿½tulo');
     arquivo_tmp.Add('fundo_letra=1');
     arquivo_tmp.Add('tamanho_letra=18');
     arquivo_tmp.Add('tamanho_letra_aux=10');
@@ -1547,15 +1551,16 @@ begin
   end
   else if (ExtractFileExt(arquivo) = '.slja') then
   begin
-    ZipFile := TZipFile.Create;
+    Unzip := TUnZipper.Create; {LAZARUS: TZipFile.Create â†’ TUnZipper.Create}
     try
       dir_t := fmIndex.dir_temp+'~edit_'+FormatDateTime('yyyymmddHHMMSSZZZ', now());
-      ZipFile.Open(arquivo, zmRead);
-      ZipFile.ExtractAll(dir_t);
-      ZipFile.Close;
-      arquivo := dir_t+'\slides.lja';
+      Unzip.FileName := arquivo;
+      Unzip.OutputPath := dir_t;
+      Unzip.Examine;
+      Unzip.UnZipAllFiles;
+      arquivo := dir_t+'/slides.lja'; {LAZARUS: '\' â†’ '/' (Linux path)}
     finally
-      ZipFile.Free;
+      Unzip.Free;
     end;
   end;
 
@@ -1638,14 +1643,14 @@ begin
   begin
     tmrTempo.Enabled := false;
     pauseplay;
-    application.MessageBox('Escolha um arquivo de áudio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
+    application.MessageBox('Escolha um arquivo de ï¿½udio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
     Exit;
   end
   else if not (FileExists(param.Values['audio'])) then
   begin
     tmrTempo.Enabled := false;
     pauseplay;
-    application.MessageBox('Arquivo de áudio não localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
+    application.MessageBox('Arquivo de ï¿½udio nï¿½o localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
     Exit;
   end
   else if param.Values['audio_rep'] <> param.Values['audio'] then
@@ -1683,11 +1688,11 @@ begin
     if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1') then
     begin
       if next_time < 0
-        then gSlide.MaxValue := len
-        else gSlide.MaxValue := next_time;
-      gSlide.Value := posT;
-      gSlideTotal.MaxValue := len;
-      gSlideTotal.Value := posT;
+        then gSlide.Max {LAZARUS: TProgressBar.MaxValue->Max} := len
+        else gSlide.Max {LAZARUS: TProgressBar.MaxValue->Max} := next_time;
+      gSlide.Position {LAZARUS: TProgressBar.Value->Position} := posT;
+      gSlideTotal.Max {LAZARUS: TProgressBar.MaxValue->Max} := len;
+      gSlideTotal.Position {LAZARUS: TProgressBar.Value->Position} := posT;
       lblTempo.Caption := fmIndex.SegundosToTime(Trunc(BASS_ChannelBytes2Seconds(bass_channel,posT)))
                                        // +'-'+inttostr(pos)
                                        +' / '
@@ -1697,7 +1702,7 @@ begin
 
     if (next_time > 0) and (posT >= next_time) then
     begin
-      gSlide.MinValue := next_time;
+      gSlide.Min {LAZARUS: TProgressBar.MinValue->Min} := next_time;
 //      tmrTempo.Enabled := False;
       acaoSlide('prox',False);
     end;
@@ -1708,5 +1713,9 @@ begin
     pauseplay;
   end;
 end;
+
+
+initialization
+  {$I fmEditorSlides.lrs}
 
 end.

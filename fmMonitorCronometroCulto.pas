@@ -1,10 +1,12 @@
 unit fmMonitorCronometroCulto;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, bsSkinCtrls;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.*}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLIntf, LCLType, LResources;
 
 type
   TfMonitorCronometroCulto = class(TForm)
@@ -12,7 +14,7 @@ type
     imgEscSB: TImage;
     lmdEscSbR: TLabel;
     lmdEscSb: TLabel;
-    gEscSbR: TbsSkinGauge;
+    gEscSbR: TProgressBar {LAZARUS: TbsSkinGauge};
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -29,7 +31,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu;
 
@@ -83,5 +84,9 @@ begin
   lmdEscSbR.Width := pnlEscSB.Width;
   lmdEscSbR.Height := round(pnlEscSB.Height / 2);
 end;
+
+
+initialization
+  {$I fmMonitorCronometroCulto.lrs}
 
 end.

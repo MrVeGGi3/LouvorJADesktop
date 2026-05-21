@@ -1,31 +1,32 @@
 unit fmNovaVersao;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ValEdit, OleCtrls, ShellApi, bsSkinCtrls,
-  bsSkinShellCtrls, BusinessSkinForm,
-  bsPngImageList, WinInet, bsDialogs, Vcl.ComCtrls, IdBaseComponent,
-  IdAntiFreezeBase, IdAntiFreeze;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
 
 type
   TfNovaVersao = class(TForm)
-    OpenDialog1: TbsSkinOpenDialog;
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    bsSkinPanel1: TbsSkinPanel;
-    bsSkinButton2: TbsSkinButton;
-    bsSkinButton3: TbsSkinButton;
-    bsSkinPanel2: TbsSkinPanel;
-    Image1: TbsPngImageView;
-    bsSkinPanel3: TbsSkinPanel;
-    lbl1: TbsSkinStdLabel;
-    lblMsg: TbsSkinStdLabel;
-    GridPanel4: TGridPanel;
-    lbl2: TbsSkinStdLabel;
-    lblVAtu: TbsSkinStdLabel;
-    lbl3: TbsSkinStdLabel;
-    lblVNova: TbsSkinStdLabel;
+    OpenDialog1: TOpenDialog {LAZARUS: TbsSkinOpenDialog};
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton2: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton3: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel2: TPanel {LAZARUS: TbsSkinPanel};
+    Image1: TImage {LAZARUS: TbsPngImageView};
+    bsSkinPanel3: TPanel {LAZARUS: TbsSkinPanel};
+    lbl1: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblMsg: TLabel {LAZARUS: TbsSkinStdLabel};
+    GridPanel4: TPanel {LAZARUS: TGridPanel};
+    lbl2: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblVAtu: TLabel {LAZARUS: TbsSkinStdLabel};
+    lbl3: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblVNova: TLabel {LAZARUS: TbsSkinStdLabel};
     progress: TProgressBar;
     Timer1: TTimer;
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -50,7 +51,6 @@ uses
   fmMenu, fmAtualiza, fmIniciando, dmComponentes;
 
 
-{$R *.dfm}
 
 procedure TfNovaVersao.bsSkinButton2Click(Sender: TObject);
 begin
@@ -64,9 +64,9 @@ var
   inst: string;
 begin
 
-  if not (InternetGetConnectedState(@Flags, 0)) then
+  if False then {LAZARUS: InternetGetConnectedState removido â€” assume conectado}
   begin
-    application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
+    application.messagebox(PChar('Nï¿½o foi possï¿½vel conectar ï¿½ internet! Verifique sua conexï¿½o e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
     Exit;
   end;
 
@@ -83,7 +83,7 @@ begin
   progress.Visible := false;
   bsSkinButton3.Enabled := true;
   bsSkinButton2.Enabled := true;
-  lbl1.Caption := 'Há uma nova versão disponível de sua coletânea.';
+  lbl1.Caption := 'Hï¿½ uma nova versï¿½o disponï¿½vel de sua coletï¿½nea.';
 end;
 
 procedure TfNovaVersao.FormCreate(Sender: TObject);
@@ -121,7 +121,7 @@ begin
 
   if (not FileExists(arquivo)) or (baixado = false) then
   begin
-    Application.MessageBox('Não foi possível baixar/executar a atualização do menu!'+#13#10+'Favor, acesse o site https://louvorja.com.br/ e efetue a instalação manual da nova versão.',fmIndex.TITULO,mb_ok+mb_iconerror);
+    Application.MessageBox('Nï¿½o foi possï¿½vel baixar/executar a atualizaï¿½ï¿½o do menu!'+#13#10+'Favor, acesse o site https://louvorja.com.br/ e efetue a instalaï¿½ï¿½o manual da nova versï¿½o.',fmIndex.TITULO,mb_ok+mb_iconerror);
     Exit;
   end
   else
@@ -132,5 +132,8 @@ begin
   end;
 end;
 
-end.
 
+initialization
+  {$I fmNovaVersao.lrs}
+
+end.

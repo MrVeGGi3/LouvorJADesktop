@@ -1,27 +1,28 @@
 unit fmMonitorMenuMusicas;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, bsPngImageList,
-  Vcl.StdCtrls, bsSkinCtrls, bsdbctrls, Vcl.DBCGrids;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.*}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLIntf, LCLType, DBCtrls, DB, LResources;
 
 type
   TfMonitorMenuMusicas = class(TForm)
     Panel1: TPanel;
-    DBCtrlGrid: TDBCtrlGrid;
+    DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid};
     Panel2: TPanel;
-    GridPanel2: TGridPanel;
-    bsSkinDBText1: TbsSkinDBText;
-    ico: TbsPngImageView;
-    bsSkinDBText2: TbsSkinDBText;
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    bsSkinDBText1: TDBText {LAZARUS: TbsSkinDBText};
+    ico: TImage {LAZARUS: TbsPngImageView};
+    bsSkinDBText2: TDBText {LAZARUS: TbsSkinDBText};
     Panel3: TPanel;
     Panel4: TPanel;
     imgCapa: TImage;
-    GridPanel1: TGridPanel;
-    lblTitulo: TbsSkinStdLabel;
-    lblSubtitulo: TbsSkinStdLabel;
+    GridPanel1: TPanel {LAZARUS: TGridPanel};
+    lblTitulo: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblSubtitulo: TLabel {LAZARUS: TbsSkinStdLabel};
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -37,7 +38,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, fmListaMusica;
 
@@ -81,5 +81,9 @@ procedure TfMonitorMenuMusicas.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
+
+
+initialization
+  {$I fmMonitorMenuMusicas.lrs}
 
 end.

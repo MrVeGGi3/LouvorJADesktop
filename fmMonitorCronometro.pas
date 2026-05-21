@@ -1,20 +1,21 @@
 unit fmMonitorCronometro;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinExCtrls, bsSkinCtrls,
-  Vcl.ExtCtrls, Vcl.StdCtrls;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.*}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, CheckLst, LCLIntf, LCLType, LResources;
 
 type
   TfMonitorCronometro = class(TForm)
     lmdCrono: TLabel;
     pnlCrono: TPanel;
     imgCrono: TImage;
-    gCrono: TbsSkinGauge;
-    pnlTempoGravado: TbsSkinExPanel;
-    lbCrono: TbsSkinOfficeListBox;
+    gCrono: TProgressBar {LAZARUS: TbsSkinGauge};
+    pnlTempoGravado: TPanel {LAZARUS: TbsSkinExPanel};
+    lbCrono: TCheckListBox {LAZARUS: TbsSkinOfficeListBox};
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -30,7 +31,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu;
 
@@ -72,5 +72,9 @@ procedure TfMonitorCronometro.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
+
+
+initialization
+  {$I fmMonitorCronometro.lrs}
 
 end.

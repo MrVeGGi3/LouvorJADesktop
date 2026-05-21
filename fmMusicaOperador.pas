@@ -1,36 +1,38 @@
 unit fmMusicaOperador;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com cÃ³digo portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, bsSkinGrids, bsDBGrids, Vcl.StdCtrls, System.Types;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.Types}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, Buttons, Grids, DBGrids, DBCtrls, ComCtrls,
+  LCLIntf, LCLType, LResources;
 
 type
   TfMusicaOperador = class(TForm)
     Panel2: TPanel;
-    DBGrid1: TbsSkinDBGrid;
-    bsSkinScrollBar7: TbsSkinScrollBar;
+    DBGrid1: TDBGrid; {LAZARUS: TbsSkinDBGrid}
+    bsSkinScrollBar7: TScrollBar; {LAZARUS: TbsSkinScrollBar}
     Panel: TPanel;
     pnlLetra: TPanel;
     imgFundo: TImage;
     imgFundoTexto: TImage;
-    lblLetra: TbsSkinStdLabel;
-    lblLetra_aux: TbsSkinStdLabel;
-    pnlProgress: TGridPanel;
-    gSlide: TbsSkinGauge;
+    lblLetra: TLabel; {LAZARUS: TbsSkinStdLabel}
+    lblLetra_aux: TLabel; {LAZARUS: TbsSkinStdLabel}
+    pnlProgress: TPanel; {LAZARUS: TGridPanel}
+    gSlide: TProgressBar; {LAZARUS: TbsSkinGauge}
     Panel3: TPanel;
-    gSlideTotal: TbsSkinGauge;
-    lblTempo: TbsSkinLabel;
-    GridPanel2: TGridPanel;
-    bsSkinSpeedButton1: TbsSkinSpeedButton;
-    btPausePlay: TbsSkinSpeedButton;
-    bsSkinSpeedButton3: TbsSkinSpeedButton;
-    bsSkinSpeedButton4: TbsSkinSpeedButton;
-    bsSkinSpeedButton5: TbsSkinSpeedButton;
+    gSlideTotal: TProgressBar; {LAZARUS: TbsSkinGauge}
+    lblTempo: TLabel; {LAZARUS: TbsSkinLabel}
+    GridPanel2: TPanel; {LAZARUS: TGridPanel}
+    bsSkinSpeedButton1: TSpeedButton; {LAZARUS: TbsSkinSpeedButton}
+    btPausePlay: TSpeedButton; {LAZARUS: TbsSkinSpeedButton}
+    bsSkinSpeedButton3: TSpeedButton; {LAZARUS: TbsSkinSpeedButton}
+    bsSkinSpeedButton4: TSpeedButton; {LAZARUS: TbsSkinSpeedButton}
+    bsSkinSpeedButton5: TSpeedButton; {LAZARUS: TbsSkinSpeedButton}
     Panel1: TPanel;
-    lblSlides: TbsSkinLabel;
+    lblSlides: TLabel; {LAZARUS: TbsSkinLabel}
     pnlInfo: TPanel;
     pnlErroMsg: TPanel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -38,8 +40,8 @@ type
     procedure FormActivate(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
-    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
-    procedure DBGrid1CellClick(Column: TbsColumn);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
+    procedure DBGrid1CellClick(Column: TColumn {LAZARUS: TbsColumn});
     procedure bsSkinSpeedButton5Click(Sender: TObject);
     procedure bsSkinSpeedButton1Click(Sender: TObject);
     procedure btPausePlayClick(Sender: TObject);
@@ -61,7 +63,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses
   fmMusica, fmMenu, dmComponentes;
@@ -101,12 +102,12 @@ begin
     Params.WndParent := 0;
 end;
 
-procedure TfMusicaOperador.DBGrid1CellClick(Column: TbsColumn);
+procedure TfMusicaOperador.DBGrid1CellClick(Column: TColumn {LAZARUS: TbsColumn});
 begin
   fMusica.irSlide(DM.cdsSLIDE_MUSICA.RecNo);
 end;
 
-procedure TfMusicaOperador.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+procedure TfMusicaOperador.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
 var
   R: TRect;
 begin
@@ -130,12 +131,12 @@ begin
   if Column.Index = 0 then
   begin
     DBGrid1.Canvas.FillRect(Rect);
-    DrawText(DBGrid1.Canvas.Handle, IntToStr(DM.cdsSLIDE_MUSICA.RecNo), Length(IntToStr(DM.cdsSLIDE_MUSICA.RecNo)), R, DT_WORDBREAK);
+    DBGrid1.Canvas.TextRect(R, R.Left, R.Top, IntToStr(DM.cdsSLIDE_MUSICA.RecNo)); {LAZARUS: DrawTextâ†’TextRect}
   end
   else if Column.Field = DM.cdsSLIDE_MUSICA.FieldByName('LETRA_UCASE') then
   begin
     DBGrid1.Canvas.FillRect(Rect);
-    DrawText(DBGrid1.Canvas.Handle, PChar(DM.cdsSLIDE_MUSICA.FieldByName('LETRA_UCASE').AsString), Length(DM.cdsSLIDE_MUSICA.FieldByName('LETRA_UCASE').AsString), R, DT_WORDBREAK);
+    DBGrid1.Canvas.TextRect(R, R.Left, R.Top, DM.cdsSLIDE_MUSICA.FieldByName('LETRA_UCASE').AsString); {LAZARUS: DrawTextâ†’TextRect}
   end;
 
 end;
@@ -178,7 +179,7 @@ begin
   begin
     if fMusicaOperador.Tag = 1 then
     begin
-      if (application.MessageBox('Ao fechar esta tela, os slides também serão fechados! Deseja fechar os slides?', fmIndex.titulo, mb_yesno + mb_iconquestion) <> 6) then
+      if (application.MessageBox('Ao fechar esta tela, os slides tambï¿½m serï¿½o fechados! Deseja fechar os slides?', fmIndex.titulo, mb_yesno + mb_iconquestion) <> 6) then
       begin
         Abort;
         Exit;
@@ -205,5 +206,8 @@ begin
   fmIndex.MouseWheel('Up', Sender, Shift, MousePos, Handled);
 end;
 
-end.
 
+initialization
+  {$I fmMusicaOperador.lrs}
+
+end.

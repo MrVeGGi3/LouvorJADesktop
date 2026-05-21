@@ -1,66 +1,65 @@
-﻿unit fmLiturgia;
+unit fmLiturgia;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, bsSkinCtrls,
-  Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask, bsSkinBoxCtrls,
-  bsdbctrls, bsribbon, Data.DB, Data.Win.ADODB, bsColorCtrls, StrUtils, ShellApi,
-  Vcl.DBCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  {LAZARUS: removidos Winapi.*/Vcl.*/BusinessSkinForm/bsSkin*/FireDAC.*/ShellApi}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, StrUtils, LCLIntf, LCLType, ColorBox,
+  ZDataset, LResources;
 
 type
   TfLiturgia = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    GridPanel2: TGridPanel;
-    btAdd: TbsSkinButton;
-    bsSkinPanel1: TbsSkinPanel;
-    lblItem: TbsSkinLabel;
-    txtItem: TbsSkinEdit;
-    bsSkinLabel2: TbsSkinLabel;
-    cbItens: TbsSkinComboBox;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    btAdd: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
+    lblItem: TLabel {LAZARUS: TbsSkinLabel};
+    txtItem: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinLabel2: TLabel {LAZARUS: TbsSkinLabel};
+    cbItens: TComboBox {LAZARUS: TbsSkinComboBox};
     ScrollBox1: TScrollBox;
     dsHinos: TDataSource;
-    qrHinos: TFDQuery;
-    pnlHinos: TbsSkinPanel;
-    bsRibbonDivider10: TbsRibbonDivider;
-    bsSkinPanel2: TbsSkinPanel;
-    opcHinosOpc1: TbsSkinRadioButton;
-    pnlHinosOpc1: TbsSkinPanel;
-    skLitLabel: TbsSkinStdLabel;
-    bsSkinPanel4: TbsSkinPanel;
-    dbLitHinoLista: TbsSkinDBLookupComboBox;
-    csCor: TbsSkinColorButton;
-    bsSkinLabel3: TbsSkinLabel;
-    btDel: TbsSkinButton;
-    pnlAnotacoes: TbsSkinPanel;
-    bsRibbonDivider1: TbsRibbonDivider;
-    bsSkinPanel6: TbsSkinPanel;
-    bsSkinStdLabel1: TbsSkinStdLabel;
-    pnlSite: TbsSkinPanel;
-    bsSkinSpeedButton1: TbsSkinSpeedButton;
-    edtAnotacao: TbsSkinEdit;
-    bsRibbonDivider2: TbsRibbonDivider;
-    bsSkinPanel3: TbsSkinPanel;
-    bsSkinStdLabel2: TbsSkinStdLabel;
-    urlSite: TbsSkinURLEdit;
-    bsSkinSpeedButton2: TbsSkinSpeedButton;
-    pnlArquivo: TbsSkinPanel;
-    bsRibbonDivider3: TbsRibbonDivider;
-    bsSkinPanel7: TbsSkinPanel;
-    bsSkinStdLabel3: TbsSkinStdLabel;
-    edtDiretorio: TbsSkinEdit;
-    bsSkinSpeedButton3: TbsSkinSpeedButton;
-    bsSkinSpeedButton4: TbsSkinSpeedButton;
-    edtDiretorioInfo: TbsSkinEdit;
-    pnlItensAgendados: TbsSkinPanel;
-    bsRibbonDivider4: TbsRibbonDivider;
-    bsSkinPanel8: TbsSkinPanel;
-    bsSkinStdLabel4: TbsSkinStdLabel;
+    qrHinos: TZQuery {LAZARUS: TFDQuery→TZQuery};
+    pnlHinos: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider10: TBevel {LAZARUS: TbsRibbonDivider→TBevel};
+    bsSkinPanel2: TPanel {LAZARUS: TbsSkinPanel};
+    opcHinosOpc1: TRadioButton {LAZARUS: TbsSkinRadioButton};
+    pnlHinosOpc1: TPanel {LAZARUS: TbsSkinPanel};
+    skLitLabel: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinPanel4: TPanel {LAZARUS: TbsSkinPanel};
+    dbLitHinoLista: TDBLookupComboBox {LAZARUS: TbsSkinDBLookupComboBox};
+    csCor: TColorButton {LAZARUS: TbsSkinColorButton};
+    bsSkinLabel3: TLabel {LAZARUS: TbsSkinLabel};
+    btDel: TButton {LAZARUS: TbsSkinButton};
+    pnlAnotacoes: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider1: TBevel {LAZARUS: TbsRibbonDivider→TBevel};
+    bsSkinPanel6: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel1: TLabel {LAZARUS: TbsSkinStdLabel};
+    pnlSite: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinSpeedButton1: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    edtAnotacao: TEdit {LAZARUS: TbsSkinEdit};
+    bsRibbonDivider2: TBevel {LAZARUS: TbsRibbonDivider→TBevel};
+    bsSkinPanel3: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel2: TLabel {LAZARUS: TbsSkinStdLabel};
+    urlSite: TEdit {LAZARUS: TbsSkinURLEdit→TEdit};
+    bsSkinSpeedButton2: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    pnlArquivo: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider3: TBevel {LAZARUS: TbsRibbonDivider→TBevel};
+    bsSkinPanel7: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel3: TLabel {LAZARUS: TbsSkinStdLabel};
+    edtDiretorio: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinSpeedButton3: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton4: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    edtDiretorioInfo: TEdit {LAZARUS: TbsSkinEdit};
+    pnlItensAgendados: TPanel {LAZARUS: TbsSkinPanel};
+    bsRibbonDivider4: TBevel {LAZARUS: TbsRibbonDivider→TBevel};
+    bsSkinPanel8: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinStdLabel4: TLabel {LAZARUS: TbsSkinStdLabel};
     dblItem: TDBLookupComboBox;
-    bsSkinPanel5: TbsSkinPanel;
+    bsSkinPanel5: TPanel {LAZARUS: TbsSkinPanel};
     procedure cbItensChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure executaOpcoes();
@@ -89,7 +88,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, fmBuscaMusica, dmComponentes, fmIniciando;
 
@@ -189,7 +187,7 @@ begin
 
   Add('tipo', tipo);
   Add('item', txtItem.Text);
-  Add('cor', ColorToString(csCor.ColorValue));
+  Add('cor', ColorToString(csCor.ButtonColor {LAZARUS: TColorButton.ColorValue→ButtonColor}));
 
   try
     fmIndex.gravaLog('btAddClick: pre-build id=' + id + ' pnlArquivo=' + BoolToStr(pnlArquivo.Visible, True) + ' edtDiretorio=' + edtDiretorio.Text + ' edtDiretorioInfo=' + edtDiretorioInfo.Text);
@@ -352,7 +350,7 @@ begin
         DM.cdsCategoriasItensAgendados.CreateDataSet;
         DM.cdsCategoriasItensAgendados.IndexName := '';
         DM.cdsCategoriasItensAgendados.IndexFieldNames := 'NOME';
-        DM.cdsCategoriasItensAgendados.LogChanges := False;
+        {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges}
       end;
 
       if (FileExists(fmIndex.dir_dados + 'itensAgendadosCategorias.xml')) then
@@ -421,13 +419,13 @@ begin
   if (Trim(id) = '') then
   begin
     btAdd.Caption := ' Adicionar';
-    btAdd.ImageIndex := 44;
+    {LAZARUS: btAdd.ImageIndex → TButton sem ImageIndex}
     btDel.Visible := False;
   end
   else
   begin
     btAdd.Caption := ' Salvar';
-    btAdd.ImageIndex := 2;
+    {LAZARUS: btAdd.ImageIndex → TButton sem ImageIndex}
     btDel.Visible := True;
   end;
 
@@ -459,7 +457,7 @@ begin
 
       opcHinosOpc1.Checked := (fmIndex.lerParam(id, 'escolha', '0', fmIndex.arq_liturgia) = '1');
       txtItem.Text := fmIndex.lerParam(id, 'item', '', fmIndex.arq_liturgia);
-      csCor.ColorValue := StringToColor(fmIndex.lerParam(id, 'cor', '$004F0000', fmIndex.arq_liturgia));
+      csCor.ButtonColor {LAZARUS: TColorButton.ColorValue→ButtonColor} := StringToColor(fmIndex.lerParam(id, 'cor', '$004F0000', fmIndex.arq_liturgia));
 
       // Map and set ItemIndex so cbItensChange opens datasets before KeyValue assignment
       try
@@ -524,5 +522,9 @@ begin
 
   Result := url;
 end;
+
+
+initialization
+  {$I fmLiturgia.lrs}
 
 end.

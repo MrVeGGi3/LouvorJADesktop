@@ -1,37 +1,39 @@
 unit fmListaMusica;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, bsSkinCtrls,
-  bsdbctrls, Vcl.ExtCtrls, Vcl.DBCGrids,
-  bsPngImageList, Vcl.StdCtrls;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
 
 type
   TfListaMusica = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
     Panel1: TPanel;
     imgCapa: TImage;
-    GridPanel1: TGridPanel;
-    lblTitulo: TbsSkinStdLabel;
-    lblSubtitulo: TbsSkinStdLabel;
-    DBCtrlGrid: TDBCtrlGrid;
+    GridPanel1: TPanel {LAZARUS: TGridPanel};
+    lblTitulo: TLabel {LAZARUS: TbsSkinStdLabel};
+    lblSubtitulo: TLabel {LAZARUS: TbsSkinStdLabel};
+    DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid};
     Panel2: TPanel;
-    GridPanel2: TGridPanel;
-    bsSkinDBText1: TbsSkinDBText;
-    ico: TbsPngImageView;
-    bsSkinDBText2: TbsSkinDBText;
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    bsSkinDBText1: TDBText {LAZARUS: TbsSkinDBText};
+    ico: TImage {LAZARUS: TbsPngImageView};
+    bsSkinDBText2: TDBText {LAZARUS: TbsSkinDBText};
     Panel3: TPanel;
     pnlBotoes: TPanel;
-    bsSkinSpeedButton6: TbsSkinSpeedButton;
-    btExp_MenuMusicas: TbsSkinMenuSpeedButton;
-    bsPngImageView1: TbsPngImageView;
-    btSlidePB: TbsPngImageView;
-    btMusica: TbsPngImageView;
-    btMusicaPB: TbsPngImageView;
-    btLetra: TbsPngImageView;
-    btSlideLetra: TbsPngImageView;
+    bsSkinSpeedButton6: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btExp_MenuMusicas: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton};
+    bsPngImageView1: TImage {LAZARUS: TbsPngImageView};
+    btSlidePB: TImage {LAZARUS: TbsPngImageView};
+    btMusica: TImage {LAZARUS: TbsPngImageView};
+    btMusicaPB: TImage {LAZARUS: TbsPngImageView};
+    btLetra: TImage {LAZARUS: TbsPngImageView};
+    btSlideLetra: TImage {LAZARUS: TbsPngImageView};
     procedure FormActivate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure DBCtrlGridClick(Sender: TObject);
@@ -39,7 +41,7 @@ type
     procedure bsSkinSpeedButton6Click(Sender: TObject);
     procedure btExp_MenuMusicasClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure DBCtrlGridPaintPanel(DBCtrlGrid: TDBCtrlGrid; Index: Integer);
+    procedure DBCtrlGridPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid}; Index: Integer);
     procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -52,6 +54,7 @@ type
     id_album: integer;
     dir: string;
     inicio: Boolean;
+    DataSource: TDataSource; {LAZARUS: campo manual — TScrollBox nao tem DataSource como TDBCtrlGrid}
   end;
 
 var
@@ -59,7 +62,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, dmComponentes, fmMonitorMenuMusicas;
 
@@ -77,36 +79,34 @@ procedure TfListaMusica.btExp_MenuMusicasShowTrackMenu(Sender: TObject);
 var
   tag: integer;
 begin
-  fmIndex.botao_trmenu := TbsSkinMenuSpeedButton(Sender);
+  fmIndex.botao_trmenu := TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender);
   tag := fmIndex.botao_trmenu.tag;
   fmIndex.monitores(tag);
 end;
 
 procedure TfListaMusica.DBCtrlGridClick(Sender: TObject);
 begin
-  if DBCtrlGrid.DataSource = DM.dsMUSICAS
+  if DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS
     then fmIndex.dbctrlMusicasClick(Sender)
-    else fmIndex.abrirArquivo(DBCtrlGrid.DataSource.DataSet.FieldByName('DIR').AsString);
+    else fmIndex.abrirArquivo(DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)}.DataSet.FieldByName('DIR').AsString);
 end;
 
-procedure TfListaMusica.DBCtrlGridPaintPanel(DBCtrlGrid: TDBCtrlGrid;
+procedure TfListaMusica.DBCtrlGridPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid};
   Index: Integer);
 begin
-  if DBCtrlGrid.DataSource <> DM.dsMUSICAS then Exit;
+  if DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} <> DM.dsMUSICAS then Exit;
 
-  if (DBCtrlGrid.DataSource.DataSet.FieldByName('URL_INSTRUMENTAL').AsString <> '') then
+  if (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)}.DataSet.FieldByName('URL_INSTRUMENTAL').AsString <> '') then
   begin
     btSlidePB.Visible := true;
     btMusicaPB.Visible := true;
-    GridPanel2.ColumnCollection[4].Value := 40;
-    GridPanel2.ColumnCollection[7].Value := 40;
+    {LAZARUS: GridPanel2.ColumnCollection → TPanel sem ColumnCollection — stub}
   end
   else
   begin
     btSlidePB.Visible := false;
     btMusicaPB.Visible := false;
-    GridPanel2.ColumnCollection[4].Value := 0;
-    GridPanel2.ColumnCollection[7].Value := 0;
+    {LAZARUS: GridPanel2.ColumnCollection → TPanel sem ColumnCollection — stub}
   end;
 end;
 
@@ -122,14 +122,14 @@ begin
 
     fmIndex.monitor_bt_label(btExp_MenuMusicas);
 
-    bsPngImageView1.Visible := (DBCtrlGrid.DataSource = DM.dsMUSICAS);
-    btSlidePB.Visible := (DBCtrlGrid.DataSource = DM.dsMUSICAS);
-    btSlideLetra.Visible := (DBCtrlGrid.DataSource = DM.dsMUSICAS);
-    btMusica.Visible := (DBCtrlGrid.DataSource = DM.dsMUSICAS);
-    btMusicaPB.Visible := (DBCtrlGrid.DataSource = DM.dsMUSICAS);
-    btLetra.Visible := (DBCtrlGrid.DataSource = DM.dsMUSICAS);
+    bsPngImageView1.Visible := (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS);
+    btSlidePB.Visible := (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS);
+    btSlideLetra.Visible := (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS);
+    btMusica.Visible := (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS);
+    btMusicaPB.Visible := (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS);
+    btLetra.Visible := (DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS);
 
-    if DBCtrlGrid.DataSource = DM.dsMUSICAS then
+    if DataSource {LAZARUS: DBCtrlGrid.DataSource → campo DataSource (TScrollBox sem DataSource)} = DM.dsMUSICAS then
     begin
       DM.qrMUSICAS.Close;
       DM.qrMUSICAS.ParamByName('ID_ALBUM').Value := id_album;
@@ -148,7 +148,9 @@ begin
         DM.cdsArquivos.CreateDataSet;
       end;
       DM.cdsArquivos.Open;
-      DM.cdsArquivos.EmptyDataSet;
+      {LAZARUS: EmptyDataSet → TBufDataset sem EmptyDataSet — loop de deleção}
+      DM.cdsArquivos.First;
+      while not DM.cdsArquivos.EOF do DM.cdsArquivos.Delete;
 
       dir := dir+'\';
       dir := StringReplace(dir,'\\','\',[rfIgnoreCase, rfReplaceAll]);
@@ -207,7 +209,11 @@ end;
 
 procedure TfListaMusica.FormResize(Sender: TObject);
 begin
-  DBCtrlGrid.RowCount := Trunc(DBCtrlGrid.ClientHeight / 40);
+  {LAZARUS: DBCtrlGrid.RowCount → TScrollBox sem RowCount — stub}
 end;
+
+
+initialization
+  {$I fmListaMusica.lrs}
 
 end.

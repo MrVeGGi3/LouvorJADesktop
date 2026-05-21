@@ -1,27 +1,26 @@
 unit fmMusica;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com cÃ³digo portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinCtrls,
-  Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Data.Win.ADODB, Bass,
-  Vcl.Grids, Vcl.DBGrids, bsSkinGrids, bsDBGrids,
-  Vcl.Imaging.pngimage, Datasnap.DBClient, Vcl.DBCtrls;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkinCtrls/bsSkinGrids/ADODB/Datasnap.DBClient}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, DB, Grids, DBGrids, DBCtrls,
+  BufDataset, Bass, LCLIntf, LCLType, LResources; {LAZARUS: JPEG removido â€” LCL registra JPEG auto}
 
 type
   TfMusica = class(TForm)
     pnlLetra: TPanel;
     imgFundo: TImage;
-    lblLetra: TbsSkinStdLabel;
+    lblLetra: TLabel; {LAZARUS: TbsSkinStdLabel}
     tmrTempo: TTimer;
     pnlAdm: TPanel;
     pnGrid: TPanel;
-    dbGrid: TbsSkinDBGrid;
-    bsSkinScrollBar1: TbsSkinScrollBar;
+    dbGrid: TDBGrid; {LAZARUS: TbsSkinDBGrid}
+    bsSkinScrollBar1: TScrollBar; {LAZARUS: TbsSkinScrollBar}
     imgFundoTexto: TImage;
-    lblLetra_aux: TbsSkinStdLabel;
+    lblLetra_aux: TLabel; {LAZARUS: TbsSkinStdLabel}
     lbTempos: TListBox;
     DBGrid1: TDBGrid;
     Button1: TButton;
@@ -53,9 +52,9 @@ type
     procedure pauseplay();
     procedure btProxGravaClick(Sender: TObject);
     procedure bsSkinDBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+      DataCol: Integer; Column: TColumn; {LAZARUS: TbsColumn} State: TGridDrawState);
     procedure dbGridDrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+      DataCol: Integer; Column: TColumn; {LAZARUS: TbsColumn} State: TGridDrawState);
     procedure btRefreshClick(Sender: TObject);
     procedure btGravaAClick(Sender: TObject);
     procedure refresh();
@@ -104,7 +103,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, fmMusicaOperador, fmAtualiza, dmComponentes, fmIniciando,
   fmTransmitir, fmMusicaRetorno;
@@ -308,7 +306,7 @@ begin
 end;
 
 procedure TfMusica.bsSkinDBGrid1DrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TbsColumn;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; {LAZARUS: TbsColumn}
   State: TGridDrawState);
 begin
   fmIndex.DBGridDrawColumnCell(Sender,Rect,DataCol,Column,State);
@@ -346,7 +344,9 @@ var
 begin
   refresh;
   reg := DM.cdsSLIDE_MUSICA.RecNo;
-  DM.cdsSLIDE_MUSICA.EmptyDataSet;
+  {LAZARUS: TBufDataset.EmptyDataSet n/a â€” deletar registros}
+  DM.cdsSLIDE_MUSICA.First;
+  while not DM.cdsSLIDE_MUSICA.EOF do DM.cdsSLIDE_MUSICA.Delete;
   carregaSlides;
   DM.cdsSLIDE_MUSICA.RecNo := reg;
   slide(false);
@@ -513,7 +513,7 @@ begin
     begin
       if (musicaID <= 0) then
         audio := false
-      else if (application.MessageBox(PChar('Arquivo "'+musica+'" não encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
+      else if (application.MessageBox(PChar('Arquivo "'+musica+'" nï¿½o encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
       begin
         lista := TStringList.Create;
         lista.Clear;
@@ -525,7 +525,7 @@ begin
 
         if not (FileExists(musica)) then
         begin
-          application.MessageBox(PChar('Não foi possível baixar o arquivo "'+musica+'"! Os slides serão executados sem áudio!'), fmIndex.titulo, mb_ok + mb_iconerror);
+          application.MessageBox(PChar('Nï¿½o foi possï¿½vel baixar o arquivo "'+musica+'"! Os slides serï¿½o executados sem ï¿½udio!'), fmIndex.titulo, mb_ok + mb_iconerror);
           audio := False;
         end;
       end
@@ -538,20 +538,20 @@ begin
       // check the correct BASS was loaded
       if (HIWORD(BASS_GetVersion) <> BASSVERSION) then
       begin
-        application.MessageBox('A versão do seu arquivo "BASS.DLL" está incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
+        application.MessageBox('A versï¿½o do seu arquivo "BASS.DLL" estï¿½ incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
         audio := false;
         //Halt;
       end;
 
       // Initialize audio - default device, 44100hz, stereo, 16 bits
       try
-        BASS_Init(-1, 44100, 0, Handle, nil);
+        BASS_Init(-1, 44100, 0, nil, nil); {LAZARUS: Handle(HWND) removido â€” Linux usa nil}
       except
         //
       end;
 //      if not BASS_Init(-1, 44100, 0, Handle, nil) then
 //      begin
-//        Error('Erro ao iniciar áudio "'+musica+'"!');
+//        Error('Erro ao iniciar ï¿½udio "'+musica+'"!');
 //        audio := false;
 //      end;
 
@@ -563,11 +563,11 @@ begin
   //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
         if not BASS_ChannelPlay(bass_channel, False) then
         begin
-          Error('Erro ao reproduzir áudio "'+musica+'"!');
+          Error('Erro ao reproduzir ï¿½udio "'+musica+'"!');
           audio := false;
         end;
       except
-        Application.MessageBox(PChar('O programa travou ao tentar reproduzir áudio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
+        Application.MessageBox(PChar('O programa travou ao tentar reproduzir ï¿½udio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
         audio := false;
       end;
 
@@ -603,7 +603,9 @@ var
   uCor,uLetra: string;
 begin
   DM.cdsSLIDE_MUSICA.Open;
-  DM.cdsSLIDE_MUSICA.EmptyDataSet;
+  {LAZARUS: TBufDataset.EmptyDataSet n/a â€” deletar registros}
+  DM.cdsSLIDE_MUSICA.First;
+  while not DM.cdsSLIDE_MUSICA.EOF do DM.cdsSLIDE_MUSICA.Delete;
   lbLetras.Items.Clear;
 
   uimg := '';
@@ -628,7 +630,7 @@ begin
     begin
       if (DM.qrSLIDE_MUSICA.RecNo <= 1) and (param = 'PB') and (DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString = '') then
       begin
-        application.MessageBox(PChar('Esta música não possui playback. Será utilizado o áudio cantado!'), fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
+        application.MessageBox(PChar('Esta mï¿½sica nï¿½o possui playback. Serï¿½ utilizado o ï¿½udio cantado!'), fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
         param := '';
       end;
 
@@ -661,7 +663,7 @@ begin
         if DM.qrSLIDE_MUSICA.RecNo = 1 then
         begin
           DM.cdsSLIDE_MUSICA.FieldByName('TAMANHO_LETRA').Value := fmIndex.seTamanhoTitulo.Text;
-          DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTituloMusica.ColorValue);
+          DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTituloMusica.ButtonColor) {LAZARUS: TbsSkinColorButton.ColorValueâ†’TColorButton.ButtonColor};
         end
         else
         begin
@@ -670,24 +672,24 @@ begin
           begin
             if uCor = '' then
             begin
-              DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoRepetido.ColorValue);
+              DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoRepetido.ButtonColor) {LAZARUS: TbsSkinColorButton.ColorValueâ†’TColorButton.ButtonColor};
               uCor := 'S';
             end
             else
             begin
-              DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ColorValue);
+              DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ButtonColor) {LAZARUS: TbsSkinColorButton.ColorValueâ†’TColorButton.ButtonColor};
               uCor := '';
             end;
           end
           else
           begin
-            DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ColorValue);
+            DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ButtonColor) {LAZARUS: TbsSkinColorButton.ColorValueâ†’TColorButton.ButtonColor};
             uCor := '';
           end;
           uLetra := DM.qrSLIDE_MUSICA.FieldByName('LETRA').AsString;
         end;
         DM.cdsSLIDE_MUSICA.FieldByName('TAMANHO_LETRA_AUX').Value := fmIndex.seTamanhoTextoAux.Text;
-        DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA_AUX').Value := ColorToString(fmIndex.corTextoRepetido.ColorValue);
+        DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA_AUX').Value := ColorToString(fmIndex.corTextoRepetido.ButtonColor) {LAZARUS: TbsSkinColorButton.ColorValueâ†’TColorButton.ButtonColor};
       end
       else
       begin
@@ -707,7 +709,7 @@ begin
         end
         else
         begin
-          DM.cdsSLIDE_MUSICA.FieldByName('COR_FUNDO').Value := ColorToString(fmIndex.corFundoMusica.ColorValue);
+          DM.cdsSLIDE_MUSICA.FieldByName('COR_FUNDO').Value := ColorToString(fmIndex.corFundoMusica.ButtonColor) {LAZARUS: TbsSkinColorButton.ColorValueâ†’TColorButton.ButtonColor};
           DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM').Value := fmIndex.imgFundoMusica.Text;
           DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM_POSICAO').Value := fmIndex.posicaoFundo.ItemIndex+1;
         end;
@@ -802,7 +804,7 @@ begin
     and (lista_img.IndexOf(DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString) = -1) then
     begin
       lista_img.Add(DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString);
-      if (application.MessageBox(PChar('Arquivo "'+fmIndex.dir_config+'imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString+'" não encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
+      if (application.MessageBox(PChar('Arquivo "'+fmIndex.dir_config+'imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString+'" nï¿½o encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
       begin
         lista := TStringList.Create;
         lista.Clear;
@@ -813,7 +815,7 @@ begin
         fAtualiza.ShowModal;
 
         if not (FileExists(fmIndex.dir_config+'imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString)) then
-          application.MessageBox(PChar('Não foi possível baixar o arquivo "'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString+'"! A tela ficará preta ao utilizar esta imagem!'), fmIndex.titulo, mb_ok + mb_iconerror);
+          application.MessageBox(PChar('Nï¿½o foi possï¿½vel baixar o arquivo "'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString+'"! A tela ficarï¿½ preta ao utilizar esta imagem!'), fmIndex.titulo, mb_ok + mb_iconerror);
       end
     end;
     DM.qrSLIDE_MUSICA_TEMPOS.Next;
@@ -863,19 +865,19 @@ begin
   if  (fMusica.left < pt.X) and (fMusica.left+fMusica.width > pt.X)
   and (fMusica.top < pt.Y) and (fMusica.top+fMusica.height > pt.Y) then
   begin
-    ShowCursor(false);
+    {ShowCursor(false);} {LAZARUS: ShowCursor Windows API removido}
 //    Edit3.Text := 'OK';
   end
   else
   begin
-    ShowCursor(true);
+    {ShowCursor(true);} {LAZARUS: ShowCursor Windows API removido}
 //    Edit3.Text := 'NOK';
   end;
   *)
 end;
 
 procedure TfMusica.dbGridDrawColumnCell(Sender: TObject; const Rect: TRect;
-  DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+  DataCol: Integer; Column: TColumn; {LAZARUS: TbsColumn} State: TGridDrawState);
 begin
   fmIndex.DBGridDrawColumnCell(Sender,Rect,DataCol,Column,State);
 end;
@@ -884,7 +886,7 @@ procedure TfMusica.Error(msg: string);
 var
 	s: string;
 begin
-	s := msg + #13#10 + 'Verifique se o dispositivo de áudio está conectado em seu computador.' + #13#10 + '(Código do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
+	s := msg + #13#10 + 'Verifique se o dispositivo de ï¿½udio estï¿½ conectado em seu computador.' + #13#10 + '(Cï¿½digo do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
   application.MessageBox(PChar(s), fmIndex.titulo, mb_ok + mb_iconerror);
 end;
 
@@ -901,7 +903,7 @@ begin
     DM.cdsSLIDE_MUSICA.CreateDataSet;
     DM.cdsSLIDE_MUSICA.IndexName := '';
     DM.cdsSLIDE_MUSICA.IndexFieldNames := 'ORDEM';
-    DM.cdsSLIDE_MUSICA.LogChanges := False;
+    {DM.cdsSLIDE_MUSICA.LogChanges := False;} {LAZARUS: TBufDataset nÃ£o tem LogChanges}
   end;
 
   if (inicio <> true) then
@@ -934,21 +936,21 @@ begin
       begin
         imgFundo.Visible := False;
         fMusica.Color := 1;
-        fMusica.TransparentColor := True;
-        fMusica.TransparentColorValue := fMusica.Color;
+        {fMusica.TransparentColor := True;} {LAZARUS: TForm.TransparentColor nÃ£o existe no LCL}
+        {fMusica.TransparentColorValue := fMusica.Color;} {LAZARUS: nÃ£o existe no LCL}
       end
       else
       begin
         fMusica.Color := clBlack;
         imgFundo.Visible := true;
-        fMusica.TransparentColor := False;
+        {fMusica.TransparentColor := False;} {LAZARUS: nÃ£o existe no LCL}
       end;
     end
     else
     begin
       fMusica.Color := clBlack;
       imgFundo.Visible := true;
-      fMusica.TransparentColor := False;
+      {fMusica.TransparentColor := False;} {LAZARUS: nÃ£o existe no LCL}
     end;
 
 
@@ -1012,7 +1014,7 @@ begin
   end;
   tmrTempo.Enabled := False;
 
-  ShowCursor(true);
+  {ShowCursor(true);} {LAZARUS: ShowCursor Windows API removido}
 
   DM.cdsSLIDE_MUSICA.Close;
   DM.qrSLIDE_MUSICA_ALBUM.Close;
@@ -1328,7 +1330,7 @@ begin
   pnlLetra.Repaint;
 
   if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1')
-    then fMusicaOperador.gSlide.MinValue := StrToInt(StringReplace(lbTempos.Items[DM.cdsSLIDE_MUSICA.RecNo-1],':','', [rfIgnoreCase, rfReplaceAll]));//DM.cdsSLIDE_MUSICA.FieldByName('TEMPO').AsInteger;
+    then fMusicaOperador.gSlide.Min {LAZARUS: MinValueâ†’Min (TProgressBar)} := StrToInt(StringReplace(lbTempos.Items[DM.cdsSLIDE_MUSICA.RecNo-1],':','', [rfIgnoreCase, rfReplaceAll]));//DM.cdsSLIDE_MUSICA.FieldByName('TEMPO').AsInteger;
 
   if (audio) and (DM.cdsSLIDE_MUSICA.RecNo < DM.cdsSLIDE_MUSICA.RecordCount) then
   begin
@@ -1336,20 +1338,20 @@ begin
     Edit2.Text := 'TEMPO ATUAL: '+inttostr(pos)+#13#10+'PROX. TEMPO: '+IntToStr(next_time);
 
     if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1')
-      then fMusicaOperador.gSlide.MaxValue := next_time;
+      then fMusicaOperador.gSlide.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := next_time;
   end
   else
   begin
     next_time := -1;
     Edit2.Text := '-1';
     if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1')
-      then fMusicaOperador.gSlide.MaxValue := fMusicaOperador.gSlide.MinValue+1;
+      then fMusicaOperador.gSlide.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := fMusicaOperador.gSlide.Min {LAZARUS: MinValueâ†’Min (TProgressBar)}+1;
   end;
 
   if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1') then
   begin
-    fMusicaOperador.gSlide.Value := fMusicaOperador.gSlide.MinValue;
-    fMusicaOperador.gSlideTotal.Value := fMusicaOperador.gSlide.MinValue;
+    fMusicaOperador.gSlide.Position {LAZARUS: Valueâ†’Position (TProgressBar)} := fMusicaOperador.gSlide.Min {LAZARUS: MinValueâ†’Min (TProgressBar)};
+    fMusicaOperador.gSlideTotal.Position {LAZARUS: Valueâ†’Position (TProgressBar)} := fMusicaOperador.gSlide.Min {LAZARUS: MinValueâ†’Min (TProgressBar)};
     if (trim(fMusicaOperador.lblTempo.Caption) <> '') then
       fMusicaOperador.lblTempo.Caption := fmIndex.SegundosToTime(Trunc(BASS_ChannelBytes2Seconds(bass_channel,BASS_ChannelGetPosition(bass_channel, BASS_POS_BYTE))))
                                        +' / '
@@ -1374,12 +1376,12 @@ begin
     end
     else if (p = 'SEM_AUDIO') then
     begin
-      fMusicaOperador.pnlInfo.Caption := 'SEM ÁUDIO';
+      fMusicaOperador.pnlInfo.Caption := 'SEM ï¿½UDIO';
       fMusicaOperador.pnlInfo.Color := clRed;
     end
     else if (p = 'COM_AUDIO') then
     begin
-      fMusicaOperador.pnlInfo.Caption := 'COM ÁUDIO';
+      fMusicaOperador.pnlInfo.Caption := 'COM ï¿½UDIO';
       fMusicaOperador.pnlInfo.Color := clNavy;
     end
     else if (p = 'CANTADO') then
@@ -1420,11 +1422,11 @@ begin
     if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1') then
     begin
       if next_time < 0
-        then fMusicaOperador.gSlide.MaxValue := len
-        else fMusicaOperador.gSlide.MaxValue := next_time;
-      fMusicaOperador.gSlide.Value := pos;
-      fMusicaOperador.gSlideTotal.MaxValue := len;
-      fMusicaOperador.gSlideTotal.Value := pos;
+        then fMusicaOperador.gSlide.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := len
+        else fMusicaOperador.gSlide.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := next_time;
+      fMusicaOperador.gSlide.Position {LAZARUS: Valueâ†’Position (TProgressBar)} := pos;
+      fMusicaOperador.gSlideTotal.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := len;
+      fMusicaOperador.gSlideTotal.Position {LAZARUS: Valueâ†’Position (TProgressBar)} := pos;
       fMusicaOperador.lblTempo.Caption := fmIndex.SegundosToTime(Trunc(BASS_ChannelBytes2Seconds(bass_channel,pos)))
                                        // +'-'+inttostr(pos)
                                        +' / '
@@ -1433,11 +1435,11 @@ begin
     if (fmIndex.lerParam('Musicas', 'ModoRetorno', '1') = '1') then
     begin
       if next_time < 0
-        then fMusicaRetorno.gSlide.MaxValue := len
-        else fMusicaRetorno.gSlide.MaxValue := next_time;
-      fMusicaRetorno.gSlide.Value := pos;
-      fMusicaRetorno.gSlideTotal.MaxValue := len;
-      fMusicaRetorno.gSlideTotal.Value := pos;
+        then fMusicaRetorno.gSlide.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := len
+        else fMusicaRetorno.gSlide.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := next_time;
+      fMusicaRetorno.gSlide.Position {LAZARUS: Valueâ†’Position (TProgressBar)} := pos;
+      fMusicaRetorno.gSlideTotal.Max {LAZARUS: MaxValueâ†’Max (TProgressBar)} := len;
+      fMusicaRetorno.gSlideTotal.Position {LAZARUS: Valueâ†’Position (TProgressBar)} := pos;
       fMusicaRetorno.lblTempo.Caption := fmIndex.SegundosToTime(Trunc(BASS_ChannelBytes2Seconds(bass_channel,pos)))
                                        // +'-'+inttostr(pos)
                                        +' / '
@@ -1447,7 +1449,7 @@ begin
 
     if (next_time > 0) and (pos >= next_time) then
     begin
-      fMusicaOperador.gSlide.MinValue := next_time;
+      fMusicaOperador.gSlide.Min {LAZARUS: MinValueâ†’Min (TProgressBar)} := next_time;
       tmrTempo.Enabled := False;
       acaoSlide('prox',False);
     end;
@@ -1492,5 +1494,9 @@ begin
 
   cursor();
 end;
+
+
+initialization
+  {$I fmMusica.lrs}
 
 end.

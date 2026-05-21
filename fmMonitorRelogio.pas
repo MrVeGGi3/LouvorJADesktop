@@ -1,10 +1,12 @@
 unit fmMonitorRelogio;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/System.*}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLIntf, LCLType, LResources;
 
 type
   TfMonitorRelogio = class(TForm)
@@ -26,7 +28,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu;
 
@@ -67,5 +68,9 @@ procedure TfMonitorRelogio.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
+
+
+initialization
+  {$I fmMonitorRelogio.lrs}
 
 end.

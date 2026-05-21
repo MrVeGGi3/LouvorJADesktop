@@ -1,20 +1,21 @@
 unit fmVideoOn;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms,
-  Vcl.OleCtrls, SHDocVw, Vcl.StdCtrls, bsSkinCtrls, Vcl.ExtCtrls;
+  {LAZARUS: removidos System.*/Vcl.*/SHDocVw/OleCtrls — TWebBrowser OLE indisponivel no Linux}
+  SysUtils, Classes, Controls, Forms, StdCtrls, ExtCtrls, LCLIntf, LCLType, LResources;
 
 type
   TfVideoOn = class(TForm)
-    wbVideo: TWebBrowser;
+    wbVideo: TMemo {LAZARUS: TWebBrowser - OLE indisponível no Linux};
     mmHTML: TMemo;
     pnlLoading: TPanel;
-    lblLoading: TbsSkinLabel;
+    lblLoading: TLabel {LAZARUS: TbsSkinLabel};
     procedure FormActivate(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure wbVideoDocumentComplete(ASender: TObject; const pDisp: IDispatch; const URL: OleVariant);
+    {LAZARUS: wbVideoDocumentComplete removido — IDispatch/OleVariant são Windows COM}
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
@@ -30,7 +31,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses
   fmMenu;
@@ -56,7 +56,8 @@ begin
 
   dir := fmIndex.dir_temp + 'video.html';
   mmHTML.Lines.SaveToFile(dir);
-  wbVideo.Navigate(dir + '?' + id);
+  {LAZARUS: wbVideo.Navigate removido — TWebBrowser OLE não disponível no Linux}
+  wbVideo.Lines.Text := 'Vídeo: ' + id; {LAZARUS: placeholder — usar WebKitGTK futuramente}
 end;
 
 procedure TfVideoOn.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -75,7 +76,7 @@ begin
     end
     else fVideoOn.AlphaBlendValue := 0;
   end;
-  wbVideo.Navigate('about:blank');
+  wbVideo.Lines.Clear; {LAZARUS: wbVideo.Navigate('about:blank') removido}
 end;
 
 procedure TfVideoOn.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -83,11 +84,10 @@ begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
 
-procedure TfVideoOn.wbVideoDocumentComplete(ASender: TObject; const pDisp: IDispatch; const URL: OleVariant);
-begin
-  wbVideo.Visible := true;
-  pnlLoading.Visible := not wbVideo.Visible;
-end;
+{LAZARUS: wbVideoDocumentComplete removido — era evento OLE TWebBrowser}
+
+
+initialization
+  {$I fmVideoOn.lrs}
 
 end.
-

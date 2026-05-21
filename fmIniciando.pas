@@ -8,7 +8,7 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
   ExtCtrls, ComCtrls, Grids, ValEdit, typinfo, Menus,
   DBGrids, DBCtrls,
-  LCLIntf, LCLType;
+  LCLIntf, LCLType, LResources;
 
 
 type
@@ -46,7 +46,6 @@ var
 
 implementation
 
-{$R *.lfm} {LAZARUS: .dfm→.lfm}
 
 uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir;
 
@@ -254,11 +253,11 @@ begin
   fmIndex.ckSlideTxtFormatPerso.Checked := (fmIndex.lerParam('Musicas', 'TextoPersonalizado', '0') = '1');
   fmIndex.ckSlideImgFormatPerso.Checked := (fmIndex.lerParam('Musicas', 'FundoPersonalizado', '0') = '1');
   fmIndex.ckSlideFormatPersoExt.Checked := (fmIndex.lerParam('Musicas', 'ExternoPersonalizado', '1') = '1');
-  fmIndex.corFundoMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Fundo', '$0000000'));
-  fmIndex.corTituloMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Titulo', '$000b4ef'));
-  fmIndex.corTextoMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto', '$0FFFFFF'));
-  fmIndex.corTextoRepetido.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto Repetido', '$000b4ef'));
-  fmIndex.corTextoAuxMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto Aux', '$000b4ef'));
+  fmIndex.corFundoMusica.ButtonColor := StringToColor( {LAZARUS: TbsSkinColorButton.ColorValue→TColorButton.ButtonColor}fmIndex.lerParam('Musicas', 'Cor Fundo', '$0000000'));
+  fmIndex.corTituloMusica.ButtonColor := StringToColor( {LAZARUS: TbsSkinColorButton.ColorValue→TColorButton.ButtonColor}fmIndex.lerParam('Musicas', 'Cor Titulo', '$000b4ef'));
+  fmIndex.corTextoMusica.ButtonColor := StringToColor( {LAZARUS: TbsSkinColorButton.ColorValue→TColorButton.ButtonColor}fmIndex.lerParam('Musicas', 'Cor Texto', '$0FFFFFF'));
+  fmIndex.corTextoRepetido.ButtonColor := StringToColor( {LAZARUS: TbsSkinColorButton.ColorValue→TColorButton.ButtonColor}fmIndex.lerParam('Musicas', 'Cor Texto Repetido', '$000b4ef'));
+  fmIndex.corTextoAuxMusica.ButtonColor := StringToColor( {LAZARUS: TbsSkinColorButton.ColorValue→TColorButton.ButtonColor}fmIndex.lerParam('Musicas', 'Cor Texto Aux', '$000b4ef'));
   fmIndex.ckMusicaFundoTransparente.Checked := (fmIndex.lerParam('Musicas', 'FundoTransparente', '0') = '1');
   fmIndex.ckFundoTransparente.Checked := (fmIndex.lerParam('Musicas', 'FundoTelaTransparente', '0') = '1');
   fmIndex.bsFormatSlideImgPerso2.Visible := (not fmIndex.ckFundoTransparente.Checked);
@@ -332,7 +331,7 @@ begin
 
     //**IMAGEM DE FUNDO*********************************************************
     fmIndex.pnlImagemCapa.Color := StringToColor(fmIndex.lerParam('Config', 'Cor Fundo', ColorToString(fmIndex.pnlImagemCapaModel.Color)));
-    fmIndex.corCapaPrograma.ColorValue := fmIndex.pnlImagemCapa.Color;
+    fmIndex.corCapaPrograma.ButtonColor := fmIndex. {LAZARUS: ColorValue→ButtonColor}pnlImagemCapa.Color;
 
     fmIndex.cbAlinhamentoCapaPrograma.ItemIndex := strtoint(fmIndex.lerParam('Config', 'Alinhamento Imagem Fundo', '0'));
     fmIndex.imgImagemCapa.Stretch := (fmIndex.cbAlinhamentoCapaPrograma.ItemIndex = 1);
@@ -371,7 +370,7 @@ begin
     DM.tmrRelogio.Enabled := True;
     fmIndex.paramtemp.Lines.Clear;
     fmIndex.paramtemp.Text := fmIndex.GetComputerNameFunc;
-    fmIndex.spNomePC.Caption := ' '+trim(fmIndex.paramtemp.Lines[0]);
+    fmIndex.spNomePC.Text {LAZARUS: TStatusPanel.Caption→.Text} := ' '+trim(fmIndex.paramtemp.Lines[0]);
 
 
     //**ATUALIZA BD COM COLETANEAS ATIVAS/INATIVAS******************************
@@ -503,6 +502,9 @@ begin
     end;
   end;
 end;
+
+initialization
+  {$I fmIniciando.lrs}
 
 end.
 

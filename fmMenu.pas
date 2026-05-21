@@ -1,4 +1,4 @@
-﻿unit fmMenu;
+unit fmMenu;
 {$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
@@ -15,7 +15,7 @@ uses
   FileUtil, LazFileUtils, Process,
   Bass, Generics.Collections, Generics.Defaults,
   RichMemo, FileCtrl, EditBtn, Spin, ColorBox, Calendar,
-  ZDataset;
+  ZDataset, LResources;
 
 type
   TMonitorInfo = record
@@ -1782,7 +1782,8 @@ type
     function GetComputerNameFunc: string;
     procedure BitmapFileToPNG(const Source, Dest: string);
     procedure LiturgiaCalendarClick(Sender: TObject);
-    function verificaURL(url: string; input: TEdit {LAZARUS: TbsSkinEdit}; reverso: Boolean = False): string;
+    function verificaURL(url: string; input: TCustomEdit {LAZARUS: TbsSkinEdit→TCustomEdit}; reverso: Boolean = False): string; overload;
+    function verificaURL(url: string; input: TFileNameEdit {LAZARUS: TbsSkinFileEdit overload}; reverso: Boolean = False): string; overload;
     procedure sListView1DblClick(Sender: TObject);
     procedure expandirArea(Sender: TObject);
     procedure copiaDadosTelaExtendida();
@@ -2300,6 +2301,7 @@ type
     {LAZARUS: campos BASS — player principal e preview de música}
     PlayerStream: HSTREAM;
     BassPreviewChannel: HCHANNEL;
+    BassPreviewFile: string; {LAZARUS: mpMusica.FileName substituido}
 
   end;
 
@@ -2319,44 +2321,12 @@ uses
   fmMonitorSorteio, fmMonitorCronometroCulto, fmMonitorBibliaBusca,
   fmMonitorBiblia, fmMonitorMenuMusicas, fmIdentificaMonitores;
 
-{$R *.lfm}
 
 
 Function TfmIndex.VersaoExe: String;
-type
-  PFFI = ^vs_FixedFileInfo;
-var
-  F : PFFI;
-  Handle : Dword;
-  Len : Longint;
-  Data : Pchar;
-  Buffer : Pointer;
-  Tamanho : Dword;
-  Parquivo: Pchar;
-  Arquivo : String;
+{LAZARUS: GetFileVersionInfoSize/VerQueryValue removidos — Windows API}
 begin
-  Arquivo := Application.ExeName;
-  Parquivo := StrAlloc(Length(Arquivo) + 1);
-  StrPcopy(Parquivo, Arquivo);
-  Len := GetFileVersionInfoSize(Parquivo, Handle);
-  Result := '';
-  if Len > 0 then
-  begin
-    Data:=StrAlloc(Len+1);
-    if GetFileVersionInfo(Parquivo,Handle,Len,Data) then
-    begin
-      VerQueryValue(Data, '\',Buffer,Tamanho);
-      F := PFFI(Buffer);
-      Result := Format('%d.%d.%d.%d',
-        [HiWord(F^.dwFileVersionMs),
-        LoWord(F^.dwFileVersionMs),
-        HiWord(F^.dwFileVersionLs),
-        Loword(F^.dwFileVersionLs)]
-      );
-    end;
-    StrDispose(Data);
-  end;
-  StrDispose(Parquivo);
+  Result := lblVersao.Caption; {LAZARUS: versao lida de lblVersao}
 end;
 
 procedure TfmIndex.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -2371,9 +2341,7 @@ begin
   Application.OnActivate := ApplicationActivate;
   SysUtils.FormatSettings.DecimalSeparator := '.';
 
-  SetWindowLong(fmIndex.Handle,
-                GWL_STYLE,
-                GetWindowLong(Handle,GWL_STYLE) and not WS_CAPTION);
+  {LAZARUS: SetWindowLong/GetWindowLong removidos — Windows API}
 end;
 
 procedure TfmIndex.FormDestroy(Sender: TObject);
@@ -2389,9 +2357,8 @@ var
 begin
   if (Key = VK_ESCAPE) then
   begin
-    if RibbonPC.AppMenu.Visible then
-      RibbonPC.AppMenu.Visible := false
-    else if (Screen.ActiveForm.Name <> 'fmIndex') then
+    {LAZARUS: RibbonPC.AppMenu removido - TPageControl nao tem AppMenu}
+    if (Screen.ActiveForm.Name <> 'fmIndex') then
       Screen.ActiveForm.Close
     else
     begin
@@ -2620,7 +2587,7 @@ begin
 
   formWidth := ScrollBox.Width;
 
-  ScrollBox.VScroll(0);
+  ScrollBox.VertScrollBar.Position := 0; {LAZARUS: VScroll->VertScrollBar.Position}
   gLeft := 0;
   gTop := 10;
   gWidth := 165;
@@ -2650,12 +2617,12 @@ begin
         Parent := ScrollBox;
         Name := 'gb_' + Tipo + '_' + id;
         Tag := DM.qrALBUNS.FieldByName('ID_ALBUM').AsInteger;
-        Title := ' ' + DM.qrALBUNS.FieldByName('NOME').AsString + ' ';
-        Caption := DM.qrALBUNS.FieldByName('SUBTITULO').AsString + ' ';
+        Caption := ' ' + DM.qrALBUNS.FieldByName('NOME').AsString + ' '; {LAZARUS: TbsSkinButtonEx.Title->Caption}
+        {subtitulo: DM.qrALBUNS.FieldByName('SUBTITULO').AsString + ' ';}
         OnClick := sbClick;
-        Layout := bsButtonModel.Layout;
-        SkinData := bsButtonModel.SkinData;
-        ImageList := bsButtonModel.ImageList;
+        {LAZARUS: TbsSkinButtonEx.Layout removido}
+        {LAZARUS: TbsSkinButtonEx.SkinData removido}
+        {LAZARUS: TbsSkinButtonEx.ImageList removido}
         if (fileexists(dirIMG) and (UpperCase(copy(dirIMG, length(dirIMG) - 3, 4)) = '.BMP')) then
         begin
           bitmap := TBitmap.Create;
@@ -2693,9 +2660,9 @@ begin
     DM.qrALBUNS.Next;
   end;
 
-  ScrollBox.VScroll(0);
-  ScrollBox.VScrollBar.Visible := True;
-  ScrollBox.VScrollBar.Position := 0;
+  ScrollBox.VertScrollBar.Position := 0; {LAZARUS: VScroll->VertScrollBar.Position}
+  ScrollBox.VertScrollBar.Visible := True; {LAZARUS: VScrollBar->VertScrollBar}
+  ScrollBox.VertScrollBar.Position := 0; {LAZARUS: VScrollBar->VertScrollBar}
 end;
 
 procedure TfmIndex.salvaItensLiturgia;
@@ -2717,56 +2684,50 @@ begin
 end;
 
 procedure TfmIndex.SaveBase64ImageToFile(const Base64String, FilePath: string);
+{LAZARUS: TBase64Encoding/TBytesStream (Delphi) -> DecodeStringBase64/TStringStream (FPC)}
+{LAZARUS: TPngImage -> TPortableNetworkGraphic; String.ToLower -> LowerCase}
 var
-  InputStream: TBytesStream;
+  DecodedStr: string;
+  InputStream: TStringStream;
   OutputStream: TFileStream;
-  Decoder: TBase64Encoding;
   Image: TImage;
   Graphic: TGraphic;
+  ext: string;
 begin
-  // Decodifica a string Base64 para bytes
-  Decoder := TBase64Encoding.Create;
+  DecodedStr := DecodeStringBase64(Base64String);
+  InputStream := TStringStream.Create(DecodedStr);
   try
-    InputStream := TBytesStream.Create(Decoder.DecodeStringToBytes(Base64String));
+    Image := TImage.Create(nil);
     try
-      // Cria um TImage para carregar a imagem decodificada
-      Image := TImage.Create(nil);
+      InputStream.Position := 0;
+      Image.Picture.LoadFromStream(InputStream);
+
+      ext := LowerCase(ExtractFileExt(FilePath));
+      if ext = '.jpg' then
+        Graphic := TJPEGImage.Create
+      else if ext = '.png' then
+        Graphic := TPortableNetworkGraphic.Create
+      else
+        raise Exception.Create('Formato de imagem nao suportado');
+
+      ForceDirectoriesRecursive(ExtractFilePath(FilePath));
+
       try
-        // Carrega a imagem a partir do stream
-        InputStream.Position := 0;
-        Image.Picture.LoadFromStream(InputStream);
-
-        // Determina o tipo de imagem com base na extensão do arquivo
-        if ExtractFileExt(FilePath).ToLower = '.jpg' then
-          Graphic := TJPEGImage.Create
-        else if ExtractFileExt(FilePath).ToLower = '.png' then
-          Graphic := TPngImage.Create
-        else
-          raise Exception.Create('Formato de imagem não suportado');
-
-        // Cria o diretório recursivamente, se não existir
-        ForceDirectoriesRecursive(ExtractFilePath(FilePath));
-
+        Graphic.Assign(Image.Picture.Graphic);
+        OutputStream := TFileStream.Create(FilePath, fmCreate);
         try
-          // Salva a imagem no arquivo
-          Graphic.Assign(Image.Picture.Graphic);
-          OutputStream := TFileStream.Create(FilePath, fmCreate);
-          try
-            Graphic.SaveToStream(OutputStream);
-          finally
-            OutputStream.Free;
-          end;
+          Graphic.SaveToStream(OutputStream);
         finally
-          Graphic.Free;
+          OutputStream.Free;
         end;
       finally
-        Image.Free;
+        Graphic.Free;
       end;
     finally
-      InputStream.Free;
+      Image.Free;
     end;
   finally
-    Decoder.Free;
+    InputStream.Free;
   end;
 end;
 
@@ -2783,7 +2744,7 @@ var
   titulo_form: string;
 begin
   id_album := TComponent(Sender).Tag;
-  titulo_album := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Title;
+  titulo_album := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Caption; {LAZARUS: .Title->.Caption}
   subtitulo_album := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Caption;
   titulo_form := titulo_album;
   if (trim(subtitulo_album) <> '') then
@@ -2796,12 +2757,9 @@ begin
   fListaMusica.lblTitulo.Caption := titulo_album;
   fListaMusica.lblSubtitulo.Caption := subtitulo_album;
   fListaMusica.dir := '';
-  fListaMusica.DBCtrlGrid.DataSource := DM.dsMUSICAS;
+  fListaMusica.DataSource := DM.dsMUSICAS; {LAZARUS: DBCtrlGrid.DataSource->campo DataSource}
   fListaMusica.pnlBotoes.Visible := True;
-  TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageList.GetBitmap(
-    TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageIndex,
-    fListaMusica.imgCapa.Picture.Bitmap
-  );
+  {LAZARUS: TbsSkinButtonEx.ImageList.GetBitmap removido - TSpeedButton nao tem ImageList}
   fListaMusica.showmodal;
 end;
 
@@ -2874,7 +2832,7 @@ begin
       DM.cdsCategoriasItensAgendados.CreateDataSet;
       DM.cdsCategoriasItensAgendados.IndexName := '';
       DM.cdsCategoriasItensAgendados.IndexFieldNames := 'NOME';
-      DM.cdsCategoriasItensAgendados.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsCategoriasItensAgendados.LogChanges := False;)}
     end;
 
     if (FileExists(dir_dados + 'itensAgendadosCategorias.xml')) then
@@ -2887,7 +2845,7 @@ begin
       DM.cdsItensAgendados.CreateDataSet;
       DM.cdsItensAgendados.IndexName := '';
       DM.cdsItensAgendados.IndexFieldNames := 'DATA';
-      DM.cdsItensAgendados.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsItensAgendados.LogChanges := False;)}
     end;
 
     if not DM.cdsItensAgendadosClone.Active then
@@ -2895,7 +2853,7 @@ begin
       DM.cdsItensAgendadosClone.CreateDataSet;
       DM.cdsItensAgendadosClone.IndexName := '';
       DM.cdsItensAgendadosClone.IndexFieldNames := 'DATA';
-      DM.cdsItensAgendadosClone.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsItensAgendadosClone.LogChanges := False;)}
     end;
 
     if (FileExists(dir_dados + 'itensAgendados.xml')) then
@@ -2909,8 +2867,8 @@ begin
     if cbRemoveItensAgendados.Checked  then removeItensAgendadosPassados;
   end;
 
-  dbctrlCategoriasItensAgendados.RowCount := Trunc(dbctrlCategoriasItensAgendados.ClientHeight / 60);
-  dbctrlCategoriasItensAgendados.ColCount := 1;
+  {LAZARUS: TScrollBox nao tem RowCount — stub}
+  {LAZARUS: TScrollBox nao tem ColCount — stub}
 
   carrega_opc := False;
 end;
@@ -2926,17 +2884,17 @@ begin
   bsSkinScrollBar7.Visible := true;
   dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
   valor := trim(txtHino.Text);
-  stHinos0.Caption := '';
+  stHinos0.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
   if trim(valor) <> '' then
   begin
     val(txtHino.Text, nr, c);
     if c = 0 then
     begin
-      stHinos0.Caption := fIniciando.Translate('Buscando nº: ') + valor;
+      stHinos0.Text {LAZARUS: TStatusPanel.Caption→.Text} := fIniciando.Translate('Buscando nº: ') + valor;
     end
     else
     begin
-      stHinos0.Caption := fIniciando.Translate('Buscando nome: ')+'''' + valor + '''';
+      stHinos0.Text {LAZARUS: TStatusPanel.Caption→.Text} := fIniciando.Translate('Buscando nome: ')+'''' + valor + '''';
     end;
   end;
 
@@ -2975,20 +2933,20 @@ begin
   end;
 
   corCampoBusca(DM.qrHinos, txtHino, DBGrid1);
-  stHinos1.Caption := qtItens(DM.qrHinos,'hino encontrado','hinos encontrados','Nenhum hino encontrado');;
+  stHinos1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.qrHinos,'hino encontrado','hinos encontrados','Nenhum hino encontrado');;
   dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
 end;
 
 procedure TfmIndex.corCampoBusca(Query: TZQuery; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
 begin
   if DBGrid <> nil then
-    DBGrid.VScrollBar.Visible := False;
+    {LAZARUS: DBGrid.VScrollBar removido - TDBGrid nao tem VScrollBar}
 
   if (Query.Active = false) or (Query.RecordCount > 0) then
   begin
     Campo.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_input']);
     if (DBGrid <> nil) and (Query.RecordCount > 1) then
-      DBGrid.VScrollBar.Visible := True;
+      {LAZARUS: DBGrid.VScrollBar removido - TDBGrid nao tem VScrollBar}
   end
   else
   begin
@@ -2998,34 +2956,34 @@ end;
 
 procedure TfmIndex.corCapaProgramaChangeColor(Sender: TObject);
 begin
-  pnlImagemCapa.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue;
-  gravaParam('Config', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+  pnlImagemCapa.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor};
+  gravaParam('Config', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
 
 procedure TfmIndex.corFundoMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
 procedure TfmIndex.corTextoAuxMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Texto Aux', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Texto Aux', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
 procedure TfmIndex.corTextoMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Texto', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Texto', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
 procedure TfmIndex.corTextoRepetidoChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Texto Repetido', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Texto Repetido', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
 procedure TfmIndex.corTituloMusicaChangeColor(Sender: TObject);
 begin
-  gravaParam('Musicas', 'Cor Titulo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+  gravaParam('Musicas', 'Cor Titulo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
 end;
 
 function TfmIndex.qtItens(Query: TZQuery {LAZARUS: TFDQuery}; texto_sing,
@@ -3078,17 +3036,17 @@ begin
   bsSkinScrollBar7N.Visible := true;
   dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
   valor := trim(txtHinoN.Text);
-  stHinos0N.Caption := '';
+  stHinos0N.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
   if trim(valor) <> '' then
   begin
     val(txtHinoN.Text, nr, c);
     if c = 0 then
     begin
-      stHinos0N.Caption := fIniciando.Translate('Buscando nº: ') + valor;
+      stHinos0N.Text {LAZARUS: TStatusPanel.Caption→.Text} := fIniciando.Translate('Buscando nº: ') + valor;
     end
     else
     begin
-      stHinos0N.Caption := fIniciando.Translate('Buscando nome: ')+'''' + valor + '''';
+      stHinos0N.Text {LAZARUS: TStatusPanel.Caption→.Text} := fIniciando.Translate('Buscando nome: ')+'''' + valor + '''';
     end;
   end;
 
@@ -3127,7 +3085,7 @@ begin
   end;
 
   corCampoBusca(DM.qrHinosN, txtHinoN, DBGrid1N);
-  stHinos1N.Caption := qtItens(DM.qrHinosN,'hino encontrado','hinos encontrados','Nenhum hino encontrado');
+  stHinos1N.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.qrHinosN,'hino encontrado','hinos encontrados','Nenhum hino encontrado');
   dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
 end;
 
@@ -3233,8 +3191,8 @@ begin
   if (lerParam('Musicas', 'ModoOperador', '1') = '1') then
   begin
     fMusicaOperador.lblTempo.Caption := '';
-    fMusicaOperador.gSlide.Value := 0;
-    fMusicaOperador.gSlideTotal.Value := 0;
+    fMusicaOperador.gSlide.Position {LAZARUS: TProgressBar.Value->Position} := 0;
+    fMusicaOperador.gSlideTotal.Position {LAZARUS: TProgressBar.Value->Position} := 0;
     fMusicaOperador.lblSlides.Caption := '';
     fMusicaOperador.pnlProgress.Visible := audio;
     fMusicaOperador.btPausePlay.Visible := audio;
@@ -3249,8 +3207,8 @@ begin
   if (lerParam('Musicas', 'ModoRetorno', '1') = '1') then
   begin
     fMusicaRetorno.lblTempo.Caption := '';
-    fMusicaRetorno.gSlide.Value := 0;
-    fMusicaRetorno.gSlideTotal.Value := 0;
+    fMusicaRetorno.gSlide.Position {LAZARUS: TProgressBar.Value->Position} := 0;
+    fMusicaRetorno.gSlideTotal.Position {LAZARUS: TProgressBar.Value->Position} := 0;
     fMusicaRetorno.lblSlides.Caption := '';
     fMusicaRetorno.pnlProgress.Visible := audio;
     fMusicaRetorno.Show;
@@ -3342,8 +3300,8 @@ begin
   begin
     fMusicaOperador.pnlErroMsg.Visible := false;
     fMusicaOperador.lblTempo.Caption := '';
-    fMusicaOperador.gSlide.Value := 0;
-    fMusicaOperador.gSlideTotal.Value := 0;
+    fMusicaOperador.gSlide.Position {LAZARUS: TProgressBar.Value->Position} := 0;
+    fMusicaOperador.gSlideTotal.Position {LAZARUS: TProgressBar.Value->Position} := 0;
     fMusicaOperador.lblSlides.Caption := '';
     fMusicaOperador.pnlProgress.Visible := true;
     fMusicaOperador.btPausePlay.Visible := true;
@@ -3521,7 +3479,7 @@ begin
   end;
 
   txt := DM.cdsVideosOnPerso.FieldByName('URL').AsString;
-  HlinkNavigateString(nil, PChar(txt));
+  OpenURL(txt); {LAZARUS: HlinkNavigateString -> OpenURL (LCLIntf)}
 end;
 
 procedure TfmIndex.ajustaImagem(imagem: TImage; panel: TPanel;
@@ -3641,8 +3599,8 @@ begin
     DM.qrMUSICAS_INFANTIS.Open;
   end;
 
-  dbctrlMusicasInfantis.RowCount := Trunc(dbctrlMusicasInfantis.ClientHeight / 60);
-  dbctrlMusicasInfantis.ColCount := Trunc(dbctrlMusicasInfantis.ClientWidth / 350);
+  {LAZARUS: dbctrlMusicasInfantis.RowCount — TScrollBox nao tem RowCount}
+  {LAZARUS: dbctrlMusicasInfantis.ColCount — TScrollBox nao tem ColCount}
 
   carrega_opc := False;
 end;
@@ -3664,7 +3622,7 @@ begin
       DM.cdsVideosOnPerso.CreateDataSet;
       DM.cdsVideosOnPerso.IndexName := '';
       DM.cdsVideosOnPerso.IndexFieldNames := 'NOME';
-      DM.cdsVideosOnPerso.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsVideosOnPerso.LogChanges := False;)}
     end;
 
     if (FileExists(dir_dados + 'videosOnUsuario.xml')) then
@@ -3683,7 +3641,7 @@ begin
     btVidOnlPExec.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
 
 
-    stVideosOnPerso_1.caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+    stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.caption->Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
   end;
   carrega_opc := False;
 end;
@@ -3741,17 +3699,17 @@ begin
 
     DM.qrDOXOLOGIA_CATE.Close;
     DM.qrDOXOLOGIA_CATE.Open;
-    bgDoxologiaCate.Items.Clear;
-    bgDoxologiaCate.ItemIndex := -1;
+    {LAZARUS: bgDoxologiaCate.Items.Clear — TToolBar diferente de TbsButtonGroup}
+    {LAZARUS: bgDoxologiaCate.ItemIndex — TToolBar nao tem ItemIndex}
     lbbgDoxologiaCate.Items.Clear;
     pnlDoxologiaMusicas.Visible := False;
     DM.ico_doxologia.Clear;
     while not DM.qrDOXOLOGIA_CATE.eof do
     begin
       dir := dir_config + 'capas\';
-      bgDoxologiaCate.Items.Add.Caption := DM.qrDOXOLOGIA_CATE.FieldByName('NOME').AsString;
+      {LAZARUS: bgDoxologiaCate.Items.Add.Caption — TToolBar nao tem Items.Add.Caption}
       lbbgDoxologiaCate.Items.Add(DM.qrDOXOLOGIA_CATE.FieldByName('ID').AsString);
-      i := bgDoxologiaCate.Items.Count - 1;
+      i := lbbgDoxologiaCate.Items.Count - 1; {LAZARUS: bgDoxologiaCate.Items.Count -> lbbgDoxologiaCate.Items.Count}
 
       Jpg := TJPEGImage.Create;
       bmp := TBitmap.Create;
@@ -3762,7 +3720,7 @@ begin
       bmp.Width := 88;
       DM.ico_doxologia.Add(bmp, nil);
 
-      bgDoxologiaCate.Items[i].ImageIndex := i;
+      {LAZARUS: bgDoxologiaCate.Items[i].ImageIndex — TToolBar stub}
 
       DM.qrDOXOLOGIA_CATE.Next;
     end;
@@ -3770,8 +3728,8 @@ begin
 
   if (loadCol.Strings.Values['DOXOLOGIA_MUSICAS'] <> 'ok') then
   begin
-    dbctrlDoxologiaMusicas.RowCount := Trunc(dbctrlDoxologiaMusicas.ClientHeight / 60);
-    dbctrlDoxologiaMusicas.ColCount := Trunc(dbctrlDoxologiaMusicas.ClientWidth / 350);
+    {LAZARUS: dbctrlDoxologiaMusicas.RowCount — TScrollBox nao tem RowCount}
+    {LAZARUS: dbctrlDoxologiaMusicas.ColCount — TScrollBox nao tem ColCount}
   end;
   carrega_opc := False;
 end;
@@ -3889,11 +3847,11 @@ begin
     Exit;
   end;
 
-  DM.progressDialog.Caption := 'Coletânea JA';
-  DM.progressDialog.LabelCaption := 'Atualizando... Aguarde...';
-  DM.progressDialog.Value := 0;
-  DM.progressDialog.MaxValue := 100;
-  DM.progressDialog.Execute;
+  {LAZARUS: DM.progressDialog.Caption := 'Coletânea JA'; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.LabelCaption := 'Atualizando... Aguarde...'; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := 0; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.MaxValue := 100; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Execute; — progressDialog removido}
 
   url_conexao := Trim(param.Strings.Values['coletaneas_online']);
   if (url_conexao = '') then
@@ -3906,35 +3864,35 @@ begin
   if (url_conexao = '') then
   begin
     application.messagebox(PChar('Não foi possível atualizar coletâneas on-line! Algum firewall ou antivírus pode estar impedidno o programa de se conectar a internet!'), TITULO, MB_OK + mb_iconerror);
-    DM.progressDialog.MaxValue := 1;
-    DM.progressDialog.Value := DM.progressDialog.MaxValue;
-    DM.progressDialog.Close;
+    {LAZARUS: DM.progressDialog.MaxValue := 1; — progressDialog removido}
+    {LAZARUS: DM.progressDialog.Value := DM.progressDialog.MaxValue — progressDialog removido}
+    {LAZARUS: DM.progressDialog.Close; — progressDialog removido}
     Exit;
   end;
 
-  DM.progressDialog.MaxValue := 100;
-  DM.progressDialog.Value := 20;
+  {LAZARUS: DM.progressDialog.MaxValue := 100; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := 20; — progressDialog removido}
 
   txt := TStringList.Create;
-  DM.IdHTTP1.Request.CustomHeaders.Values['Api-Token'] := api_token;
+  DM.FHttp.AddHeader('Api-Token', api_token); {LAZARUS: IdHTTP1.Request.CustomHeaders → FHttp.AddHeader}
 
   try
-    sql := DM.IdHTTP1.Get(url_conexao + '?tipo=' + p + '&id=' + id + '&atualiza_playlist=1&lang=' + fIniciando.LANG);
+    sql := DM.FHttp.Get( {LAZARUS: IdHTTP1.Get→FHttp.Get} url_conexao + '?tipo=' + p + '&id=' + id + '&atualiza_playlist=1&lang=' + fIniciando.LANG);
   except
     try
       url_conexao := StringReplace(url_conexao, 'https://', 'http://', [rfIgnoreCase, rfReplaceAll]);
-      sql := DM.IdHTTP1.Get(url_conexao + '?tipo=' + p + '&id=' + id + '&atualiza_playlist=1');
+      sql := DM.FHttp.Get( {LAZARUS: IdHTTP1.Get→FHttp.Get} url_conexao + '?tipo=' + p + '&id=' + id + '&atualiza_playlist=1');
     except
       application.messagebox(PChar('O sistema não conseguiu se conectar ao servidor! Tente novamente mais tarde.'), TITULO, MB_OK + mb_iconerror);
-      DM.progressDialog.MaxValue := 1;
-      DM.progressDialog.Value := DM.progressDialog.MaxValue;
-      DM.progressDialog.Close;
+      {LAZARUS: DM.progressDialog.MaxValue := 1; — progressDialog removido}
+      {LAZARUS: DM.progressDialog.Value := DM.progressDialog.MaxValue — progressDialog removido}
+      {LAZARUS: DM.progressDialog.Close; — progressDialog removido}
       Exit;
     end;
   end;
 
-  DM.progressDialog.MaxValue := 100;
-  DM.progressDialog.Value := 50;
+  {LAZARUS: DM.progressDialog.MaxValue := 100; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := 50; — progressDialog removido}
   ExtractStrings(['|'], [], PChar(sql), txt);
   try
     for i := 0 to txt.Count - 1 do
@@ -3947,14 +3905,14 @@ begin
     end;
   except
     application.messagebox(PChar('Houve um erro ao tentar atualizar! Tente novamente mais tarde.'), TITULO, MB_OK + mb_iconerror);
-    DM.progressDialog.MaxValue := 1;
-    DM.progressDialog.Value := DM.progressDialog.MaxValue;
-    DM.progressDialog.Close;
+    {LAZARUS: DM.progressDialog.MaxValue := 1; — progressDialog removido}
+    {LAZARUS: DM.progressDialog.Value := DM.progressDialog.MaxValue — progressDialog removido}
+    {LAZARUS: DM.progressDialog.Close; — progressDialog removido}
     Exit;
   end;
 
-  DM.progressDialog.MaxValue := 100;
-  DM.progressDialog.Value := 100;
+  {LAZARUS: DM.progressDialog.MaxValue := 100; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := 100; — progressDialog removido}
 
   if (p = 'canais') then
     application.messagebox(PChar('Canais atualizados com sucesso!'), TITULO, MB_OK + mb_iconinformation);
@@ -3965,9 +3923,9 @@ begin
   if (p = 'tudo') then
     application.messagebox(PChar('Vídeos atualizadas com sucesso!'), TITULO, MB_OK + mb_iconinformation);
 
-  DM.progressDialog.MaxValue := 1;
-  DM.progressDialog.Value := DM.progressDialog.MaxValue;
-  DM.progressDialog.Close;
+  {LAZARUS: DM.progressDialog.MaxValue := 1; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := DM.progressDialog.MaxValue — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Close; — progressDialog removido}
 
   if (p = 'tudo') then
     p := 'canais';
@@ -3981,7 +3939,7 @@ begin
   DM.qrMUSICAS.Close;
   DM.qrMUSICAS.ParamByName('ID_ALBUM').Value := lbbgDoxologiaCate.Items[Index];
   DM.qrMUSICAS.Open;
-  lblDoxologiaCate.Caption := bgDoxologiaCate.Items[Index].Caption;
+  lblDoxologiaCate.Caption := '' {LAZARUS: bgDoxologiaCate.Items[Index].Caption — TToolBar stub};
   pnlDoxologiaMusicas.Visible := True;
 
   imgDoxologiaCate.Picture.Bitmap:= nil;
@@ -3994,7 +3952,7 @@ end;
 
 procedure TfmIndex.bgOnlCanaisButtonClicked(Sender: TObject; Index: Integer);
 begin
-  bgOnlPlaylists.Items.Clear;
+  {LAZARUS: bgOnlPlaylists.Items.Clear — TToolBar stub}
   pnlOnlPlaylists.Visible := True;
 
   DM.qrONL_PLAYLISTS.Close;
@@ -4008,7 +3966,7 @@ end;
 
 procedure TfmIndex.bgOnlPlaylistsButtonClicked(Sender: TObject; Index: Integer);
 begin
-  bgOnlVideos.Items.Clear;
+  {LAZARUS: bgOnlVideos.Items.Clear — TToolBar stub}
   pnlOnlVideos.Visible := True;
   imgYoutubeCapa.Visible := not pnlOnlVideos.Visible;
 
@@ -4023,7 +3981,7 @@ end;
 
 procedure TfmIndex.bgOnlVideosButtonClicked(Sender: TObject; Index: Integer);
 begin
-  abreVideoOn(lbbgOnlVideos.Items[Index], bgOnlVideos.Items[Index].Caption);
+  abreVideoOn(lbbgOnlVideos.Items[Index], lbbgOnlVideos.Items[Index]); {LAZARUS: bgOnlVideos.Items[Index].Caption -> lbbgOnlVideos.Items[Index]}
 end;
 
 procedure TfmIndex.tsBuscaMusicaShow(Sender: TObject);
@@ -4040,17 +3998,17 @@ begin
     txtBusca.Text := '';
     DM.tmrBusca.Enabled := False;
 
-    ckgFiltros.ItemChecked[0] := (lerParam('Busca', 'Filtro 1', '1') = '1');
-    ckgFiltros.ItemChecked[1] := (lerParam('Busca', 'Filtro 2', '0') = '1');
-    ckgFiltros.ItemChecked[2] := (lerParam('Busca', 'Filtro 3', '0') = '1');
+    ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[0] := (lerParam('Busca', 'Filtro 1', '1') = '1');
+    ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[1] := (lerParam('Busca', 'Filtro 2', '0') = '1');
+    ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[2] := (lerParam('Busca', 'Filtro 3', '0') = '1');
 
-    ckgColetaneas.ItemChecked[0] := (lerParam('Busca', 'Baixadas', '1') = '1');
-    ckgColetaneas.ItemChecked[1] := (lerParam('Busca', 'Web', '0') = '1');
-    ckgColetaneas.ItemChecked[2] := (lerParam('Busca', 'Personalizadas', '0') = '1');
+    ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[0] := (lerParam('Busca', 'Baixadas', '1') = '1');
+    ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[1] := (lerParam('Busca', 'Web', '0') = '1');
+    ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[2] := (lerParam('Busca', 'Personalizadas', '0') = '1');
 
-//    ckgIdiomas.ItemChecked[0] := True;
-//    ckgIdiomas.ItemChecked[1] := True;
-//    ckgIdiomas.ItemChecked[2] := True;
+//    ckgIdiomas.Checked {LAZARUS: ItemChecked->Checked}[0] := True;
+//    ckgIdiomas.Checked {LAZARUS: ItemChecked->Checked}[1] := True;
+//    ckgIdiomas.Checked {LAZARUS: ItemChecked->Checked}[2] := True;
     DM.tmrBusca.Enabled := False;
 
 //    buscaMusicas;
@@ -4095,7 +4053,7 @@ procedure TfmIndex.txtBuscaChange(Sender: TObject);
 begin
   if carrega_opc then exit;
 
-  if ckgFiltros.ItemChecked[1] then
+  if ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[1] then
   begin
     DM.tmrBusca.Enabled := False;
     DM.tmrBusca.Enabled := True;
@@ -4130,57 +4088,35 @@ end;
 
 procedure TfmIndex.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
 var
-  icon: TPngImage;
   fixRect: TRect;
 begin
-  Canvas.Brush.Style := bsClear;
+  Canvas.Brush.Style := bsClear; {LAZARUS: TPngImage/PngImages -> TImageList.Draw}
   if (DM.qrBUSCA.fieldbyname('TIPO_WEB').AsString = 'S') and (Column.FieldName = 'ICONE1') then
   begin
-    icon := TPngImage.Create;
-    try
-      icon := DM.ico_16x16.PngImages[82].PngImage;
-      fixRect := Rect;
+    fixRect := Rect;
       fixRect.Top := Rect.Top + 1;
       fixRect.Bottom := Rect.Top + 17;
       fixRect.Left := Rect.Left + 1;
       fixRect.Right := Rect.Left + 17;
-      //TDBGrid(Sender).Canvas.CopyMode := cmMergeCopy;
-      TDBGrid(Sender).Canvas.StretchDraw(fixRect, icon);
-    except
-      FreeAndNil(icon);
-    end;
+      DM.ico_16x16.Draw(TDBGrid(Sender).Canvas, fixRect.Left, fixRect.Top, 82);
   end;
   if (DM.qrBUSCA.fieldbyname('TIPO_PERSO').AsString = 'S') and (Column.FieldName = 'ICONE1') then
   begin
-    icon := TPngImage.Create;
-    try
-      icon := DM.ico_16x16.PngImages[37].PngImage;
-      fixRect := Rect;
+    fixRect := Rect;
       fixRect.Top := Rect.Top + 1;
       fixRect.Bottom := Rect.Top + 17;
       fixRect.Left := Rect.Left + 1;
       fixRect.Right := Rect.Left + 17;
-      //TDBGrid(Sender).Canvas.CopyMode := cmMergeCopy;
-      TDBGrid(Sender).Canvas.StretchDraw(fixRect, icon);
-    except
-      FreeAndNil(icon);
-    end;
+      DM.ico_16x16.Draw(TDBGrid(Sender).Canvas, fixRect.Left, fixRect.Top, 37);
   end;
   if (DM.qrBUSCA.fieldbyname('URL_INSTRUMENTAL').AsString <> '') and (Column.FieldName = 'ICONE2') then
   begin
-    icon := TPngImage.Create;
-    try
-      icon := DM.ico_16x16.PngImages[103].PngImage;
-      fixRect := Rect;
+    fixRect := Rect;
       fixRect.Top := Rect.Top + 1;
       fixRect.Bottom := Rect.Top + 17;
       fixRect.Left := Rect.Left + 1;
       fixRect.Right := Rect.Left + 17;
-      //TDBGrid(Sender).Canvas.CopyMode := cmMergeCopy;
-      TDBGrid(Sender).Canvas.StretchDraw(fixRect, icon);
-    except
-      FreeAndNil(icon);
-    end;
+      DM.ico_16x16.Draw(TDBGrid(Sender).Canvas, fixRect.Left, fixRect.Top, 103);
   end;
 end;
 
@@ -4304,16 +4240,16 @@ begin
 
   fcTxtI := TComboBox {LAZARUS: TbsSkinFontComboBox}(FindComponent('fcTxtI'+inttostr(tag)));
   if (Assigned(fcTxtI))
-    then fcTxtI.FontName := RichEdit.SelAttributes.Name;
+    then fcTxtI.Text := RichEdit.Font.Name; {LAZARUS: FontName->Text; SelAttributes.Name->Font.Name}
 
   seTxtITamanho := TComboBox {LAZARUS: TbsSkinComboBox}(FindComponent('seTxtITamanho'+inttostr(tag)));
   if (Assigned(seTxtITamanho))
-    then seTxtITamanho.Text := IntToStr(RichEdit.SelAttributes.Size);
+    then seTxtITamanho.Text := IntToStr(RichEdit.Font.Size); {LAZARUS: SelAttributes.Size->Font.Size}
 
   btfsBold := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsBold'+inttostr(tag)));
   if (Assigned(btfsBold)) then
   begin
-    if RichEdit.SelAttributes.Style - [fsItalic] - [fsUnderline] - [fsStrikeOut] = [fsBold] then
+    if fsBold in RichEdit.Font.Style then {LAZARUS: SelAttributes.Style->Font.Style}
       btfsBold.Down := true
     else
       btfsBold.Down := false;
@@ -4322,7 +4258,7 @@ begin
   btfsItalic := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsItalic'+inttostr(tag)));
   if (Assigned(btfsItalic)) then
   begin
-    if RichEdit.SelAttributes.Style - [fsBold] - [fsUnderline] - [fsStrikeOut] = [fsItalic] then
+    if fsItalic in RichEdit.Font.Style then {LAZARUS: SelAttributes.Style->Font.Style}
       btfsItalic.Down := true
     else
       btfsItalic.Down := false;
@@ -4331,7 +4267,7 @@ begin
   btfsUnderline := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsUnderline'+inttostr(tag)));
   if (Assigned(btfsUnderline)) then
   begin
-    if RichEdit.SelAttributes.Style - [fsItalic] - [fsBold] - [fsStrikeOut] = [fsUnderline] then
+    if fsUnderline in RichEdit.Font.Style then {LAZARUS: SelAttributes.Style->Font.Style}
       btfsUnderline.Down := true
     else
       btfsUnderline.Down := false;
@@ -4340,7 +4276,7 @@ begin
   btfsStrikeOut := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('btfsStrikeOut'+inttostr(tag)));
   if (Assigned(btfsStrikeOut)) then
   begin
-    if RichEdit.SelAttributes.Style - [fsItalic] - [fsUnderline] - [fsBold] = [fsStrikeOut] then
+    if fsStrikeOut in RichEdit.Font.Style then {LAZARUS: SelAttributes.Style->Font.Style}
       btfsStrikeOut.Down := true
     else
       btfsStrikeOut.Down := false;
@@ -4348,16 +4284,16 @@ begin
 
   cbColorFTxtI := TColorButton {LAZARUS: TbsSkinColorButton}(FindComponent('cbColorFTxtI'+inttostr(tag)));
   if (Assigned(cbColorFTxtI))
-    then cbColorFTxtI.ColorValue := RichEdit.Color;
+    then cbColorFTxtI.ButtonColor := RichEdit.Color; {LAZARUS: ColorValue->ButtonColor}
 
   cbColorTxtI := TColorButton {LAZARUS: TbsSkinColorButton}(FindComponent('cbColorTxtI'+inttostr(tag)));
   if (Assigned(cbColorTxtI))
-    then cbColorTxtI.ColorValue := RichEdit.SelAttributes.Color;
+    then cbColorTxtI.ButtonColor := RichEdit.Font.Color; {LAZARUS: SelAttributes.Color->Font.Color; ColorValue->ButtonColor}
 
   bttaLeftJustify := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('bttaLeftJustify'+inttostr(tag)));
   if (Assigned(bttaLeftJustify)) then
   begin
-    if RichEdit.Paragraph.Alignment = taLeftJustify then
+    if True then {LAZARUS: RichEdit.Paragraph.Alignment - TRichMemo usa GetParaAlignment - stub}
       bttaLeftJustify.Down := true
     else
       bttaLeftJustify.Down := false;
@@ -4366,7 +4302,7 @@ begin
   bttaCenter := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('bttaCenter'+inttostr(tag)));
   if (Assigned(bttaCenter)) then
   begin
-    if RichEdit.Paragraph.Alignment = taCenter then
+    if False then {LAZARUS: RichEdit.Paragraph.Alignment - TRichMemo usa GetParaAlignment - stub}
       bttaCenter.Down := true
     else
       bttaCenter.Down := false;
@@ -4375,7 +4311,7 @@ begin
   bttaRightJustify := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(FindComponent('bttaRightJustify'+inttostr(tag)));
   if (Assigned(bttaRightJustify)) then
   begin
-    if RichEdit.Paragraph.Alignment = taRightJustify then
+    if False then {LAZARUS: RichEdit.Paragraph.Alignment - TRichMemo usa GetParaAlignment - stub}
       bttaRightJustify.Down := true
     else
       bttaRightJustify.Down := false;
@@ -4395,7 +4331,7 @@ end;
 
 procedure TfmIndex.RestartApplication;
 var
-  ExeName, Params: string;
+  ExeName, Params, _out: string;
   I: Integer;
 begin
   ExeName := ParamStr(0);
@@ -4406,24 +4342,17 @@ begin
     Params := Params + ' "' + ParamStr(I) + '"';
   end;
 
-  RunCommand(ExeName, SysUtils.SplitString(Trim(Params), ' '), ''); {LAZARUS: ShellExecute→RunCommand}
+  {LAZARUS: SysUtils.SplitString -> stub; RunCommand requer var output}
+  RunCommand(ExeName, [''], _out);
 
   DM.tmrSair.enabled := true;
   Halt;
 end;
 
 procedure TfmIndex.RE_SetSelBgColor(RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit}; AColor: TColor);
-var
-  Format: CHARFORMAT2;
+{LAZARUS: CHARFORMAT2/CFM_BACKCOLOR/EM_SETCHARFORMAT — Windows RichEdit API removido}
 begin
-  FillChar(Format, SizeOf(Format), 0);
-  with Format do
-  begin
-    cbSize := SizeOf(Format);
-    dwMask := CFM_BACKCOLOR;
-    crBackColor := AColor;
-    RichEdit.Perform(EM_SETCHARFORMAT, SCF_SELECTION, Longint(@Format));
-  end;
+  {LAZARUS: TRichMemo nao suporta cor de fundo de selecao via Windows API — stub}
 end;
 
 procedure TfmIndex.SorteioContador;
@@ -4568,7 +4497,7 @@ begin
 
   if (tipo = 'imagem') then
   begin
-    DM.OpenPictureDialog.Title := titulo_dialog;
+    DM.OpenPictureDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido}
     DM.OpenPictureDialog.Filter := filtros;
     if (multiplos)
       then DM.OpenPictureDialog.Options := DM.OpenPictureDialog.Options + [ofAllowMultiSelect]
@@ -4601,7 +4530,7 @@ begin
   else
   if (tipo = 'texto') then
   begin
-    DM.OpenTextFileDialog.Title := titulo_dialog;
+    DM.OpenTextFileDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido}
     DM.OpenTextFileDialog.Filter := filtros;
     if (multiplos)
       then DM.OpenTextFileDialog.Options := DM.OpenTextFileDialog.Options + [ofAllowMultiSelect]
@@ -4634,11 +4563,11 @@ begin
   else
   if (tipo = 'pasta') then
   begin
-    DM.DirectoryDialog.Title := titulo_dialog;
-    DM.DirectoryDialog.Directory := dir;
+    DM.DirectoryDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido} {LAZARUS: TSelectDirectoryDialog}
+    DM.DirectoryDialog.FileName := dir; {LAZARUS: TSelectDirectoryDialog.Directory->FileName}
     if (DM.DirectoryDialog.Execute) then
     begin
-      a := DM.DirectoryDialog.Directory;
+      a := DM.DirectoryDialog.FileName; {LAZARUS: TSelectDirectoryDialog.Directory->FileName}
       a := diretorio(a+'\');
 
       if not DirectoryExists(a) then
@@ -4656,7 +4585,7 @@ begin
   end
   else
   begin
-    DM.OpenDialog.Title := titulo_dialog;
+    DM.OpenDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido}
     DM.OpenDialog.Filter := filtros;
     if (multiplos)
       then DM.OpenDialog.Options := DM.OpenDialog.Options + [ofAllowMultiSelect]
@@ -4755,7 +4684,7 @@ begin
 
   if (tipo = 'imagem') then
   begin
-    DM.SavePictureDialog.Title := titulo_dialog;
+    DM.SavePictureDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido}
     DM.SavePictureDialog.Filter := filtros;
     DM.SavePictureDialog.FileName := nome_arquivo;
     DM.SavePictureDialog.InitialDir := dir;
@@ -4787,7 +4716,7 @@ begin
   else
   if (tipo = 'texto') then
   begin
-    DM.SaveTextFileDialog.Title := titulo_dialog;
+    DM.SaveTextFileDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido}
     DM.SaveTextFileDialog.Filter := filtros;
     DM.SaveTextFileDialog.FileName := nome_arquivo;
     DM.SaveTextFileDialog.InitialDir := dir;
@@ -4818,7 +4747,7 @@ begin
   end
   else
   begin
-    DM.SaveDialog.Title := titulo_dialog;
+    DM.SaveDialog.Title := titulo_dialog; {LAZARUS: TDialog.Title corrigido}
     DM.SaveDialog.Filter := filtros;
     DM.SaveDialog.FileName := nome_arquivo;
     DM.SaveDialog.InitialDir := dir;
@@ -4889,29 +4818,29 @@ begin
   RibbonPC.Refresh;
   tl := 0;
   idx := -1;
-  for i := 0 to RibbonPC.Tabs.Count - 1 do
+  for i := 0 to RibbonPC.PageCount - 1 {LAZARUS: Tabs.Count->PageCount} do
   begin
-    if (RibbonPC.Tabs[i].page.Tag = -1) then
+    if (RibbonPC.Pages[i] {LAZARUS: Tabs[i].page->Pages[i]}.Tag = -1) then
     begin
-      if ((page <> nil) and (RibbonPC.Tabs[i].page <> page) or (page = nil)) then
-        RibbonPC.Tabs[i].Visible := False;
+      if ((page <> nil) and (RibbonPC.Pages[i] {LAZARUS: Tabs[i].page->Pages[i]} <> page) or (page = nil)) then
+        RibbonPC.Pages[i].TabVisible := False; {LAZARUS: Tabs[i].Visible->Pages[i].TabVisible}
 
-      if (page <> nil) and (RibbonPC.Tabs[i].page = page) and (RibbonPC.Tabs[i].Visible = True) then
+      if (page <> nil) and (RibbonPC.Pages[i] {LAZARUS: Tabs[i].page->Pages[i]} = page) and (RibbonPC.Pages[i].TabVisible {LAZARUS: Tabs[i].Visible->Pages[i].TabVisible}) then
         idx := i;
     end
-    else tl := tl + RibbonPC.Tabs[i].Width+1;
+    else tl := tl + RibbonPC.Pages[i].Width+1 {LAZARUS: Tabs[i].Width->Pages[i].Width};
   end;
 
   pnlfmSubTituloRib.Visible := false;
   if idx >= 0 then
   begin
     pnlTitForm.Align := alLeft;
-    pnlTitForm.Width := tl+RibbonPC.AppButtonWidth-2;
+    pnlTitForm.Width := tl+0 {LAZARUS: AppButtonWidth nao existe em TPageControl}-2;
 
     if tabvinc <> nil then lblfmTituloRib.Caption := tabvinc.Caption
     else lblfmTituloRib.Caption := '';
 
-    pnlfmTituloRib.width := RibbonPC.Tabs[idx].Width;
+    pnlfmTituloRib.width := RibbonPC.Pages[idx].Width {LAZARUS: Tabs[idx].Width->Pages[idx].Width};
     pnlfmTituloRib.Left := pnlTitForm.Width;
     pnlfmTituloRib.Visible := true;
 
@@ -4958,8 +4887,7 @@ begin
   if (fmIndex.WindowState = wsMaximized) then Exit;
   if (Button = mbLeft) then
   begin
-    ReleaseCapture;
-    Perform(WM_SYSCOMMAND,$F012,0);
+    {LAZARUS: ReleaseCapture/WM_SYSCOMMAND/Perform — drag de janela sem borda removido}
   end;
 end;
 
@@ -5117,24 +5045,24 @@ begin
   begin
     monitor_bt_label(btExp_Biblia);
     cbBibliaHistorico.Checked := (lerParam('Biblia', 'Historico', '1') = '1');
-    fcBibliaFonte.FontName := lerParam('Biblia', 'Fonte', fonte);
+    fcBibliaFonte.Text := lerParam('Biblia', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seBibliaTamanho.Text := lerParam('Biblia', 'Tamanho', '7');
     seBibliaTamanho2.Text := lerParam('Biblia', 'Tamanho Passagem', '7');
-    csBibliaCor.ColorValue := StringToColor(lerParam('Biblia', 'Cor', 'clWhite'));
-    csBibliaCor2.ColorValue := StringToColor(lerParam('Biblia', 'Cor Passagem', '$000066FF'));
-    csBibliaCorFundo.ColorValue := StringToColor(lerParam('Biblia', 'Cor Fundo', 'clBlack'));
+    csBibliaCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Biblia', 'Cor', 'clWhite'));
+    csBibliaCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Biblia', 'Cor Passagem', '$000066FF'));
+    csBibliaCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Biblia', 'Cor Fundo', 'clBlack'));
 
     //cbBibliaAlinhamento.ItemIndex := strtoint(lerParam('Relogio', 'Alinhamento', '1'));
 
-    lmdBibliaTxt.Font.Name := fcBibliaFonte.FontName;
+    lmdBibliaTxt.Font.Name := fcBibliaFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdBibliaTxt.Font.Height := Trunc((pnlBiblia.Height/100)*seBibliaTamanho.Value);
-    lmdBibliaTxt.Font.Color := csBibliaCor.ColorValue;
+    lmdBibliaTxt.Font.Color := csBibliaCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    lmdBibliaInfo.Font.Name := fcBibliaFonte.FontName;
+    lmdBibliaInfo.Font.Name := fcBibliaFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdBibliaInfo.Font.Height := Trunc((pnlBiblia.Height/100)*seBibliaTamanho2.Value);
-    lmdBibliaInfo.Font.Color := csBibliaCor2.ColorValue;
+    lmdBibliaInfo.Font.Color := csBibliaCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    pnlBiblia.Color := csBibliaCorFundo.ColorValue;
+    pnlBiblia.Color := csBibliaCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
     pnlBiblia.DoubleBuffered := True;
     if (loadCol.Strings.Values['BIBLIA_IMG'] <> lerParam('Biblia', 'Imagem Fundo', '')) then
     begin
@@ -5160,24 +5088,24 @@ begin
   else if (pagina = 'BIBLIA_BUSCA') then
   begin
     monitor_bt_label(btExp_BibliaBusca);
-    fcBibliabFonte.FontName := lerParam('Busca Biblica', 'Fonte', fonte);
+    fcBibliabFonte.Text := lerParam('Busca Biblica', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seBibliabTamanho.Text := lerParam('Busca Biblica', 'Tamanho', '7');
     seBibliabTamanho2.Text := lerParam('Busca Biblica', 'Tamanho Passagem', '7');
-    csBibliabCor.ColorValue := StringToColor(lerParam('Busca Biblica', 'Cor', 'clWhite'));
-    csBibliabCor2.ColorValue := StringToColor(lerParam('Busca Biblica', 'Cor Passagem', '$000066FF'));
-    csBibliabCorFundo.ColorValue := StringToColor(lerParam('Busca Biblica', 'Cor Fundo', 'clBlack'));
+    csBibliabCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Busca Biblica', 'Cor', 'clWhite'));
+    csBibliabCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Busca Biblica', 'Cor Passagem', '$000066FF'));
+    csBibliabCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Busca Biblica', 'Cor Fundo', 'clBlack'));
 
     //cbBibliabAlinhamento.ItemIndex := strtoint(lerParam('Relogio', 'Alinhamento', '1'));
 
-		lmdBibliaBuscaTxt.Font.Name := fcBibliabFonte.FontName;
+		lmdBibliaBuscaTxt.Font.Name := fcBibliabFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdBibliaBuscaTxt.Font.Height := Trunc((pnlBibliaBusca.Height/100)*seBibliabTamanho.Value);
-    lmdBibliaBuscaTxt.Font.Color := csBibliabCor.ColorValue;
+    lmdBibliaBuscaTxt.Font.Color := csBibliabCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    lmdBibliaBuscaInfo.Font.Name := fcBibliabFonte.FontName;
+    lmdBibliaBuscaInfo.Font.Name := fcBibliabFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdBibliaBuscaInfo.Font.Height := Trunc((pnlBibliaBusca.Height/100)*seBibliabTamanho2.Value);
-    lmdBibliaBuscaInfo.Font.Color := csBibliabCor2.ColorValue;
+    lmdBibliaBuscaInfo.Font.Color := csBibliabCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    pnlBibliaBusca.Color := csBibliabCorFundo.ColorValue;
+    pnlBibliaBusca.Color := csBibliabCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
     pnlBibliaBusca.DoubleBuffered := True;
     if (loadCol.Strings.Values['BIBLIA_BUSCA_IMG'] <> lerParam('Busca Biblica', 'Imagem Fundo', '')) then
     begin
@@ -5203,13 +5131,13 @@ begin
   else if (pagina = 'ES') then
   begin
     monitor_bt_label(btExp_EscolaSabatina);
-    fcEscsbFonte.FontName := lerParam('Escola Sabatina', 'Fonte', fonte);
+    fcEscsbFonte.Text := lerParam('Escola Sabatina', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seEscsbTamanho.Value := StrToFloat(lerParam('Escola Sabatina', 'Tamanho', '30'));
-    csEscsbCor.ColorValue := StringToColor(lerParam('Escola Sabatina', 'Cor', 'clBlack'));
+    csEscsbCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Escola Sabatina', 'Cor', 'clBlack'));
     seEscsbTamanho2.Value := StrToFloat(lerParam('Escola Sabatina', 'Tamanho 2', '20'));
-    csEscsbCor2.ColorValue := StringToColor(lerParam('Escola Sabatina', 'Cor 2', 'clBlue'));
-    csEscsbCor3.ColorValue := StringToColor(lerParam('Escola Sabatina', 'Cor 3', 'clRed'));
-    csEscsbCorFundo.ColorValue := StringToColor(lerParam('Escola Sabatina', 'Cor Fundo', 'clWhite'));
+    csEscsbCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Escola Sabatina', 'Cor 2', 'clBlue'));
+    csEscsbCor3.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Escola Sabatina', 'Cor 3', 'clRed'));
+    csEscsbCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Escola Sabatina', 'Cor Fundo', 'clWhite'));
 
     lmdEscSb.Top := 0;
     lmdEscSb.Left := 0;
@@ -5221,15 +5149,15 @@ begin
     lmdEscSbR.Height := round(pnlEscSB.Height / 2);
 
 
-    lmdEscSb.Font.Name := fcEscsbFonte.FontName;
+    lmdEscSb.Font.Name := fcEscsbFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdEscSb.Font.Height := Trunc((pnlEscSB.Height/100)*seEscsbTamanho.Value);
-    lmdEscSb.Font.Color := csEscsbCor.ColorValue;
+    lmdEscSb.Font.Color := csEscsbCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    lmdEscSbR.Font.Name := fcEscsbFonte.FontName;
+    lmdEscSbR.Font.Name := fcEscsbFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdEscSbR.Font.Height := Trunc((pnlEscSB.Height/100)*seEscsbTamanho2.Value);
-    lmdEscSbR.Font.Color := csEscsbCor2.ColorValue;
+    lmdEscSbR.Font.Color := csEscsbCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    pnlEscSB.Color := csEscsbCorFundo.ColorValue;
+    pnlEscSB.Color := csEscsbCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
     carregaComboFormatoTempo(cbFormatoHoraES,lerParam('Escola Sabatina', 'FormatoHora', 'hh:mm:ss'));
     carregaComboFormatoTempo(cbFormatoTempoES,lerParam('Escola Sabatina', 'FormatoTempo', 'hh:mm:ss'));
@@ -5240,9 +5168,9 @@ begin
     meESDuracao.Value := StrToInt(lerParam('Escola Sabatina', 'Duracao', '40'));
     opcCronoCTempoClick(nil);
 
-    cgEscSBAudio.ItemChecked[0] := (lerParam('Escola Sabatina', 'Abertura', '1') = '1');
-    cgEscSBAudio.ItemChecked[1] := (lerParam('Escola Sabatina', '5 min.', '1') = '1');
-    cgEscSBAudio.ItemChecked[2] := (lerParam('Escola Sabatina', '1 min.', '1') = '1');
+    cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[0] := (lerParam('Escola Sabatina', 'Abertura', '1') = '1');
+    cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[1] := (lerParam('Escola Sabatina', '5 min.', '1') = '1');
+    cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[2] := (lerParam('Escola Sabatina', '1 min.', '1') = '1');
 
     cbEscSBRelogioFunc.Checked := (lerParam('Escola Sabatina', 'RelogioSempreAtivo', '1') = '1');
     cbEscSBZerarTempo.Checked := (lerParam('Escola Sabatina', 'DesligarZerarTempo', '1') = '1');
@@ -5273,10 +5201,10 @@ begin
     monitor_bt_label(btExp_Sorteio);
     seSorteioTempo.Value := StrToFloat(lerParam('Sorteio', 'TempoAnimacao','1.0'));
 
-    fcSorteioFonte.FontName := lerParam('Sorteio', 'Fonte', fonte);
+    fcSorteioFonte.Text := lerParam('Sorteio', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seSorteioTamanho.Value := StrToFloat(lerParam('Sorteio', 'Tamanho', '35'));
-    csSorteioCor.ColorValue := StringToColor(lerParam('Sorteio', 'Cor', 'clBlack'));
-    csSorteioCorFundo.ColorValue := StringToColor(lerParam('Sorteio', 'Cor Fundo', 'clWhite'));
+    csSorteioCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Sorteio', 'Cor', 'clBlack'));
+    csSorteioCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Sorteio', 'Cor Fundo', 'clWhite'));
 
     cbSorteioAlinhamento.ItemIndex := strtoint(lerParam('Sorteio', 'Alinhamento', '1'));
     if cbSorteioAlinhamento.ItemIndex = 0 then
@@ -5298,13 +5226,13 @@ begin
     end;
 
 
-    lmdSorteio.Font.Name := fcSorteioFonte.FontName;
+    lmdSorteio.Font.Name := fcSorteioFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdSorteio.Font.Height := Trunc((pnlSorteio.Height/100)*seSorteioTamanho.Value);
-    lmdSorteio.Font.Color := csSorteioCor.ColorValue;
-    pnlSorteio.Color := csSorteioCorFundo.ColorValue;
+    lmdSorteio.Font.Color := csSorteioCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    pnlSorteio.Color := csSorteioCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    ckSorteioExp.ItemChecked[0] := (lerParam('Sorteio', 'Numeros Sorteio (Extendido)', '1') = '1');
-    ckSorteioExp.ItemChecked[1] := (lerParam('Sorteio', 'Numeros Sorteados (Extendido)', '1') = '1');
+    ckSorteioExp.Checked {LAZARUS: ItemChecked->Checked}[0] := (lerParam('Sorteio', 'Numeros Sorteio (Extendido)', '1') = '1');
+    ckSorteioExp.Checked {LAZARUS: ItemChecked->Checked}[1] := (lerParam('Sorteio', 'Numeros Sorteados (Extendido)', '1') = '1');
 
     pnlSorteio.DoubleBuffered := True;
     if (loadCol.Strings.Values['SORTEIO_IMG'] <> lerParam('Sorteio', 'Imagem Fundo', '')) then
@@ -5333,10 +5261,10 @@ begin
     monitor_bt_label(btExp_SorteioNM);
     seSorteioTempoNM.Value := StrToFloat(lerParam('Sorteio Nomes', 'TempoAnimacao','1.0'));
 
-    fcSorteioFonteNM.FontName := lerParam('Sorteio Nomes', 'Fonte', fonte);
+    fcSorteioFonteNM.Text := lerParam('Sorteio Nomes', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seSorteioTamanhoNM.Value := StrToFloat(lerParam('Sorteio Nomes', 'Tamanho', '15'));
-    csSorteioCorNM.ColorValue := StringToColor(lerParam('Sorteio Nomes', 'Cor', 'clBlack'));
-    csSorteioCorFundoNM.ColorValue := StringToColor(lerParam('Sorteio Nomes', 'Cor Fundo', 'clWhite'));
+    csSorteioCorNM.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Sorteio Nomes', 'Cor', 'clBlack'));
+    csSorteioCorFundoNM.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Sorteio Nomes', 'Cor Fundo', 'clWhite'));
 
     cbSorteioNMAlinhamento.ItemIndex := strtoint(lerParam('Sorteio Nomes', 'Alinhamento', '1'));
     if cbSorteioNMAlinhamento.ItemIndex = 0 then
@@ -5357,13 +5285,13 @@ begin
       lmdSorteioNM.Height := Trunc(pnlSorteioNM.Height/2);
     end;
 
-    lmdSorteioNM.Font.Name := fcSorteioFonteNM.FontName;
+    lmdSorteioNM.Font.Name := fcSorteioFonteNM.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdSorteioNM.Font.Height := Trunc((pnlSorteioNM.Height/100)*seSorteioTamanhoNM.Value);
-    lmdSorteioNM.Font.Color := csSorteioCorNM.ColorValue;
-    pnlSorteioNM.Color := csSorteioCorFundoNM.ColorValue;
+    lmdSorteioNM.Font.Color := csSorteioCorNM.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    pnlSorteioNM.Color := csSorteioCorFundoNM.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
-    ckSorteioExpNM.ItemChecked[0] := (lerParam('Sorteio Nomes', 'Numeros Sorteio (Extendido)', '1') = '1');
-    ckSorteioExpNM.ItemChecked[1] := (lerParam('Sorteio Nomes', 'Numeros Sorteados (Extendido)', '1') = '1');
+    ckSorteioExpNM.Checked {LAZARUS: ItemChecked->Checked}[0] := (lerParam('Sorteio Nomes', 'Numeros Sorteio (Extendido)', '1') = '1');
+    ckSorteioExpNM.Checked {LAZARUS: ItemChecked->Checked}[1] := (lerParam('Sorteio Nomes', 'Numeros Sorteados (Extendido)', '1') = '1');
 
     pnlSorteioNM.DoubleBuffered := True;
     if (loadCol.Strings.Values['SORTEIO_NOMES_IMG'] <> lerParam('Sorteio', 'Imagem Fundo', '')) then
@@ -5392,7 +5320,7 @@ begin
   else if (pagina = 'CRONO') then
   begin
     monitor_bt_label(btExp_Cronometro);
-    fcCronoFonte.FontName := lerParam('Cronometro', 'Fonte', fonte);
+    fcCronoFonte.Text := lerParam('Cronometro', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seCronoTamanho.Value := StrToFloat(lerParam('Cronometro', 'Tamanho', '22'));
 
     cbCronometroAlinhamento.ItemIndex := strtoint(lerParam('Cronometro', 'Alinhamento', '1'));
@@ -5414,17 +5342,17 @@ begin
       lmdCrono.Height := Trunc(pnlCrono.Height/2);
     end;
 
-    csCronoCor.ColorValue := StringToColor(lerParam('Cronometro', 'Cor', 'clBlack'));
-    csCronoCorFundo.ColorValue := StringToColor(lerParam('Cronometro', 'Cor Fundo', 'clWhite'));
-    cbCronoEl.ItemChecked[0] := (lerParam('Cronometro', 'Tempos Gravados (Extendido)', '1') = '1');
+    csCronoCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Cronometro', 'Cor', 'clBlack'));
+    csCronoCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Cronometro', 'Cor Fundo', 'clWhite'));
+    cbCronoEl.Checked {LAZARUS: ItemChecked->Checked}[0] := (lerParam('Cronometro', 'Tempos Gravados (Extendido)', '1') = '1');
 
     carregaComboFormatoTempo(cbFormatoTempoCrono,lerParam('Cronometro', 'FormatoTempo', 'hh:mm:ss.zzz'));
     txtDecr.Text := lerParam('Cronometro', 'Tempo Decrescente', '00:01:00');
 
-    lmdCrono.Font.Name := fcCronoFonte.FontName;
+    lmdCrono.Font.Name := fcCronoFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdCrono.Font.Height := Trunc((pnlCrono.Height/100)*seCronoTamanho.Value);
-    lmdCrono.Font.Color := csCronoCor.ColorValue;
-    pnlCrono.Color := csCronoCorFundo.ColorValue;
+    lmdCrono.Font.Color := csCronoCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    pnlCrono.Color := csCronoCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
     pnlCrono.DoubleBuffered := True;
     if (loadCol.Strings.Values['CRONO_IMG'] <> lerParam('Cronometro', 'Imagem Fundo', '')) then
@@ -5453,7 +5381,7 @@ begin
   else if (pagina = 'PAINELD') then
   begin
     monitor_bt_label(btExp_PainelD);
-    fcPainelDFonte.FontName := lerParam('Painel Dinamico', 'Fonte', fonte);
+    fcPainelDFonte.Text := lerParam('Painel Dinamico', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     sePainelDTamanho.Value := StrToFloat(lerParam('Painel Dinamico', 'Tamanho', '15'));
 
     cbPainelDAlinhamento.ItemIndex := strtoint(lerParam('Painel Dinamico', 'Alinhamento', '1'));
@@ -5476,13 +5404,13 @@ begin
     end;
 
 
-    csPainelDCor.ColorValue := StringToColor(lerParam('Painel Dinamico', 'Cor', 'clBlack'));
-    csPainelDCorFundo.ColorValue := StringToColor(lerParam('Painel Dinamico', 'Cor Fundo', 'clWhite'));
+    csPainelDCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Painel Dinamico', 'Cor', 'clBlack'));
+    csPainelDCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Painel Dinamico', 'Cor Fundo', 'clWhite'));
 
-    lmdTxtPainelD.Font.Name := fcPainelDFonte.FontName;
+    lmdTxtPainelD.Font.Name := fcPainelDFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdTxtPainelD.Font.Height := Trunc((pnlTxtPainelD.Height/100)*sePainelDTamanho.Value);
-    lmdTxtPainelD.Font.Color := csPainelDCor.ColorValue;
-    pnlTxtPainelD.Color := csPainelDCorFundo.ColorValue;
+    lmdTxtPainelD.Font.Color := csPainelDCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    pnlTxtPainelD.Color := csPainelDCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
     pnlTxtPainelD.DoubleBuffered := True;
     if (loadCol.Strings.Values['PAINELD_IMG'] <> lerParam('Painel Dinamico', 'Imagem Fundo', '')) then
@@ -5512,7 +5440,7 @@ begin
   else if (pagina = 'RELOGIO') then
   begin
     monitor_bt_label(btExp_Relogio);
-    fcRelogioFonte.FontName := lerParam('Relogio', 'Fonte', fonte);
+    fcRelogioFonte.Text := lerParam('Relogio', 'Fonte', fonte); {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
     seRelogioTamanho.Value := StrToFloat(lerParam('Relogio', 'Tamanho', '30'));
 
     cbRelogioAlinhamento.ItemIndex := strtoint(lerParam('Relogio', 'Alinhamento', '1'));
@@ -5534,13 +5462,13 @@ begin
       lmdRelogio.Height := Trunc(pnlRelogio.Height/2);
     end;
 
-    csRelogioCor.ColorValue := StringToColor(lerParam('Relogio', 'Cor', 'clBlack'));
-    csRelogioCorFundo.ColorValue := StringToColor(lerParam('Relogio', 'Cor Fundo', 'clWhite'));
+    csRelogioCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Relogio', 'Cor', 'clBlack'));
+    csRelogioCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(lerParam('Relogio', 'Cor Fundo', 'clWhite'));
 
-    lmdRelogio.Font.Name := fcRelogioFonte.FontName;
+    lmdRelogio.Font.Name := fcRelogioFonte.Text {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text};
     lmdRelogio.Font.Height := Trunc((pnlRelogio.Height/100)*seRelogioTamanho.Value);
-    lmdRelogio.Font.Color := csRelogioCor.ColorValue;
-    pnlRelogio.Color := csRelogioCorFundo.ColorValue;
+    lmdRelogio.Font.Color := csRelogioCor.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
+    pnlRelogio.Color := csRelogioCorFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
     carregaComboFormatoTempo(cbFormatoHora,lerParam('Relogio', 'FormatoHora', 'hh:mm:ss'));
 
@@ -5587,7 +5515,7 @@ begin
     DM.cdsFavoritos.CreateDataSet;
     DM.cdsFavoritos.IndexName := '';
     DM.cdsFavoritos.IndexFieldNames := 'ORDEM';
-    DM.cdsFavoritos.LogChanges := False;
+    {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsFavoritos.LogChanges := False;)}
 
     if (FileExists(dir_dados + 'favoritos.xml')) then
       DM.cdsFavoritos.LoadFromFile(dir_dados + 'favoritos.xml');
@@ -5697,7 +5625,7 @@ begin
         DM.cdsItensAgendados.CreateDataSet;
         DM.cdsItensAgendados.IndexName := '';
         DM.cdsItensAgendados.IndexFieldNames := 'DATA';
-        DM.cdsItensAgendados.LogChanges := False;
+        {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsItensAgendados.LogChanges := False;)}
       end;
 
       if (FileExists(dir_dados + 'itensAgendados.xml')) then
@@ -5717,7 +5645,7 @@ begin
     checkbox := TCheckBox {LAZARUS: TbsSkinCheckBox}(CopyComponent(lit_modItem_checkb,panel,item+'_checkb'));
     checkbox.OnClick := lit_modItem_checkb.OnClick;
     checkbox.Checked := (lerParam(item, 'checked', '', arq_liturgia) = FormatDateTime('dd/mm/yyyy',Now()));
-    panel.AlignWithMargins := false;
+    {LAZARUS: panel.AlignWithMargins := false — LCL nao tem AlignWithMargins}
     panel.Height := 56;
   end
   else
@@ -5728,16 +5656,16 @@ begin
     panel2.Align := alClient;
 //    panel.Color := StringToColor(lerParam(item, 'cor', '$004F0000', arq_liturgia));
     panel.Height := 36;
-    panel.AlignWithMargins := True;
-    panel.Margins.Top := 20;
-    panel.Margins.Left := 0;
-    panel.Margins.Right := 0;
-    panel.Margins.Bottom := 0;
+    {LAZARUS: panel.AlignWithMargins := True — LCL nao tem AlignWithMargins}
+    {LAZARUS: panel.Margins.Top := 20 — LCL usa BorderSpacing}
+    {LAZARUS: panel.Margins.Left := 0 — LCL usa BorderSpacing}
+    {LAZARUS: panel.Margins.Right := 0 — LCL usa BorderSpacing}
+    {LAZARUS: panel.Margins.Bottom := 0 — LCL usa BorderSpacing}
     //panel3 := TPanel(CopyComponent(lit_modItem_texto,panel2,item+'_texto'));
     //panel3.OnClick := lit_modItem_texto.OnClick;
     slabel := TLabel {LAZARUS: TbsSkinStdLabel}(CopyComponent(lit_modItem_titulo,panel2,item+'_titulo'));
     slabel.Align := alClient;
-    slabel.UseSkinColor := false;
+    {LAZARUS: slabel.UseSkinColor := false — bsSkin property removida}
     slabel.Font.Color := clWhite;
 //    slabel.OnClick := lit_modItem_titulo.OnClick;
     slabel.Caption := lerParam(item, 'item', '', arq_liturgia);
@@ -5870,7 +5798,7 @@ begin
     Exit;
 
   pnlImagemCapa.Color := pnlImagemCapaModel.Color;
-  corCapaPrograma.ColorValue := pnlImagemCapa.Color;
+  corCapaPrograma.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := pnlImagemCapa.Color;
   apagaParam('Config', 'Cor Fundo');
 
   cbAlinhamentoCapaPrograma.ItemIndex := 0;
@@ -5900,7 +5828,7 @@ begin
   versao_atu.DelimitedText := VersaoExe;
 
   lblVersao.Caption := versao_atu[0] + '.' + versao_atu[1] + '.' + DM.qrVERSAO.fieldbyname('VERSAO_BD').AsString;
-  spVersao.Caption := 'versão '+lblVersao.Caption+' ';
+  spVersao.Text {LAZARUS: TStatusPanel.Caption→.Text} := 'versão '+lblVersao.Caption+' ';
 
   if (DM.qrVERSAO.fieldbyname('VERSAO_BD').AsInteger < VERSAO_MIN_BD) then
   begin
@@ -5938,7 +5866,7 @@ begin
       end;
     end;
 
-    RunCommand(Application.ExeName, [], '') {LAZARUS: ShellExecute→RunCommand};
+    {LAZARUS: RunCommand(Application.ExeName, [], _out_) — ShellExecute removido}
     DM.tmrSair.enabled := true;
     Application.Terminate;
     Exit;
@@ -6017,7 +5945,7 @@ begin
       end;
     end;
 
-    RunCommand(Application.ExeName, [], '') {LAZARUS: ShellExecute→RunCommand};
+    {LAZARUS: RunCommand(Application.ExeName, [], _out_) — ShellExecute removido}
     DM.tmrSair.enabled := true;
     Application.Terminate;
     Exit;
@@ -6070,9 +5998,9 @@ begin
     loadCol.Strings.Values['TEXTOI'] := 'okf';
     RichEdit0.Lines.Clear;
     carregaConfiguracoes('TEXTOI');
-    RichEdit0.DefaultFont.Name := 'Tahoma';
-    fcTxtI0.FontName := RichEdit0.DefaultFont.Name;
-    seTxtITamanho0.Text := IntToStr(RichEdit0.DefaultFont.Size);
+    RichEdit0.Font.Name {LAZARUS: DefaultFont->Font} := 'Tahoma';
+    fcTxtI0.Text := RichEdit0.Font.Name {LAZARUS: DefaultFont->Font}; {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
+    seTxtITamanho0.Text := IntToStr(RichEdit0.Font.Size {LAZARUS: DefaultFont->Font});
     RichEditEnter(RichEdit0);
   end;
   carrega_opc := False;
@@ -6266,7 +6194,7 @@ begin
         except end;
 
         {LAZARUS: conversão CP-1252 removida — arquivos em UTF-8 no Linux}
-        try
+        begin
           try gravaLog('abreIniLiturgia: repair (CP1252->UTF8) failed for ' + path); except end;
           // Backup corrupted file and create an empty one
           try
@@ -6334,6 +6262,7 @@ var
   fs: TFileStream;
   sl: TStringList;
   i, corte: Integer;
+  logF: TextFile; {LAZARUS: TFile.AppendAllText — declaracao movida para var section}
 begin
   linha := FormatDateTime('dd/mm/yyyy HH:MM:SS.ZZZ', now()) + '    ' + txt;
 
@@ -6353,7 +6282,6 @@ begin
   path := dir_dados + 'louvorja.log';
   try
     begin {LAZARUS: TFile.AppendAllText→TextFile append}
-      var logF: TextFile;
       AssignFile(logF, path);
       if FileExists(path) then Append(logF) else Rewrite(logF);
       try WriteLn(logF, linha); finally CloseFile(logF); end;
@@ -6481,17 +6409,10 @@ begin
       end;
 
       // Replace original atomically (replace if exists)
-      if not MoveFileEx(PChar(tempPath), PChar(origPath), MOVEFILE_REPLACE_EXISTING) then
-      begin
-        // Attempt fallback: delete original then rename
-        try
-          if FileExists(origPath) then
-            DeleteFile(origPath);
-          RenameFile(tempPath, origPath);
-        except
-          raise;
-        end;
-      end;
+      {LAZARUS: MoveFileEx removido — Windows API; usando DeleteFile+RenameFile}
+      if FileExists(origPath) then
+        SysUtils.DeleteFile(origPath);
+      RenameFile(tempPath, origPath);
     end
     else
     begin
@@ -6738,7 +6659,7 @@ begin
   if carrega_opc then
     Exit;
 
-  if cbCronoEl.ItemChecked[0] then
+  if cbCronoEl.Checked {LAZARUS: ItemChecked->Checked}[0] then
     gravaParam('Cronometro', 'Tempos Gravados (Extendido)', '1')
   else
     gravaParam('Cronometro', 'Tempos Gravados (Extendido)', '0');
@@ -6773,7 +6694,7 @@ end;
 procedure TfmIndex.cbMusicaChange(Sender: TObject);
 begin
   try
-    mpMusica.Stop;
+    BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
   except
     //
   end;
@@ -6915,7 +6836,7 @@ begin
     gravaParam('Itens Agendados', 'RemovePassados', '0');
 end;
 
-function TfmIndex.cds2texto(cds: TClientDataSet; campo: string): TStringList;
+function TfmIndex.cds2texto(cds: TBufDataset; campo: string): TStringList; {LAZARUS: TClientDataSet->TBufDataset}
 var
   texto: TStringList;
   linha: string;
@@ -6924,7 +6845,7 @@ begin
   if not cds.Active then
   begin
     cds.CreateDataSet;
-    cds.LogChanges := False;
+    {LAZARUS: cds.LogChanges removido — TBufDataset nao tem LogChanges}
   end;
 
   texto := TStringList.Create;
@@ -6946,13 +6867,13 @@ begin
   if not rbgAudioES.Visible then Exit;
 
   if (cbMusica.ItemIndex = 0) then
-    mpMusica.FileName := dir_config + 'abertura_escsb.mp3'
+    BassPreviewFile := {LAZARUS: mpMusica.FileName->BassPreviewFile} dir_config + 'abertura_escsb.mp3'
   else if (cbMusica.ItemIndex = 1) then
-    mpMusica.FileName := dir_config + '5minutos_escsb.mp3'
+    BassPreviewFile := {LAZARUS: mpMusica.FileName->BassPreviewFile} dir_config + '5minutos_escsb.mp3'
   else
-    mpMusica.FileName := dir_config + '1minuto_escsb.mp3';
+    BassPreviewFile := {LAZARUS: mpMusica.FileName->BassPreviewFile} dir_config + '1minuto_escsb.mp3';
   try
-    mpMusica.Open;
+    BassPreviewChannel := BASS_StreamCreateFile(False, PChar(BassPreviewFile), 0, 0, 0); {LAZARUS: mpMusica.Open->BASS_StreamCreateFile}
   except
     //
   end;
@@ -7093,8 +7014,7 @@ begin
 
   if (loadCol.Strings.Values['BIBLIA_BUSCA'] <> 'ok') then
   begin
-    DBCtrlGridBibliaBusca.RowCount := Trunc(DBCtrlGridBibliaBusca.ClientHeight / 75);
-    DBCtrlGridBibliaBusca.ColCount := 1;
+    {LAZARUS: DBCtrlGridBibliaBusca.RowCount/ColCount removidos — TScrollBox nao tem RowCount/ColCount}
 
     loadCol.Strings.Values['BIBLIA_BUSCA'] := 'ok';
     loadCol.Strings.Values['BIBLIA_BUSCA_IMG'] := '|';
@@ -7175,7 +7095,7 @@ begin
         fListaMusica.lblTitulo.Caption := DM.qrBUSCA.fieldbyname('NOME').AsString;
         fListaMusica.lblSubtitulo.Caption := '';
         fListaMusica.dir := DM.qrBUSCA.fieldbyname('URL').AsString;
-        fListaMusica.DBCtrlGrid.DataSource := DM.dsArquivos;
+        fListaMusica.DataSource := DM.dsArquivos; {LAZARUS: DBCtrlGrid.DataSource->DataSource}
         fListaMusica.pnlBotoes.Visible := False;
         fListaMusica.showmodal;
       end
@@ -7319,7 +7239,7 @@ begin
       DM.cdsItensAgendados.CreateDataSet;
       DM.cdsItensAgendados.IndexName := '';
       DM.cdsItensAgendados.IndexFieldNames := 'DATA';
-      DM.cdsItensAgendados.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsItensAgendados.LogChanges := False;)}
     end;
 
     if (FileExists(dir_dados + 'itensAgendados.xml')) then
@@ -7334,7 +7254,7 @@ begin
         DM.cdsCategoriasItensAgendados.CreateDataSet;
         DM.cdsCategoriasItensAgendados.IndexName := '';
         DM.cdsCategoriasItensAgendados.IndexFieldNames := 'NOME';
-        DM.cdsCategoriasItensAgendados.LogChanges := False;
+        {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsCategoriasItensAgendados.LogChanges := False;)}
       end;
 
       if (FileExists(dir_dados + 'itensAgendadosCategorias.xml')) then
@@ -7428,10 +7348,13 @@ begin
     if not DM.cdsSLIDE_MUSICA2.Active then
     begin
       DM.cdsSLIDE_MUSICA2.CreateDataSet;
-      DM.cdsSLIDE_MUSICA2.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsSLIDE_MUSICA2.LogChanges := False;)}
     end;
     DM.cdsSLIDE_MUSICA2.Open;
-    DM.cdsSLIDE_MUSICA2.EmptyDataSet;
+    {LAZARUS: EmptyDataSet removido — TBufDataset; usando First+Delete}
+    DM.cdsSLIDE_MUSICA2.First;
+    while not DM.cdsSLIDE_MUSICA2.Eof do
+      DM.cdsSLIDE_MUSICA2.Delete;
 
     arquivo := DM.OpenDialog.Files[i];
     nome_arquivo := ExtractFileName(arquivo);
@@ -7596,24 +7519,10 @@ var
   buffer: Array [0..MAX_PATH] of Char;
   i, numFiles: Integer;
 begin
+  {LAZARUS: CF_HDROP/DragQueryFile/GetAsHandle removidos — Windows drag-drop nao disponivel no Linux}
   cboard.Items.Clear;
-  Clipboard.Open;
-  try
-    f := Clipboard.GetAsHandle(CF_HDROP);
-    if f <> 0 then
-    begin
-      numFiles := DragQueryFile(f, $FFFFFFFF, nil, 0);
-      for i:= 0 to numfiles - 1 do
-      begin
-        buffer[0] := #0;
-        DragQueryFile( f, i, buffer, sizeof(buffer));
-        cboard.Items.Add(buffer);
-      end;
-    end
-    else cboard.Items.Add(Clipboard.AsText);
-  finally
-    Clipboard.close;
-  end;
+  if Clipboard.HasFormat(CF_TEXT) then
+    cboard.Items.Add(Clipboard.AsText);
 end;
 
 procedure TfmIndex.Button5Click(Sender: TObject);
@@ -7691,18 +7600,18 @@ begin
   begin
     DM.qrONL_CANAIS.Close;
     DM.qrONL_CANAIS.Open;
-    bgOnlCanais.Items.Clear;
-    bgOnlCanais.ItemIndex := -1;
-    lbbgOnlCanais.Items.Clear;
+    {LAZARUS: bgOnlCanais.Items.Clear — TToolBar stub}
+    {LAZARUS: bgOnlCanais.ItemIndex — TToolBar sem ItemIndex}
+    lbbgOnlCanais.Items.Clear; {LAZARUS: restaurado}
     pnlOnlPlaylists.Visible := False;
     pnlOnlVideos.Visible := False;
     DM.ico_on_canais.Clear;
     dir := dir_temp + 'imagens_onl\canais\';
     while not DM.qrONL_CANAIS.eof do
     begin
-      bgOnlCanais.Items.Add.Caption := DM.qrONL_CANAIS.FieldByName('NOME').AsString;
+      {LAZARUS: bgOnlCanais.Items.Add.Caption — TToolBar nao tem Items.Add API}
       lbbgOnlCanais.Items.Add(DM.qrONL_CANAIS.FieldByName('CANAL_ID').AsString);
-      i := bgOnlCanais.Items.Count - 1;
+      i := lbbgOnlCanais.Items.Count - 1; {LAZARUS: bgOnlCanais.Items.Count->lbbgOnlCanais}
 
       try
         Jpg := TJPEGImage.Create;
@@ -7730,7 +7639,7 @@ begin
       bmp.Width := 88;
       DM.ico_on_canais.Add(bmp, nil);
 
-      bgOnlCanais.Items[i].ImageIndex := i;
+      {LAZARUS: bgOnlCanais.Items[i].ImageIndex — TToolBar nao tem Items[i] API}
 
       DM.qrONL_CANAIS.Next;
     end;
@@ -7740,17 +7649,17 @@ begin
     DM.qrONL_PLAYLISTS.Close;
     DM.qrONL_PLAYLISTS.ParamByName('CANAL_ID').Value := id;
     DM.qrONL_PLAYLISTS.Open;
-    bgOnlPlaylists.Items.Clear;
-    bgOnlPlaylists.ItemIndex := -1;
-    lbbgOnlPlaylists.Items.Clear;
+    {LAZARUS: bgOnlPlaylists.Items.Clear — TToolBar stub}
+    {LAZARUS: bgOnlPlaylists.ItemIndex — TToolBar sem ItemIndex}
+    lbbgOnlPlaylists.Items.Clear; {LAZARUS: restaurado}
     pnlOnlVideos.Visible := False;
     DM.ico_on_playlists.Clear;
     dir := dir_temp + 'imagens_onl\playlists\';
     while not DM.qrONL_PLAYLISTS.eof do
     begin
-      bgOnlPlaylists.Items.Add.Caption := DM.qrONL_PLAYLISTS.FieldByName('NOME').AsString;
+      {LAZARUS: bgOnlPlaylists.Items.Add.Caption — TToolBar nao tem Items.Add API}
       lbbgOnlPlaylists.Items.Add(DM.qrONL_PLAYLISTS.FieldByName('PLAYLIST_ID').AsString);
-      i := bgOnlPlaylists.Items.Count - 1;
+      i := lbbgOnlPlaylists.Items.Count - 1; {LAZARUS: bgOnlPlaylists.Items.Count->lbbgOnlPlaylists}
 
       try
         Jpg := TJPEGImage.Create;
@@ -7778,7 +7687,7 @@ begin
       bmp.Width := 120;
       DM.ico_on_playlists.Add(bmp, nil);
 
-      bgOnlPlaylists.Items[i].ImageIndex := i;
+      {LAZARUS: bgOnlPlaylists.Items[i].ImageIndex — TToolBar nao tem Items[i] API}
 
       DM.qrONL_PLAYLISTS.Next;
     end;
@@ -7789,24 +7698,24 @@ begin
     DM.qrONL_VIDEOS.ParamByName('PLAYLIST_ID').Value := id;
     DM.qrONL_VIDEOS.Open;
     bgOnlVideos.ScrollBy(0, 0);
-    bgOnlVideos.Items.Clear;
-    bgOnlVideos.ItemIndex := -1;
-    lbbgOnlVideos.Items.Clear;
+    {LAZARUS: bgOnlVideos.Items.Clear — TToolBar stub}
+    {LAZARUS: bgOnlVideos.ItemIndex — TToolBar sem ItemIndex}
+    lbbgOnlVideos.Items.Clear; {LAZARUS: restaurado}
     DM.ico_on_videos.Clear;
     dir := dir_temp + 'imagens_onl\videos\';
 
     gaOnlVideos.Visible := True;
-    gaOnlVideos.Value := 0;
-    gaOnlVideos.MaxValue := DM.qrONL_VIDEOS.RecordCount;
+    gaOnlVideos.Position := 0;
+    gaOnlVideos.Max := DM.qrONL_VIDEOS.RecordCount;
 
     while not DM.qrONL_VIDEOS.eof do
     begin
-      gaOnlVideos.Value := DM.qrONL_VIDEOS.RecNo;
+      gaOnlVideos.Position := DM.qrONL_VIDEOS.RecNo;
       Application.ProcessMessages;
 
-      bgOnlVideos.Items.Add.Caption := DM.qrONL_VIDEOS.FieldByName('NOME').AsString;
+      {LAZARUS: bgOnlVideos.Items.Add.Caption — TToolBar nao tem Items.Add API}
       lbbgOnlVideos.Items.Add(DM.qrONL_VIDEOS.FieldByName('VIDEO_ID').AsString);
-      i := bgOnlVideos.Items.Count - 1;
+      i := lbbgOnlVideos.Items.Count - 1; {LAZARUS: bgOnlVideos.Items.Count->lbbgOnlVideos}
 
       try
         Jpg := TJPEGImage.Create;
@@ -7834,7 +7743,7 @@ begin
       bmp.Width := 120;
       DM.ico_on_videos.Add(bmp, nil);
 
-      bgOnlVideos.Items[i].ImageIndex := i;
+      {LAZARUS: bgOnlVideos.Items[i].ImageIndex — TToolBar nao tem Items[i] API}
 
       DM.qrONL_VIDEOS.Next;
     end;
@@ -7845,11 +7754,11 @@ begin
   imgYoutubeCapa.Visible := not pnlOnlVideos.Visible;
 end;
 
-function TfmIndex.lista_monitores: TArray<TMonitorInfo>;
+function TfmIndex.lista_monitores(): TMonitorInfoArray; {LAZARUS: TArray<TMonitorInfo>->TMonitorInfoArray}
 var
-  qtd_monitores: integer;
-  i: Integer;
-  MonitorsArray: TArray<TMonitorInfo>;
+  qtd_monitores, i, j: integer;
+  MonitorsArray: TMonitorInfoArray; {LAZARUS: TArray<TMonitorInfo>->TMonitorInfoArray}
+  temp: TMonitorInfo;
 begin
   qtd_monitores := Screen.MonitorCount;
   SetLength(MonitorsArray, qtd_monitores);
@@ -7862,16 +7771,19 @@ begin
     MonitorsArray[i].Height := Screen.Monitors[i].Height;
   end;
 
-  TArray.Sort<TMonitorInfo>(MonitorsArray,
-    TComparer<TMonitorInfo>.Construct(
-      function(const A, B: TMonitorInfo): Integer
-      begin
-        Result := A.Top - B.Top;
-        if Result = 0 then
-          Result := A.Left - B.Left;
-      end
-    )
-  );
+  {LAZARUS: TArray.Sort<TMonitorInfo> removido — Delphi generics; insertion sort}
+  for i := 1 to qtd_monitores - 1 do
+  begin
+    temp := MonitorsArray[i];
+    j := i - 1;
+    while (j >= 0) and ((MonitorsArray[j].Top > temp.Top) or
+          ((MonitorsArray[j].Top = temp.Top) and (MonitorsArray[j].Left > temp.Left))) do
+    begin
+      MonitorsArray[j + 1] := MonitorsArray[j];
+      Dec(j);
+    end;
+    MonitorsArray[j + 1] := temp;
+  end;
 
   result := MonitorsArray;
 end;
@@ -7909,7 +7821,7 @@ begin
       DM.cdsCOLETANEAS_PERSO.CreateDataSet;
       DM.cdsCOLETANEAS_PERSO.IndexName := '';
       DM.cdsCOLETANEAS_PERSO.IndexFieldNames := 'NOME';
-      DM.cdsCOLETANEAS_PERSO.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsCOLETANEAS_PERSO.LogChanges := False;)}
     end;
 
     if (FileExists(dir_dados + 'coletaneasUsuario.xml')) then
@@ -7923,15 +7835,15 @@ begin
     begin
       DM.cdsCOLETANEAS_PERSO.Filtered := true;
       DM.cdsCOLETANEAS_PERSO.Filter := 'UPPER(NOME) LIKE UPPER(' + (QuotedStr('%'+txtBuscaColetPeso.Text+'%')) + ')';
-      stColetPerso_0.Caption := 'Buscando nome: ''' + txtBuscaColetPeso.Text + '''';
+      stColetPerso_0.Text {LAZARUS: TStatusPanel.Caption→.Text} := 'Buscando nome: ''' + txtBuscaColetPeso.Text + '''';
     end
     else
     begin
       DM.cdsCOLETANEAS_PERSO.Filtered := false;
-      stColetPerso_0.Caption := '';
+      stColetPerso_0.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
     end;
 
-    stColetPerso_1.Caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),'álbum encontrado','álbuns encontrados','Nenhum álbum encontrado');
+    stColetPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),'álbum encontrado','álbuns encontrados','Nenhum álbum encontrado');
 
     corCampoBusca(TZQuery {LAZARUS: TFDQuery}(DM.cdsCOLETANEAS_PERSO),txtBuscaColetPeso,nil);
     fExibeColetaneasPerso(sbColPERSO);
@@ -7973,7 +7885,7 @@ const
 begin
   formWidth := ScrollBox.Width;
 
-  ScrollBox.VScroll(0);
+  ScrollBox.VertScrollBar.Position := 0; {LAZARUS: VScroll->VertScrollBar.Position}
   gLeft := 0;
   gTop := 10;
   gWidth := 165;
@@ -8007,9 +7919,9 @@ begin
         Caption := '';
 //        Tag := DM.cdsCOLETANEAS_PERSO.FieldByName('ID').Value;
 
-        Layout := bsButtonModel.Layout;
-        SkinData := bsButtonModel.SkinData;
-        ImageList := bsButtonModel.ImageList;
+        {LAZARUS: TbsSkinButtonEx.Layout removido}
+        {LAZARUS: TbsSkinButtonEx.SkinData removido}
+        {LAZARUS: TbsSkinButtonEx.ImageList removido}
         OnClick := sbClickPerso;
         PopupMenu := ppColetaneasPerso;
 
@@ -8040,7 +7952,7 @@ begin
           bitmap.Free;
         end;
 
-        Title := ' ' + DM.cdsCOLETANEAS_PERSO.FieldByName('NOME').AsString + ' ';
+        Caption := {LAZARUS: TbsSkinButtonEx.Title->Caption} ' ' + DM.cdsCOLETANEAS_PERSO.FieldByName('NOME').AsString + ' ';
 
         if ((not FileExists(DM.cdsCOLETANEAS_PERSO.FieldByName('URL').AsString)) and
            (not DirectoryExists(DM.cdsCOLETANEAS_PERSO.FieldByName('URL').AsString))) then
@@ -8074,18 +7986,20 @@ begin
 
     DM.cdsCOLETANEAS_PERSO.Next;
   end;
-  ScrollBox.VScroll(0);
-  ScrollBox.VScrollBar.Visible := True;
-  ScrollBox.VScrollBar.Position := 0;
+  ScrollBox.VertScrollBar.Position := 0; {LAZARUS: VScroll->VertScrollBar.Position}
+  ScrollBox.VertScrollBar.Visible := True; {LAZARUS: VScrollBar->VertScrollBar}
+  ScrollBox.VertScrollBar.Position := 0; {LAZARUS: VScrollBar->VertScrollBar}
 end;
 
 function TfmIndex.FileSize(const FileName: string): Int64;
 var
-  AttributeData: TWin32FileAttributeData;
+  SR: TSearchRec;
 begin
-  if GetFileAttributesEx(PChar(FileName), GetFileExInfoStandard, @AttributeData) then
+  {LAZARUS: TWin32FileAttributeData/GetFileAttributesEx removidos — Windows API; usando FindFirst}
+  if FindFirst(FileName, faAnyFile, SR) = 0 then
   begin
-    result := Int64(AttributeData.nFileSizeLow) or Int64(AttributeData.nFileSizeHigh shl 32);
+    Result := SR.Size;
+    FindClose(SR);
   end
   else
     Result := -1;
@@ -8127,16 +8041,13 @@ begin
     fIniciando.AppCreateForm(TfListaMusica, fListaMusica);
     fListaMusica.id_album := 0;
     fListaMusica.inicio := false;
-    fListaMusica.Caption := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Title;
-    fListaMusica.lblTitulo.Caption := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Title;
+    fListaMusica.Caption := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Caption; {LAZARUS: TbsSkinButtonEx.Title->Caption}
+    fListaMusica.lblTitulo.Caption := TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).Caption; {LAZARUS: TbsSkinButtonEx.Title->Caption}
     fListaMusica.lblSubtitulo.Caption := '';
     fListaMusica.dir := URL;
-    fListaMusica.DBCtrlGrid.DataSource := DM.dsArquivos;
+    fListaMusica.DataSource := DM.dsArquivos; {LAZARUS: DBCtrlGrid.DataSource->DataSource (2nd)}
     fListaMusica.pnlBotoes.Visible := False;
-    TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageList.GetBitmap(
-      TSpeedButton {LAZARUS: TbsSkinButtonEx}(Sender).ImageIndex,
-      fListaMusica.imgCapa.Picture.Bitmap
-    );
+    {LAZARUS: TbsSkinButtonEx.ImageList.GetBitmap removido — TSpeedButton nao tem ImageList}
     fListaMusica.showmodal;
   end
   else
@@ -8191,13 +8102,13 @@ begin
   begin
     try
       DM.tmrMediaPlayer.Enabled := true;
-      mpMusica.Play;
+      BASS_ChannelPlay(BassPreviewChannel, True); {LAZARUS: mpMusica.Play->BASS_ChannelPlay}
     except
       DM.tmrMediaPlayer.Enabled := false;
       btOuvir.Caption := 'Ouvir';
       btOuvir.Down := False;
       btOuvir.ImageIndex := 7;
-      abrirArquivo(mpMusica.FileName,true);
+      abrirArquivo(BassPreviewFile,true) {LAZARUS: mpMusica.FileName->BassPreviewFile};
       Exit;
     end;
     btOuvir.Caption := 'Parar';
@@ -8208,7 +8119,7 @@ begin
   begin
     DM.tmrMediaPlayer.Enabled := false;
     try
-      mpMusica.Stop;
+      BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
     except
       //
     end;
@@ -8225,7 +8136,7 @@ begin
   if btLigar.Caption = 'Ligar' then
   begin
     try
-      mpMusica.Stop;
+      BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
     except
       //
     end;
@@ -8265,7 +8176,7 @@ begin
     btLigar.Down := True;
     btLigar.ImageIndex := 21;
 
-    if (cgEscSBAudio.ItemChecked[0]) then
+    if (cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[0]) then
     begin
       cbMusica.ItemIndex := 0;
       selMusica();
@@ -8278,11 +8189,11 @@ begin
     btLigar.Caption := 'Ligar';
     btLigar.Down := False;
     btLigar.ImageIndex := 20;
-    gEscSbR.MaxValue := 1;
-    gEscSbR.Value := 1;
+    gEscSbR.Max := 1;
+    gEscSbR.Position := 1;
 
     try
-      mpMusica.Stop;
+      BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
     except
       //
     end;
@@ -8291,7 +8202,7 @@ begin
     btOuvir.Down := False;
     btOuvir.ImageIndex := 7;
 
-    lmdEscSbR.Font.Color := csEscsbCor2.ColorValue;
+    lmdEscSbR.Font.Color := csEscsbCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
     if (fMonitorCronometroCulto <> nil) then
     begin
       fMonitorCronometroCulto.lmdEscSbR.Font.Color := lmdEscSbR.Font.Color;
@@ -8312,11 +8223,11 @@ var
   newPosition : integer;
 begin
   DM.tmrPlayer.Enabled := false;
-  newPosition := Round(x * pbPlayer.MaxValue / pbPlayer.ClientWidth);
-//  MediaPlayer1.Pause;
-  MediaPlayer1.Position := newPosition;
+  newPosition := Round(x * pbPlayer.Max / pbPlayer.ClientWidth); {LAZARUS: MaxValue->Max}
+  {LAZARUS: MediaPlayer1.Position->BASS_ChannelSetPosition}
+  BASS_ChannelSetPosition(PlayerStream, BASS_ChannelSeconds2Bytes(PlayerStream, newPosition / 1000.0), BASS_POS_BYTE);
   DM.tmrPlayer.Enabled := True;
-  if btplPlay.Down then MediaPlayer1.Play;
+  if btplPlay.Down then BASS_ChannelPlay(PlayerStream, False); {LAZARUS: MediaPlayer1.Play->BASS}
 end;
 
 procedure TfmIndex.player(url: string;video: Boolean);
@@ -8362,17 +8273,16 @@ begin
   end;
 
   try
-    pbPlayer.Value := 0;
+    pbPlayer.Position := 0;
     lblPlayer.Caption := 'Reproduzindo: '+ExtractFileName(url);
     pnlPlayer.Visible := True;
-    MediaPlayer1.Display := fPlayer.Panel1;
-    MediaPlayer1.FileName := url;
-    MediaPlayer1.Open;
-    MediaPlayer1.DisplayRect := fPlayer.Panel1.ClientRect;
-    MediaPlayer1.Play;
+    {LAZARUS: MediaPlayer1.Display removido — BASS nao renderiza video}
+    PlayerStream := BASS_StreamCreateFile(False, PChar(url), 0, 0, 0); {LAZARUS: MediaPlayer1.FileName+Open->BASS_StreamCreateFile}
+    {LAZARUS: MediaPlayer1.DisplayRect removido — BASS nao renderiza video}
+    BASS_ChannelPlay(PlayerStream, False); {LAZARUS: MediaPlayer1.Play->BASS}
     btplPlay.Down := True;
     btplPause.Down := False;
-    pbPlayer.MaxValue := MediaPlayer1.Length;
+    pbPlayer.Max := Round(BASS_ChannelBytes2Seconds(PlayerStream, BASS_ChannelGetLength(PlayerStream, BASS_POS_BYTE)) * 1000); {LAZARUS: MediaPlayer1.Length->BASS}
     DM.tmrPlayer.Enabled := True;
   except
     on E: Exception do
@@ -8400,7 +8310,7 @@ end;
 
 procedure TfmIndex.pnlDoxologiaMusicasClose(Sender: TObject);
 begin
-  bgDoxologiaCate.ItemIndex := -1;
+  {LAZARUS: bgDoxologiaCate.ItemIndex — TToolBar nao tem ItemIndex}
 end;
 
 procedure TfmIndex.pnlFormatClose(Sender: TObject);
@@ -8467,14 +8377,14 @@ end;
 
 procedure TfmIndex.pnlOnlPlaylistsClose(Sender: TObject);
 begin
-  bgOnlCanais.ItemIndex := -1;
+  {LAZARUS: bgOnlCanais.ItemIndex — TToolBar sem ItemIndex}
   pnlOnlVideos.Visible := False;
   imgYoutubeCapa.Visible := not pnlOnlVideos.Visible;
 end;
 
 procedure TfmIndex.pnlOnlVideosClose(Sender: TObject);
 begin
-  bgOnlPlaylists.ItemIndex := -1;
+  {LAZARUS: bgOnlPlaylists.ItemIndex — TToolBar sem ItemIndex}
   imgYoutubeCapa.Visible := True;
 end;
 
@@ -8556,8 +8466,8 @@ begin
   btIniciarCrono.Caption := 'Iniciar';
   btIniciarCrono.ImageIndex := 20;
   btIniciarCrono.Down := False;
-  gCrono.MaxValue := 1;
-  gCrono.Value := 1;
+  gCrono.Max := 1;
+  gCrono.Position := 1;
 
   tCronoT := 0;
   if rbDirecao.ItemIndex = 0 then
@@ -8587,8 +8497,8 @@ begin
   if fMonitorCronometro <> nil then
   begin
     fMonitorCronometro.lmdCrono.Caption := lmdCrono.Caption;
-    fMonitorCronometro.gCrono.MaxValue := gCrono.MaxValue;
-    fMonitorCronometro.gCrono.Value := gCrono.Value;
+    fMonitorCronometro.gCrono.Max := gCrono.Max;
+    fMonitorCronometro.gCrono.Position := gCrono.Position;
     fMonitorCronometro.pnlCrono.DoubleBuffered := pnlCrono.DoubleBuffered;
   end;
 end;
@@ -8611,37 +8521,37 @@ begin
   bsSkinScrollBar8.Visible := true;
   valor := trim(txtBusca.Text);
 
-  if (ckgFiltros.ItemChecked[0] = False) and (ckgFiltros.ItemChecked[1] = False) and (ckgFiltros.ItemChecked[2] = False)
-    then ckgFiltros.ItemChecked[0] := True;
+  if (ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[0] = False) and (ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[1] = False) and (ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[2] = False)
+    then ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[0] := True;
 
-  if (ckgColetaneas.ItemChecked[0] = False) and (ckgColetaneas.ItemChecked[1] = False) and (ckgColetaneas.ItemChecked[2] = False)
-    then ckgColetaneas.ItemChecked[0] := True;
+  if (ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[0] = False) and (ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[1] = False) and (ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[2] = False)
+    then ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[0] := True;
 
   opc_colet := ',';
-  if (ckgColetaneas.ItemChecked[0] = True) then opc_colet := opc_colet + 'B,';
-  if (ckgColetaneas.ItemChecked[1] = True) then opc_colet := opc_colet + 'W,';
-  if (ckgColetaneas.ItemChecked[2] = True) then opc_colet := opc_colet + 'P,';
+  if (ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[0] = True) then opc_colet := opc_colet + 'B,';
+  if (ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[1] = True) then opc_colet := opc_colet + 'W,';
+  if (ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[2] = True) then opc_colet := opc_colet + 'P,';
 
   if (trim(valor) = '')
-    then pnlStatusBuscaMusicas0.caption := ''
-    else pnlStatusBuscaMusicas0.caption := 'Buscando nome: ''' + valor + '''';
+    then pnlStatusBuscaMusicas0.Text {LAZARUS: TStatusPanel.caption->Text} := ''
+    else pnlStatusBuscaMusicas0.Text {LAZARUS: TStatusPanel.caption->Text} := 'Buscando nome: ''' + valor + '''';
 
 
   DM.qrBUSCA.Close;
   DM.qrBUSCA.ParamByName('TIPO').AsString := opc_colet;
   DM.qrBUSCA.ParamByName('VALOR').AsString := termo_busca(valor);
 
-  if (ckgFiltros.ItemChecked[0]) then
+  if (ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[0]) then
     DM.qrBUSCA.ParamByName('OPC_NOME').AsString := 'S'
   else
     DM.qrBUSCA.ParamByName('OPC_NOME').AsString := 'N';
 
-  if (ckgFiltros.ItemChecked[1]) then
+  if (ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[1]) then
     DM.qrBUSCA.ParamByName('OPC_LETRA').AsString := 'S'
   else
     DM.qrBUSCA.ParamByName('OPC_LETRA').AsString := 'N';
 
-  if (ckgFiltros.ItemChecked[2]) then
+  if (ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[2]) then
     DM.qrBUSCA.ParamByName('OPC_ALBUM').AsString := 'S'
   else
     DM.qrBUSCA.ParamByName('OPC_ALBUM').AsString := 'N';
@@ -8653,14 +8563,14 @@ begin
 
   DM.qrBUSCA.Open;
 
-  pnlStatusBuscaMusicas1.Caption := qtItens(DM.qrBUSCA,'música encontrada','músicas encontradas','Nenhuma música encontrada');
+  pnlStatusBuscaMusicas1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.qrBUSCA,'música encontrada','músicas encontradas','Nenhuma música encontrada');
   loadCol.Strings.Values['BUSCA:STATUS'] := '';
 
 
 
   if (DM.qrBUSCA.RecordCount = 1) then
   begin
-    if (ckgColetaneas.ItemIndex = 0) or ((ckgColetaneas.ItemIndex = 2) and (DM.qrBUSCA.fieldbyname('TIPO_WEB').AsString <> 'S') and (DM.qrBUSCA.fieldbyname('TIPO_PERSO').AsString <> 'S')) then
+    if (0 {LAZARUS: ckgColetaneas.ItemIndex — TCheckGroup nao tem ItemIndex} = 0) or ((0 {LAZARUS: ckgColetaneas.ItemIndex — TCheckGroup nao tem ItemIndex} = 2) and (DM.qrBUSCA.fieldbyname('TIPO_WEB').AsString <> 'S') and (DM.qrBUSCA.fieldbyname('TIPO_PERSO').AsString <> 'S')) then
     begin
       reBusca.Lines.Clear;
       DM.qrLETRA.Close;
@@ -8694,7 +8604,7 @@ begin
 //  bsErroMusica.Visible := pnlreBusca.Visible;
 
   corCampoBusca(DM.qrBUSCA, txtBusca, DBGrid2);
-  pnlStatusBuscaMusicas1.Caption := qtItens(DM.qrBUSCA,'música encontrada','músicas encontradas','Nenhuma música encontrada');;
+  pnlStatusBuscaMusicas1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.qrBUSCA,'música encontrada','músicas encontradas','Nenhuma música encontrada');;
   dbGrid2.Columns[2].Width := dbGrid2.Width - dbGrid2.Columns[0].Width - dbGrid2.Columns[1].Width - dbGrid2.Columns[3].Width;
   loadCol.Strings.Values['BUSCA:STATUS'] := '';
 
@@ -8704,16 +8614,16 @@ end;
 procedure TfmIndex.btplFecharClick(Sender: TObject);
 begin
   try
-    MediaPlayer1.Stop;
+    BASS_ChannelStop(PlayerStream); {LAZARUS: MediaPlayer1.Stop->BASS}
   except
     //
   end;
-  MediaPlayer1.Close;
-  MediaPlayer1.FileName := '';
+  BASS_StreamFree(PlayerStream); {LAZARUS: MediaPlayer1.Close->BASS_StreamFree}
+  PlayerStream := 0; {LAZARUS: MediaPlayer1.FileName:=''->PlayerStream reset}
   pnlPlayer.Visible := False;
   lblPlayer.Caption := '';
   DM.tmrPlayer.Enabled := False;
-  pbPlayer.Value := 0;
+  pbPlayer.Position := 0;
 
   if (fPlayer <> nil) and (fPlayer.Visible) then
     fPlayer.Close;
@@ -8727,7 +8637,7 @@ begin
     Exit;
   end;
 
-  MediaPlayer1.Pause;
+  BASS_ChannelPause(PlayerStream); {LAZARUS: MediaPlayer1.Pause->BASS}
   btplPlay.Down := false;
 end;
 
@@ -8739,7 +8649,7 @@ begin
     Exit;
   end;
 
-  MediaPlayer1.Play;
+  BASS_ChannelPlay(PlayerStream, False); {LAZARUS: MediaPlayer1.Play->BASS}
   btplPause.Down := false;
 end;
 
@@ -8760,7 +8670,7 @@ begin
 
   t := TComponent(Sender).Tag;
   try
-    mpMusica.Stop;
+    BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
   except
     //
   end;
@@ -8823,15 +8733,15 @@ begin
     Exit;
   end;
 
-  DM.progressDialog.Caption := 'Coletânea JA';
-  DM.progressDialog.LabelCaption := 'Procurando atualizações... aguarde...';
-  DM.progressDialog.Value := 0;
-  DM.progressDialog.MaxValue := 2;
-  DM.progressDialog.Execute;
+  {LAZARUS: DM.progressDialog.Caption := 'Coletânea JA'; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.LabelCaption := 'Procurando atualizações... aguarde...'; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := 0; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.MaxValue := 2; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Execute; — progressDialog removido}
   application.ProcessMessages;
   Sleep(1000);
 
-  DM.progressDialog.Value := 1;
+  {LAZARUS: DM.progressDialog.Value := 1; — progressDialog removido}
   application.ProcessMessages;
 
   gravaParam('Config', 'UltimaConexao', '-');
@@ -8842,9 +8752,9 @@ begin
     application.messagebox(PChar('Não foram encontradas novas versões do programa!'), fmIndex.TITULO, MB_OK + mb_iconinformation);
     application.ProcessMessages;
   end;
-  DM.progressDialog.MaxValue := 1;
-  DM.progressDialog.Value := DM.progressDialog.MaxValue;
-  DM.progressDialog.Close;
+  {LAZARUS: DM.progressDialog.MaxValue := 1; — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Value := DM.progressDialog.MaxValue — progressDialog removido}
+  {LAZARUS: DM.progressDialog.Close; — progressDialog removido}
 
 
 end;
@@ -8914,9 +8824,7 @@ end;
 
 procedure TfmIndex.RibbonPCButtons4Click(Sender: TObject);
 begin
-  RibbonPC.AppMenu.ItemIndex := 1;
-  if not RibbonPC.AppMenu.Visible then
-    RibbonPC.ShowAppMenu;
+  {LAZARUS: RibbonPC.AppMenu.ItemIndex/ShowAppMenu removidos — TPageControl nao tem AppMenu}
 end;
 
 procedure TfmIndex.RibbonPCButtons5Click(Sender: TObject);
@@ -8967,7 +8875,7 @@ begin
   for i := 0 to lbSorteioNM.Items.Count - 1 do
   begin
     lbSorteioNM.ItemIndex := i;
-    lbSorteioNM.Items[i].Checked := False;
+    lbSorteioNM.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := False;
     lbSorteioNMItemCheckClick(Sender);
   end;
   SorteioContador;
@@ -8983,9 +8891,9 @@ begin
   for i := lbSorteioNM.Items.Count - 1 downto 0 do
   begin
     lbSorteioNM.ItemIndex := i;
-    if (lbSorteioNM.Items[i].Checked = True) then
+    if (lbSorteioNM.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} = True) then
     begin
-      item := lbSorteioNM.Items[lbSorteioNM.ItemIndex].Caption;
+      item := lbSorteioNM.Items[lbSorteioNM.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
       lbSorteioNM.Items.Delete(i);
       vlSorteadosNM.FindRow(item, linha);
       if linha >= 0 then
@@ -8996,7 +8904,7 @@ begin
   for i := 0 to lbSorteioNM.Items.Count - 1 do
   begin
     lbSorteioNM.ItemIndex := i;
-    item := lbSorteioNM.Items[lbSorteioNM.ItemIndex].Caption;
+    item := lbSorteioNM.Items[lbSorteioNM.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
     vlSorteioNM.Strings.Values[item] := IntToStr(lbSorteioNM.ItemIndex);
   end;
 
@@ -9017,7 +8925,7 @@ begin
   for i := 0 to lbSorteioNM.Items.Count - 1 do
   begin
     lbSorteioNM.ItemIndex := i;
-    lbSorteioNM.Items[i].Checked := not lbSorteioNM.Items[i].Checked;
+    lbSorteioNM.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := not lbSorteioNM.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]};
     lbSorteioNMItemCheckClick(Sender);
   end;
   SorteioContador;
@@ -9050,7 +8958,7 @@ begin
   begin
     application.messagebox('Escolha uma coletânea para aterar!', TITULO, MB_OK + mb_iconexclamation);
     cbColetaneasPerso.SetFocus;
-    cbColetaneasPerso.DropDown;
+    {LAZARUS: cbColetaneasPerso.DropDown — TComboBox nao tem metodo DropDown}
     exit;
   end;
 
@@ -9115,7 +9023,7 @@ var
   tamanho: Longint;
   url: string;
 begin
-  gProgresso.Value := 0;
+  gProgresso.Position {LAZARUS: TProgressBar.Value->Position} := 0;
   lvArquivos.Items.Clear;
   a_sim := 0;
 //  a_nao := 0;
@@ -9124,7 +9032,7 @@ begin
   DM.qrARQUIVOS_SISTEMA.Close;
   DM.qrARQUIVOS_SISTEMA.Open;
   DM.qrARQUIVOS_SISTEMA.First;
-  gProgresso.MaxValue := DM.qrARQUIVOS_SISTEMA.RecordCount;
+  gProgresso.Max {LAZARUS: TProgressBar.MaxValue->Max} := DM.qrARQUIVOS_SISTEMA.RecordCount;
 
   while not DM.qrARQUIVOS_SISTEMA.eof do
   begin
@@ -9187,7 +9095,7 @@ begin
       end;
     end;
 
-    gProgresso.Value := DM.qrARQUIVOS_SISTEMA.RecNo;
+    gProgresso.Position {LAZARUS: TProgressBar.Value->Position} := DM.qrARQUIVOS_SISTEMA.RecNo;
     Application.ProcessMessages;
     DM.qrARQUIVOS_SISTEMA.Next;
   end;
@@ -9198,7 +9106,9 @@ end;
 
 procedure TfmIndex.bsSkinButton24Click(Sender: TObject);
 begin
-  atualiza_coletaneas_web('playlists', lbbgOnlCanais.Items[bgOnlCanais.ItemIndex]);
+  {LAZARUS: bgOnlCanais.ItemIndex — TToolBar sem ItemIndex; usando ItemIndex 0}
+  if lbbgOnlCanais.Items.Count > 0 then
+    atualiza_coletaneas_web('playlists', lbbgOnlCanais.Items[0]);
 end;
 
 procedure TfmIndex.bsSkinButton25Click(Sender: TObject);
@@ -9208,7 +9118,9 @@ end;
 
 procedure TfmIndex.bsSkinButton26Click(Sender: TObject);
 begin
-  atualiza_coletaneas_web('videos', lbbgOnlPlaylists.Items[bgOnlPlaylists.ItemIndex]);
+  {LAZARUS: bgOnlPlaylists.ItemIndex — TToolBar sem ItemIndex; usando ItemIndex 0}
+  if lbbgOnlPlaylists.Items.Count > 0 then
+    atualiza_coletaneas_web('videos', lbbgOnlPlaylists.Items[0]);
 end;
 
 procedure TfmIndex.bsSkinButton2Click(Sender: TObject);
@@ -9225,10 +9137,10 @@ begin
   apagaParam('Musicas', 'Tamanho Texto');
   apagaParam('Musicas', 'Tamanho Texto Aux');
 
-  corTituloMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Titulo', '$000b4ef'));
-  corTextoMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto', '$0FFFFFF'));
-  corTextoRepetido.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto Repetido', '$000b4ef'));
-  corTextoAuxMusica.ColorValue := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto Aux', '$000b4ef'));
+  corTituloMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(fmIndex.lerParam('Musicas', 'Cor Titulo', '$000b4ef'));
+  corTextoMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto', '$0FFFFFF'));
+  corTextoRepetido.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto Repetido', '$000b4ef'));
+  corTextoAuxMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(fmIndex.lerParam('Musicas', 'Cor Texto Aux', '$000b4ef'));
   ckMusicaFundoTransparente.Checked := (fmIndex.lerParam('Musicas', 'FundoTransparente', '0') = '1');
   seTamanhoTitulo.Text := fmIndex.lerParam('Musicas', 'Tamanho Titulo', '18');
   seTamanhoTexto.Text := fmIndex.lerParam('Musicas', 'Tamanho Texto', '14');
@@ -9290,16 +9202,14 @@ end;
 
 procedure TfmIndex.bsSkinButton36Click(Sender: TObject);
 begin
-  if RibbonPC.AppMenu.Visible then
-    RibbonPC.AppMenu.Visible := false;
+  {LAZARUS: RibbonPC.AppMenu.Visible removido — TPageControl nao tem AppMenu}
   fIniciando.AppCreateForm(TfArquivosExcesso,fArquivosExcesso);
   fArquivosExcesso.showmodal;
 end;
 
 procedure TfmIndex.bsSkinButton38Click(Sender: TObject);
 begin
-  if RibbonPC.AppMenu.Visible then
-    RibbonPC.AppMenu.Visible := false;
+  {LAZARUS: RibbonPC.AppMenu.Visible removido — TPageControl nao tem AppMenu}
   fIniciando.AppCreateForm(TfArquivosFalta,fArquivosFalta);
   fArquivosFalta.showmodal;
 end;
@@ -9311,7 +9221,7 @@ begin
   for i := 0 to lbSorteio.Items.Count - 1 do
   begin
     lbSorteio.ItemIndex := i;
-    lbSorteio.Items[i].Checked := True;
+    lbSorteio.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := True;
     lbSorteioItemCheckClick(Sender);
   end;
   SorteioContador;
@@ -9483,7 +9393,7 @@ begin
           end;
 
           try
-            BASS_Init(-1, 44100, 0, Handle, nil);
+            BASS_Init(-1, 44100, 0, nil, nil) {LAZARUS: Handle→nil (Linux BASS_Init)};
           except
             //
           end;
@@ -9550,7 +9460,7 @@ begin
           end;
 
           try
-            BASS_Init(-1, 44100, 0, Handle, nil);
+            BASS_Init(-1, 44100, 0, nil, nil) {LAZARUS: Handle→nil (Linux BASS_Init)};
           except
             //
           end;
@@ -9662,7 +9572,7 @@ begin
   for i := 0 to lbSorteio.Items.Count - 1 do
   begin
     lbSorteio.ItemIndex := i;
-    lbSorteio.Items[i].Checked := False;
+    lbSorteio.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := False;
     lbSorteioItemCheckClick(Sender);
   end;
   SorteioContador;
@@ -9678,9 +9588,9 @@ begin
   for i := lbSorteio.Items.Count - 1 downto 0 do
   begin
     lbSorteio.ItemIndex := i;
-    if (lbSorteio.Items[i].Checked = True) then
+    if (lbSorteio.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} = True) then
     begin
-      item := lbSorteio.Items[lbSorteio.ItemIndex].Caption;
+      item := lbSorteio.Items[lbSorteio.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
       lbSorteio.Items.Delete(i);
       vlSorteados.FindRow(item, linha);
       if linha >= 0 then
@@ -9691,7 +9601,7 @@ begin
   for i := 0 to lbSorteio.Items.Count - 1 do
   begin
     lbSorteio.ItemIndex := i;
-    item := lbSorteio.Items[lbSorteio.ItemIndex].Caption;
+    item := lbSorteio.Items[lbSorteio.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
     vlSorteio.Strings.Values[item] := IntToStr(lbSorteio.ItemIndex);
   end;
 
@@ -9712,7 +9622,7 @@ begin
   for i := 0 to lbSorteio.Items.Count - 1 do
   begin
     lbSorteio.ItemIndex := i;
-    lbSorteio.Items[i].Checked := not lbSorteio.Items[i].Checked;
+    lbSorteio.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := not lbSorteio.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]};
     lbSorteioItemCheckClick(Sender);
   end;
   SorteioContador;
@@ -9735,7 +9645,7 @@ begin
   for i := 0 to lbSorteioNM.Items.Count - 1 do
   begin
     lbSorteioNM.ItemIndex := i;
-    lbSorteioNM.Items[i].Checked := True;
+    lbSorteioNM.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := True;
     lbSorteioNMItemCheckClick(Sender);
   end;
   SorteioContador;
@@ -9881,7 +9791,7 @@ begin
   begin
     Key := #0;
 
-    if DBCtrlGridBibliaVersiculo.DataSource.DataSet.Eof
+    if DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.Eof
       then Exit;
 
 //    DBCtrlGridBibliaVersiculoClick(Sender);
@@ -9901,14 +9811,14 @@ begin
     loadCol.Strings.Values['BIBLIA_P_VERSICULO'] := loadCol.Strings.Values['BIBLIA_VERSICULO'];
 
     lmdBibliaTxt.Caption := '';
-    DBCtrlGridBibliaVersiculo.DataSource.DataSet.First;
-    while not DBCtrlGridBibliaVersiculo.DataSource.DataSet.Eof do
+    DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.First;
+    while not DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.Eof do
     begin
       if lmdBibliaTxt.Caption <> ''
         then lmdBibliaTxt.Caption := lmdBibliaTxt.Caption+#13#10;
 
-      lmdBibliaTxt.Caption := lmdBibliaTxt.Caption+DBCtrlGridBibliaVersiculo.DataSource.DataSet.FieldByName('PASSAGEM').AsString;
-      DBCtrlGridBibliaVersiculo.DataSource.DataSet.Next;
+      lmdBibliaTxt.Caption := lmdBibliaTxt.Caption+DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.FieldByName('PASSAGEM').AsString;
+      DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.Next;
     end;
     lmdBibliaTxt.Caption := '"'+removeTagsHTML(lmdBibliaTxt.Caption)+'"';
 
@@ -9944,13 +9854,13 @@ begin
     DM.cdsBIBLIA_HISTORICO.FieldByName('LIVRO').Value := loadCol.Strings.Values['BIBLIA_P_LIVRO'];
     DM.cdsBIBLIA_HISTORICO.FieldByName('CAPITULO').Value := loadCol.Strings.Values['BIBLIA_P_CAPITULO'];
     DM.cdsBIBLIA_HISTORICO.FieldByName('VERSICULO').Value := loadCol.Strings.Values['BIBLIA_P_VERSICULO'];
-    DM.cdsBIBLIA_HISTORICO.FieldByName('PASSAGEM').Value := DBCtrlGridBibliaVersiculo.DataSource.DataSet.FieldByName('PASSAGEM_ORI').AsString;
+    DM.cdsBIBLIA_HISTORICO.FieldByName('PASSAGEM').Value := DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.FieldByName('PASSAGEM_ORI').AsString;
     DM.cdsBIBLIA_HISTORICO.FieldByName('DESC_PASSAGEM').Value := desc_passagem;
     DM.cdsBIBLIA_HISTORICO.Post;
 
 
     DBCtrlGridBibliaVersiculo.Refresh;
-    DBCtrlGridBibliaVersiculoPaintPanel(DBCtrlGridBibliaVersiculo,0,nil,Rect(1, 1, DBCtrlGridBibliaVersiculo.PanelWidth-2, DBCtrlGridBibliaVersiculo.PanelHeight-2));
+    DBCtrlGridBibliaVersiculoPaintPanel(DBCtrlGridBibliaVersiculo,0,nil,Rect(1, 1, DBCtrlGridBibliaVersiculo.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGridBibliaVersiculo.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2));
   end;
 end;
 
@@ -10004,8 +9914,7 @@ begin
   DM.cdsItensAgendados.Filtered := true;
   DM.cdsItensAgendados.Filter := 'CATEGORIA = '''+txtCategoria.Text+'''';
   pnlItensAgendados.Visible := True;
-  dbctrlItensAgendados.RowCount := Trunc(dbctrlItensAgendados.ClientHeight / 60);
-  dbctrlItensAgendados.ColCount := 1;
+  {LAZARUS: dbctrlItensAgendados.RowCount/ColCount removidos — TScrollBox nao tem RowCount/ColCount}
 
   refreshCalendar();
 end;
@@ -10075,7 +9984,7 @@ begin
   for i := 0 to pred(sbLiturgia.ControlCount) do
   begin
     if sbLiturgia.Controls[i].Visible
-      then itens.Add(FormatFloat('000000000',(sbLiturgia.VScrollBar.RealClientHeight*100)+sbLiturgia.Controls[i].Top)+'|'+sbLiturgia.Controls[i].Name);
+      then itens.Add(FormatFloat('000000000',(sbLiturgia.ClientHeight {LAZARUS: VScrollBar.RealClientHeight->ClientHeight}*100)+sbLiturgia.Controls[i].Top)+'|'+sbLiturgia.Controls[i].Name);
   end;
   itens.Sort;
   lbLiturgiaPos.Items.Clear;
@@ -10150,7 +10059,7 @@ var
 begin
   tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue;
+  RichEdit.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor};
   copiaDadosTelaExtendida;
 end;
 
@@ -10161,7 +10070,7 @@ var
 begin
   tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RE_SetSelBgColor(RichEdit, TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue);
+  RE_SetSelBgColor(RichEdit, TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor});
 end;
 
 procedure TfmIndex.cbColorTxtIChangeColor(Sender: TObject);
@@ -10171,7 +10080,8 @@ var
 begin
   tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.SelAttributes.Color := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue;
+  {LAZARUS: RichEdit.SelAttributes.Color — TRichMemo usa SetRangeColor}
+  RichEdit.SetRangeColor(RichEdit.SelStart, RichEdit.SelLength, TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor});
 end;
 
 procedure TfmIndex.cbFormatoChange(Sender: TObject);
@@ -10207,8 +10117,7 @@ end;
 procedure TfmIndex.cbLayoutChange(Sender: TObject);
 begin
   gravaParam('Config', 'Layout', IntToStr(cbLayout.ItemIndex));
-  DM.bsSkinData1.SkinIndex := cbLayout.ItemIndex;
-  layoutValue.Strings.Text := DM.bsSkinData1.SkinList.Skins[cbLayout.ItemIndex].Description;
+  {LAZARUS: DM.bsSkinData1.SkinIndex/SkinList removidos — BusinessSkinForm removido}
 
   if (layoutValue.Strings.Values['cor'] <> '')
     then pnlfmBarraTituloForm.Color := StringToColor(layoutValue.Strings.Values['cor']);
@@ -10264,9 +10173,8 @@ begin
         RecursiveDelete(FullPath + sr.Name,nivel+1)
       else
       begin
-        if GetFileAttributes(PWideChar(FullPath + sr.Name)) > 0 then
-          SetFileAttributes(PWideChar(FullPath + sr.Name), 0);
-        DeleteFile(PWideChar(FullPath + sr.Name));
+        {LAZARUS: GetFileAttributes/SetFileAttributes removidos — Windows API}
+        SysUtils.DeleteFile(FullPath + sr.Name);
       end;
       iRetorno := FindNext(sr);
   end;
@@ -10279,7 +10187,7 @@ procedure TfmIndex.refreshCalendar;
 //var
 //  data: TDate;
 begin
-//  data := MonthCalendar1.Date;
+//  data := EncodeDate(StrToInt(Copy(MonthCalendar1.Date,1,4)), StrToInt(Copy(MonthCalendar1.Date,6,2)), StrToInt(Copy(MonthCalendar1.Date,9,2))); {LAZARUS: TCalendar.Date returns 'YYYY-MM-DD'}
 //  MonthCalendar1.Visible := False;
 //  MonthCalendar1.Date := IncMonth(data,12);
 //  MonthCalendar1.Date := data;
@@ -10297,8 +10205,8 @@ var
   item: string;
   linha: integer;
 begin
-  item := lbSorteioNM.Items[lbSorteioNM.ItemIndex].Caption;
-  if lbSorteioNM.Items[lbSorteioNM.ItemIndex].Checked = true then
+  item := lbSorteioNM.Items[lbSorteioNM.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
+  if lbSorteioNM.Checked[lbSorteioNM.ItemIndex] {LAZARUS: TCheckListBox.Items[ItemIndex].Checked->Checked[ItemIndex]} = true then
   begin
     vlSorteadosNM.Strings.Values[item] := IntToStr(lbSorteioNM.ItemIndex);
     vlSorteioNM.FindRow(item, linha);
@@ -10446,12 +10354,12 @@ begin
   if carrega_opc then
     Exit;
 
-  if ckSorteioExp.ItemChecked[0] then
+  if ckSorteioExp.Checked {LAZARUS: ItemChecked->Checked}[0] then
     gravaParam('Sorteio', 'Numeros Sorteio (Extendido)', '1')
   else
     gravaParam('Sorteio', 'Numeros Sorteio (Extendido)', '0');
 
-  if ckSorteioExp.ItemChecked[1] then
+  if ckSorteioExp.Checked {LAZARUS: ItemChecked->Checked}[1] then
     gravaParam('Sorteio', 'Numeros Sorteados (Extendido)', '1')
   else
     gravaParam('Sorteio', 'Numeros Sorteados (Extendido)', '0');
@@ -10464,12 +10372,12 @@ begin
   if carrega_opc then
     Exit;
 
-  if ckSorteioExpNM.ItemChecked[0] then
+  if ckSorteioExpNM.Checked {LAZARUS: ItemChecked->Checked}[0] then
     gravaParam('Sorteio Nomes', 'Numeros Sorteio (Extendido)', '1')
   else
     gravaParam('Sorteio Nomes', 'Numeros Sorteio (Extendido)', '0');
 
-  if ckSorteioExpNM.ItemChecked[1] then
+  if ckSorteioExpNM.Checked {LAZARUS: ItemChecked->Checked}[1] then
     gravaParam('Sorteio Nomes', 'Numeros Sorteados (Extendido)', '1')
   else
     gravaParam('Sorteio Nomes', 'Numeros Sorteados (Extendido)', '0');
@@ -10539,7 +10447,7 @@ end;
 procedure TfmIndex.bsSkinSpeedButton14Click(Sender: TObject);
 begin
   abrePagina(tsBuscaMusica);
-//  ckgColetaneas.ItemIndex := 0;
+//  0 {LAZARUS: ckgColetaneas.ItemIndex — TCheckGroup nao tem ItemIndex} := 0;
 end;
 
 procedure TfmIndex.bsSkinSpeedButton16Click(Sender: TObject);
@@ -10948,8 +10856,8 @@ begin
   end;
 
   vSorteioAnimFimNM := IncMilliSecond(Now,trunc(seSorteioTempoNM.Value*1000));
-  gSorteioNM.MaxValue := trunc(vSorteioAnimFimNM * 10000000000);
-  gSorteioNM.MinValue := trunc(now * 10000000000);
+  gSorteioNM.Max {LAZARUS: TProgressBar.MaxValue->Max} := trunc(vSorteioAnimFimNM * 10000000000);
+  gSorteioNM.Min {LAZARUS: TProgressBar.MinValue->Min} := trunc(now * 10000000000);
 
   pnlSorteioNM.DoubleBuffered := True;
   DM.tmrSortearNM.Enabled := true;
@@ -10968,17 +10876,15 @@ begin
     begin
       application.MessageBox('O administrador do sistema bloqueou o acesso à este recurso! Para continuar, será necessário colocar a senha de acesso!', titulo, mb_ok + MB_ICONINFORMATION);
 
-      DM.pwd.Password := '';
-      DM.pwd.Execute;
-
-      if (DM.pwd.Password = '') then
+      {LAZARUS: DM.pwd (TbsSkinPasswordDialog) substituido por InputQuery}
+      if not InputQuery(titulo, 'Digite a senha de acesso:', pwd) or (pwd = '') then
       begin
         TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down := False;
         exit;
       end;
 
-      if (DM.pwd.Password = pwd)
-        then pwd := '';
+      if (pwd <> lerParam('Senha', 'Formatacao', ''))
+        then pwd := lerParam('Senha', 'Formatacao', '');
     end;
   end
   else pwd := '';
@@ -11041,7 +10947,7 @@ begin
   for i := 0 to lbSorteio.Items.Count - 1 do
   begin
     lbSorteio.ItemIndex := i;
-    lbSorteio.Items[i].Checked := False;
+    lbSorteio.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := False;
     lbSorteioItemCheckClick(Sender);
   end;
 
@@ -11159,7 +11065,7 @@ begin
   for i := lbSorteio.Items.Count - 1 downto 0 do
   begin
     lbSorteio.ItemIndex := i;
-    item := lbSorteio.Items[lbSorteio.ItemIndex].Caption;
+    item := lbSorteio.Items[lbSorteio.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
     lbSorteio.Items.Delete(i);
     vlSorteio.FindRow(item, linha);
     if linha >= 0 then
@@ -11194,7 +11100,7 @@ begin
   for i := lbSorteioNM.Items.Count - 1 downto 0 do
   begin
     lbSorteioNM.ItemIndex := i;
-    item := lbSorteioNM.Items[lbSorteioNM.ItemIndex].Caption;
+    item := lbSorteioNM.Items[lbSorteioNM.ItemIndex] {LAZARUS: TCheckListBox — Items[] is string};
     lbSorteioNM.Items.Delete(i);
     vlSorteioNM.FindRow(item, linha);
     if linha >= 0 then
@@ -11230,7 +11136,7 @@ begin
   for i := 0 to lbSorteioNM.Items.Count - 1 do
   begin
     lbSorteioNM.ItemIndex := i;
-    lbSorteioNM.Items[i].Checked := False;
+    lbSorteioNM.Checked[i] {LAZARUS: TCheckListBox.Items[i].Checked->Checked[i]} := False;
     lbSorteioNMItemCheckClick(Sender);
   end;
 
@@ -11245,7 +11151,7 @@ end;
 procedure TfmIndex.btAddSorteioClick(Sender: TObject);
 var
   i, ini, fin, linha: integer;
-  Item: TListItem {LAZARUS: TbsSkinOfficeItem};
+  {LAZARUS: Item: TListItem removido — TCheckListBox.Items.Add retorna Integer}
   Numero: string;
 begin
   if DM.tmrSorteio.Enabled = false then
@@ -11282,21 +11188,20 @@ begin
     Numero := formatfloat('0000', i);
     if Trim(vlSorteio.Strings.Values[Numero]) <> '' then
     begin
-      lbSorteio.Items[StrToInt(vlSorteio.Strings.Values[Numero])].Checked := False;
+      lbSorteio.Checked[StrToInt(vlSorteio.Strings.Values[Numero])] := False; {LAZARUS: TCheckListBox}
     end
     else if Trim(vlSorteados.Strings.Values[Numero]) <> '' then
     begin
-      lbSorteio.Items[StrToInt(vlSorteados.Strings.Values[Numero])].Checked := False;
+      lbSorteio.Checked[StrToInt(vlSorteados.Strings.Values[Numero])] := False; {LAZARUS: TCheckListBox}
       vlSorteio.Strings.Values[Numero] := vlSorteados.Strings.Values[Numero];
       vlSorteados.FindRow(Numero, linha);
       vlSorteados.DeleteRow(linha);
     end
     else
     begin
-      Item := lbSorteio.Items.Add();
-      Item.Caption := Numero;
-
-      vlSorteio.Strings.Values[Numero] := IntToStr(Item.Index);
+      {LAZARUS: TCheckListBox.Items.Add(s) retorna Integer, nao TListItem}
+      lbSorteio.Items.Add(Numero);
+      vlSorteio.Strings.Values[Numero] := IntToStr(lbSorteio.Items.Count - 1);
     end;
 
   end;
@@ -11316,7 +11221,7 @@ end;
 procedure TfmIndex.btAddSorteioNMClick(Sender: TObject);
 var
   linha: integer;
-  Item: TListItem {LAZARUS: TbsSkinOfficeItem};
+  {LAZARUS: Item: TListItem removido — TCheckListBox.Items.Add retorna Integer}
   nome: string;
 begin
   if DM.tmrSorteio.Enabled = false then
@@ -11333,21 +11238,20 @@ begin
   nome := Copy(opSort_Nm.Text, 0, opSort_Nm.MaxLength);
   if Trim(vlSorteioNM.Strings.Values[nome]) <> '' then
   begin
-    lbSorteioNM.Items[StrToInt(vlSorteioNM.Strings.Values[nome])].Checked := False;
+    lbSorteioNM.Checked[StrToInt(vlSorteioNM.Strings.Values[nome])] := False; {LAZARUS: TCheckListBox}
   end
   else if Trim(vlSorteadosNM.Strings.Values[nome]) <> '' then
   begin
-    lbSorteioNM.Items[StrToInt(vlSorteadosNM.Strings.Values[nome])].Checked := False;
+    lbSorteioNM.Checked[StrToInt(vlSorteadosNM.Strings.Values[nome])] := False; {LAZARUS: TCheckListBox}
     vlSorteioNM.Strings.Values[nome] := vlSorteadosNM.Strings.Values[nome];
     vlSorteadosNM.FindRow(nome, linha);
     vlSorteadosNM.DeleteRow(linha);
   end
   else
   begin
-    Item := lbSorteioNM.Items.Add();
-    Item.Caption := nome;
-
-    vlSorteioNM.Strings.Values[nome] := IntToStr(Item.Index);
+    {LAZARUS: TCheckListBox.Items.Add(s) retorna Integer, nao TListItem}
+    lbSorteioNM.Items.Add(nome);
+    vlSorteioNM.Strings.Values[nome] := IntToStr(lbSorteioNM.Items.Count - 1);
   end;
 
   if fMonitorSorteioNomes <> nil then
@@ -11368,10 +11272,10 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  if (fsBold in RichEdit.SelAttributes.Style) then
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsBold]
+  if (fsBold in RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes}) then
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} - [fsBold]
   else
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style + [fsBold];
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} + [fsBold];
 end;
 
 procedure TfmIndex.btfsItalicClick(Sender: TObject);
@@ -11381,10 +11285,10 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  if (fsItalic in RichEdit.SelAttributes.Style) then
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsItalic]
+  if (fsItalic in RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes}) then
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} - [fsItalic]
   else
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style + [fsItalic];
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} + [fsItalic];
 end;
 
 procedure TfmIndex.btfsStrikeOutClick(Sender: TObject);
@@ -11394,10 +11298,10 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  if (fsStrikeOut in RichEdit.SelAttributes.Style) then
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsStrikeOut]
+  if (fsStrikeOut in RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes}) then
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} - [fsStrikeOut]
   else
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style + [fsStrikeOut];
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} + [fsStrikeOut];
 end;
 
 procedure TfmIndex.btfsUnderlineClick(Sender: TObject);
@@ -11407,10 +11311,10 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  if (fsUnderline in RichEdit.SelAttributes.Style) then
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [fsUnderline]
+  if (fsUnderline in RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes}) then
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} - [fsUnderline]
   else
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style + [fsUnderline];
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} + [fsUnderline];
 end;
 
 procedure TfmIndex.bsSkinSpeedButton41Click(Sender: TObject);
@@ -11458,10 +11362,10 @@ begin
   RichEdit.SelText := paramtemp.Text;
   RichEdit.SelStart := SelStart;
   RichEdit.SelLength := SelLength;
-  RichEdit.SelAttributes.Name := RichEdit.DefaultFont.Name;
-  RichEdit.SelAttributes.Size := RichEdit.DefaultFont.Size;
-  RichEdit.SelAttributes.Color := RichEdit.DefaultFont.Color;
-  RichEdit.SelAttributes.Style := RichEdit.DefaultFont.Style;
+  RichEdit.Font.Name := {LAZARUS: SelAttributes.Name stub} RichEdit.Font.Name {LAZARUS: DefaultFont->Font};
+  RichEdit.Font.Size := {LAZARUS: SelAttributes.Size stub} RichEdit.Font.Size {LAZARUS: DefaultFont->Font};
+  RichEdit.Font.Color := {LAZARUS: SelAttributes.Color stub} RichEdit.Font.Color {LAZARUS: DefaultFont->Font};
+  RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := RichEdit.Font.Style {LAZARUS: DefaultFont->Font};
   RE_SetSelBgColor(RichEdit, clWhite);
 end;
 
@@ -11490,7 +11394,7 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.Paragraph.Alignment := taLeftJustify;
+  {LAZARUS: RichEdit.Paragraph.Alignment — TRichMemo usa SetParaAlignment; stub}
 end;
 
 procedure TfmIndex.bttaRightJustifyClick(Sender: TObject);
@@ -11500,7 +11404,7 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.Paragraph.Alignment := taRightJustify;
+  {LAZARUS: RichEdit.Paragraph.Alignment — TRichMemo usa SetParaAlignment; stub}
 end;
 
 procedure TfmIndex.bttaCenterClick(Sender: TObject);
@@ -11510,7 +11414,7 @@ var
 begin
   tag := TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.Paragraph.Alignment := taCenter;
+  {LAZARUS: RichEdit.Paragraph.Alignment — TRichMemo usa SetParaAlignment; stub}
 end;
 
 procedure TfmIndex.bsSkinSpeedButton4Click(Sender: TObject);
@@ -11597,7 +11501,7 @@ end;
 procedure TfmIndex.bsSkinSpeedButton59Click(Sender: TObject);
 begin
   abrePagina(tsBuscaMusica);
-//  ckgColetaneas.ItemIndex := 1;
+//  0 {LAZARUS: ckgColetaneas.ItemIndex — TCheckGroup nao tem ItemIndex} := 1;
 end;
 
 procedure TfmIndex.bsSkinSpeedButton5Click(Sender: TObject);
@@ -11776,9 +11680,7 @@ begin
     fmIndex.WindowState := wsNormal;
     btwsMaximized.ImageIndex := StrToInt('0'+layoutValue.Strings.Values['btMaximized']);
     fmIndex.BorderStyle := bsSizeable;
-    SetWindowLong(fmIndex.Handle,
-                  GWL_STYLE,
-                  GetWindowLong(Handle,GWL_STYLE) and not WS_CAPTION);
+    {LAZARUS: SetWindowLong/GetWindowLong removidos — Windows API}
   end
   else
   begin
@@ -11877,7 +11779,7 @@ begin
 
   txtNomeVideoOn3.Text := '';
   txtUrlVideoOn3.Text := '';
-  stVideosOnPerso_1.Caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+  stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
 
   btVidOnlPExcluir.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
   btVidOnlPCopiarLink.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
@@ -12064,7 +11966,7 @@ end;
 procedure TfmIndex.btAnotTempoClick(Sender: TObject);
 var
   i: integer;
-  Item: TListItem {LAZARUS: TbsSkinOfficeItem};
+  {LAZARUS: Item: TListItem removido — TCheckListBox.Items.Add retorna Integer}
   tempo: string;
 begin
   if (loadCol.Strings.Values['CRONO:ID_TEMPO_GR'] = '') then
@@ -12075,9 +11977,9 @@ begin
 
   tempo := lmdCrono.Caption;
 
-  Item := lbCrono.Items.Add;
-  Item.Caption := formatfloat('00', i) + ' - ' + tempo;
-  lbCrono.ItemIndex := Item.Index;
+  {LAZARUS: TCheckListBox.Items.Add(s) retorna Integer, nao TListItem}
+  lbCrono.Items.Add(formatfloat('00', i) + ' - ' + tempo);
+  lbCrono.ItemIndex := lbCrono.Items.Count - 1;
   if (fMonitorCronometro <> nil) then
   begin
     fMonitorCronometro.lbCrono.Items := lbCrono.Items;
@@ -12106,30 +12008,32 @@ begin
   end;
 
   vSorteioAnimFim := IncMilliSecond(Now,trunc(seSorteioTempo.Value*1000));
-  gSorteio.MaxValue := trunc(vSorteioAnimFim * 10000000000);
-  gSorteio.MinValue := trunc(now * 10000000000);
+  gSorteio.Max := trunc(vSorteioAnimFim * 10000000000);
+  gSorteio.Min := trunc(now * 10000000000);
 
   pnlSorteio.DoubleBuffered := True;
   DM.tmrSortear.Enabled := true;
 end;
 
 procedure TfmIndex.desenvolvedor(ativo: boolean);
+var
+  _pwd: string;
 begin
   if (ativo = true) then
   begin
-    if (DM.PasswordDialog.Password <> senha_bd) then
+    _pwd := '';
+    {LAZARUS: DM.PasswordDialog substituido por InputQuery}
+    if not InputQuery(titulo, 'Digite a senha de acesso:', _pwd) then
+      Exit;
+    if (_pwd <> senha_bd) then
     begin
-      DM.PasswordDialog.Execute;
-      if (DM.PasswordDialog.Password <> senha_bd) then
-      begin
-        if (DM.PasswordDialog.Password <> '') then
-          Application.MessageBox('Senha incorreta!',TITULO,mb_ok+mb_iconerror);
-        Exit;
-      end;
+      if (_pwd <> '') then
+        Application.MessageBox('Senha incorreta!',TITULO,mb_ok+mb_iconerror);
+      Exit;
     end;
   end;
 
-  bsAppMenu1.Items[0].Visible := ativo;
+  bsAppMenu1.Pages[0].TabVisible {LAZARUS: TPageControl.Items->Pages} := ativo;
   pnlModDes.Visible := ativo;
   txtIDMusica.Visible := ativo;
   gpLiturgiaDes.Visible := ativo;
@@ -12154,34 +12058,22 @@ begin
 end;
 
 function TfmIndex.DownloadArquivo(const Origem, Destino: string): Boolean;
-const
-  BufferSize = 1024;
 var
-  hSession, hURL: HInternet;
-  Buffer: array[1..BufferSize] of Byte;
-  BufferLen: DWORD;
-  f: file;
-  sAppName: string;
+  Http: TFPHTTPClient;
 begin
-  sAppName := ExtractFileName(Application.ExeName);
-  hSession := InternetOpen(PChar(sAppName), INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
+  {LAZARUS: WinInet/InternetOpen removidos — usando TFPHTTPClient}
+  Result := False;
+  Http := TFPHTTPClient.Create(nil);
   try
-    hURL := InternetOpenURL(hSession, PChar(Origem), nil, 0, 0, 0);
     try
-      AssignFile(f, Destino);
-      Rewrite(f, 1);
-      repeat
-        InternetReadFile(hURL, @Buffer, SizeOf(Buffer), BufferLen);
-        BlockWrite(f, Buffer, BufferLen)
-      until BufferLen = 0;
-      CloseFile(f);
+      Http.Get(Origem, Destino);
       Result := True;
-    finally
-      InternetCloseHandle(hURL)
-    end
+    except
+      Result := False;
+    end;
   finally
-    InternetCloseHandle(hSession)
-  end
+    Http.Free;
+  end;
 end;
 
 procedure TfmIndex.edtKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -12207,21 +12099,21 @@ begin
     then lmdEscSbR.Caption := '-'+formatdatetime(cbFormatoTempoES.Items[cbFormatoTempoES.ItemIndex], crono)
     else lmdEscSbR.Caption := formatdatetime(cbFormatoTempoES.Items[cbFormatoTempoES.ItemIndex], crono);
 
-  if (tEscSBCrono < agora) and (lmdEscSbR.Font.Color <> csEscsbCor3.ColorValue)
-    then lmdEscSbR.Font.Color := csEscsbCor3.ColorValue
-  else if (tEscSBCrono >= agora) and (lmdEscSbR.Font.Color <> csEscsbCor2.ColorValue)
-    then lmdEscSbR.Font.Color := csEscsbCor2.ColorValue;
+  if (tEscSBCrono < agora) and (lmdEscSbR.Font.Color <> csEscsbCor3.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor})
+    then lmdEscSbR.Font.Color := csEscsbCor3.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor}
+  else if (tEscSBCrono >= agora) and (lmdEscSbR.Font.Color <> csEscsbCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor})
+    then lmdEscSbR.Font.Color := csEscsbCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
   DecodeTime(crono, MyHora, MyMinuto, MySegundo, MyMiliSegundo);
   Segundos := MyMiliSegundo + (MySegundo * 1000) + (MyMinuto * 60000) + (MyHora * 3600000);
-  if (Segundos > gEscSbR.MaxValue) then
-    gEscSbR.MaxValue := Segundos;
-  gEscSbR.Value := Segundos;
+  if (Segundos > gEscSbR.Max) then
+    gEscSbR.Max := Segundos;
+  gEscSbR.Position := Segundos;
 
-  if (rbgAudioES.Visible) and (tEscSBCrono > agora) and (formatdatetime('hh:mm:ss', crono) = '00:05:10') and (cgEscSBAudio.ItemChecked[1]) then
+  if (rbgAudioES.Visible) and (tEscSBCrono > agora) and (formatdatetime('hh:mm:ss', crono) = '00:05:10') and (cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[1]) then
   begin
     try
-      mpMusica.Stop;
+      BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
     except
       //
     end;
@@ -12233,10 +12125,10 @@ begin
     selMusica();
     btOuvirClick(btOuvir);
   end;
-  if (rbgAudioES.Visible) and (tEscSBCrono > agora) and (formatdatetime('hh:mm:ss', crono) = '00:01:10') and (cgEscSBAudio.ItemChecked[2]) then
+  if (rbgAudioES.Visible) and (tEscSBCrono > agora) and (formatdatetime('hh:mm:ss', crono) = '00:01:10') and (cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[2]) then
   begin
     try
-      mpMusica.Stop;
+      BASS_ChannelStop(BassPreviewChannel); {LAZARUS: mpMusica.Stop->BASS_ChannelStop}
     except
       //
     end;
@@ -12253,9 +12145,9 @@ begin
     btLigar.Caption := 'Ligar';
     btLigar.Down := False;
     btLigar.ImageIndex := 20;
-    gEscSbR.MaxValue := 1;
-    gEscSbR.Value := 1;
-    lmdEscSbR.Font.Color := csEscsbCor2.ColorValue;
+    gEscSbR.Max := 1;
+    gEscSbR.Position := 1;
+    lmdEscSbR.Font.Color := csEscsbCor2.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor};
 
     bsAddT1.Enabled := not(btLigar.Caption = 'Ligar');
     bsAddT5.Enabled := not(btLigar.Caption = 'Ligar');
@@ -12267,8 +12159,8 @@ begin
 
   if (fMonitorCronometroCulto <> nil) then
   begin
-    fMonitorCronometroCulto.gEscSbR.MaxValue := gEscSbR.MaxValue;
-    fMonitorCronometroCulto.gEscSbR.Value := gEscSbR.Value;
+    fMonitorCronometroCulto.gEscSbR.Max := gEscSbR.Max;
+    fMonitorCronometroCulto.gEscSbR.Position := gEscSbR.Position;
     fMonitorCronometroCulto.lmdEscSbR.Caption := lmdEscSbR.Caption;
     fMonitorCronometroCulto.lmdEscSbR.Font.Color := lmdEscSbR.Font.Color;
   end;
@@ -12299,39 +12191,8 @@ begin
 end;
 
 procedure TfmIndex.Localizar(ValorBusca: string; RichEdit: TRichMemo {LAZARUS: TbsSkinRichEdit}; recolore: boolean);
-var
-  ProcurePor: LongInt;
-  PosInicial, PosFinal: integer;
-  vPosAntiga: Integer;
 begin
-  with RichEdit do
-  begin
-    SelStart := 0;
-    SelLength := Length(Text);
-    if recolore = true then
-      SelAttributes.Color := clBlack;
-
-    vPosAntiga := SelStart;
-    SelStart := 0;
-    SelLength := 0;
-    while True do
-    begin
-      PosInicial := SelStart + SelLength;
-      PosFinal := Length(Text) - PosInicial;
-      ProcurePor := FindText(ValorBusca, PosInicial, PosFinal, []);
-      if ProcurePor < 0 then
-        Break;
-      begin
-        SelStart := ProcurePor;
-        SelLength := Length(ValorBusca);
-      end;
-      SelAttributes.Color := clRed;
-    end;
-    SelStart := vPosAntiga;
-    SelLength := 0;
-    if recolore = true then
-      SelAttributes.Color := clBlack;
-  end;
+  {LAZARUS: FindText/SelAttributes nao disponivel em TRichMemo — busca em RichEdit nao implementada}
 end;
 
 function TfmIndex.formataIntervaloNum(S: string): string;
@@ -12393,7 +12254,7 @@ var
 begin
   RichEdit.SelStart := 0;
   RichEdit.SelLength := Length(RichEdit.text);
-  RichEdit.SelAttributes.Style := [];
+  RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := [];
 
   paramtemp.lines.Clear;
 
@@ -12420,7 +12281,7 @@ begin
     iPosTAM := StrToInt(Copy(paramtemp.Lines[i], Pos(',', paramtemp.Lines[i]) + 1, Length(paramtemp.Lines[i])));
     RichEdit.SelStart := iPosINI;
     RichEdit.SelLength := iPosTAM;
-    RichEdit.SelAttributes.Style := [fsBold];
+    RichEdit.Font.Style {LAZARUS: SelAttributes.Style stub — TRichMemo usa GetTextAttributes} := [fsBold];
 //    Application.Processmessages;
   end;
 
@@ -12544,7 +12405,7 @@ begin
     begin
       DM.cdsBIBLIA_HISTORICO.CreateDataSet;
       DM.cdsBIBLIA_HISTORICO.IndexName := 'ORDER_DATAHORA';
-      DM.cdsBIBLIA_HISTORICO.LogChanges := False;
+      {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsBIBLIA_HISTORICO.LogChanges := False;)}
     end;
 
   end;
@@ -12553,17 +12414,11 @@ begin
   begin
     loadCol.Strings.Values['BIBLIA'] := 'ok';
 
-    DBCtrlGridBibliaLivro.RowCount := Trunc(DBCtrlGridBibliaLivro.ClientHeight / 75);
-    DBCtrlGridBibliaLivro.ColCount := Trunc(DBCtrlGridBibliaLivro.ClientWidth / 75);
+    {LAZARUS: DBCtrlGridBibliaLivro/Capitulo.RowCount/ColCount removidos — TScrollBox nao tem RowCount/ColCount}
 
-    DBCtrlGridBibliaCapitulo.RowCount := Trunc(DBCtrlGridBibliaCapitulo.ClientHeight / 40);
-    DBCtrlGridBibliaCapitulo.ColCount := Trunc(DBCtrlGridBibliaCapitulo.ClientWidth / 40);
+    {LAZARUS: DBCtrlGridBibliaVersiculo.RowCount/ColCount removidos — TScrollBox nao tem RowCount/ColCount}
 
-    DBCtrlGridBibliaVersiculo.RowCount := Trunc(DBCtrlGridBibliaVersiculo.ClientHeight / 80);
-    DBCtrlGridBibliaVersiculo.ColCount := 1;
-
-    DBCtrlGridBibliaHistorico.RowCount := Trunc(DBCtrlGridBibliaHistorico.ClientHeight / 90);
-    DBCtrlGridBibliaHistorico.ColCount := 1;
+    {LAZARUS: DBCtrlGridBibliaHistorico.RowCount/ColCount removidos — TScrollBox nao tem RowCount/ColCount}
 
     loadCol.Strings.Values['BIBLIA'] := 'ok';
     loadCol.Strings.Values['BIBLIA_IMG'] := '|';
@@ -12614,7 +12469,7 @@ var
   txt: string;
   Flags: Cardinal;
   vers: string;
-  ip: TIdIPWatch;
+  {ip: TIdIPWatch;} {LAZARUS: TIdIPWatch removido}
   lParams: TStringList;
   versao_atu: TStringList;
 begin
@@ -12635,11 +12490,11 @@ begin
       begin
         gravaParam('Config', 'UltimaConexao', formatdatetime('yyyy-mm-dd', Now()));
 
-        DM.progressDialog.MaxValue := StrToInt(lerParam('Config', 'Param Buffer', '100000'));
-        DM.IdHTTP1.Request.CustomHeaders.Values['Api-Token'] := api_token;
+        {LAZARUS: DM.progressDialog.MaxValue := StrToInt(lerParam('Config', 'Param Buffer', '100000')); — progressDialog removido}
+        DM.FHttp.AddHeader('Api-Token', api_token); {LAZARUS: IdHTTP1.Request.CustomHeaders → FHttp.AddHeader}
 
         try
-          LinkPag := DM.IdHTTP1.Get(url_params);
+          LinkPag := DM.FHttp.Get( {LAZARUS: IdHTTP1.Get→FHttp.Get} url_params);
           //txt := ExtraiTexto(LinkPag, '<params>', '</params>');
           txt := LinkPag;
           txt := IfThen(trim(txt) = '', '=', txt);
@@ -12651,7 +12506,7 @@ begin
         except
           Sleep(2000);
           try
-            LinkPag := DM.IdHTTP1.Get(url_params);
+            LinkPag := DM.FHttp.Get( {LAZARUS: IdHTTP1.Get→FHttp.Get} url_params);
             //txt := ExtraiTexto(LinkPag, '<params>', '</params>');
             txt := LinkPag;
             txt := IfThen(trim(txt) = '', '=', txt);
@@ -12663,7 +12518,7 @@ begin
           except
             on E: Exception do
             begin
-              txt := DM.IdDecoderMIME.DecodeString(lerParam('Config', 'Params', '='));
+              txt := DecodeStringBase64( {LAZARUS: IdDecoderMIME.DecodeString→DecodeStringBase64} lerParam('Config', 'Params', '='));
               txt := IfThen(trim(txt) = '', '=', txt);
               Param.Strings.Text := txt;
               Param.Strings.Values['internet_conexao'] := '1';
@@ -12691,23 +12546,23 @@ begin
           vers := versao_atu[0]+'.'+versao_atu[1]+'.'+versao_atu[4]+'.'+versao_atu[5];
           if (vers <> lerParam('Config', 'EnviaAcesso', '')) then
           begin
-            DM.progressDialog.Value := 0;
-            DM.progressDialog.MaxValue := StrToInt(lerParam('Config', 'Form Buffer', '200'));
+            {LAZARUS: DM.progressDialog.Value := 0; — progressDialog removido}
+            {LAZARUS: DM.progressDialog.MaxValue := StrToInt(lerParam('Config', 'Form Buffer', '200')); — progressDialog removido}
 
             try
-              ip := TIdIPWatch.Create(nil);
+              {ip := TIdIPWatch.Create(nil);} {LAZARUS: TIdIPWatch removido}
               lParams := TStringList.Create;
               lParams.Add('tipo=acesso');
               lParams.Add('versao=' + vers);
               lParams.Add('versao_exe=' + VersaoExe);
               lParams.Add('datahora=' + formatdatetime('yyyy-mm-dd hh:nn:ss', Now()));
-              lParams.Add('ip=' + ip.LocalIP);
+              lParams.Add('ip=' + '' {LAZARUS: TIdIPWatch.LocalIP removido});
               lParams.Add('dir=' + Application.ExeName);
-              lParams.Add('parametros=' + GetCommandLine);
+              lParams.Add('parametros=' + Application.ExeName {LAZARUS: GetCommandLine → Application.ExeName});
               paramtemp.Lines.Clear;
               paramtemp.Text := GetComputerNameFunc;
               lParams.Add('nome=' + trim(paramtemp.Lines[0]));
-              paramtemp.Text := DM.idHttp1.Post(Param.Strings.Values['formulario'], lParams);
+              paramtemp.Text := DM.FHttp.FormPost( {LAZARUS: idHttp1.Post→FHttp.FormPost} Param.Strings.Values['formulario'], lParams);
             except
             end;
             gravaParam('Config', 'EnviaAcesso', vers);
@@ -12741,18 +12596,21 @@ end;
 procedure TfmIndex.carrega_monitores;
 var
   i: Integer;
-  MonitorsArray: TArray<TMonitorInfo>;
+  MonitorsArray: TMonitorInfoArray; {LAZARUS: TArray<TMonitorInfo>->TMonitorInfoArray}
 begin
   MonitorsArray := lista_monitores();
-  ctrlMonitores.ColCount := ceil(fmIndex.Width / 300);
+  {LAZARUS: ctrlMonitores.ColCount removido — TScrollBox nao tem ColCount}
 
   if not DM.cdsMonitores.Active then
   begin
     DM.cdsMonitores.CreateDataSet;
-    DM.cdsMonitores.LogChanges := False;
+    {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsMonitores.LogChanges := False;)}
   end;
   DM.cdsMonitores.Open;
-  DM.cdsMonitores.EmptyDataSet;
+  {LAZARUS: EmptyDataSet removido — TBufDataset; usando First+Delete}
+  DM.cdsMonitores.First;
+  while not DM.cdsMonitores.Eof do
+    DM.cdsMonitores.Delete;
 
   for i := 0 to length(MonitorsArray)-1 do
   begin
@@ -12806,7 +12664,7 @@ begin
 
   DM.cdsVideosOnPerso.Locate('ID', id, []);
   DM.cdsVideosOnPerso.Delete;
-  stVideosOnPerso_1.Caption := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
+  stVideosOnPerso_1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(TZQuery {LAZARUS: TFDQuery}(DM.cdsVideosOnPerso),'vídeo encontrado','vídeos encontrados','Nenhum vídeo encontrado');
 
   btVidOnlPExcluir.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
   btVidOnlPCopiarLink.Enabled := ((DM.cdsVideosOnPerso.Active = true) and (DM.cdsVideosOnPerso.RecordCount > 0));
@@ -12822,7 +12680,10 @@ begin
   if FileExists(dir_dados + 'coletaneasUsuario.xml') then
     DeleteFile(dir_dados + 'coletaneasUsuario.xml');
 
-  DM.cdsCOLETANEAS_PERSO.EmptyDataSet;
+  {LAZARUS: EmptyDataSet removido; usando First+Delete}
+  DM.cdsCOLETANEAS_PERSO.First;
+  while not DM.cdsCOLETANEAS_PERSO.Eof do
+    DM.cdsCOLETANEAS_PERSO.Delete;
 
   loadCol.Strings.Values['PERSO'] := '';
   tsPersonalizadasShow(Sender);
@@ -12831,38 +12692,23 @@ begin
 end;
 
 function TfmIndex.GetComputerNameFunc: string;
-var
-  ipbuffer: string;
-  nsize: dword;
 begin
-  nsize := 255;
-  SetLength(ipbuffer, nsize);
-  if GetComputerName(pchar(ipbuffer), nsize) then
-    Result := ipbuffer;
+  {LAZARUS: GetComputerName removido — Windows API; usando GetEnvironmentVariable(HOSTNAME)}
+  Result := GetEnvironmentVariable('HOSTNAME');
+  if Result = '' then
+    Result := 'localhost';
 end;
 
 function TfmIndex.GetEnvVarValue(const VarName: string): string;
-var
-  BufSize: Integer;
 begin
-  BufSize := GetEnvironmentVariable(PChar(VarName), nil, 0);
-  if BufSize > 0 then
-  begin
-    SetLength(Result, BufSize - 1);
-    GetEnvironmentVariable(PChar(VarName), PChar(Result), BufSize);
-  end
-  else
-    Result := '';
+  {LAZARUS: GetEnvironmentVariable Windows API -> SysUtils.GetEnvironmentVariable}
+  Result := SysUtils.GetEnvironmentVariable(VarName);
 end;
 
 function TfmIndex.GetIP: string;
 begin
-  TIdStack.IncUsage;
-  try
-    Result := GStack.LocalAddress;
-  finally
-    TIdStack.DecUsage;
-  end;
+  {LAZARUS: TIdStack/GStack removidos — Indy; retornando localhost}
+  Result := '127.0.0.1';
 end;
 
 function TfmIndex.GetStrNumber(const S: string): string;
@@ -12908,10 +12754,10 @@ end;
 procedure TfmIndex.BitmapFileToPNG(const Source, Dest: string);
 var
   Bitmap: TBitmap;
-  PNG: TPNGImage;
+  PNG: TPortableNetworkGraphic; {LAZARUS: TPNGImage→TPortableNetworkGraphic}
 begin
   Bitmap := TBitmap.Create;
-  PNG := TPNGImage.Create;
+  PNG := TPortableNetworkGraphic.Create; {LAZARUS: TPNGImage→TPortableNetworkGraphic}
   {In case something goes wrong, free booth Bitmap and PNG}
   try
     Bitmap.LoadFromFile(Source);
@@ -12942,9 +12788,9 @@ begin
   RichEdit1.Lines.Clear;
   if FileExists(dir_dados+'AnotacoesLiturgia_'+IntToStr(dia_semana)+'.rtf') then
     RichEdit1.Lines.LoadFromFile(dir_dados+'AnotacoesLiturgia_'+IntToStr(dia_semana)+'.rtf');
-  RichEdit1.DefaultFont.Name := 'Tahoma';
-  fcTxtI1.FontName := RichEdit1.DefaultFont.Name;
-  seTxtITamanho1.Text := IntToStr(RichEdit1.DefaultFont.Size);
+  RichEdit1.Font.Name {LAZARUS: DefaultFont->Font} := 'Tahoma';
+  fcTxtI1.Text := RichEdit1.Font.Name {LAZARUS: DefaultFont->Font}; {LAZARUS: TbsSkinFontComboBox.Text (LAZARUS: TbsSkinFontComboBox.FontName->TComboBox.Text)->TComboBox.Text}
+  seTxtITamanho1.Text := IntToStr(RichEdit1.Font.Size {LAZARUS: DefaultFont->Font});
   RichEditEnter(RichEdit1);
 
   carregaLiturgia(dia_semana);
@@ -12952,8 +12798,8 @@ end;
 
 procedure TfmIndex.spServerClick(Sender: TObject);
 begin
-  if (trim(spServer.Caption) <> '') then
-    ShellExecute(handle, nil, PChar(spServer.Caption), nil, nil, SW_MAXIMIZE);
+  if (trim(spServer.Text {LAZARUS: TStatusPanel.Caption→.Text}) <> '') then
+    OpenURL(spServer.Text {LAZARUS: TStatusPanel.Caption→.Text}); {LAZARUS: ShellExecute→OpenURL}
 end;
 
 procedure TfmIndex.sTabSheet12Show(Sender: TObject);
@@ -13003,15 +12849,15 @@ end;
 
 procedure TfmIndex.sTabSheet16Show(Sender: TObject);
 begin
-  mmParam.Text := GetCommandLine;
+  mmParam.Text := Application.ExeName {LAZARUS: GetCommandLine → Application.ExeName};
 end;
 
 procedure TfmIndex.sTabSheet18Show(Sender: TObject);
 begin
-  DM.ADO.GetTableNames('','','',slbTabelas.Items);
+  DM.ADO.GetTableNames('', slbTabelas.Items); {LAZARUS: TZConnection.GetTableNames(Pattern,List)}
 end;
 
-function TfmIndex.verificaURL(url: string; input: TEdit {LAZARUS: TbsSkinEdit}; reverso: Boolean = False): string;
+function TfmIndex.verificaURL(url: string; input: TCustomEdit {LAZARUS: TbsSkinEdit→TCustomEdit}; reverso: Boolean = False): string;
 var
   dirCol: string;
   dirArqPart: string;
@@ -13049,6 +12895,21 @@ begin
   Result := url;
 end;
 
+function TfmIndex.verificaURL(url: string; input: TFileNameEdit {LAZARUS: TbsSkinFileEdit overload}; reverso: Boolean = False): string;
+var
+  proxy: TEdit;
+begin
+  {LAZARUS: TFileNameEdit nao herda de TCustomEdit — overload com proxy TEdit}
+  proxy := TEdit.Create(nil);
+  try
+    proxy.Text := input.Text;
+    Result := verificaURL(url, TCustomEdit(proxy), reverso);
+    input.Text := proxy.Text;
+  finally
+    proxy.Free;
+  end;
+end;
+
 procedure TfmIndex.sListView1DblClick(Sender: TObject);
 var
   item: Integer;
@@ -13070,8 +12931,8 @@ var
   item: string;
   linha: integer;
 begin
-  item := lbSorteio.Items[lbSorteio.ItemIndex].Caption;
-  if lbSorteio.Items[lbSorteio.ItemIndex].Checked = true then
+  item := lbSorteio.Items[lbSorteio.ItemIndex]; {LAZARUS: TCheckListBox — Items[] is string}
+  if lbSorteio.Checked[lbSorteio.ItemIndex] = true then {LAZARUS: .Items[].Checked→.Checked[]}
   begin
     vlSorteados.Strings.Values[item] := IntToStr(lbSorteio.ItemIndex);
     vlSorteio.FindRow(item, linha);
@@ -13697,9 +13558,8 @@ begin
         fMonitorRelogio.Close;
     end;
 
-    if (TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageList.Name = 'ico_40x40')
-      then TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex := 10
-      else TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex := 53;
+    {LAZARUS: TSpeedButton.ImageList nao existe — removido}
+    TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton}(Sender).ImageIndex := 10;
 
   end;
 
@@ -13917,7 +13777,7 @@ begin
   end;
 end;
 
-procedure TfmIndex.copiaArquivoParaSlides(url: string; cds: TClientDataSet; fechaerro: boolean; ListBox: TListBox; editor: Boolean);
+procedure TfmIndex.copiaArquivoParaSlides(url: string; cds: TBufDataset; fechaerro: boolean; ListBox: TListBox; editor: Boolean); {LAZARUS: TClientDataSet->TBufDataset}
 var
   i,slides: integer;
   slide,letra,letra_aux,tempo: string;
@@ -14001,7 +13861,7 @@ begin
       if i = 1 then
       begin
         DM.cdsSLIDE_MUSICA.FieldByName('TAMANHO_LETRA').Value := fmIndex.seTamanhoTitulo.Text;
-        DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTituloMusica.ColorValue);
+        DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTituloMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
       end
       else
       begin
@@ -14010,24 +13870,24 @@ begin
         begin
           if uCor = '' then
           begin
-            DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoRepetido.ColorValue);
+            DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoRepetido.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
             uCor := 'S';
           end
           else
           begin
-            DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ColorValue);
+            DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
             uCor := '';
           end;
         end
         else
         begin
-          DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ColorValue);
+          DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA').Value := ColorToString(fmIndex.corTextoMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
           uCor := '';
         end;
         uLetra := AnsiUpperCase(letra);
       end;
       DM.cdsSLIDE_MUSICA.FieldByName('TAMANHO_LETRA_AUX').Value := fmIndex.seTamanhoTextoAux.Text;
-      DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA_AUX').Value := ColorToString(fmIndex.corTextoRepetido.ColorValue);
+      DM.cdsSLIDE_MUSICA.FieldByName('COR_LETRA_AUX').Value := ColorToString(fmIndex.corTextoRepetido.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
     end;
 
     if (fmIndex.ckSlideImgFormatPerso.Checked and fmIndex.ckSlideFormatPersoExt.Checked and not editor) then
@@ -14040,7 +13900,7 @@ begin
       end
       else
       begin
-        DM.cdsSLIDE_MUSICA.FieldByName('COR_FUNDO').Value := ColorToString(fmIndex.corFundoMusica.ColorValue);
+        DM.cdsSLIDE_MUSICA.FieldByName('COR_FUNDO').Value := ColorToString(fmIndex.corFundoMusica.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor});
         DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM').Value := fmIndex.imgFundoMusica.Text;
         DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM_POSICAO').Value := fmIndex.posicaoFundo.ItemIndex+1;
       end;
@@ -14059,7 +13919,8 @@ begin
     fMonitorMenuMusicas.lblTitulo.Caption := fListaMusica.lblTitulo.Caption;
     fMonitorMenuMusicas.lblSubtitulo.Caption := fListaMusica.lblSubtitulo.Caption;
     fMonitorMenuMusicas.imgCapa.Picture := fListaMusica.imgCapa.Picture;
-    fMonitorMenuMusicas.DBCtrlGrid.RowCount := Trunc(fMonitorMenuMusicas.DBCtrlGrid.ClientHeight / 80);
+    {LAZARUS: DBCtrlGrid (TScrollBox) nao tem RowCount — ignorado}
+    //fMonitorMenuMusicas.DBCtrlGrid.RowCount := Trunc(fMonitorMenuMusicas.DBCtrlGrid.ClientHeight / 80);
   end;
 
 
@@ -14131,8 +13992,8 @@ begin
 
     fMonitorCronometroCulto.lmdEscSb.Caption := lmdEscSb.Caption;
     fMonitorCronometroCulto.lmdEscSbR.Caption := lmdEscSbR.Caption;
-    fMonitorCronometroCulto.gEscSbR.MaxValue := gEscSbR.MaxValue;
-    fMonitorCronometroCulto.gEscSbR.Value := gEscSbR.Value;
+    fMonitorCronometroCulto.gEscSbR.Max := gEscSbR.Max;
+    fMonitorCronometroCulto.gEscSbR.Position := gEscSbR.Position;
 
     fMonitorCronometroCulto.pnlEscSB.DoubleBuffered := pnlEscSB.DoubleBuffered;
 
@@ -14156,8 +14017,8 @@ begin
     fMonitorSorteio.lmdSorteio.Font := lmdSorteio.Font;
     fMonitorSorteio.lmdSorteio.Font.Height := Trunc((fMonitorSorteio.pnlSorteio.Height/100)*strtoint(lerParam('Sorteio', 'Tamanho', '35')));
     fMonitorSorteio.pnlSorteio.Color := pnlSorteio.Color;
-    fMonitorSorteio.pnlSorteioE.Visible := ckSorteioExp.ItemChecked[0];
-    fMonitorSorteio.pnlSorteioD.Visible := ckSorteioExp.ItemChecked[1];
+    fMonitorSorteio.pnlSorteioE.Visible := ckSorteioExp.Checked {LAZARUS: ItemChecked->Checked}[0];
+    fMonitorSorteio.pnlSorteioD.Visible := ckSorteioExp.Checked {LAZARUS: ItemChecked->Checked}[1];
 
     fMonitorSorteio.lmdSorteio.Caption := lmdSorteio.Caption;
     fMonitorSorteio.lmdSorteio.Align := lmdSorteio.Align;
@@ -14175,8 +14036,8 @@ begin
       fMonitorSorteio.lbSorteado.ItemIndex := lbSorteado.ItemIndex;
     except
     end;
-    fMonitorSorteio.gSorteio.MaxValue := gSorteio.MaxValue;
-    fMonitorSorteio.gSorteio.Value := gSorteio.Value;
+    fMonitorSorteio.gSorteio.Max := gSorteio.Max;
+    fMonitorSorteio.gSorteio.Position := gSorteio.Position;
 
     fMonitorSorteio.pnlSorteio.DoubleBuffered := pnlSorteio.DoubleBuffered;
 
@@ -14199,8 +14060,8 @@ begin
     fMonitorSorteioNomes.lmdSorteioNM.Font := lmdSorteioNM.Font;
     fMonitorSorteioNomes.lmdSorteioNM.Font.Height := Trunc((fMonitorSorteioNomes.pnlSorteioNM.Height/100)*strtoint(lerParam('Sorteio Nomes', 'Tamanho', '15')));
     fMonitorSorteioNomes.pnlSorteioNM.Color := pnlSorteioNM.Color;
-    fMonitorSorteioNomes.pnlSorteioNME.Visible := ckSorteioExpNM.ItemChecked[0];
-    fMonitorSorteioNomes.pnlSorteioNMD.Visible := ckSorteioExpNM.ItemChecked[1];
+    fMonitorSorteioNomes.pnlSorteioNME.Visible := ckSorteioExpNM.Checked {LAZARUS: ItemChecked->Checked}[0];
+    fMonitorSorteioNomes.pnlSorteioNMD.Visible := ckSorteioExpNM.Checked {LAZARUS: ItemChecked->Checked}[1];
 
     fMonitorSorteioNomes.lmdSorteioNM.Caption := lmdSorteioNM.Caption;
     fMonitorSorteioNomes.lmdSorteioNM.Align := lmdSorteioNM.Align;
@@ -14218,8 +14079,8 @@ begin
       fMonitorSorteioNomes.lbSorteadoNM.ItemIndex := lbSorteadoNM.ItemIndex;
     except
     end;
-    fMonitorSorteioNomes.gSorteioNM.MaxValue := gSorteioNM.MaxValue;
-    fMonitorSorteioNomes.gSorteioNM.Value := gSorteioNM.Value;
+    fMonitorSorteioNomes.gSorteioNM.Max {LAZARUS: TProgressBar.MaxValue->Max} := gSorteioNM.Max {LAZARUS: TProgressBar.MaxValue->Max};
+    fMonitorSorteioNomes.gSorteioNM.Position := gSorteioNM.Position;
 
     fMonitorSorteioNomes.pnlSorteioNM.DoubleBuffered := pnlSorteioNM.DoubleBuffered;
 
@@ -14243,7 +14104,7 @@ begin
     fMonitorCronometro.lmdCrono.Font := lmdCrono.Font;
     fMonitorCronometro.lmdCrono.Font.Height := Trunc((fMonitorCronometro.pnlCrono.Height/100)*strtoint(lerParam('Cronometro', 'Tamanho', '22')));
     fMonitorCronometro.pnlCrono.Color := pnlCrono.Color;
-    fMonitorCronometro.pnlTempoGravado.Visible := cbCronoEl.ItemChecked[0];
+    fMonitorCronometro.pnlTempoGravado.Visible := cbCronoEl.Checked {LAZARUS: ItemChecked->Checked}[0];
 
     fMonitorCronometro.lmdCrono.Caption := lmdCrono.Caption;
     fMonitorCronometro.lmdCrono.Align := lmdCrono.Align;
@@ -14252,8 +14113,8 @@ begin
       else fMonitorCronometro.lmdCrono.Height := Trunc(fMonitorCronometro.pnlCrono.Height/2);
 
     fMonitorCronometro.lbCrono.Items := lbCrono.Items;
-    fMonitorCronometro.gCrono.MaxValue := gCrono.MaxValue;
-    fMonitorCronometro.gCrono.Value := gCrono.Value;
+    fMonitorCronometro.gCrono.Max := gCrono.Max;
+    fMonitorCronometro.gCrono.Position := gCrono.Position;
 
     fMonitorCronometro.pnlCrono.DoubleBuffered := pnlCrono.DoubleBuffered;
 
@@ -14407,7 +14268,7 @@ begin
           arquivo.writeString('Geral', 'audio', '1');
 
           try
-            BASS_Init(-1, 44100, 0, Handle, nil);
+            BASS_Init(-1, 44100, 0, nil, nil) {LAZARUS: Handle→nil (Linux BASS_Init)};
           except
             //
           end;
@@ -14518,7 +14379,7 @@ begin
 end;
 
 procedure TfmIndex.copiaTextoParaSlides(texto: string;
-  cds: TClientDataSet);
+  cds: TBufDataset); {LAZARUS: TClientDataSet->TBufDataset}
 var
   linhas: TStringList;
   i,qt_lin,pos: Integer;
@@ -14536,7 +14397,8 @@ begin
   if not cds.Active then
   begin
     cds.CreateDataSet;
-    cds.LogChanges := False;
+    {LAZARUS: TBufDataset nao tem LogChanges — ignorado}
+    //cds.LogChanges := False;
   end;
 
   pos := 1;
@@ -14615,7 +14477,7 @@ end;
 
 function TfmIndex.monitorInfo(index: integer): TMonitorInfo;
 var
-  MonitorsArray: TArray<TMonitorInfo>;
+  MonitorsArray: TMonitorInfoArray; {LAZARUS: TArray<TMonitorInfo>->TMonitorInfoArray}
 begin
   MonitorsArray := lista_monitores();
   result := MonitorsArray[index];
@@ -14719,7 +14581,7 @@ var
   info: TEdit {LAZARUS: TbsSkinEdit};
   arq,dir: string;
 begin
-  data := MonthCalendar1.Date;
+  data := EncodeDate(StrToInt(Copy(MonthCalendar1.Date,1,4)), StrToInt(Copy(MonthCalendar1.Date,6,2)), StrToInt(Copy(MonthCalendar1.Date,9,2))); {LAZARUS: TCalendar.Date returns 'YYYY-MM-DD'}
   if (DM.cdsItensAgendados.Locate('CATEGORIA;DATA', VarArrayOf([txtCategoria.Text,data]), [])) then
   begin
     fIniciando.AppCreateForm(TfItensAgendados, fItensAgendados);
@@ -14759,7 +14621,7 @@ begin
   SetLength(dias, 0);
 
   DM.cdsItensAgendadosClone.Filtered := True;
-  DM.cdsItensAgendadosClone.Filter := 'CATEGORIA = '''+txtCategoria.Text+''' AND MONTH(DATA) = '+inttostr(Month)+' AND YEAR(DATA) = '+IntToStr(YearOf(MonthCalendar1.Date));
+  DM.cdsItensAgendadosClone.Filter := 'CATEGORIA = '''+txtCategoria.Text+''' AND MONTH(DATA) = '+inttostr(Month)+' AND YEAR(DATA) = '+IntToStr(StrToIntDef(Copy(MonthCalendar1.Date,1,4), YearOf(Now)) {LAZARUS: TCalendar.Date returns 'YYYY-MM-DD'});
 //  DM.cdsItensAgendadosClone.Filter := 'CATEGORIA = '''+txtCategoria.Text+''' AND MONTH(DATA) = '+inttostr(Month)+' AND YEAR(DATA) = '+IntToStr(YearOf(now()));
   if DM.cdsItensAgendadosClone.RecordCount > 0 then
   begin
@@ -14774,7 +14636,8 @@ begin
       DM.cdsItensAgendadosClone.Next;
     end;
 
-    MonthCalendar1.BoldDays(dias, MonthBoldInfo);
+    {LAZARUS: TCalendar.BoldDays nao existe no LCL — ignorado}
+    //MonthCalendar1.BoldDays(dias, MonthBoldInfo);
   end;
 end;
 
@@ -14803,32 +14666,22 @@ begin
         if (PtInRect(Rct, Pt)) and (ScrollBox.Parent.Visible) then
         begin
           if Direction = 'Up' then
-            ScrollBox.VScrollBar.Position := ScrollBox.VScrollBar.Position - 10
-          else
-            ScrollBox.VScrollBar.Position := ScrollBox.VScrollBar.Position + 10;
+            {LAZARUS: ScrollBox.VScrollBar.Position removido}
         end;
       end
-      else if Components[i].ClassType = TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL} then
+      {LAZARUS: TDBCtrlGrid (TScrollBox) nao tem DataSource — bloco comentado}
+      (*else if Components[i].ClassType = TScrollBox then
       begin
-        DBCtrlGrid := TScrollBox {LAZARUS: TDBCtrlGrid sem equiv LCL}(Components[i]);
+        DBCtrlGrid := TScrollBox(Components[i]);
         GetWindowRect(DBCtrlGrid.Handle, Rct);
         if (PtInRect(Rct, Pt)) and (DBCtrlGrid.Parent.Visible) then
         begin
           SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0,@Delta, 0);
           if not(PtInRect(DBCtrlGrid.ClientRect, DBCtrlGrid.ScreenToClient(MousePos)))
             then Exit;
-          if not Assigned(DBCtrlGrid.DataSource)
-            then Exit;
-          if DBCtrlGrid.DataSource.DataSet = nil
-            then Exit;
-          if not DBCtrlGrid.DataSource.DataSet.Active
-            then Exit;
-          if Direction = 'Up' then
-            DBCtrlGrid.DataSource.DataSet.moveby(Delta*-1)
-          else
-            DBCtrlGrid.DataSource.DataSet.moveby(Delta);
+          DBCtrlGrid.DataSource.DataSet.moveby(Delta);
         end;
-      end;
+      end*);
            (*
       else
       if fmIndex.Components[i].ClassType = TPageControl {LAZARUS: TbsRibbon} then
@@ -14853,53 +14706,36 @@ begin
   end;
 end;
 
+{LAZARUS: WMGetMinmaxInfo removido — Windows message handler nao disponivel no LCL}
+(*
 procedure TfmIndex.WMGetMinmaxInfo(var Msg: TWMGetMinmaxInfo);
-var
-  R: TRect;
-  P_TL: TPoint;
+var R: TRect; P_TL: TPoint;
 begin
   inherited;
-
-   // Obtem o retangulo com a area livre do desktop
   SystemParametersInfo(SPI_GETWORKAREA, SizeOf(R), @R, 0);
-
   P_TL := R.TopLeft;
-//  P_TL.Y := P_TL.Y+0;
   Msg.MinMaxInfo^.ptMaxPosition := P_TL;
   OffsetRect(R, -R.Left, -R.Top);
   Msg.MinMaxInfo^.ptMaxSize := R.BottomRight;
 end;
+*)
 
+{LAZARUS: WMNCHitTest removido — Windows message handler nao disponivel no LCL}
+(*
 procedure TfmIndex.WMNCHitTest(var Msg: TWMNCHitTest);
-var
-  ScreenPt: TPoint;
+var ScreenPt: TPoint;
 begin
-  //inherited;
   ScreenPt := ScreenToClient(Point(Msg.Xpos, Msg.Ypos));
-  if (ScreenPt.x < 5) then
-    Msg.Result := HTLEFT
-    // top side
-  else if (ScreenPt.y < 5) then
-    Msg.Result := HTTOP
-    // right side
-  else if (ScreenPt.x >= Width - 5) then
-    Msg.Result := HTRIGHT
-    // bottom side
-  else if (ScreenPt.y >= Height - 5) then
-    Msg.Result := HTBOTTOM
-    // top left corner
-  else if (ScreenPt.x < 5) and (ScreenPt.y < 5) then
-    Msg.Result := HTTOPLEFT
-    // bottom left corner
-  else if (ScreenPt.x < 5) and (ScreenPt.y >= Height - 5) then
-    Msg.Result := HTBOTTOMLEFT
-    // top right corner
-  else if (ScreenPt.x >= Width - 5) and (ScreenPt.y < 5) then
-    Msg.Result := HTTOPRIGHT
-    // bottom right corner
-  else if (ScreenPt.x >= Width - 5) and (ScreenPt.y >= Height - 5) then
-    Msg.Result := HTBOTTOMRIGHT
+  if (ScreenPt.x < 5) then Msg.Result := HTLEFT
+  else if (ScreenPt.y < 5) then Msg.Result := HTTOP
+  else if (ScreenPt.x >= Width - 5) then Msg.Result := HTRIGHT
+  else if (ScreenPt.y >= Height - 5) then Msg.Result := HTBOTTOM
+  else if (ScreenPt.x < 5) and (ScreenPt.y < 5) then Msg.Result := HTTOPLEFT
+  else if (ScreenPt.x < 5) and (ScreenPt.y >= Height - 5) then Msg.Result := HTBOTTOMLEFT
+  else if (ScreenPt.x >= Width - 5) and (ScreenPt.y < 5) then Msg.Result := HTTOPRIGHT
+  else if (ScreenPt.x >= Width - 5) and (ScreenPt.y >= Height - 5) then Msg.Result := HTBOTTOMRIGHT
 end;
+*)
 
 procedure TfmIndex.btOpcResetClick(Sender: TObject);
 var
@@ -14912,16 +14748,14 @@ begin
   begin
     application.MessageBox('O administrador do sistema bloqueou o acesso à este recurso! Para continuar, será necessário colocar a senha de acesso!', titulo, mb_ok + MB_ICONINFORMATION);
 
-    DM.pwd.Password := '';
-    DM.pwd.Execute;
-
-    if (DM.pwd.Password = '') then
+    {LAZARUS: DM.pwd (TbsSkinPasswordDialog) substituido por InputQuery}
+    if not InputQuery(titulo, 'Digite a senha de acesso:', pwd) or (pwd = '') then
     begin
       TSpeedButton {LAZARUS: TbsSkinSpeedButton}(Sender).Down := False;
       exit;
     end;
 
-    if (DM.pwd.Password = pwd)
+    if (pwd = lerParam('Senha', 'Formatacao', ''))
       then pwd := '';
   end;
 
@@ -15053,102 +14887,102 @@ begin
   tag := TColorButton {LAZARUS: TbsSkinColorButton}(Sender).tag;
   if (tag = 1) then
   begin
-    gravaParam('Biblia', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Biblia', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 12) then
   begin
-    gravaParam('Biblia', 'Cor Passagem', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Biblia', 'Cor Passagem', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 19) then
   begin
-    gravaParam('Biblia', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Biblia', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 2) then
   begin
-    gravaParam('Busca Biblica', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Busca Biblica', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 22) then
   begin
-    gravaParam('Busca Biblica', 'Cor Passagem', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Busca Biblica', 'Cor Passagem', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 29) then
   begin
-    gravaParam('Busca Biblica', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Busca Biblica', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 3) then
   begin
-    gravaParam('Escola Sabatina', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('ES');
   end
   else if (tag = 32) then
   begin
-    gravaParam('Escola Sabatina', 'Cor 2', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor 2', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('ES');
   end
   else if (tag = 33) then
   begin
-    gravaParam('Escola Sabatina', 'Cor 3', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor 3', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('ES');
   end
   else if (tag = 39) then
   begin
-    gravaParam('Escola Sabatina', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Escola Sabatina', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('ES');
   end
   else if (tag = 4) then
   begin
-    gravaParam('Sorteio', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Sorteio', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 49) then
   begin
-    gravaParam('Sorteio', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Sorteio', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 5) then
   begin
-    gravaParam('Cronometro', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Cronometro', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 59) then
   begin
-    gravaParam('Cronometro', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Cronometro', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 6) then
   begin
-    gravaParam('Sorteio Nomes', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Sorteio Nomes', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 69) then
   begin
-    gravaParam('Sorteio Nomes', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Sorteio Nomes', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 7) then
   begin
-    gravaParam('Painel Dinamico', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Painel Dinamico', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 79) then
   begin
-    gravaParam('Painel Dinamico', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Painel Dinamico', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 9) then
   begin
-    gravaParam('Relogio', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Relogio', 'Cor', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('RELOGIO');
   end
   else if (tag = 99) then
   begin
-    gravaParam('Relogio', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ColorValue));
+    gravaParam('Relogio', 'Cor Fundo', ColorToString(TColorButton {LAZARUS: TbsSkinColorButton}(Sender).ButtonColor {LAZARUS: ColorValue->ButtonColor}));
     carregaConfiguracoes('RELOGIO');
   end;
 end;
@@ -15169,7 +15003,7 @@ begin
   end;
 
   DBCtrlGridBibliaBusca.Refresh;
-  DBCtrlGridBibliaBuscaPaintPanel(DBCtrlGridBibliaBusca,0, nil, Rect(1, 1, DBCtrlGridBibliaBusca.PanelWidth-2, DBCtrlGridBibliaBusca.PanelHeight-2));
+  DBCtrlGridBibliaBuscaPaintPanel(DBCtrlGridBibliaBusca,0, nil, Rect(1, 1, DBCtrlGridBibliaBusca.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGridBibliaBusca.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2));
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaBuscaPaintPanel(
@@ -15178,22 +15012,22 @@ var
   R: TRect;
 begin
   try
-    R:= Rect(1, 1, DBCtrlGrid.PanelWidth-2, DBCtrlGrid.PanelHeight-2);
+    R:= Rect(1, 1, DBCtrlGrid.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGrid.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2);
 
-    if (loadCol.Strings.Values['BIBLIA_BUSCA_INFO'] = DBCtrlGrid.DataSource.DataSet.FieldByName('DESC_PASSAGEM2').AsString) then
+    if (loadCol.Strings.Values['BIBLIA_BUSCA_INFO'] = DM.qrBIBLIA_BUSCA {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('DESC_PASSAGEM2').AsString) then
     begin
       txtBibliaBusca.Font.Color := $002E2E2E;
-      txtBibliaBusca.DefaultFont.Color := $002E2E2E;
+      txtBibliaBusca.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       txtBibliaBuscaPassagem.Font.Color := $002E2E2E;
-      txtBibliaBuscaPassagem.DefaultFont.Color := $002E2E2E;
+      txtBibliaBuscaPassagem.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       DBCtrlGrid.Canvas.Brush.Color := clWhite;
     end
     else
     begin
       txtBibliaBusca.Font.Color := clWhite;
-      txtBibliaBusca.DefaultFont.Color := clWhite;
+      txtBibliaBusca.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       txtBibliaBuscaPassagem.Font.Color := clWhite;
-      txtBibliaBuscaPassagem.DefaultFont.Color := clWhite;
+      txtBibliaBuscaPassagem.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       DBCtrlGrid.Canvas.Brush.Color := $00282828;
     end;
 
@@ -15209,20 +15043,20 @@ end;
 procedure TfmIndex.DBCtrlGridBibliaCapituloClick(Sender: TObject);
 begin
   if (loadCol.Strings.Values['BIBLIA_LIVRO'] = loadCol.Strings.Values['BIBLIA_P_LIVRO']) and
-     (DBCtrlGridBibliaCapitulo.DataSource.DataSet.FieldByName('CAPITULO').AsString = loadCol.Strings.Values['BIBLIA_P_CAPITULO']) then
+     (DM.qrBIBLIA_CAPITULOS {LAZARUS: DBCtrlGridBibliaCapitulo.DataSource.DataSet}.FieldByName('CAPITULO').AsString = loadCol.Strings.Values['BIBLIA_P_CAPITULO']) then
   begin
     loadCol.Strings.Values['BIBLIA_VERSICULO'] := loadCol.Strings.Values['BIBLIA_P_VERSICULO'];
   end
-  else if (loadCol.Strings.Values['BIBLIA_CAPITULO'] <> DBCtrlGridBibliaCapitulo.DataSource.DataSet.FieldByName('CAPITULO').AsString) then
+  else if (loadCol.Strings.Values['BIBLIA_CAPITULO'] <> DM.qrBIBLIA_CAPITULOS {LAZARUS: DBCtrlGridBibliaCapitulo.DataSource.DataSet}.FieldByName('CAPITULO').AsString) then
   begin
     loadCol.Strings.Values['BIBLIA_VERSICULO'] := '1';
   end;
 
-  loadCol.Strings.Values['BIBLIA_CAPITULO'] := DBCtrlGridBibliaCapitulo.DataSource.DataSet.FieldByName('CAPITULO').AsString;
+  loadCol.Strings.Values['BIBLIA_CAPITULO'] := DM.qrBIBLIA_CAPITULOS {LAZARUS: DBCtrlGridBibliaCapitulo.DataSource.DataSet}.FieldByName('CAPITULO').AsString;
   if (loadCol.Strings.Values['BIBLIA_CAPITULO'] <> '') then
     busBibliaCapitulo.ItemIndex := StrToInt(loadCol.Strings.Values['BIBLIA_CAPITULO'])-1;
   DBCtrlGridBibliaCapitulo.Refresh;
-  DBCtrlGridBibliaCapituloPaintPanel(DBCtrlGridBibliaCapitulo,StrToInt('0'+loadCol.Strings.Values['BIBLIA_CAPITULO']),nil,Rect(1, 1, DBCtrlGridBibliaCapitulo.PanelWidth-2, DBCtrlGridBibliaCapitulo.PanelHeight-2));
+  DBCtrlGridBibliaCapituloPaintPanel(DBCtrlGridBibliaCapitulo,StrToInt('0'+loadCol.Strings.Values['BIBLIA_CAPITULO']),nil,Rect(1, 1, DBCtrlGridBibliaCapitulo.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGridBibliaCapitulo.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2));
 
   carregaBiblia('VSC');
 end;
@@ -15233,18 +15067,18 @@ var
   R: TRect;
 begin
   try
-    R:= Rect(1, 1, DBCtrlGrid.PanelWidth-2, DBCtrlGrid.PanelHeight-2);
+    R:= Rect(1, 1, DBCtrlGrid.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGrid.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2);
 
-    if (StrToInt('0'+loadCol.Strings.Values['BIBLIA_CAPITULO']) = DBCtrlGrid.DataSource.DataSet.FieldByName('CAPITULO').AsInteger) then
+    if (StrToInt('0'+loadCol.Strings.Values['BIBLIA_CAPITULO']) = DM.qrBIBLIA_CAPITULOS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('CAPITULO').AsInteger) then
     begin
       txtdbBibliaCapitulo.Font.Color := $002E2E2E;
-      txtdbBibliaCapitulo.DefaultFont.Color := $002E2E2E;
+      txtdbBibliaCapitulo.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       DBCtrlGrid.Canvas.Brush.Color := clWhite;
     end
     else
     begin
       txtdbBibliaCapitulo.Font.Color := clWhite;
-      txtdbBibliaCapitulo.DefaultFont.Color := clWhite;
+      txtdbBibliaCapitulo.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       DBCtrlGrid.Canvas.Brush.Color := $00000070;
     end;
 
@@ -15262,10 +15096,10 @@ var
   key : Char;
   BIBLIA_VERSAO,BIBLIA_LIVRO,BIBLIA_CAPITULO,BIBLIA_VERSICULO: string;
 begin
-  BIBLIA_VERSAO := DBCtrlGridBibliaHistorico.DataSource.DataSet.FieldByName('VERSAO').AsString;
-  BIBLIA_LIVRO := DBCtrlGridBibliaHistorico.DataSource.DataSet.FieldByName('LIVRO').AsString;
-  BIBLIA_CAPITULO := DBCtrlGridBibliaHistorico.DataSource.DataSet.FieldByName('CAPITULO').AsString;
-  BIBLIA_VERSICULO := DBCtrlGridBibliaHistorico.DataSource.DataSet.FieldByName('VERSICULO').AsString;
+  BIBLIA_VERSAO := DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGridBibliaHistorico.DataSource.DataSet}.FieldByName('VERSAO').AsString;
+  BIBLIA_LIVRO := DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGridBibliaHistorico.DataSource.DataSet}.FieldByName('LIVRO').AsString;
+  BIBLIA_CAPITULO := DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGridBibliaHistorico.DataSource.DataSet}.FieldByName('CAPITULO').AsString;
+  BIBLIA_VERSICULO := DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGridBibliaHistorico.DataSource.DataSet}.FieldByName('VERSICULO').AsString;
 
   if trim(BIBLIA_VERSAO) = '' then Exit;
 
@@ -15285,7 +15119,7 @@ begin
   busBibliaVersiculo.Text := '';
 
   DBCtrlGridBibliaHistorico.Refresh;
-  DBCtrlGridBibliaHistoricoPaintPanel(DBCtrlGridBibliaHistorico,0,nil,Rect(1, 1, DBCtrlGridBibliaHistorico.PanelWidth-2, DBCtrlGridBibliaHistorico.PanelHeight-2));
+  DBCtrlGridBibliaHistoricoPaintPanel(DBCtrlGridBibliaHistorico,0,nil,Rect(1, 1, DBCtrlGridBibliaHistorico.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGridBibliaHistorico.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2));
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaHistoricoPaintPanel(
@@ -15294,25 +15128,25 @@ var
   R: TRect;
 begin
   try
-    R:= Rect(1, 1, DBCtrlGrid.PanelWidth-2, DBCtrlGrid.PanelHeight-2);
+    R:= Rect(1, 1, DBCtrlGrid.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGrid.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2);
 
-    if (loadCol.Strings.Values['BIBLIA_P_VERSICULO'] = DBCtrlGrid.DataSource.DataSet.FieldByName('VERSICULO').AsString) and
-       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_CAPITULO']) = DBCtrlGrid.DataSource.DataSet.FieldByName('CAPITULO').AsInteger) and
-       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_LIVRO']) = DBCtrlGrid.DataSource.DataSet.FieldByName('LIVRO').AsInteger) and
-       (loadCol.Strings.Values['BIBLIA_P_VERSAO'] = DBCtrlGrid.DataSource.DataSet.FieldByName('VERSAO').AsString) then
+    if (loadCol.Strings.Values['BIBLIA_P_VERSICULO'] = DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('VERSICULO').AsString) and
+       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_CAPITULO']) = DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('CAPITULO').AsInteger) and
+       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_LIVRO']) = DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('LIVRO').AsInteger) and
+       (loadCol.Strings.Values['BIBLIA_P_VERSAO'] = DM.cdsBIBLIA_HISTORICO {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('VERSAO').AsString) then
     begin
       txtBibliaHistorico.Font.Color := $002E2E2E;
-      txtBibliaHistorico.DefaultFont.Color := $002E2E2E;
+      txtBibliaHistorico.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       txtBibliaHistoricoPassagem.Font.Color := $002E2E2E;
-      txtBibliaHistoricoPassagem.DefaultFont.Color := $002E2E2E;
+      txtBibliaHistoricoPassagem.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       DBCtrlGrid.Canvas.Brush.Color := clWhite;
     end
     else
     begin
       txtBibliaHistorico.Font.Color := clWhite;
-      txtBibliaHistorico.DefaultFont.Color := clWhite;
+      txtBibliaHistorico.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       txtBibliaHistoricoPassagem.Font.Color := clWhite;
-      txtBibliaHistoricoPassagem.DefaultFont.Color := clWhite;
+      txtBibliaHistoricoPassagem.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       DBCtrlGrid.Canvas.Brush.Color := $002E2E2E;
     end;
 
@@ -15327,23 +15161,23 @@ end;
 
 procedure TfmIndex.DBCtrlGridBibliaLivroClick(Sender: TObject);
 begin
-  if (DBCtrlGridBibliaLivro.DataSource.DataSet.FieldByName('ID').AsString = loadCol.Strings.Values['BIBLIA_P_LIVRO']) then
+  if (DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGridBibliaLivro.DataSource.DataSet}.FieldByName('ID').AsString = loadCol.Strings.Values['BIBLIA_P_LIVRO']) then
   begin
     loadCol.Strings.Values['BIBLIA_CAPITULO'] := loadCol.Strings.Values['BIBLIA_P_CAPITULO'];
     loadCol.Strings.Values['BIBLIA_VERSICULO'] := loadCol.Strings.Values['BIBLIA_P_VERSICULO'];
   end
-  else if (loadCol.Strings.Values['BIBLIA_LIVRO'] <> DBCtrlGridBibliaLivro.DataSource.DataSet.FieldByName('ID').AsString) then
+  else if (loadCol.Strings.Values['BIBLIA_LIVRO'] <> DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGridBibliaLivro.DataSource.DataSet}.FieldByName('ID').AsString) then
   begin
     loadCol.Strings.Values['BIBLIA_CAPITULO'] := '1';
     loadCol.Strings.Values['BIBLIA_VERSICULO'] := '1';
   end;
 
-  loadCol.Strings.Values['BIBLIA_LIVRO'] := DBCtrlGridBibliaLivro.DataSource.DataSet.FieldByName('ID').AsString;
-  loadCol.Strings.Values['BIBLIA_LIVRO_SIGLA'] := DBCtrlGridBibliaLivro.DataSource.DataSet.FieldByName('SIGLA').AsString;
-  loadCol.Strings.Values['BIBLIA_LIVRO_NOME'] := DBCtrlGridBibliaLivro.DataSource.DataSet.FieldByName('LIVRO').AsString;
+  loadCol.Strings.Values['BIBLIA_LIVRO'] := DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGridBibliaLivro.DataSource.DataSet}.FieldByName('ID').AsString;
+  loadCol.Strings.Values['BIBLIA_LIVRO_SIGLA'] := DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGridBibliaLivro.DataSource.DataSet}.FieldByName('SIGLA').AsString;
+  loadCol.Strings.Values['BIBLIA_LIVRO_NOME'] := DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGridBibliaLivro.DataSource.DataSet}.FieldByName('LIVRO').AsString;
   busBibliaLivro.ItemIndex := StrToInt(loadCol.Strings.Values['BIBLIA_LIVRO'])-1;
   DBCtrlGridBibliaLivro.Refresh;
-  DBCtrlGridBibliaLivroPaintPanel(DBCtrlGridBibliaLivro,StrToInt('0'+loadCol.Strings.Values['BIBLIA_LIVRO']),nil,Rect(1, 1,DBCtrlGridBibliaLivro.PanelWidth-2, DBCtrlGridBibliaLivro.PanelHeight-2));
+  DBCtrlGridBibliaLivroPaintPanel(DBCtrlGridBibliaLivro,StrToInt('0'+loadCol.Strings.Values['BIBLIA_LIVRO']),nil,Rect(1, 1,DBCtrlGridBibliaLivro.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGridBibliaLivro.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2));
 
   carregaBiblia('CAP');
   DM.qrBIBLIA_CAPITULOS.Locate('CAPITULO',loadCol.Strings.Values['BIBLIA_CAPITULO'],[]);
@@ -15356,29 +15190,29 @@ var
   R: TRect;
 begin
   try
-    R:= Rect(1, 1, DBCtrlGrid.PanelWidth-2, DBCtrlGrid.PanelHeight-2);
+    R:= Rect(1, 1, DBCtrlGrid.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGrid.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2);
 
-    txtdbBibliaLivroNm.Visible := (DBCtrlGrid.DataSource.DataSet.FieldByName('SIGLA_N').AsString <> '');
-    if (StrToInt('0'+loadCol.Strings.Values['BIBLIA_LIVRO']) = DBCtrlGrid.DataSource.DataSet.FieldByName('ID').AsInteger) then
+    txtdbBibliaLivroNm.Visible := (DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('SIGLA_N').AsString <> '');
+    if (StrToInt('0'+loadCol.Strings.Values['BIBLIA_LIVRO']) = DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('ID').AsInteger) then
     begin
       txtdbBibliaLivroSg.Font.Color := $002E2E2E;
-      txtdbBibliaLivroSg.DefaultFont.Color := $002E2E2E;
+      txtdbBibliaLivroSg.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       txtdbBibliaLivro.Font.Color := $002E2E2E;
-      txtdbBibliaLivro.DefaultFont.Color := $002E2E2E;
+      txtdbBibliaLivro.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       txtdbBibliaLivroNm.Font.Color := $002E2E2E;
-      txtdbBibliaLivroNm.DefaultFont.Color := $002E2E2E;
+      txtdbBibliaLivroNm.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       DBCtrlGrid.Canvas.Brush.Color := clWhite;
     end
     else
     begin
-      DBCtrlGrid.Canvas.Brush.Color := StringToColor(DBCtrlGrid.DataSource.DataSet.FieldByName('COR').AsString);
+      DBCtrlGrid.Canvas.Brush.Color := StringToColor(DM.qrBIBLIA_LIVROS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('COR').AsString);
 
       txtdbBibliaLivroSg.Font.Color := clWhite;
-      txtdbBibliaLivroSg.DefaultFont.Color := clWhite;
+      txtdbBibliaLivroSg.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       txtdbBibliaLivro.Font.Color := clWhite;
-      txtdbBibliaLivro.DefaultFont.Color := clWhite;
+      txtdbBibliaLivro.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       txtdbBibliaLivroNm.Font.Color := clWhite;
-      txtdbBibliaLivroNm.DefaultFont.Color := clWhite;
+      txtdbBibliaLivroNm.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
     end;
 
     DBCtrlGridBibliaLivro_pnl.Color := DBCtrlGrid.Canvas.Brush.Color;
@@ -15392,7 +15226,7 @@ end;
 
 procedure TfmIndex.DBCtrlGridBibliaVersiculoClick(Sender: TObject);
 begin
-  loadCol.Strings.Values['BIBLIA_VERSICULO'] := DBCtrlGridBibliaVersiculo.DataSource.DataSet.FieldByName('VERSICULO').AsString;
+  loadCol.Strings.Values['BIBLIA_VERSICULO'] := DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.FieldByName('VERSICULO').AsString;
 
   loadCol.Strings.Values['BIBLIA_P_VERSAO'] := loadCol.Strings.Values['BIBLIA_VERSAO'];
   loadCol.Strings.Values['BIBLIA_P_LIVRO'] := loadCol.Strings.Values['BIBLIA_LIVRO'];
@@ -15401,7 +15235,7 @@ begin
   loadCol.Strings.Values['BIBLIA_P_CAPITULO'] := loadCol.Strings.Values['BIBLIA_CAPITULO'];
   loadCol.Strings.Values['BIBLIA_P_VERSICULO'] := loadCol.Strings.Values['BIBLIA_VERSICULO'];
 
-  lmdBibliaTxt.Caption := '"'+removeTagsHTML(DBCtrlGridBibliaVersiculo.DataSource.DataSet.FieldByName('PASSAGEM_ORI').AsString)+'"';
+  lmdBibliaTxt.Caption := '"'+removeTagsHTML(DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.FieldByName('PASSAGEM_ORI').AsString)+'"';
   lmdBibliaInfo.Caption := loadCol.Strings.Values['BIBLIA_P_LIVRO_NOME']+' '+loadCol.Strings.Values['BIBLIA_P_CAPITULO']+':'+loadCol.Strings.Values['BIBLIA_P_VERSICULO']+' ('+loadCol.Strings.Values['BIBLIA_P_VERSAO']+')';
   if (fTransmitir.btServidor.ImageIndex <> 8) then
   begin
@@ -15432,13 +15266,13 @@ begin
   DM.cdsBIBLIA_HISTORICO.FieldByName('LIVRO').Value := loadCol.Strings.Values['BIBLIA_P_LIVRO'];
   DM.cdsBIBLIA_HISTORICO.FieldByName('CAPITULO').Value := loadCol.Strings.Values['BIBLIA_P_CAPITULO'];
   DM.cdsBIBLIA_HISTORICO.FieldByName('VERSICULO').Value := loadCol.Strings.Values['BIBLIA_P_VERSICULO'];
-  DM.cdsBIBLIA_HISTORICO.FieldByName('PASSAGEM').Value := DBCtrlGridBibliaVersiculo.DataSource.DataSet.FieldByName('PASSAGEM_ORI').AsString;
+  DM.cdsBIBLIA_HISTORICO.FieldByName('PASSAGEM').Value := DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGridBibliaVersiculo.DataSource.DataSet}.FieldByName('PASSAGEM_ORI').AsString;
   DM.cdsBIBLIA_HISTORICO.FieldByName('DESC_PASSAGEM').Value := loadCol.Strings.Values['BIBLIA_P_LIVRO_SIGLA']+'. '+loadCol.Strings.Values['BIBLIA_P_CAPITULO']+':'+loadCol.Strings.Values['BIBLIA_P_VERSICULO']+' ('+loadCol.Strings.Values['BIBLIA_P_VERSAO']+')';
   DM.cdsBIBLIA_HISTORICO.Post;
 
 
   DBCtrlGridBibliaVersiculo.Refresh;
-  DBCtrlGridBibliaVersiculoPaintPanel(DBCtrlGridBibliaVersiculo,StrToInt('0'+loadCol.Strings.Values['BIBLIA_VERSICULO']),nil,Rect(1, 1, DBCtrlGridBibliaVersiculo.PanelWidth-2, DBCtrlGridBibliaVersiculo.PanelHeight-2));
+  DBCtrlGridBibliaVersiculoPaintPanel(DBCtrlGridBibliaVersiculo,StrToInt('0'+loadCol.Strings.Values['BIBLIA_VERSICULO']),nil,Rect(1, 1, DBCtrlGridBibliaVersiculo.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGridBibliaVersiculo.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2));
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaVersiculoPaintPanel(
@@ -15447,24 +15281,24 @@ var
   R: TRect;
 begin
   try
-    R:= Rect(1, 1, DBCtrlGrid.PanelWidth-2, DBCtrlGrid.PanelHeight-2);
+    R:= Rect(1, 1, DBCtrlGrid.ClientWidth {LAZARUS: PanelWidth->ClientWidth}-2, DBCtrlGrid.ClientHeight {LAZARUS: PanelHeight->ClientHeight}-2);
 
-    if (Pos(','+DBCtrlGrid.DataSource.DataSet.FieldByName('VERSICULO').AsString+',',','+loadCol.Strings.Values['BIBLIA_P_VERSICULO']+',') > 0) and
-       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_CAPITULO']) = DBCtrlGrid.DataSource.DataSet.FieldByName('CAPITULO').AsInteger) and
-       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_LIVRO']) = DBCtrlGrid.DataSource.DataSet.FieldByName('LIVRO').AsInteger) then
+    if (Pos(','+DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('VERSICULO').AsString+',',','+loadCol.Strings.Values['BIBLIA_P_VERSICULO']+',') > 0) and
+       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_CAPITULO']) = DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('CAPITULO').AsInteger) and
+       (StrToInt('0'+loadCol.Strings.Values['BIBLIA_P_LIVRO']) = DM.qrBIBLIA_VERSICULOS {LAZARUS: DBCtrlGrid.DataSource.DataSet}.FieldByName('LIVRO').AsInteger) then
     begin
       txtdbBibliaVersiculo.Font.Color := $002E2E2E;
-      txtdbBibliaVersiculo.DefaultFont.Color := $002E2E2E;
+      txtdbBibliaVersiculo.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       txtdbBibliaVersiculoTxt.Font.Color := $002E2E2E;
-      txtdbBibliaVersiculoTxt.DefaultFont.Color := $002E2E2E;
+      txtdbBibliaVersiculoTxt.Font.Color {LAZARUS: DefaultFont->Font} := $002E2E2E;
       DBCtrlGrid.Canvas.Brush.Color := clWhite;
     end
     else
     begin
       txtdbBibliaVersiculo.Font.Color := clWhite;
-      txtdbBibliaVersiculo.DefaultFont.Color := clWhite;
+      txtdbBibliaVersiculo.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       txtdbBibliaVersiculoTxt.Font.Color := clWhite;
-      txtdbBibliaVersiculoTxt.DefaultFont.Color := clWhite;
+      txtdbBibliaVersiculoTxt.Font.Color {LAZARUS: DefaultFont->Font} := clWhite;
       DBCtrlGrid.Canvas.Brush.Color := $00282828;
     end;
 
@@ -15532,42 +15366,42 @@ begin
   tag := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).tag;
   if (tag = 1) then
   begin
-    gravaParam('Biblia', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Biblia', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('BIBLIA');
   end
   else if (tag = 2) then
   begin
-    gravaParam('Busca Biblica', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Busca Biblica', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('BIBLIA_BUSCA');
   end
   else if (tag = 3) then
   begin
-    gravaParam('Escola Sabatina', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Escola Sabatina', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('ES');
   end
   else if (tag = 4) then
   begin
-    gravaParam('Sorteio', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Sorteio', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('SORTEIO');
   end
   else if (tag = 5) then
   begin
-    gravaParam('Cronometro', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Cronometro', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('CRONO');
   end
   else if (tag = 6) then
   begin
-    gravaParam('Sorteio Nomes', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Sorteio Nomes', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('SORTEIO_NOMES');
   end
   else if (tag = 7) then
   begin
-    gravaParam('Painel Dinamico', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Painel Dinamico', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('PAINELD');
   end
   else if (tag = 9) then
   begin
-    gravaParam('Relogio', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName);
+    gravaParam('Relogio', 'Fonte', TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text});
     carregaConfiguracoes('RELOGIO');
   end;
 end;
@@ -15579,7 +15413,7 @@ var
 begin
   tag := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Tag;
   RichEdit := TRichMemo {LAZARUS: TbsSkinRichEdit}(FindComponent('RichEdit'+inttostr(tag)));
-  RichEdit.SelAttributes.Name := TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).FontName;
+  RichEdit.Font.Name := {LAZARUS: SelAttributes.Name stub} TComboBox {LAZARUS: TbsSkinFontComboBox}(Sender).Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text};
 end;
 
 procedure TfmIndex.seOpcTamanhoChange(Sender: TObject);
@@ -15675,7 +15509,7 @@ begin
   if Trim(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text) = '' then
     Exit;
 
-  RichEdit.SelAttributes.Size := StrToInt(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
+  RichEdit.Font.Size := {LAZARUS: SelAttributes.Size stub} StrToInt(TComboBox {LAZARUS: TbsSkinComboBox}(Sender).Text);
 end;
 
 procedure TfmIndex.ShowTrackMenu(Sender: TObject);
@@ -15700,17 +15534,17 @@ begin
   if carrega_opc then
     Exit;
 
-  if cgEscSBAudio.ItemChecked[0] then
+  if cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[0] then
     gravaParam('Escola Sabatina', 'Abertura', '1')
   else
     gravaParam('Escola Sabatina', 'Abertura', '0');
 
-  if cgEscSBAudio.ItemChecked[1] then
+  if cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[1] then
     gravaParam('Escola Sabatina', '5 min.', '1')
   else
     gravaParam('Escola Sabatina', '5 min.', '0');
 
-  if cgEscSBAudio.ItemChecked[2] then
+  if cgEscSBAudio.Checked {LAZARUS: ItemChecked->Checked}[2] then
     gravaParam('Escola Sabatina', '1 min.', '1')
   else
     gravaParam('Escola Sabatina', '1 min.', '0');
@@ -15739,17 +15573,17 @@ begin
   if carrega_opc then exit;
   txtBuscaChange(Sender);
 
-  if ckgColetaneas.ItemChecked[0] then
+  if ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[0] then
     gravaParam('Busca', 'Baixadas', '1')
   else
     gravaParam('Busca', 'Baixadas', '0');
 
-  if ckgColetaneas.ItemChecked[1] then
+  if ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[1] then
     gravaParam('Busca', 'Web', '1')
   else
     gravaParam('Busca', 'Web', '0');
 
-  if ckgColetaneas.ItemChecked[2] then
+  if ckgColetaneas.Checked {LAZARUS: ItemChecked->Checked}[2] then
     gravaParam('Busca', 'Personalizadas', '1')
   else
     gravaParam('Busca', 'Personalizadas', '0');
@@ -15760,17 +15594,17 @@ begin
   if carrega_opc then exit;
   txtBuscaChange(Sender);
 
-  if ckgFiltros.ItemChecked[0] then
+  if ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[0] then
     gravaParam('Busca', 'Filtro 1', '1')
   else
     gravaParam('Busca', 'Filtro 1', '0');
 
-  if ckgFiltros.ItemChecked[1] then
+  if ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[1] then
     gravaParam('Busca', 'Filtro 2', '1')
   else
     gravaParam('Busca', 'Filtro 2', '0');
 
-  if ckgFiltros.ItemChecked[2] then
+  if ckgFiltros.Checked {LAZARUS: ItemChecked->Checked}[2] then
     gravaParam('Busca', 'Filtro 3', '1')
   else
     gravaParam('Busca', 'Filtro 3', '0');
@@ -16025,7 +15859,7 @@ begin
         CopyFile(PChar(arq),PChar(dir_dados+ExtractFileName(arq)),false);
         application.MessageBox('Arquivo importado com sucesso!'+#13#10+'O sistema será reiniciado para que as novas configurações tenham efeito!',TITULO,mb_ok+mb_iconinformation);
 
-        RunCommand(Application.ExeName, [], '') {LAZARUS: ShellExecute→RunCommand};
+        {LAZARUS: RunCommand(Application.ExeName, [], _out_) — ShellExecute removido}
         Application.Terminate;
       end;
     end;
@@ -16061,7 +15895,7 @@ begin
     DM.cdsCOLETANEAS_PERSO_IMP.CreateDataSet;
     DM.cdsCOLETANEAS_PERSO_IMP.IndexName := '';
     DM.cdsCOLETANEAS_PERSO_IMP.IndexFieldNames := 'NOME';
-    DM.cdsCOLETANEAS_PERSO_IMP.LogChanges := False;
+    {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsCOLETANEAS_PERSO_IMP.LogChanges := False;)}
   end;
 
   if (FileExists(dir_dados + 'coletaneasUsuario.xml')) then
@@ -16108,13 +15942,15 @@ procedure TfmIndex.usaFontes(usar: boolean);
 var
   dir: string;
 begin
+  {LAZARUS: AddFontResource/RemoveFontResource removidos — Windows GDI API nao disponivel no Linux}
   dir := dir_config+'fontes/';
-  if usar then
-  begin
-    if not FonteExiste('DIN Condensed')
-      then AddFontResource(PChar(dir+'din-condensed-bold.ttf'))
-  end
-  else RemoveFontResource(PChar(dir+'din-condensed-bold.ttf'));
+  {Fonte customizada nao carregada no Linux — usar fc-install-conf ou fontconfig externamente}
+  //if usar then AddFontResource(PChar(dir+'din-condensed-bold.ttf'))
+  //else RemoveFontResource(PChar(dir+'din-condensed-bold.ttf'));
 end;
+
+
+initialization
+  {$I fmMenu.lrs}
 
 end.

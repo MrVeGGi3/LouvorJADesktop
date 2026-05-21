@@ -1,43 +1,45 @@
 unit fmFormatacao;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, bsSkinCtrls,
-  Vcl.ExtCtrls, Vcl.ComCtrls, bsSkinTabs, Vcl.StdCtrls, bsDialogs, bsColorCtrls,
-  bsSkinBoxCtrls;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
 
 type
   TfFormatacao = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    GridPanel2: TGridPanel;
-    btSave: TbsSkinButton;
-    bsSkinButton1: TbsSkinButton;
-    tabFontes: TbsSkinTabControl;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    btSave: TButton {LAZARUS: TbsSkinButton};
+    bsSkinButton1: TButton {LAZARUS: TbsSkinButton};
+    tabFontes: TTabControl {LAZARUS: TbsSkinTabControl — TTabControl tem .Tabs:TStrings};
     pnlFonte: TPanel;
     Panel6: TPanel;
     Panel7: TPanel;
-    bsSkinStdLabel2: TbsSkinStdLabel;
-    fontComboBox: TbsSkinFontComboBox;
+    bsSkinStdLabel2: TLabel {LAZARUS: TbsSkinStdLabel};
+    fontComboBox: TComboBox {LAZARUS: TbsSkinFontComboBox};
     Panel8: TPanel;
-    bsSkinStdLabel3: TbsSkinStdLabel;
-    fontTamanho: TbsSkinSpinEdit;
+    bsSkinStdLabel3: TLabel {LAZARUS: TbsSkinStdLabel};
+    fontTamanho: TSpinEdit {LAZARUS: TbsSkinSpinEdit};
     Panel1: TPanel;
     Panel4: TPanel;
-    bsSkinStdLabel108: TbsSkinStdLabel;
-    csSorteioCor: TbsSkinColorButton;
+    bsSkinStdLabel108: TLabel {LAZARUS: TbsSkinStdLabel};
+    csSorteioCor: TColorButton {LAZARUS: TbsSkinColorButton};
     Panel5: TPanel;
-    bsSkinStdLabel1: TbsSkinStdLabel;
-    bsSkinCheckBox1: TbsSkinCheckBox;
-    bsSkinCheckBox2: TbsSkinCheckBox;
-    bsSkinCheckBox3: TbsSkinCheckBox;
+    bsSkinStdLabel1: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinCheckBox1: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinCheckBox2: TCheckBox {LAZARUS: TbsSkinCheckBox};
+    bsSkinCheckBox3: TCheckBox {LAZARUS: TbsSkinCheckBox};
     pnlImagem: TPanel;
     Panel3: TPanel;
     Panel9: TPanel;
-    bsSkinStdLabel4: TbsSkinStdLabel;
+    bsSkinStdLabel4: TLabel {LAZARUS: TbsSkinStdLabel};
     Panel2: TPanel;
-    bsSkinStdLabel5: TbsSkinStdLabel;
+    bsSkinStdLabel5: TLabel {LAZARUS: TbsSkinStdLabel};
     lblFonte: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure btSaveClick(Sender: TObject);
@@ -59,7 +61,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 
 procedure TfFormatacao.bsSkinButton1Click(Sender: TObject);
@@ -78,7 +79,7 @@ end;
 
 procedure TfFormatacao.fontComboBoxChange(Sender: TObject);
 begin
-  fonteLocal[tabFontes.TabIndex].Name := fontComboBox.FontName;
+  fonteLocal[tabFontes.TabIndex].Name := fontComboBox.Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text};
   mostraFonte();
 end;
 
@@ -108,7 +109,7 @@ end;
 
 procedure TfFormatacao.mostraFonte;
 begin
-  lblFonte.Caption := fontComboBox.FontName;
+  lblFonte.Caption := fontComboBox.Text {LAZARUS: TbsSkinFontComboBox.FontName→.Text};
   lblFonte.Font := fonteLocal[tabFontes.TabIndex];
   lblFonte.Font.Height := Trunc(Panel2.Height/100)*10;
 end;
@@ -127,7 +128,7 @@ begin
   if (pnlFonte.Visible) then
   begin
     pnlFonte.Align := alClient;
-    fontComboBox.FontName := fonteLocal[tabFontes.TabIndex].Name;
+    fontComboBox.Text := fonteLocal[tabFontes.TabIndex].Name;
 //    fontTamanho.Value := fonteLocal[tabFontes.TabIndex].Name;
     mostraFonte();
   end
@@ -136,5 +137,9 @@ begin
     pnlImagem.Align := alClient;
   end;
 end;
+
+
+initialization
+  {$I fmFormatacao.lrs}
 
 end.

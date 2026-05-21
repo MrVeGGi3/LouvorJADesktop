@@ -1,35 +1,35 @@
 unit fmArquivosExcesso;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, bsSkinCtrls, Vcl.ExtCtrls,
-  Vcl.StdCtrls, BusinessSkinForm, Data.DB, Data.Win.ADODB, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, ZDataset, LResources;
 
 type
   TfArquivosExcesso = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    bsSkinPanel2: TbsSkinPanel;
-    lbl1: TbsSkinStdLabel;
-    gpBotoes: TGridPanel;
-    bsSkinSpeedButton53: TbsSkinSpeedButton;
-    bsSkinSpeedButton54: TbsSkinSpeedButton;
-    bsSkinSpeedButton55: TbsSkinSpeedButton;
-    bsSkinPanel1: TbsSkinPanel;
-    lblStatus: TbsSkinStdLabel;
-    bsSkinButton2: TbsSkinButton;
-    btApaga: TbsSkinButton;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    bsSkinPanel2: TPanel {LAZARUS: TbsSkinPanel};
+    lbl1: TLabel {LAZARUS: TbsSkinStdLabel};
+    gpBotoes: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton53: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton54: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton55: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
+    lblStatus: TLabel {LAZARUS: TbsSkinStdLabel};
+    bsSkinButton2: TButton {LAZARUS: TbsSkinButton};
+    btApaga: TButton {LAZARUS: TbsSkinButton};
     gProgresso: TProgressBar;
-    lvArquivos: TbsSkinListView;
+    lvArquivos: TListView {LAZARUS: TbsSkinListView};
     lbArquivos: TListBox;
-    qrVERIFICA: TFDQuery;
+    qrVERIFICA: TZQuery {LAZARUS: TFDQuery};
     tmrFecha: TTimer;
-    bsSkinScrollBar8: TbsSkinScrollBar;
-    btVerifica: TbsSkinButton;
+    bsSkinScrollBar8: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    btVerifica: TButton {LAZARUS: TbsSkinButton};
     procedure FormActivate(Sender: TObject);
     procedure verificaArquivos();
     function listaArquivos(raiz,dir: string): TStringList;
@@ -52,7 +52,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, fmIniciando;
 
@@ -91,7 +90,7 @@ procedure TfArquivosExcesso.btApagaClick(Sender: TObject);
 var
   i: Integer;
 begin
-  if (application.MessageBox(PChar('Anteção: Este recurso irá apagar os arquivos selecionados. Uma vez apagado, não é possível recuperar estes arquivos. Deseja realmente apagar estes arquivos?'), fmIndex.titulo, mb_yesno + MB_ICONWARNING) <> 6)
+  if (application.MessageBox(PChar('Anteï¿½ï¿½o: Este recurso irï¿½ apagar os arquivos selecionados. Uma vez apagado, nï¿½o ï¿½ possï¿½vel recuperar estes arquivos. Deseja realmente apagar estes arquivos?'), fmIndex.titulo, mb_yesno + MB_ICONWARNING) <> 6)
     then Exit;
 
   for i := 0 to lvArquivos.Items.Count - 1 do
@@ -222,7 +221,11 @@ begin
 
   if lvArquivos.Items.Count <= 0
     then application.MessageBox('Nenhum arquivo em excesso encontrado!', fmIndex.titulo, mb_ok + MB_ICONINFORMATION)
-    else application.MessageBox(PChar('Sua coletânea possui '+inttostr(lvArquivos.Items.Count) + ' arquivo(s) em excesso. Marque os arquivos que deseja apagar e pressione o botão "Apagar Arquivos Selecionados".'), fmIndex.titulo, mb_ok + mb_iconinformation);
+    else application.MessageBox(PChar('Sua coletï¿½nea possui '+inttostr(lvArquivos.Items.Count) + ' arquivo(s) em excesso. Marque os arquivos que deseja apagar e pressione o botï¿½o "Apagar Arquivos Selecionados".'), fmIndex.titulo, mb_ok + mb_iconinformation);
 end;
+
+
+initialization
+  {$I fmArquivosExcesso.lrs}
 
 end.

@@ -1,25 +1,26 @@
 unit fmMusicaRetorno;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com cÃ³digo portado}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, bsSkinCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.pngimage;
+  {LAZARUS: removidos Winapi.*/Vcl.*/bsSkinCtrls/Vcl.Imaging.pngimage}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, ComCtrls, LCLIntf, LCLType, LResources;
 
 type
   TfMusicaRetorno = class(TForm)
     Panel: TPanel;
-    pnlProgress: TGridPanel;
-    gSlide: TbsSkinGauge;
-    gSlideTotal: TbsSkinGauge;
-    lblTempo: TbsSkinLabel;
+    pnlProgress: TPanel; {LAZARUS: TGridPanel}
+    gSlide: TProgressBar; {LAZARUS: TbsSkinGauge}
+    gSlideTotal: TProgressBar; {LAZARUS: TbsSkinGauge}
+    lblTempo: TLabel; {LAZARUS: TbsSkinLabel}
     Panel2: TPanel;
-    lblSlides: TbsSkinLabel;
-    lblLetra_prox: TbsSkinStdLabel;
+    lblSlides: TLabel; {LAZARUS: TbsSkinLabel}
+    lblLetra_prox: TLabel; {LAZARUS: TbsSkinStdLabel}
     pnlLetra: TPanel;
-    lblLetra: TbsSkinStdLabel;
-    lblLetra_aux: TbsSkinStdLabel;
+    lblLetra: TLabel; {LAZARUS: TbsSkinStdLabel}
+    lblLetra_aux: TLabel; {LAZARUS: TbsSkinStdLabel}
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormActivate(Sender: TObject);
@@ -36,7 +37,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, fmMusica;
 
@@ -77,7 +77,7 @@ begin
   begin
     if fMusicaRetorno.Tag = 1 then
     begin
-      if (application.MessageBox('Ao fechar esta tela, os slides também serão fechados! Deseja fechar os slides?', fmIndex.titulo, mb_yesno + mb_iconquestion) <> 6) then
+      if (application.MessageBox('Ao fechar esta tela, os slides tambï¿½m serï¿½o fechados! Deseja fechar os slides?', fmIndex.titulo, mb_yesno + mb_iconquestion) <> 6) then
       begin
         Abort;
         Exit;
@@ -94,5 +94,9 @@ procedure TfMusicaRetorno.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
+
+
+initialization
+  {$I fmMusicaRetorno.lrs}
 
 end.

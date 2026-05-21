@@ -1,29 +1,28 @@
 unit fmBuscaMusica;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, Data.DB,
-  Data.Win.ADODB, bsSkinCtrls, bsDBGrids, Vcl.Mask, pngimage, DBGrids,
-  bsSkinBoxCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, bsSkinGrids, Vcl.StdCtrls,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, ZDataset, LResources;
 
 type
   TfBuscaMusica = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    GridPanel3: TGridPanel;
-    txtBusca: TbsSkinEdit;
-    bsSkinStdLabel5: TbsSkinStdLabel;
-    DBGrid1: TbsSkinDBGrid;
-    qrBUSCA: TFDQuery;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    GridPanel3: TPanel {LAZARUS: TGridPanel};
+    txtBusca: TEdit {LAZARUS: TbsSkinEdit};
+    bsSkinStdLabel5: TLabel {LAZARUS: TbsSkinStdLabel};
+    DBGrid1: TDBGrid {LAZARUS: TbsSkinDBGrid};
+    qrBUSCA: TZQuery {LAZARUS: TFDQuery};
     dsBUSCA: TDataSource;
-    stBusca: TbsSkinStatusBar;
-    bsSkinScrollBar7: TbsSkinScrollBar;
-    stBusca_0: TbsSkinStatusPanel;
-    stBusca_1: TbsSkinStatusPanel;
+    stBusca: TStatusBar {LAZARUS: TbsSkinStatusBar};
+    bsSkinScrollBar7: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    stBusca_0: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
+    stBusca_1: TStatusPanel {LAZARUS: TbsSkinStatusPanel};
     procedure txtBuscaChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -32,7 +31,7 @@ type
     procedure txtBuscaKeyPress(Sender: TObject; var Key: Char);
     procedure FormResize(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TbsColumn; State: TGridDrawState);
+      DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn}; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -45,7 +44,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, dmComponentes;
 
@@ -56,60 +54,39 @@ begin
 end;
 
 procedure TfBuscaMusica.DBGrid1DrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TbsColumn;
+  const Rect: TRect; DataCol: Integer; Column: TColumn {LAZARUS: TbsColumn};
   State: TGridDrawState);
+{LAZARUS: TPngImage/PngImages removidos â€” TImageList.Draw substitui TbsPngImageList.PngImages[n].PngImage}
 var
-  icon: TPngImage;
   fixRect: TRect;
 begin
   Canvas.Brush.Style := bsClear;
   if (qrBUSCA.fieldbyname('TIPO_WEB').AsString = 'S') and (Column.FieldName = 'ICONE1') then
   begin
-    icon := TPngImage.Create;
-    try
-      icon := DM.ico_16x16.PngImages[82].PngImage;
-      fixRect := Rect;
-      fixRect.Top := Rect.Top + 1;
-      fixRect.Bottom := Rect.Top + 17;
-      fixRect.Left := Rect.Left + 1;
-      fixRect.Right := Rect.Left + 17;
-      //TDBGrid(Sender).Canvas.CopyMode := cmMergeCopy;
-      TDBGrid(Sender).Canvas.StretchDraw(fixRect, icon);
-    except
-      FreeAndNil(icon);
-    end;
+    fixRect := Rect;
+    fixRect.Top := Rect.Top + 1;
+    fixRect.Bottom := Rect.Top + 17;
+    fixRect.Left := Rect.Left + 1;
+    fixRect.Right := Rect.Left + 17;
+    DM.ico_16x16.Draw(TDBGrid(Sender).Canvas, fixRect.Left, fixRect.Top, 82);
   end;
   if (qrBUSCA.fieldbyname('TIPO_PERSO').AsString = 'S') and (Column.FieldName = 'ICONE1') then
   begin
-    icon := TPngImage.Create;
-    try
-      icon := DM.ico_16x16.PngImages[37].PngImage;
-      fixRect := Rect;
-      fixRect.Top := Rect.Top + 1;
-      fixRect.Bottom := Rect.Top + 17;
-      fixRect.Left := Rect.Left + 1;
-      fixRect.Right := Rect.Left + 17;
-      //TDBGrid(Sender).Canvas.CopyMode := cmMergeCopy;
-      TDBGrid(Sender).Canvas.StretchDraw(fixRect, icon);
-    except
-      FreeAndNil(icon);
-    end;
+    fixRect := Rect;
+    fixRect.Top := Rect.Top + 1;
+    fixRect.Bottom := Rect.Top + 17;
+    fixRect.Left := Rect.Left + 1;
+    fixRect.Right := Rect.Left + 17;
+    DM.ico_16x16.Draw(TDBGrid(Sender).Canvas, fixRect.Left, fixRect.Top, 37);
   end;
   if (qrBUSCA.fieldbyname('URL_INSTRUMENTAL').AsString <> '') and (Column.FieldName = 'ICONE2') then
   begin
-    icon := TPngImage.Create;
-    try
-      icon := DM.ico_16x16.PngImages[103].PngImage;
-      fixRect := Rect;
-      fixRect.Top := Rect.Top + 1;
-      fixRect.Bottom := Rect.Top + 17;
-      fixRect.Left := Rect.Left + 1;
-      fixRect.Right := Rect.Left + 17;
-      //TDBGrid(Sender).Canvas.CopyMode := cmMergeCopy;
-      TDBGrid(Sender).Canvas.StretchDraw(fixRect, icon);
-    except
-      FreeAndNil(icon);
-    end;
+    fixRect := Rect;
+    fixRect.Top := Rect.Top + 1;
+    fixRect.Bottom := Rect.Top + 17;
+    fixRect.Left := Rect.Left + 1;
+    fixRect.Right := Rect.Left + 17;
+    DM.ico_16x16.Draw(TDBGrid(Sender).Canvas, fixRect.Left, fixRect.Top, 103);
   end;
 end;
 
@@ -139,17 +116,17 @@ var
 begin
   dbGrid1.Columns[2].Width := dbGrid1.Width - dbGrid1.Columns[0].Width - dbGrid1.Columns[1].Width;
   valor := trim(txtBusca.Text);
-  stBusca_0.caption := '';
+  stBusca_0.Text {LAZARUS: TStatusPanel.captionâ†’Text} := '';
   if trim(valor) <> '' then
   begin
     val(txtBusca.Text, nr, c);
     if c = 0 then
     begin
-      stBusca_0.caption := 'Buscando hino nº: ' + valor;
+      stBusca_0.Text {LAZARUS: TStatusPanel.captionâ†’Text} := 'Buscando hino nï¿½: ' + valor;
     end
     else
     begin
-      stBusca_0.caption := 'Buscando música nome: ''' + valor + '''';
+      stBusca_0.Text {LAZARUS: TStatusPanel.captionâ†’Text} := 'Buscando mï¿½sica nome: ''' + valor + '''';
     end;
   end;
 
@@ -157,7 +134,7 @@ begin
   qrBUSCA.ParamByName('VALOR').AsString := fmIndex.termo_busca(valor);
   qrBUSCA.Open;
 
-  stBusca_1.caption := fmIndex.qtItens(qrBUSCA,'música encontrada','músicas encontrados','Nenhuma música encontrado');
+  stBusca_1.Text {LAZARUS: TStatusPanel.captionâ†’Text} := fmIndex.qtItens(qrBUSCA,'mï¿½sica encontrada','mï¿½sicas encontrados','Nenhuma mï¿½sica encontrado');
   fmIndex.corCampoBusca(qrBUSCA, txtBusca,DBGrid1);
   dbGrid1.Columns[2].Width := dbGrid1.Width - dbGrid1.Columns[0].Width - dbGrid1.Columns[1].Width;
 end;
@@ -176,5 +153,9 @@ procedure TfBuscaMusica.txtBuscaKeyUp(Sender: TObject; var Key: Word;
 begin
   fmIndex.edtKeyUp(Sender,Key,Shift);
 end;
+
+
+initialization
+  {$I fmBuscaMusica.lrs}
 
 end.

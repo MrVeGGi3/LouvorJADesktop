@@ -1,25 +1,28 @@
 unit fmItensAgendados;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, bsSkinCtrls,
-  Vcl.Mask, bsSkinBoxCtrls, Vcl.ExtCtrls, bsSkinShellCtrls, Vcl.StdCtrls;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
 
 type
   TfItensAgendados = class(TForm)
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
-    pnlCategoria: TbsSkinPanel;
-    txtCategoria: TbsSkinEdit;
-    lblDescricao: TbsSkinLabel;
-    GridPanel2: TGridPanel;
-    btSave: TbsSkinButton;
-    btDel: TbsSkinButton;
-    pnlItem: TbsSkinPanel;
-    bsSkinLabel1: TbsSkinLabel;
-    txtArquivo: TbsSkinFileEdit;
-    txtArquivoInfo: TbsSkinEdit;
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
+    pnlCategoria: TPanel {LAZARUS: TbsSkinPanel};
+    txtCategoria: TEdit {LAZARUS: TbsSkinEdit};
+    lblDescricao: TLabel {LAZARUS: TbsSkinLabel};
+    GridPanel2: TPanel {LAZARUS: TGridPanel};
+    btSave: TButton {LAZARUS: TbsSkinButton};
+    btDel: TButton {LAZARUS: TbsSkinButton};
+    pnlItem: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinLabel1: TLabel {LAZARUS: TbsSkinLabel};
+    txtArquivo: TFileNameEdit {LAZARUS: TbsSkinFileEdit};
+    txtArquivoInfo: TEdit {LAZARUS: TbsSkinEdit};
     procedure FormActivate(Sender: TObject);
     procedure btSaveClick(Sender: TObject);
     procedure btDelClick(Sender: TObject);
@@ -40,7 +43,6 @@ var
 
 implementation
 
-{$R *.dfm}
 
 uses fmMenu, dmComponentes;
 
@@ -142,7 +144,7 @@ procedure TfItensAgendados.txtArquivoButtonClick(Sender: TObject);
 var
   arq: string;
 begin
-  arq := fmIndex.openDialog('arquivo', TbsSkinFileEdit(Sender).Filter, 'ItensAgendados');
+  arq := fmIndex.openDialog('arquivo', TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Filter, 'ItensAgendados');
   if arq <> '' then txtArquivo.Text := arq;
 end;
 
@@ -156,5 +158,9 @@ begin
   txtArquivo.Text := StringReplace(txtArquivo.Text, '|', '', [rfIgnoreCase, rfReplaceAll]);
   txtArquivo.Text := fmIndex.verificaURL(txtArquivo.Text, txtArquivoInfo, false);
 end;
+
+
+initialization
+  {$I fmItensAgendados.lrs}
 
 end.

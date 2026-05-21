@@ -1,31 +1,33 @@
 unit fmArquivosFalta;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BusinessSkinForm, bsSkinCtrls,
-  Vcl.ComCtrls, Data.DB, Data.Win.ADODB,
-  Vcl.ExtCtrls, WinInet, Vcl.StdCtrls;
+  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, Grids, DBGrids,
+  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
+  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
 
 type
   TfArquivosFalta = class(TForm)
-    bsSkinPanel1: TbsSkinPanel;
-    bsSkinButton2: TbsSkinButton;
-    btBaixa: TbsSkinButton;
-    bsSkinPanel2: TbsSkinPanel;
-    lvArquivos: TbsSkinListView;
-    lbl1: TbsSkinStdLabel;
-    gProgresso: TbsSkinGauge;
-    bsSkinScrollBar8: TbsSkinScrollBar;
-    lblStatus: TbsSkinStdLabel;
+    bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
+    bsSkinButton2: TButton {LAZARUS: TbsSkinButton};
+    btBaixa: TButton {LAZARUS: TbsSkinButton};
+    bsSkinPanel2: TPanel {LAZARUS: TbsSkinPanel};
+    lvArquivos: TListView {LAZARUS: TbsSkinListView};
+    lbl1: TLabel {LAZARUS: TbsSkinStdLabel};
+    gProgresso: TProgressBar {LAZARUS: TbsSkinGauge};
+    bsSkinScrollBar8: TScrollBar {LAZARUS: TbsSkinScrollBar};
+    lblStatus: TLabel {LAZARUS: TbsSkinStdLabel};
     tmrFecha: TTimer;
-    gpBotoes: TGridPanel;
-    bsSkinSpeedButton53: TbsSkinSpeedButton;
-    bsSkinSpeedButton54: TbsSkinSpeedButton;
-    bsSkinSpeedButton55: TbsSkinSpeedButton;
-    btVerifica: TbsSkinButton;
-    bsBusinessSkinForm1: TbsBusinessSkinForm;
+    gpBotoes: TPanel {LAZARUS: TGridPanel};
+    bsSkinSpeedButton53: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton54: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    bsSkinSpeedButton55: TSpeedButton {LAZARUS: TbsSkinSpeedButton};
+    btVerifica: TButton {LAZARUS: TbsSkinButton};
+    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
     procedure FormActivate(Sender: TObject);
     procedure verificaArquivos();
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -51,7 +53,6 @@ implementation
 uses
   fmMenu, fmAtualiza, dmComponentes, fmIniciando;
 
-{$R *.dfm}
 
 procedure TfArquivosFalta.btVerificaClick(Sender: TObject);
 begin
@@ -110,9 +111,9 @@ begin
     Exit;
   end;
 
-  if not (InternetGetConnectedState(@Flags, 0)) then
+  if False then {LAZARUS: InternetGetConnectedState removido â€” assume conectado}
   begin
-    application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
+    application.messagebox(PChar('Nï¿½o foi possï¿½vel conectar ï¿½ internet! Verifique sua conexï¿½o e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
     Exit;
   end;
 
@@ -124,7 +125,7 @@ begin
   lvArquivos.Items.Clear;
   if (fAtualiza.cancela = true) then
   begin
-    application.MessageBox(PChar('Operação cancelada!'), fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
+    application.MessageBox(PChar('Operaï¿½ï¿½o cancelada!'), fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
     tmrFecha.Enabled := False;
     alerta := False;
     DM.qrARQUIVOS_SISTEMA.Last;
@@ -132,10 +133,10 @@ begin
   end
   else if (fAtualiza.arquivos_falha.Count > 0) then
   begin
-    gProgresso.Value := 0;
+    gProgresso.Position {LAZARUS: TProgressBar.Value->Position} := 0;
     lblStatus.Caption := '';
 
-    gProgresso.MaxValue := fAtualiza.arquivos_falha.Count;
+    gProgresso.Max {LAZARUS: TProgressBar.MaxValue->Max} := fAtualiza.arquivos_falha.Count;
     btBaixa.Enabled := False;
     btVerifica.Enabled := False;
     for i := 0 to fAtualiza.arquivos_falha.Count-1 do
@@ -148,7 +149,7 @@ begin
       Item.SubItems.Add(fAtualiza.arquivos_falha[i]);
       Item.SubItems.Add('Falha no Download');
 
-      gProgresso.Value := DM.qrARQUIVOS_SISTEMA.RecNo;
+      gProgresso.Position {LAZARUS: TProgressBar.Value->Position} := DM.qrARQUIVOS_SISTEMA.RecNo;
       Application.ProcessMessages;
     end;
 
@@ -156,8 +157,8 @@ begin
     btVerifica.Enabled := True;
     lblStatus.Caption := 'Falha no Download: '+inttostr(fAtualiza.arquivos_falha.Count);
 
-    application.MessageBox('Alguns arquivos não puderam ser baixados!'+#13#10+'Pode ser que seu firewall ou antivírus esteja impedindo o download. Adicione este programa à lista de exeções ou desative temporariamente o firewall e antivírus, tente novamente.', fmIndex.titulo, mb_ok + MB_ICONINFORMATION);
-//    if (application.MessageBox('Alguns arquivos não puderam ser baixados!'+#13#10+'Pode ser que seu firewall ou antivírus esteja impedindo o download. Adicione este programa à lista de exeções ou desative temporariamente o firewall e antivírus para baixar os arquivos.'+#13#10+#13#10+'Deseja tentar baixá-los novamente?', fmIndex.titulo, mb_yesno + mb_iconquestion) = 6) then
+    application.MessageBox('Alguns arquivos nï¿½o puderam ser baixados!'+#13#10+'Pode ser que seu firewall ou antivï¿½rus esteja impedindo o download. Adicione este programa ï¿½ lista de exeï¿½ï¿½es ou desative temporariamente o firewall e antivï¿½rus, tente novamente.', fmIndex.titulo, mb_ok + MB_ICONINFORMATION);
+//    if (application.MessageBox('Alguns arquivos nï¿½o puderam ser baixados!'+#13#10+'Pode ser que seu firewall ou antivï¿½rus esteja impedindo o download. Adicione este programa ï¿½ lista de exeï¿½ï¿½es ou desative temporariamente o firewall e antivï¿½rus para baixar os arquivos.'+#13#10+#13#10+'Deseja tentar baixï¿½-los novamente?', fmIndex.titulo, mb_yesno + mb_iconquestion) = 6) then
 //    begin
 //      btBaixaClick(Sender);
 //      Exit;
@@ -203,7 +204,7 @@ begin
   gpBotoes.Visible := False;
 
   alerta := true;
-  gProgresso.Value := 0;
+  gProgresso.Position {LAZARUS: TProgressBar.Value->Position} := 0;
   lvArquivos.Items.Clear;
   lblStatus.Caption := '';
   a_sim := 0;
@@ -212,7 +213,7 @@ begin
   DM.qrARQUIVOS_SISTEMA.Close;
   DM.qrARQUIVOS_SISTEMA.Open;
   DM.qrARQUIVOS_SISTEMA.First;
-  gProgresso.MaxValue := DM.qrARQUIVOS_SISTEMA.RecordCount;
+  gProgresso.Max {LAZARUS: TProgressBar.MaxValue->Max} := DM.qrARQUIVOS_SISTEMA.RecordCount;
   btBaixa.Enabled := False;
   btVerifica.Enabled := False;
   while not DM.qrARQUIVOS_SISTEMA.eof do
@@ -231,7 +232,7 @@ begin
       Item.Caption := DM.qrARQUIVOS_SISTEMA.FieldByName('ARQUIVO').AsString;
       Item.SubItems.Add(url);
       a_nao := a_nao + 1;
-      Item.SubItems.Add('Não encontrado');
+      Item.SubItems.Add('Nï¿½o encontrado');
     end
     else if (DM.qrARQUIVOS_SISTEMA.FieldByName('TAMANHO').AsInteger > 0) then
     begin
@@ -251,7 +252,7 @@ begin
     end
     else a_sim := a_sim + 1;
 
-    gProgresso.Value := DM.qrARQUIVOS_SISTEMA.RecNo;
+    gProgresso.Position {LAZARUS: TProgressBar.Value->Position} := DM.qrARQUIVOS_SISTEMA.RecNo;
     Application.ProcessMessages;
     DM.qrARQUIVOS_SISTEMA.Next;
   end;
@@ -262,17 +263,19 @@ begin
 
   if (alerta) and (a_nao <= 0) then
   begin
-    application.MessageBox('Sua coletânea está completa! Nenhum arquivo está faltando.', fmIndex.titulo, mb_ok + MB_ICONINFORMATION);
+    application.MessageBox('Sua coletï¿½nea estï¿½ completa! Nenhum arquivo estï¿½ faltando.', fmIndex.titulo, mb_ok + MB_ICONINFORMATION);
   end
   else if (alerta) then
   begin
-    if (application.MessageBox(PChar('Sua coletânea possui '+inttostr(a_nao) + ' arquivo(s) faltando ou danificado(s)!' + #13#10 + 'Deseja baixar estes arquivos agora? (necessário conexão com a internet)'), fmIndex.titulo, mb_yesno + mb_iconquestion) = 6) then
+    if (application.MessageBox(PChar('Sua coletï¿½nea possui '+inttostr(a_nao) + ' arquivo(s) faltando ou danificado(s)!' + #13#10 + 'Deseja baixar estes arquivos agora? (necessï¿½rio conexï¿½o com a internet)'), fmIndex.titulo, mb_yesno + mb_iconquestion) = 6) then
       btBaixaClick(nil)
   end;
 
   gpBotoes.Visible := True;
 end;
 
+
+initialization
+  {$I fmArquivosFalta.lrs}
+
 end.
-
-
