@@ -35,9 +35,6 @@ object fItensAgendados: TfItensAgendados
       Top = 5
       Width = 392
       Height = 19
-      Margins.Top = 5
-      Margins.Right = 10
-      Margins.Bottom = 5
       Text = ''
       DefaultColor = clWindow
       DefaultWidth = 0
@@ -65,9 +62,6 @@ object fItensAgendados: TfItensAgendados
       Top = 5
       Width = 100
       Height = 19
-      Margins.Left = 10
-      Margins.Top = 5
-      Margins.Bottom = 5
       TabOrder = 0
       DefaultWidth = 0
       DefaultHeight = 0
@@ -150,9 +144,6 @@ object fItensAgendados: TfItensAgendados
       Top = 5
       Width = 45
       Height = 19
-      Margins.Left = 10
-      Margins.Top = 5
-      Margins.Bottom = 5
       TabOrder = 1
       DefaultWidth = 0
       DefaultHeight = 0
@@ -169,9 +160,6 @@ object fItensAgendados: TfItensAgendados
       Top = 5
       Width = 447
       Height = 19
-      Margins.Top = 5
-      Margins.Right = 10
-      Margins.Bottom = 5
       Text = ''
       DefaultColor = clWindow
       DefaultWidth = 0

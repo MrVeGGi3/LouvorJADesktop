@@ -39,10 +39,6 @@ object fNovaVersao: TfNovaVersao
       Top = 5
       Width = 110
       Height = 32
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       TabOrder = 1
       DefaultWidth = 0
       DefaultHeight = 0
@@ -65,10 +61,6 @@ object fNovaVersao: TfNovaVersao
       Top = 5
       Width = 110
       Height = 32
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       TabOrder = 0
       DefaultWidth = 0
       DefaultHeight = 0
@@ -133,10 +125,6 @@ object fNovaVersao: TfNovaVersao
       Top = 15
       Width = 473
       Height = 13
-      Margins.Left = 5
-      Margins.Top = 15
-      Margins.Right = 5
-      Margins.Bottom = 5
       UseSkinColor = True
       Align = alTop
       Caption = 'H'#225' uma nova vers'#227'o dispon'#237'vel de sua colet'#226'nea.'
@@ -148,10 +136,6 @@ object fNovaVersao: TfNovaVersao
       Top = 103
       Width = 473
       Height = 13
-      Margins.Left = 5
-      Margins.Top = 10
-      Margins.Right = 5
-      Margins.Bottom = 5
       UseSkinColor = True
       Align = alTop
       Caption = 'Deseja baixar e atualizar sua colet'#226'nea?'
@@ -164,10 +148,6 @@ object fNovaVersao: TfNovaVersao
       Top = 43
       Width = 473
       Height = 45
-      Margins.Left = 5
-      Margins.Top = 10
-      Margins.Right = 5
-      Margins.Bottom = 5
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
@@ -245,8 +225,6 @@ object fNovaVersao: TfNovaVersao
     Top = 97
     Width = 469
     Height = 21
-    Margins.Top = 7
-    Margins.Bottom = 7
     Style = pbstMarquee
     TabOrder = 3
     Visible = False

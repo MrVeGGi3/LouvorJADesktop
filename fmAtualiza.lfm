@@ -42,8 +42,6 @@ object fAtualiza: TfAtualiza
       Top = 0
       Width = 412
       Height = 47
-      Margins.Left = 10
-      Margins.Top = 0
       TabOrder = 0
       DefaultWidth = 0
       DefaultHeight = 0
@@ -59,8 +57,6 @@ object fAtualiza: TfAtualiza
       Top = 57
       Width = 199
       Height = 21
-      Margins.Top = 7
-      Margins.Bottom = 7
       Align = alClient
       TabOrder = 1
     end
@@ -70,8 +66,6 @@ object fAtualiza: TfAtualiza
       Top = 57
       Width = 124
       Height = 21
-      Margins.Top = 7
-      Margins.Bottom = 7
       TabOrder = 2
       DefaultWidth = 0
       DefaultHeight = 0
@@ -87,8 +81,6 @@ object fAtualiza: TfAtualiza
       Top = 92
       Width = 199
       Height = 21
-      Margins.Top = 7
-      Margins.Bottom = 7
       Align = alClient
       TabOrder = 3
     end
@@ -98,8 +90,6 @@ object fAtualiza: TfAtualiza
       Top = 92
       Width = 124
       Height = 21
-      Margins.Top = 7
-      Margins.Bottom = 7
       TabOrder = 4
       DefaultWidth = 0
       DefaultHeight = 0
@@ -131,10 +121,6 @@ object fAtualiza: TfAtualiza
       Top = 5
       Width = 92
       Height = 32
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       TabOrder = 1
       DefaultWidth = 0
       DefaultHeight = 0
@@ -157,8 +143,6 @@ object fAtualiza: TfAtualiza
       Top = 0
       Width = 438
       Height = 39
-      Margins.Left = 10
-      Margins.Top = 0
       TabOrder = 0
       DefaultWidth = 0
       DefaultHeight = 0

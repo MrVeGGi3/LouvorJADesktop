@@ -247,10 +247,6 @@ object fLetra: TfLetra
         Top = 0
         Width = 36
         Height = 50
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Right = 10
-        Margins.Bottom = 0
         UseSkinColor = True
         Align = alLeft
         Caption = #193'lbuns:'
@@ -262,9 +258,6 @@ object fLetra: TfLetra
         Top = 0
         Width = 420
         Height = 50
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Bottom = 0
         TabOrder = 0
         DefaultWidth = 0
         DefaultHeight = 0

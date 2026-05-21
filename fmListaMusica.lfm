@@ -99,10 +99,6 @@ object fListaMusica: TfListaMusica
           Top = 0
           Width = 121
           Height = 32
-          Margins.Left = 0
-          Margins.Top = 0
-          Margins.Right = 10
-          Margins.Bottom = 0
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
@@ -128,10 +124,6 @@ object fListaMusica: TfListaMusica
           Top = 0
           Width = 174
           Height = 32
-          Margins.Left = 0
-          Margins.Top = 0
-          Margins.Right = 10
-          Margins.Bottom = 0
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
@@ -251,10 +243,6 @@ object fListaMusica: TfListaMusica
           Width = 337
           Height = 65
           Cursor = crHandPoint
-          Margins.Left = 10
-          Margins.Top = 0
-          Margins.Right = 0
-          Margins.Bottom = 0
           UseSkinColor = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite

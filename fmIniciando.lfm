@@ -2413,9 +2413,6 @@ object fIniciando: TfIniciando
         72A6551DF4E61ED735E7283B000086FE1F2F6B674E537345B40000000049454E
         44AE426082}
       Proportional = True
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitHeight = 115
     end
     object Panel1: TPanel
       Left = 144
@@ -2433,7 +2430,6 @@ object fIniciando: TfIniciando
         Top = 161
         Width = 331
         Height = 32
-        Margins.Left = 30
         Align = alClient
         AutoSize = False
         Caption = 'Inicializando programa...'
@@ -2445,10 +2441,6 @@ object fIniciando: TfIniciando
         Font.Style = []
         ParentColor = False
         ParentFont = False
-        ExplicitLeft = 10
-        ExplicitTop = 76
-        ExplicitWidth = 119
-        ExplicitHeight = 13
       end
       object ImagePT: TImage
         AlignWithMargins = True
@@ -2456,7 +2448,6 @@ object fIniciando: TfIniciando
         Top = 85
         Width = 358
         Height = 70
-        Margins.Top = 6
         Align = alTop
         Center = True
         Picture.Data = {
@@ -2755,9 +2746,6 @@ object fIniciando: TfIniciando
           00000000C8860002000000201B0208000000806C082000000000B2F97FD17E11
           2CDE4CD00B0000000049454E44AE426082}
         Proportional = True
-        ExplicitLeft = 72
-        ExplicitTop = 22
-        ExplicitWidth = 193
       end
       object ImageES: TImage
         AlignWithMargins = True
@@ -2765,7 +2753,6 @@ object fIniciando: TfIniciando
         Top = 6
         Width = 358
         Height = 70
-        Margins.Top = 6
         Align = alTop
         Center = True
         Picture.Data = {
@@ -2821,9 +2808,6 @@ object fIniciando: TfIniciando
           19FF5B64C26498F02F261FFD5627AF3CD50000000049454E44AE426082}
         Proportional = True
         Visible = False
-        ExplicitLeft = 72
-        ExplicitTop = 22
-        ExplicitWidth = 193
       end
     end
   end

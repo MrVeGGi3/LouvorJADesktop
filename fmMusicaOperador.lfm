@@ -713,10 +713,6 @@ object fMusicaOperador: TfMusicaOperador
         Top = 0
         Width = 90
         Height = 39
-        Margins.Left = 10
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
         TabOrder = 1
         DefaultWidth = 0
         DefaultHeight = 0
@@ -872,10 +868,6 @@ object fMusicaOperador: TfMusicaOperador
             Top = 0
             Width = 189
             Height = 41
-            Margins.Left = 10
-            Margins.Top = 0
-            Margins.Right = 0
-            Margins.Bottom = 0
             TabOrder = 0
             DefaultWidth = 0
             DefaultHeight = 0
@@ -892,8 +884,6 @@ object fMusicaOperador: TfMusicaOperador
             Top = 10
             Width = 74
             Height = 21
-            Margins.Top = 10
-            Margins.Bottom = 10
             Align = alRight
             BevelOuter = bvNone
             Caption = 'SEM '#193'UDIO'

@@ -32,9 +32,6 @@ object fEditorSlides: TfEditorSlides
     ButtonsImageList = DM.ico_16x16
     ButtonsShowHint = False
     TabBoldStyle = False
-    DesignSize = (
-      1263
-      99)
     object bsRibbonPage1: TTabSheet
       Left = 1
       Top = 26
@@ -166,10 +163,6 @@ object fEditorSlides: TfEditorSlides
             Top = 2
             Width = 63
             Height = 21
-            Margins.Left = 0
-            Margins.Top = 2
-            Margins.Right = 0
-            Margins.Bottom = 1
             TabOrder = 0
             DefaultWidth = 0
             DefaultHeight = 0
@@ -188,9 +181,6 @@ object fEditorSlides: TfEditorSlides
             Width = 63
             Height = 21
             Hint = 'Cor da Fonte'
-            Margins.Left = 0
-            Margins.Top = 1
-            Margins.Right = 0
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
@@ -319,9 +309,6 @@ object fEditorSlides: TfEditorSlides
           BevelOuter = bvNone
           Caption = 'GridPanel1'
           TabOrder = 0
-          DesignSize = (
-            144
-            49)
           object bsSkinStdLabel8: TLabel
             Left = 0
             Top = 3
@@ -339,9 +326,6 @@ object fEditorSlides: TfEditorSlides
             Top = 3
             Width = 94
             Height = 20
-            Margins.Left = 0
-            Margins.Top = 1
-            Margins.Right = 0
             Anchors = [akLeft, akTop, akRight, akBottom]
             TabOrder = 0
             DefaultWidth = 0
@@ -428,10 +412,6 @@ object fEditorSlides: TfEditorSlides
             Top = 25
             Width = 50
             Height = 20
-            Margins.Left = 5
-            Margins.Top = 0
-            Margins.Right = 0
-            Margins.Bottom = 0
             UseSkinColor = True
             Align = alClient
             AutoSize = False
@@ -444,9 +424,6 @@ object fEditorSlides: TfEditorSlides
             Top = 25
             Width = 94
             Height = 20
-            Margins.Left = 0
-            Margins.Top = 1
-            Margins.Right = 0
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
@@ -509,10 +486,6 @@ object fEditorSlides: TfEditorSlides
             Top = 2
             Width = 63
             Height = 21
-            Margins.Left = 0
-            Margins.Top = 2
-            Margins.Right = 0
-            Margins.Bottom = 1
             TabOrder = 0
             DefaultWidth = 0
             DefaultHeight = 0
@@ -553,9 +526,6 @@ object fEditorSlides: TfEditorSlides
             Width = 63
             Height = 21
             Hint = 'Cor da Fonte'
-            Margins.Left = 0
-            Margins.Top = 1
-            Margins.Right = 0
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
@@ -1851,10 +1821,6 @@ object fEditorSlides: TfEditorSlides
         Top = 0
         Width = 90
         Height = 39
-        Margins.Left = 10
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
         UseSkinColor = True
         Align = alClient
         AutoSize = False
@@ -2567,10 +2533,6 @@ object fEditorSlides: TfEditorSlides
             Top = 0
             Width = 416
             Height = 41
-            Margins.Left = 10
-            Margins.Top = 0
-            Margins.Right = 0
-            Margins.Bottom = 0
             TabOrder = 0
             DefaultWidth = 0
             DefaultHeight = 0

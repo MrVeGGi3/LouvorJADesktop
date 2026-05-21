@@ -89,8 +89,6 @@ object fLiturgia: TfLiturgia
       Top = 3
       Width = 48
       Height = 21
-      Margins.Right = 10
-      Margins.Bottom = 5
       DefaultWidth = 0
       DefaultHeight = 0
       CheckedMode = False
@@ -129,9 +127,6 @@ object fLiturgia: TfLiturgia
       Top = 5
       Width = 75
       Height = 19
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Bottom = 5
       TabOrder = 2
       DefaultWidth = 0
       DefaultHeight = 0
@@ -147,9 +142,6 @@ object fLiturgia: TfLiturgia
       Top = 5
       Width = 282
       Height = 19
-      Margins.Top = 5
-      Margins.Right = 10
-      Margins.Bottom = 5
       Text = ''
       DefaultColor = clWindow
       DefaultWidth = 0
@@ -178,9 +170,6 @@ object fLiturgia: TfLiturgia
       Top = 5
       Width = 68
       Height = 19
-      Margins.Left = 10
-      Margins.Top = 5
-      Margins.Bottom = 5
       TabOrder = 0
       DefaultWidth = 0
       DefaultHeight = 0
@@ -196,9 +185,6 @@ object fLiturgia: TfLiturgia
       Top = 5
       Width = 120
       Height = 19
-      Margins.Top = 5
-      Margins.Right = 10
-      Margins.Bottom = 5
       TabOrder = 1
       DefaultWidth = 0
       DefaultHeight = 0
@@ -254,9 +240,6 @@ object fLiturgia: TfLiturgia
       Top = 5
       Width = 25
       Height = 19
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Bottom = 5
       TabOrder = 4
       DefaultWidth = 0
       DefaultHeight = 0
@@ -324,9 +307,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 242
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           TabOrder = 0
           DefaultWidth = 0
           DefaultHeight = 0
@@ -365,9 +345,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 36
           Height = 21
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           UseSkinColor = True
           Align = alLeft
           Caption = 'M'#250'sica:'
@@ -380,7 +357,6 @@ object fLiturgia: TfLiturgia
           Top = 3
           Width = 23
           Height = 25
-          Margins.Right = 10
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
@@ -403,9 +379,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 571
           Height = 21
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           TabOrder = 0
           DefaultWidth = 0
           DefaultHeight = 0
@@ -416,18 +389,11 @@ object fLiturgia: TfLiturgia
           Spacing = 2
           Caption = 'bsSkinPanel4'
           Align = alClient
-          DesignSize = (
-            571
-            21)
           object dbLitHinoLista: TDBLookupComboBox
             Left = 0
             Top = 0
             Width = 571
             Height = 20
-            Margins.Left = 10
-            Margins.Top = 5
-            Margins.Right = 10
-            Margins.Bottom = 5
             Anchors = [akLeft, akTop, akRight, akBottom]
             TabOrder = 0
             DefaultWidth = 0
@@ -488,9 +454,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 50
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           UseSkinColor = True
           Align = alLeft
           Caption = 'Anota'#231#227'o:'
@@ -503,10 +466,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 586
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Right = 10
-          Margins.Bottom = 5
           Text = ''
           DefaultColor = clWindow
           DefaultWidth = 0
@@ -576,9 +535,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 22
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           UseSkinColor = True
           Align = alLeft
           Caption = 'Site:'
@@ -591,7 +547,6 @@ object fLiturgia: TfLiturgia
           Top = 3
           Width = 95
           Height = 23
-          Margins.Right = 10
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
@@ -615,9 +570,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 513
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           Text = ''
           DefaultColor = clWindow
           DefaultWidth = 0
@@ -689,9 +641,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 86
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           UseSkinColor = True
           Align = alLeft
           Caption = 'Arquivo/Diret'#243'rio:'
@@ -704,7 +653,6 @@ object fLiturgia: TfLiturgia
           Top = 3
           Width = 77
           Height = 23
-          Margins.Right = 10
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
@@ -751,9 +699,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 343
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           Text = ''
           DefaultColor = clWindow
           DefaultWidth = 0
@@ -784,9 +729,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 28
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           Text = ''
           DefaultColor = clWindow
           DefaultWidth = 0
@@ -857,9 +799,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 26
           Height = 19
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Bottom = 5
           UseSkinColor = True
           Align = alLeft
           Caption = 'Item:'
@@ -872,10 +811,6 @@ object fLiturgia: TfLiturgia
           Top = 5
           Width = 610
           Height = 21
-          Margins.Left = 10
-          Margins.Top = 5
-          Margins.Right = 10
-          Margins.Bottom = 5
           Align = alClient
           KeyField = 'ID'
           ListField = 'NOME'
