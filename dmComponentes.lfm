@@ -383,15 +383,6 @@ object DM: TDM
         DataType = ftString
         Size = 100
       end>
-    IndexDefs = <
-      item
-        Name = 'ORDER_NOME'
-        Fields = 'NOME'
-        Options = [ixDescending]
-      end>
-    Params = <>
-    ProviderName = 'dsCOLETANEAS_PERSO'
-    StoreDefs = True
     AfterPost = ClientDataSetSaveToFile
     AfterDelete = ClientDataSetSaveToFile
     Left = 88
@@ -414,14 +405,6 @@ object DM: TDM
   end
   object cdsFavoritos: TBufDataset
     FieldDefs = <>
-    IndexDefs = <
-      item
-        Name = 'ORDER_ORDEM'
-        Fields = 'ORDEM'
-        Options = [ixDescending]
-      end>
-    Params = <>
-    StoreDefs = True
     AfterPost = ClientDataSetSaveToFile
     AfterDelete = ClientDataSetSaveToFile
     Left = 136
@@ -527,10 +510,7 @@ object DM: TDM
         DataType = ftString
         Size = 20
       end>
-    IndexDefs = <>
     IndexFieldNames = 'ORDEM'
-    Params = <>
-    StoreDefs = True
     Left = 184
     Top = 88
   end
@@ -564,9 +544,6 @@ object DM: TDM
         DataType = ftString
         Size = 20
       end>
-    IndexDefs = <>
-    Params = <>
-    StoreDefs = True
     Left = 40
     Top = 88
   end
@@ -653,9 +630,6 @@ object DM: TDM
         DataType = ftString
         Size = 20
       end>
-    IndexDefs = <>
-    Params = <>
-    StoreDefs = True
     Left = 712
     Top = 40
   end
@@ -689,9 +663,6 @@ object DM: TDM
         DataType = ftString
         Size = 20
       end>
-    IndexDefs = <>
-    Params = <>
-    StoreDefs = True
     AfterPost = ClientDataSetSaveToFile
     AfterDelete = ClientDataSetSaveToFile
     Left = 664
@@ -709,9 +680,6 @@ object DM: TDM
         DataType = ftString
         Size = 250
       end>
-    IndexDefs = <>
-    Params = <>
-    StoreDefs = True
     AfterPost = ClientDataSetSaveToFile
     AfterDelete = ClientDataSetSaveToFile
     Left = 424
@@ -719,15 +687,6 @@ object DM: TDM
   end
   object cdsCOLETANEAS_PERSO: TBufDataset
     FieldDefs = <>
-    IndexDefs = <
-      item
-        Name = 'ORDER_NOME'
-        Fields = 'NOME'
-        Options = [ixDescending]
-      end>
-    Params = <>
-    ProviderName = 'dsCOLETANEAS_PERSO'
-    StoreDefs = True
     AfterPost = ClientDataSetSaveToFile
     AfterDelete = ClientDataSetSaveToFile
     Left = 328
@@ -65882,15 +65841,7 @@ object DM: TDM
   end
   object cdsBIBLIA_HISTORICO: TBufDataset
     FieldDefs = <>
-    IndexDefs = <
-      item
-        Name = 'ORDER_DATAHORA'
-        Fields = 'DATAHORA'
-        Options = [ixDescending]
-      end>
     IndexName = 'ORDER_DATAHORA'
-    Params = <>
-    StoreDefs = True
     Left = 232
     Top = 88
     object cdsBIBLIA_HISTORICOID: TStringField
@@ -66047,9 +65998,6 @@ object DM: TDM
         Name = 'DIR'
         DataType = ftMemo
       end>
-    IndexDefs = <>
-    Params = <>
-    StoreDefs = True
     Left = 376
     Top = 88
   end
@@ -66458,15 +66406,6 @@ object DM: TDM
   end
   object cdsCOLETANEAS_PERSO_IMP: TBufDataset
     FieldDefs = <>
-    IndexDefs = <
-      item
-        Name = 'ORDER_NOME'
-        Fields = 'NOME'
-        Options = [ixDescending]
-      end>
-    Params = <>
-    ProviderName = 'dsCOLETANEAS_PERSO'
-    StoreDefs = True
     AfterPost = ClientDataSetSaveToFile
     AfterDelete = ClientDataSetSaveToFile
     Left = 280
@@ -66512,9 +66451,6 @@ object DM: TDM
   end
   object cdsMonitores: TBufDataset
     FieldDefs = <>
-    IndexDefs = <>
-    Params = <>
-    StoreDefs = True
     Left = 616
     Top = 40
     object StringField11: TStringField
