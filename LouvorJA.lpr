@@ -11,6 +11,7 @@ uses
   StdCtrls,
   Buttons,
   ExtCtrls,
+  Spin,
   dmComponentes in 'dmComponentes.pas' {DM: TDataModule},
   fmIniciando in 'fmIniciando.pas' {fIniciando},
   fmMenu in 'fmMenu.pas' {fmIndex},
@@ -207,6 +208,14 @@ begin
   RegisterPropertyToSkip(TComponent, 'SupportUpDownKeys',      BSF, '');
   RegisterPropertyToSkip(TComponent, 'TitleAlignment',         BSF, '');
   RegisterPropertyToSkip(TComponent, 'OverwritePromt',         BSF, '');
+  // TSpinEdit/TFloatSpinEdit: Text e Decimal não existem no LCL (usa Value)
+  RegisterPropertyToSkip(TSpinEdit,      'Text',          BSF, '');
+  RegisterPropertyToSkip(TSpinEdit,      'Decimal',       BSF, '');
+  RegisterPropertyToSkip(TSpinEdit,      'EditorEnabled', BSF, '');
+  RegisterPropertyToSkip(TFloatSpinEdit, 'Text',          BSF, '');
+  RegisterPropertyToSkip(TFloatSpinEdit, 'EditorEnabled', BSF, '');
+  // EditorEnabled globalmente (BSF-specific em grids/edits)
+  RegisterPropertyToSkip(TComponent,     'EditorEnabled', BSF, '');
   // Flat não existe em TCheckBox/TRadioButton/TColorButton no LCL
   RegisterPropertyToSkip(TCheckBox,    'Flat',        BSF, '');
   RegisterPropertyToSkip(TRadioButton, 'Flat',        BSF, '');
