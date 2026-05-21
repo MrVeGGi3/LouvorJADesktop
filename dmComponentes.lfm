@@ -801,7 +801,6 @@ object DM: TDM
     Top = 184
   end
   object imCapas: TImageList
-    ColorDepth = cd32Bit
     Height = 137
     Width = 137
     Left = 520
@@ -10507,7 +10506,6 @@ object DM: TDM
       000000000000000000000000000000000000000000000000000000000000}
   end
   object ico_janela_hot: TImageList
-    ColorDepth = cd32Bit
     Height = 31
     Width = 46
     Left = 568
@@ -30437,7 +30435,6 @@ object DM: TDM
       0000000000000000000000000000}
   end
   object ico_janela_clk: TImageList
-    ColorDepth = cd32Bit
     Height = 31
     Width = 46
     Left = 424
