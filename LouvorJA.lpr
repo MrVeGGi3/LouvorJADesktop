@@ -216,9 +216,30 @@ begin
   RegisterPropertyToSkip(TFloatSpinEdit, 'EditorEnabled', BSF, '');
   // EditorEnabled globalmente (BSF-specific em grids/edits)
   RegisterPropertyToSkip(TComponent,     'EditorEnabled', BSF, '');
-  // Flat não existe em TCheckBox/TRadioButton/TColorButton no LCL
+  // TCheckBox: GroupIndex/Down/Layout não existem no LCL
+  RegisterPropertyToSkip(TCheckBox,    'GroupIndex',  BSF, '');
+  RegisterPropertyToSkip(TCheckBox,    'Down',        BSF, '');
+  RegisterPropertyToSkip(TCheckBox,    'Layout',      BSF, '');
   RegisterPropertyToSkip(TCheckBox,    'Flat',        BSF, '');
+  // TRadioButton
   RegisterPropertyToSkip(TRadioButton, 'Flat',        BSF, '');
+  RegisterPropertyToSkip(TRadioButton, 'Down',        BSF, '');
+  RegisterPropertyToSkip(TRadioButton, 'Layout',      BSF, '');
+  // TLabel: Layout, TabOrder não existem no LCL TLabel (TGraphicControl)
+  RegisterPropertyToSkip(TLabel,       'Layout',      BSF, '');
+  RegisterPropertyToSkip(TLabel,       'TabOrder',    BSF, '');
+  RegisterPropertyToSkip(TLabel,       'TabStop',     BSF, '');
+  // TButton: Down/GroupIndex/Layout/Transparent não em TButton LCL
+  RegisterPropertyToSkip(TButton,      'Down',        BSF, '');
+  RegisterPropertyToSkip(TButton,      'GroupIndex',  BSF, '');
+  RegisterPropertyToSkip(TButton,      'Layout',      BSF, '');
+  RegisterPropertyToSkip(TButton,      'Transparent', BSF, '');
+  RegisterPropertyToSkip(TButton,      'NumGlyphs',   BSF, '');
+  RegisterPropertyToSkip(TButton,      'Spacing',     BSF, '');
+  // TPanel: Checked, OnClose, OnDialogButtonClick não em TPanel LCL
+  RegisterPropertyToSkip(TPanel,       'Checked',     BSF, '');
+  RegisterPropertyToSkip(TPanel,       'OnClose',     BSF, '');
+  RegisterPropertyToSkip(TPanel,       'OnDialogButtonClick', BSF, '');
   // Radio, Execute — BSF toggle/action, sem equivalente no LCL
   RegisterPropertyToSkip(TComponent,   'Radio',       BSF, '');
   RegisterPropertyToSkip(TComponent,   'Execute',     BSF, '');
