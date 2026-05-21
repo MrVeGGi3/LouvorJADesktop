@@ -65754,7 +65754,7 @@ object DM: TDM
     Left = 136
     Top = 424
   end
-  object OpenTextFileDialog: TOpenTextFileDialog
+  object OpenTextFileDialog: TOpenDialog
     Left = 184
     Top = 424
   end
@@ -65766,7 +65766,7 @@ object DM: TDM
     Left = 232
     Top = 424
   end
-  object SaveTextFileDialog: TSaveTextFileDialog
+  object SaveTextFileDialog: TSaveDialog
     Left = 328
     Top = 424
   end
