@@ -28,21 +28,20 @@ LazarusResources.Add('TfMonitorSorteioNomes','FORMDATA',[
   +#13'TCheckListBox'#11'lbSorteioNM'#4'Left'#2#1#3'Top'#2#21#5'Width'#3#148#0#6
   +'Height'#3'z'#1#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#12
   +'AlternateRow'#8#14'ShowCheckBoxes'#9#19'HeaderLeftAlignment'#8#18'HeaderSki'
-  +'nDataName'#6#10'menuheader'#16'ItemSkinDataName'#6#7'listbox'#5'Items'#14#0
-  +#14'ShowItemTitles'#9#10'ItemHeight'#2#30#12'HeaderHeight'#2#20#9'ItemIndex'
-  +#2#255#9'ShowLines'#9#20'MouseMoveChangeIndex'#8#5'Align'#7#8'alClient'#16'O'
-  +'nItemCheckClick'#7#25'lbSorteioNMItemCheckClick'#0#0#0#6'TPanel'#13'pnlSort'
-  +'eioNMD'#4'Left'#3#194#1#3'Top'#2#0#5'Width'#3#150#0#6'Height'#3#144#1#8'Tab'
-  +'Order'#2#2#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#9'NumGlyphs'#2#1#7'Sp'
-  +'acing'#2#2#9'RealWidth'#2#0#14'ShowRollButton'#8#15'ShowCloseButton'#9#9'Ro'
-  +'llState'#8#8'RollKind'#7#14'rkRollVertical'#8'Moveable'#8#8'Sizeable'#8#5'A'
-  +'lign'#7#7'alRight'#7'Caption'#18#17#0#0#0#218#0'l'#0't'#0'i'#0'm'#0'o'#0's'
-  +#0' '#0'S'#0'o'#0'r'#0't'#0'e'#0'a'#0'd'#0'o'#0's'#0#7'OnClose'#7#18'pnlSort'
-  +'eioNMDClose'#0#13'TCheckListBox'#12'lbSorteadoNM'#4'Left'#2#1#3'Top'#2#21#5
-  +'Width'#3#148#0#6'Height'#3'z'#1#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'Def'
-  +'aultHeight'#2#0#12'AlternateRow'#8#14'ShowCheckBoxes'#8#19'HeaderLeftAlignm'
-  +'ent'#8#18'HeaderSkinDataName'#6#10'menuheader'#16'ItemSkinDataName'#6#7'lis'
-  +'tbox'#5'Items'#14#0#14'ShowItemTitles'#9#10'ItemHeight'#2#30#12'HeaderHeigh'
-  +'t'#2#20#9'ItemIndex'#2#255#9'ShowLines'#9#20'MouseMoveChangeIndex'#8#5'Alig'
-  +'n'#7#8'alClient'#0#0#0#0
+  +'nDataName'#6#10'menuheader'#16'ItemSkinDataName'#6#7'listbox'#14'ShowItemTi'
+  +'tles'#9#10'ItemHeight'#2#30#12'HeaderHeight'#2#20#9'ItemIndex'#2#255#9'Show'
+  +'Lines'#9#20'MouseMoveChangeIndex'#8#5'Align'#7#8'alClient'#16'OnItemCheckCl'
+  +'ick'#7#25'lbSorteioNMItemCheckClick'#0#0#0#6'TPanel'#13'pnlSorteioNMD'#4'Le'
+  +'ft'#3#194#1#3'Top'#2#0#5'Width'#3#150#0#6'Height'#3#144#1#8'TabOrder'#2#2#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#9'NumGlyphs'#2#1#7'Spacing'#2#2#9'R'
+  +'ealWidth'#2#0#14'ShowRollButton'#8#15'ShowCloseButton'#9#9'RollState'#8#8'R'
+  +'ollKind'#7#14'rkRollVertical'#8'Moveable'#8#8'Sizeable'#8#5'Align'#7#7'alRi'
+  +'ght'#7'Caption'#18#17#0#0#0#218#0'l'#0't'#0'i'#0'm'#0'o'#0's'#0' '#0'S'#0'o'
+  +#0'r'#0't'#0'e'#0'a'#0'd'#0'o'#0's'#0#7'OnClose'#7#18'pnlSorteioNMDClose'#0
+  +#13'TCheckListBox'#12'lbSorteadoNM'#4'Left'#2#1#3'Top'#2#21#5'Width'#3#148#0
+  +#6'Height'#3'z'#1#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0
+  +#12'AlternateRow'#8#14'ShowCheckBoxes'#8#19'HeaderLeftAlignment'#8#18'Header'
+  +'SkinDataName'#6#10'menuheader'#16'ItemSkinDataName'#6#7'listbox'#14'ShowIte'
+  +'mTitles'#9#10'ItemHeight'#2#30#12'HeaderHeight'#2#20#9'ItemIndex'#2#255#9'S'
+  +'howLines'#9#20'MouseMoveChangeIndex'#8#5'Align'#7#8'alClient'#0#0#0#0
 ]);

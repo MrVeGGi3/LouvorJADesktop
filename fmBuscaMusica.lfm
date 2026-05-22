@@ -141,44 +141,15 @@ object fBuscaMusica: TfBuscaMusica
     Width = 701
     Height = 19
     TabOrder = 3
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
     Align = alBottom
     SizeGrip = False
-    object stBusca_0: TbsSkinStatusPanel
-      Left = 0
-      Top = 0
-      Width = 320
-      Height = 19
-      TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Align = alClient
-      AutoSize = False
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
-    object stBusca_1: TbsSkinStatusPanel
-      Left = 320
-      Top = 0
-      Width = 381
-      Height = 19
-      TabOrder = 1
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Align = alRight
-      AutoSize = False
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
+    Panels = <
+      item
+        Width = 320
+      end
+      item
+        Width = 381
+      end>
   end
   object bsSkinScrollBar7: TScrollBar
     Left = 682
@@ -231,12 +202,6 @@ object fBuscaMusica: TfBuscaMusica
       '')
     Left = 354
     Top = 148
-    ParamData = <
-      item
-        Name = 'VALOR'
-        ParamType = ptInput
-        Value = Null
-      end>
   end
   object dsBUSCA: TDataSource
     DataSet = qrBUSCA

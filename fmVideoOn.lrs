@@ -39,6 +39,6 @@ LazarusResources.Add('TfVideoOn','FORMDATA',[
   +'nlLoading'#5'Color'#7#7'clBlack'#16'ParentBackground'#8#8'TabOrder'#2#0#0#6
   +'TLabel'#10'lblLoading'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#177#3#6'Height'#3
   +#184#0#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transpa'
-  +'rent'#9#11'BorderStyle'#7#6'bvNone'#9'Alignment'#7#8'taCenter'#5'Align'#7#8
-  +'alClient'#7'Caption'#6#13'Carregando...'#8'AutoSize'#9#0#0#0#0
+  +'rent'#9#9'Alignment'#7#8'taCenter'#5'Align'#7#8'alClient'#7'Caption'#6#13'C'
+  +'arregando...'#8'AutoSize'#9#0#0#0#0
 ]);

@@ -10,7 +10,7 @@ uses
   SysUtils, Classes, ExtCtrls, LCLIntf, LCLType,
   Forms, Dialogs, DB, BufDataset, ImgList, Controls, Menus, ExtDlgs,
   FileCtrl, Graphics, StdCtrls,
-  ZConnection, ZDataset,
+  ZConnection, ZDataset, ZDbcSqLite, {LAZARUS: registrar driver SQLite3 do ZeosLib}
   FPHTTPClient, opensslsockets,
   base64, LResources; {LAZARUS: LResources necessario para include .lrs}
 

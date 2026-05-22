@@ -66488,4 +66488,9 @@ object DM: TDM
     Left = 520
     Top = 232
   end
+  object FHttp: TFPHTTPClient
+    AllowRedirect = True
+    Left = 616
+    Top = 280
+  end
 end

@@ -92,6 +92,11 @@ end;
 
 procedure TfBuscaMusica.FormActivate(Sender: TObject);
 begin
+  {LAZARUS: conectar TStatusPanel ao Panels collection criado pelo LFM}
+  if (stBusca_0 = nil) and (stBusca.Panels.Count >= 2) then begin
+    stBusca_0 := stBusca.Panels[0];
+    stBusca_1 := stBusca.Panels[1];
+  end;
   id := -1;
   txtBusca.Text := '';
   txtBuscaChange(Sender);

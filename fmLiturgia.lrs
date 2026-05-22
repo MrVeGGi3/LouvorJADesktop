@@ -18,35 +18,34 @@ LazarusResources.Add('TfLiturgia','FORMDATA',[
   +'Caption'#6#8' Excluir'#9'NumGlyphs'#2#1#7'Spacing'#2#1#5'Align'#7#8'alClien'
   +'t'#7'OnClick'#7#10'btDelClick'#0#0#0#6'TPanel'#12'bsSkinPanel1'#4'Left'#2#0
   +#3'Top'#2#0#5'Width'#3#174#2#6'Height'#2#29#8'TabOrder'#2#0#12'DefaultWidth'
-  +#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6
-  +'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Ali'
-  +'gn'#7#5'alTop'#0#12'TColorButton'#5'csCor'#3'Tag'#2#7#16'AlignWithMargins'#9
-  +#4'Left'#3't'#2#3'Top'#2#3#5'Width'#2'0'#6'Height'#2#21#12'DefaultWidth'#2#0
-  +#13'DefaultHeight'#2#0#11'CheckedMode'#8#16'WidthWithCaption'#2#0#19'WidthWi'
-  +'thoutCaption'#2#0#10'ImageIndex'#2'2'#11'Transparent'#8#4'Flat'#8#4'Down'#8
-  +#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2#1#8
-  +'NewStyle'#8#13'TrackPosition'#7#9'bstpRight'#18'UseImagesMenuImage'#8#20'Us'
-  +'eImagesMenuCaption'#8#15'TrackButtonMode'#8#9'AutoColor'#7#7'clBlack'#10'Co'
-  +'lorValue'#7#7'clBlack'#13'ShowAutoColor'#9#13'ShowMoreColor'#9#15'MenuUseSk'
-  +'inFont'#9#23'MenuDefaultFont.Charset'#7#15'DEFAULT_CHARSET'#21'MenuDefaultF'
-  +'ont.Color'#7#12'clWindowText'#22'MenuDefaultFont.Height'#2#13#20'MenuDefaul'
-  +'tFont.Name'#6#6'Tahoma'#21'MenuDefaultFont.Style'#11#0#14'MenuAlphaBlend'#8
-  +#19'MenuAlphaBlendValue'#3#200#0#23'MenuAlphaBlendAnimation'#8#0#0#6'TLabel'
-  +#7'lblItem'#16'AlignWithMargins'#9#4'Left'#3#219#0#3'Top'#2#5#5'Width'#2'K'#6
-  +'Height'#2#19#8'TabOrder'#2#2#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
-  +'Transparent'#8#11'BorderStyle'#7#6'bvNone'#5'Align'#7#6'alLeft'#7'Caption'#6
-  +#13'Nome do Item:'#8'AutoSize'#9#0#0#5'TEdit'#7'txtItem'#16'AlignWithMargins'
-  +#9#4'Left'#3','#1#3'Top'#2#5#5'Width'#3#26#1#6'Height'#2#19#4'Text'#6#0#12'D'
-  +'efaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'Bu'
-  +'ttonMode'#8#5'Align'#7#8'alClient'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10
-  +'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'F'
-  +'ont.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#3#16'ButtonImageIndex'#2#255
-  +#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'
-  +#2#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255#19'RightImageD'
-  +'ownIndex'#2#255#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#6'TLabel'#12'bsSkinLabel2'
-  +#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'#2'D'#6'Height'#2#19
-  +#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8
-  +#11'BorderStyle'#7#6'bvNone'#5'Align'#7#6'alLeft'#7'Caption'#6#13'Tipo de It'
+  +#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7
+  +'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'#0#12'TColorB'
+  +'utton'#5'csCor'#3'Tag'#2#7#16'AlignWithMargins'#9#4'Left'#3't'#2#3'Top'#2#3
+  +#5'Width'#2'0'#6'Height'#2#21#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
+  +'CheckedMode'#8#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'Imag'
+  +'eIndex'#2'2'#11'Transparent'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#9'Num'
+  +'Glyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2#1#8'NewStyle'#8#13'TrackPosi'
+  +'tion'#7#9'bstpRight'#18'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8#15
+  +'TrackButtonMode'#8#9'AutoColor'#7#7'clBlack'#10'ColorValue'#7#7'clBlack'#13
+  +'ShowAutoColor'#9#13'ShowMoreColor'#9#15'MenuUseSkinFont'#9#23'MenuDefaultFo'
+  +'nt.Charset'#7#15'DEFAULT_CHARSET'#21'MenuDefaultFont.Color'#7#12'clWindowTe'
+  +'xt'#22'MenuDefaultFont.Height'#2#13#20'MenuDefaultFont.Name'#6#6'Tahoma'#21
+  +'MenuDefaultFont.Style'#11#0#14'MenuAlphaBlend'#8#19'MenuAlphaBlendValue'#3
+  +#200#0#23'MenuAlphaBlendAnimation'#8#0#0#6'TLabel'#7'lblItem'#16'AlignWithMa'
+  +'rgins'#9#4'Left'#3#219#0#3'Top'#2#5#5'Width'#2'K'#6'Height'#2#19#8'TabOrder'
+  +#2#2#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#5'Align'#7
+  +#6'alLeft'#7'Caption'#6#13'Nome do Item:'#8'AutoSize'#9#0#0#5'TEdit'#7'txtIt'
+  +'em'#16'AlignWithMargins'#9#4'Left'#3','#1#3'Top'#2#5#5'Width'#3#26#1#6'Heig'
+  +'ht'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13
+  +'DefaultHeight'#2#0#10'ButtonMode'#8#5'Align'#7#8'alClient'#12'Font.Charset'
+  +#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Fo'
+  +'nt.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#3#16
+  +'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255
+  +#18'LeftImageDownIndex'#2#255#15'RightImageIndex'#2#255#18'RightImageHotInde'
+  +'x'#2#255#19'RightImageDownIndex'#2#255#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#6
+  +'TLabel'#12'bsSkinLabel2'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'W'
+  +'idth'#2'D'#6'Height'#2#19#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHe'
+  +'ight'#2#0#11'Transparent'#8#5'Align'#7#6'alLeft'#7'Caption'#6#13'Tipo de It'
   +'em:'#8'AutoSize'#9#0#0#9'TComboBox'#7'cbItens'#16'AlignWithMargins'#9#4'Lef'
   +'t'#2'T'#3'Top'#2#5#5'Width'#2'x'#6'Height'#2#19#8'TabOrder'#2#1#12'DefaultW'
   +'idth'#2#0#13'DefaultHeight'#2#0#15'ToolButtonStyle'#8#10'AlphaBlend'#8#15'A'
@@ -63,174 +62,169 @@ LazarusResources.Add('TfLiturgia','FORMDATA',[
   +#7#8'clWindow'#4'Text'#18#8#0#0#0'A'#0'n'#0'o'#0't'#0'a'#0#231#0#227#0'o'#0#5
   +'Align'#7#6'alLeft'#13'Items.Strings'#1#18#8#0#0#0'A'#0'n'#0'o'#0't'#0'a'#0
   +#231#0#227#0'o'#0#18#17#0#0#0'A'#0'r'#0'q'#0'u'#0'i'#0'v'#0'o'#0'/'#0'D'#0'i'
-  ,#0'r'#0'e'#0't'#0#243#0'r'#0'i'#0'o'#0#6#9'Categoria'#6#15'Itens Agendados'
-  +#18#6#0#0#0'M'#0#250#0's'#0'i'#0'c'#0'a'#0#6#4'Site'#0#9'ItemIndex'#2#255#13
+  +#0'r'#0'e'#0't'#0#243#0'r'#0'i'#0'o'#0#6#9'Categoria'#6#15'Itens Agendados'
+  ,#18#6#0#0#0'M'#0#250#0's'#0'i'#0'c'#0'a'#0#6#4'Site'#0#9'ItemIndex'#2#255#13
   +'DropDownCount'#2#8#16'HorizontalExtent'#8#12'Font.Charset'#7#15'DEFAULT_CHA'
   +'RSET'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#13#9'Font.Name'#6
-  +#6'Tahoma'#10'Font.Style'#11#0#6'Sorted'#9#5'Style'#7#14'bscbFixedStyle'#8'O'
+  +#6'Tahoma'#10'Font.Style'#11#0#6'Sorted'#9#5'Style'#7#14'csDropDownList'#8'O'
   +'nChange'#7#13'cbItensChange'#6'OnExit'#7#13'cbItensChange'#0#0#6'TLabel'#12
   +'bsSkinLabel3'#16'AlignWithMargins'#9#4'Left'#3'U'#2#3'Top'#2#5#5'Width'#2#25
   +#6'Height'#2#19#8'TabOrder'#2#4#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
-  +'Transparent'#8#11'BorderStyle'#7#6'bvNone'#5'Align'#7#7'alRight'#7'Caption'
-  +#6#4'Cor:'#8'AutoSize'#9#0#0#0#10'TScrollBox'#10'ScrollBox1'#4'Left'#2#0#3'T'
-  +'op'#2#29#5'Width'#3#174#2#6'Height'#2'_'#22'VertScrollBar.Position'#2'k'#5
-  +'Align'#7#8'alClient'#10'BevelInner'#7#6'bvNone'#10'BevelOuter'#7#6'bvNone'
-  +#11'BorderStyle'#7#6'bsNone'#8'TabOrder'#2#1#7'Visible'#8#0#6'TPanel'#8'pnlH'
-  +'inos'#4'Left'#2#0#3'Top'#2#231#5'Width'#3#157#2#6'Height'#2'H'#8'TabOrder'#2
-  +#2#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8
-  +#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12
-  +'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6'TBevel'#17'bsRibbonDivi'
-  +'der10'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#157#2#6'Height'#2#12#11'DividerTyp'
-  +'e'#7#18'bsdtHorizontalLine'#5'Align'#7#5'alTop'#0#0#6'TPanel'#12'bsSkinPane'
-  +'l2'#4'Left'#2#0#3'Top'#2#12#5'Width'#3#157#2#6'Height'#2#29#8'TabOrder'#2#0
-  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11
-  +'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bs'
-  +'SkinPanel1'#5'Align'#7#5'alTop'#0#12'TRadioButton'#12'opcHinosOpc1'#16'Alig'
-  +'nWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'#3#242#0#6'Height'#2#19#8'T'
-  +'abOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#8'WordWrap'#8#11'Al'
-  +'lowGrayed'#8#5'State'#7#11'cbUnchecked'#10'ImageIndex'#2#0#4'Flat'#9#7'TabS'
-  +'top'#9#5'Radio'#8#7'Checked'#8#10'GroupIndex'#2#0#7'Caption'#18#31#0#0#0'A'
-  +#0' '#0'm'#0#250#0's'#0'i'#0'c'#0'a'#0' '#0's'#0'e'#0'r'#0#225#0' '#0'e'#0's'
-  +#0'c'#0'o'#0'l'#0'h'#0'i'#0'd'#0'a'#0' '#0'n'#0'a'#0' '#0'h'#0'o'#0'r'#0'a'#0
-  +#7'OnClick'#7#17'opcHinosOpc1Click'#5'Align'#7#6'alLeft'#0#0#0#6'TPanel'#12
-  +'pnlHinosOpc1'#4'Left'#2#0#3'Top'#2')'#5'Width'#3#157#2#6'Height'#2#31#8'Tab'
-  +'Order'#2#1#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'C'
-  +'hecked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Cap'
-  +'tion'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'#0#6'TLabel'#10'skLitLabel'#16
-  +'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'#2'$'#6'Height'#2#21#12
-  +'UseSkinColor'#9#5'Align'#7#6'alLeft'#7'Caption'#18#7#0#0#0'M'#0#250#0's'#0
-  +'i'#0'c'#0'a'#0':'#0#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#12'TSpeedButt'
-  +'on'#18'bsSkinSpeedButton1'#16'AlignWithMargins'#9#4'Left'#3'|'#2#3'Top'#2#3
-  +#5'Width'#2#23#6'Height'#2#25#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
-  +'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCaption'#2#0#19
-  +'WidthWithoutCaption'#2#0#10'ImageIndex'#2#27#11'Transparent'#8#4'Flat'#8#4
-  +'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'
-  +#2#1#7'OnClick'#7#23'bsSkinSpeedButton1Click'#0#0#6'TPanel'#12'bsSkinPanel4'
-  +#16'AlignWithMargins'#9#4'Left'#2';'#3'Top'#2#5#5'Width'#3';'#2#6'Height'#2
-  +#21#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMod'
-  +'e'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2
-  +#2#7'Caption'#6#12'bsSkinPanel4'#5'Align'#7#8'alClient'#0#17'TDBLookupComboB'
-  +'ox'#14'dbLitHinoLista'#4'Left'#2#0#3'Top'#2#0#5'Width'#3';'#2#6'Height'#2#20
-  +#7'Anchors'#11#6'akLeft'#5'akTop'#7'akRight'#8'akBottom'#0#8'TabOrder'#2#0#12
+  +'Transparent'#8#5'Align'#7#7'alRight'#7'Caption'#6#4'Cor:'#8'AutoSize'#9#0#0
+  +#0#10'TScrollBox'#10'ScrollBox1'#4'Left'#2#0#3'Top'#2#29#5'Width'#3#174#2#6
+  +'Height'#2'_'#22'VertScrollBar.Position'#2'k'#5'Align'#7#8'alClient'#10'Beve'
+  +'lInner'#7#6'bvNone'#10'BevelOuter'#7#6'bvNone'#11'BorderStyle'#7#6'bsNone'#8
+  +'TabOrder'#2#1#7'Visible'#8#0#6'TPanel'#8'pnlHinos'#4'Left'#2#0#3'Top'#2#231
+  +#5'Width'#3#157#2#6'Height'#2'H'#8'TabOrder'#2#2#12'DefaultWidth'#2#0#13'Def'
+  +'aultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2
+  +#2#7'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6'TBeve'
+  +'l'#17'bsRibbonDivider10'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#157#2#6'Height'#2
+  +#12#11'DividerType'#7#18'bsdtHorizontalLine'#5'Align'#7#5'alTop'#0#0#6'TPane'
+  +'l'#12'bsSkinPanel2'#4'Left'#2#0#3'Top'#2#12#5'Width'#3#157#2#6'Height'#2#29
+  +#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8
+  +#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5
+  +'Align'#7#5'alTop'#0#12'TRadioButton'#12'opcHinosOpc1'#16'AlignWithMargins'#9
+  +#4'Left'#2#10#3'Top'#2#5#5'Width'#3#242#0#6'Height'#2#19#8'TabOrder'#2#0#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#8'WordWrap'#8#11'AllowGrayed'#8#5'S'
+  +'tate'#7#11'cbUnchecked'#10'ImageIndex'#2#0#4'Flat'#9#7'TabStop'#9#5'Radio'#8
+  +#7'Checked'#8#10'GroupIndex'#2#0#7'Caption'#18#31#0#0#0'A'#0' '#0'm'#0#250#0
+  +'s'#0'i'#0'c'#0'a'#0' '#0's'#0'e'#0'r'#0#225#0' '#0'e'#0's'#0'c'#0'o'#0'l'#0
+  +'h'#0'i'#0'd'#0'a'#0' '#0'n'#0'a'#0' '#0'h'#0'o'#0'r'#0'a'#0#7'OnClick'#7#17
+  +'opcHinosOpc1Click'#5'Align'#7#6'alLeft'#0#0#0#6'TPanel'#12'pnlHinosOpc1'#4
+  +'Left'#2#0#3'Top'#2')'#5'Width'#3#157#2#6'Height'#2#31#8'TabOrder'#2#1#12'De'
+  +'faultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumG'
+  +'lyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'
+  +#0#6'TLabel'#10'skLitLabel'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5
+  +'Width'#2'$'#6'Height'#2#21#12'UseSkinColor'#9#5'Align'#7#6'alLeft'#7'Captio'
+  +'n'#18#7#0#0#0'M'#0#250#0's'#0'i'#0'c'#0'a'#0':'#0#6'Layout'#7#8'tlCenter'#8
+  +'WordWrap'#9#0#0#12'TSpeedButton'#18'bsSkinSpeedButton1'#16'AlignWithMargins'
+  +#9#4'Left'#3'|'#2#3'Top'#2#3#5'Width'#2#23#6'Height'#2#25#12'DefaultWidth'#2
+  +#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x16'#16
+  +'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2#27#11'Tr'
+  +'ansparent'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#9'NumGlyphs'#2#1#5'Alig'
+  +'n'#7#7'alRight'#7'Spacing'#2#1#7'OnClick'#7#23'bsSkinSpeedButton1Click'#0#0
+  +#6'TPanel'#12'bsSkinPanel4'#16'AlignWithMargins'#9#4'Left'#2';'#3'Top'#2#5#5
+  +'Width'#3';'#2#6'Height'#2#21#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'Defaul'
+  +'tHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2
+  +#7'Caption'#6#12'bsSkinPanel4'#5'Align'#7#8'alClient'#0#17'TDBLookupComboBox'
+  +#14'dbLitHinoLista'#4'Left'#2#0#3'Top'#2#0#5'Width'#3';'#2#6'Height'#2#20#7
+  +'Anchors'#11#6'akLeft'#5'akTop'#7'akRight'#8'akBottom'#0#8'TabOrder'#2#0#12
   +'DefaultWidth'#2#0#13'DefaultHeight'#2#20#12'DefaultColor'#7#8'clWindow'#24
   +'ListBoxDefaultItemHeight'#2#20#18'ListBoxUseSkinFont'#9#24'ListBoxUseSkinIt'
   +'emHeight'#9#8'KeyField'#6#2'ID'#9'ListField'#6#4'NOME'#10'ListSource'#7#7'd'
   +'sHinos'#0#0#0#0#0#6'TPanel'#12'pnlAnotacoes'#4'Left'#2#0#3'Top'#2#190#5'Wid'
   +'th'#3#157#2#6'Height'#2')'#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'DefaultH'
-  +'eight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'Num'
-  +'Glyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9#5'Al'
-  +'ign'#7#5'alTop'#0#6'TBevel'#16'bsRibbonDivider1'#4'Left'#2#0#3'Top'#2#0#5'W'
-  +'idth'#3#157#2#6'Height'#2#12#11'DividerType'#7#18'bsdtHorizontalLine'#5'Ali'
-  +'gn'#7#5'alTop'#0#0#6'TPanel'#12'bsSkinPanel6'#4'Left'#2#0#3'Top'#2#12#5'Wid'
-  +'th'#3#157#2#6'Height'#2#29#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultH'
-  +'eight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'Num'
-  +'Glyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'
-  +#0#6'TLabel'#15'bsSkinStdLabel1'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2
-  +#5#5'Width'#2'2'#6'Height'#2#19#12'UseSkinColor'#9#5'Align'#7#6'alLeft'#7'Ca'
-  ,'ption'#18#9#0#0#0'A'#0'n'#0'o'#0't'#0'a'#0#231#0#227#0'o'#0':'#0#6'Layout'#7
-  +#8'tlCenter'#8'WordWrap'#9#0#0#5'TEdit'#11'edtAnotacao'#16'AlignWithMargins'
-  +#9#4'Left'#2'I'#3'Top'#2#5#5'Width'#3'J'#2#6'Height'#2#19#4'Text'#6#0#12'Def'
-  +'aultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'Butt'
-  +'onMode'#8#5'Align'#7#8'alClient'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10
-  +'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'F'
-  +'ont.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#16'ButtonImageIndex'#2#255
-  +#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'
+  +'eight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7
+  +'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6'TBevel'#16
+  +'bsRibbonDivider1'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#157#2#6'Height'#2#12#11
+  +'DividerType'#7#18'bsdtHorizontalLine'#5'Align'#7#5'alTop'#0#0#6'TPanel'#12
+  +'bsSkinPanel6'#4'Left'#2#0#3'Top'#2#12#5'Width'#3#157#2#6'Height'#2#29#8'Tab'
+  +'Order'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'C'
+  +'hecked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'A'
+  +'lign'#7#5'alTop'#0#6'TLabel'#15'bsSkinStdLabel1'#16'AlignWithMargins'#9#4'L'
+  +'eft'#2#10#3'Top'#2#5#5'Width'#2'2'#6'Height'#2#19#12'UseSkinColor'#9#5'Alig'
+  +'n'#7#6'alLeft'#7'Caption'#18#9#0#0#0'A'#0'n'#0'o'#0't'#0'a'#0#231#0#227#0'o'
+  +#0':'#0#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#5'TEdit'#11'edtAnotacao'#16
+  +'AlignWithMargins'#9#4'Left'#2'I'#3'Top'#2#5#5'Width'#3'J'#2#6'Height'#2#19#4
+  +'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHei'
+  ,'ght'#2#0#10'ButtonMode'#8#5'Align'#7#8'alClient'#12'Font.Charset'#7#15'DEFA'
+  +'ULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6
+  +#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#16'ButtonIma'
+  +'geIndex'#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'Left'
+  +'ImageDownIndex'#2#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255
+  +#19'RightImageDownIndex'#2#255#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#0#0#6'TPane'
+  +'l'#7'pnlSite'#4'Left'#2#0#3'Top'#2'/'#5'Width'#3#157#2#6'Height'#2')'#8'Tab'
+  +'Order'#2#3#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'C'
+  +'hecked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#7'pnlSite'#8'AutoSiz'
+  +'e'#9#5'Align'#7#5'alTop'#0#6'TBevel'#16'bsRibbonDivider2'#4'Left'#2#0#3'Top'
+  +#2#0#5'Width'#3#157#2#6'Height'#2#12#11'DividerType'#7#18'bsdtHorizontalLine'
+  +#5'Align'#7#5'alTop'#0#0#6'TPanel'#12'bsSkinPanel3'#4'Left'#2#0#3'Top'#2#12#5
+  +'Width'#3#157#2#6'Height'#2#29#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'Defau'
+  +'ltHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2
+  +#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'#0#6'TLabel'#15'bsSkinStdL'
+  +'abel2'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'#2#22#6'Heigh'
+  +'t'#2#19#12'UseSkinColor'#9#5'Align'#7#6'alLeft'#7'Caption'#6#5'Site:'#6'Lay'
+  +'out'#7#8'tlCenter'#8'WordWrap'#9#0#0#12'TSpeedButton'#18'bsSkinSpeedButton2'
+  +#16'AlignWithMargins'#9#4'Left'#3'4'#2#3'Top'#2#3#5'Width'#2'_'#6'Height'#2
+  +#23#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'
+  +#7#12'DM.ico_16x16'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10
+  +'ImageIndex'#2'C'#11'Transparent'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#7
+  +'Caption'#6#12' Testar link'#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacin'
+  +'g'#2#1#7'OnClick'#7#23'bsSkinSpeedButton2Click'#0#0#5'TEdit'#7'urlSite'#16
+  +'AlignWithMargins'#9#4'Left'#2'-'#3'Top'#2#5#5'Width'#3#1#2#6'Height'#2#19#4
+  +'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHei'
+  +'ght'#2#0#10'ButtonMode'#8#5'Align'#7#8'alClient'#12'Font.Charset'#7#15'DEFA'
+  +'ULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6
+  +#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#16'ButtonIma'
+  +'geIndex'#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'Left'
+  +'ImageDownIndex'#2#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255
+  +#19'RightImageDownIndex'#2#255#6'OnExit'#7#11'urlSiteExit'#8'LinkType'#7#8'b'
+  +'sltHTTP'#7'Execute'#9#0#0#0#0#6'TPanel'#10'pnlArquivo'#4'Left'#2#0#3'Top'#2
+  +'X'#5'Width'#3#157#2#6'Height'#2')'#8'TabOrder'#2#4#12'DefaultWidth'#2#0#13
+  +'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacin'
+  +'g'#2#2#7'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6
+  +'TBevel'#16'bsRibbonDivider3'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#157#2#6'Heig'
+  +'ht'#2#12#11'DividerType'#7#18'bsdtHorizontalLine'#5'Align'#7#5'alTop'#0#0#6
+  +'TPanel'#12'bsSkinPanel7'#4'Left'#2#0#3'Top'#2#12#5'Width'#3#157#2#6'Height'
+  +#2#29#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedM'
+  +'ode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinP'
+  +'anel1'#5'Align'#7#5'alTop'#0#6'TLabel'#15'bsSkinStdLabel3'#16'AlignWithMarg'
+  +'ins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'#2'V'#6'Height'#2#19#12'UseSkinColor'
+  +#9#5'Align'#7#6'alLeft'#7'Caption'#18#18#0#0#0'A'#0'r'#0'q'#0'u'#0'i'#0'v'#0
+  +'o'#0'/'#0'D'#0'i'#0'r'#0'e'#0't'#0#243#0'r'#0'i'#0'o'#0':'#0#6'Layout'#7#8
+  +'tlCenter'#8'WordWrap'#9#0#0#12'TSpeedButton'#18'bsSkinSpeedButton3'#16'Alig'
+  +'nWithMargins'#9#4'Left'#3'F'#2#3'Top'#2#3#5'Width'#2'M'#6'Height'#2#23#12'D'
+  +'efaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12
+  +'DM.ico_16x16'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'Image'
+  +'Index'#2'&'#11'Transparent'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#7'Capt'
+  +'ion'#18#10#0#0#0' '#0'D'#0'i'#0'r'#0'e'#0't'#0#243#0'r'#0'i'#0'o'#0#9'NumGl'
+  +'yphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2#1#7'OnClick'#7#23'bsSkinSpeedB'
+  +'utton3Click'#0#0#12'TSpeedButton'#18'bsSkinSpeedButton4'#16'AlignWithMargin'
+  +'s'#9#4'Left'#3#243#1#3'Top'#2#3#5'Width'#2'M'#6'Height'#2#23#12'DefaultWidt'
+  +'h'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x'
+  +'16'#16'WidthWithCaption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2#5
+  +#11'Transparent'#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#8' Ar'
+  +'quivo'#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2#1#7'OnClick'#7#23
+  +'bsSkinSpeedButton4Click'#0#0#5'TEdit'#12'edtDiretorio'#16'AlignWithMargins'
+  +#9#4'Left'#3#150#0#3'Top'#2#5#5'Width'#3'W'#1#6'Height'#2#19#4'Text'#6#0#12
+  +'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'B'
+  +'uttonMode'#8#5'Align'#7#8'alClient'#12'Font.Charset'#7#15'DEFAULT_CHARSET'
+  +#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10
+  +'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#1#16'ButtonImageIndex'#2#255
+  ,#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'
   +#2#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255#19'RightImageD'
-  +'ownIndex'#2#255#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#0#0#6'TPanel'#7'pnlSite'#4
-  +'Left'#2#0#3'Top'#2'/'#5'Width'#3#157#2#6'Height'#2')'#8'TabOrder'#2#3#12'De'
-  +'faultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'Bor'
-  +'derStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#7'pnlSit'
-  +'e'#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6'TBevel'#16'bsRibbonDivider2'#4'Lef'
-  +'t'#2#0#3'Top'#2#0#5'Width'#3#157#2#6'Height'#2#12#11'DividerType'#7#18'bsdt'
-  +'HorizontalLine'#5'Align'#7#5'alTop'#0#0#6'TPanel'#12'bsSkinPanel3'#4'Left'#2
-  +#0#3'Top'#2#12#5'Width'#3#157#2#6'Height'#2#29#8'TabOrder'#2#0#12'DefaultWid'
-  +'th'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'
-  +#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5
-  +'Align'#7#5'alTop'#0#6'TLabel'#15'bsSkinStdLabel2'#16'AlignWithMargins'#9#4
-  +'Left'#2#10#3'Top'#2#5#5'Width'#2#22#6'Height'#2#19#12'UseSkinColor'#9#5'Ali'
-  +'gn'#7#6'alLeft'#7'Caption'#6#5'Site:'#6'Layout'#7#8'tlCenter'#8'WordWrap'#9
-  +#0#0#12'TSpeedButton'#18'bsSkinSpeedButton2'#16'AlignWithMargins'#9#4'Left'#3
-  +'4'#2#3'Top'#2#3#5'Width'#2'_'#6'Height'#2#23#12'DefaultWidth'#2#0#13'Defaul'
-  +'tHeight'#2#0#11'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWith'
-  +'Caption'#2#0#19'WidthWithoutCaption'#2#0#10'ImageIndex'#2'C'#11'Transparent'
-  +#8#4'Flat'#8#4'Down'#8#10'GroupIndex'#2#0#7'Caption'#6#12' Testar link'#9'Nu'
-  +'mGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'#2#1#7'OnClick'#7#23'bsSkinSpe'
-  +'edButton2Click'#0#0#14'TbsSkinURLEdit'#7'urlSite'#16'AlignWithMargins'#9#4
-  +'Left'#2'-'#3'Top'#2#5#5'Width'#3#1#2#6'Height'#2#19#4'Text'#6#0#12'DefaultC'
-  +'olor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMod'
-  +'e'#8#5'Align'#7#8'alClient'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.'
-  +'Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.S'
-  +'tyle'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#16'ButtonImageIndex'#2#255#14'L'
-  +'eftImageIndex'#2#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'#2
-  +#255#15'RightImageIndex'#2#255#18'RightImageHotIndex'#2#255#19'RightImageDow'
-  +'nIndex'#2#255#6'OnExit'#7#11'urlSiteExit'#8'LinkType'#7#8'bsltHTTP'#7'Execu'
-  +'te'#9#0#0#0#0#6'TPanel'#10'pnlArquivo'#4'Left'#2#0#3'Top'#2'X'#5'Width'#3
-  +#157#2#6'Height'#2')'#8'TabOrder'#2#4#12'DefaultWidth'#2#0#13'DefaultHeight'
-  +#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'
-  +#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#5
-  +'alTop'#0#6'TBevel'#16'bsRibbonDivider3'#4'Left'#2#0#3'Top'#2#0#5'Width'#3
-  +#157#2#6'Height'#2#12#11'DividerType'#7#18'bsdtHorizontalLine'#5'Align'#7#5
-  +'alTop'#0#0#6'TPanel'#12'bsSkinPanel7'#4'Left'#2#0#3'Top'#2#12#5'Width'#3#157
-  +#2#6'Height'#2#29#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0
-  +#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1
-  +#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTop'#0#6'TLabel'
-  +#15'bsSkinStdLabel3'#16'AlignWithMargins'#9#4'Left'#2#10#3'Top'#2#5#5'Width'
-  +#2'V'#6'Height'#2#19#12'UseSkinColor'#9#5'Align'#7#6'alLeft'#7'Caption'#18#18
-  +#0#0#0'A'#0'r'#0'q'#0'u'#0'i'#0'v'#0'o'#0'/'#0'D'#0'i'#0'r'#0'e'#0't'#0#243#0
-  +'r'#0'i'#0'o'#0':'#0#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#12'TSpeedButt'
-  +'on'#18'bsSkinSpeedButton3'#16'AlignWithMargins'#9#4'Left'#3'F'#2#3'Top'#2#3
-  +#5'Width'#2'M'#6'Height'#2#23#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
-  +'CheckedMode'#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCaption'#2#0#19
-  +'WidthWithoutCaption'#2#0#10'ImageIndex'#2'&'#11'Transparent'#8#4'Flat'#8#4
-  +'Down'#8#10'GroupIndex'#2#0#7'Caption'#18#10#0#0#0' '#0'D'#0'i'#0'r'#0'e'#0
-  +'t'#0#243#0'r'#0'i'#0'o'#0#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'#7'Spacing'
-  +#2#1#7'OnClick'#7#23'bsSkinSpeedButton3Click'#0#0#12'TSpeedButton'#18'bsSkin'
-  +'SpeedButton4'#16'AlignWithMargins'#9#4'Left'#3#243#1#3'Top'#2#3#5'Width'#2
-  +'M'#6'Height'#2#23#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'
-  +#8#9'ImageList'#7#12'DM.ico_16x16'#16'WidthWithCaption'#2#0#19'WidthWithoutC'
-  +'aption'#2#0#10'ImageIndex'#2#5#11'Transparent'#8#4'Flat'#8#4'Down'#8#10'Gro'
-  +'upIndex'#2#0#7'Caption'#6#8' Arquivo'#9'NumGlyphs'#2#1#5'Align'#7#7'alRight'
-  +#7'Spacing'#2#1#7'OnClick'#7#23'bsSkinSpeedButton4Click'#0#0#5'TEdit'#12'edt'
-  ,'Diretorio'#16'AlignWithMargins'#9#4'Left'#3#150#0#3'Top'#2#5#5'Width'#3'W'#1
-  +#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2
-  +#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#5'Align'#7#8'alClient'#12'Font.Cha'
-  +'rset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13
-  +#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2
-  +#1#16'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'
-  +#2#255#18'LeftImageDownIndex'#2#255#15'RightImageIndex'#2#255#18'RightImageH'
-  +'otIndex'#2#255#19'RightImageDownIndex'#2#255#7'OnEnter'#7#17'edtDiretorioEn'
-  +'ter'#6'OnExit'#7#16'edtDiretorioExit'#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#5'T'
-  +'Edit'#16'edtDiretorioInfo'#16'AlignWithMargins'#9#4'Left'#2'm'#3'Top'#2#5#5
-  +'Width'#2#28#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'De'
-  +'faultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#5'Align'#7#6'alLeft'
-  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.'
-  +'Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8
-  +'TabOrder'#2#0#7'Visible'#8#16'ButtonImageIndex'#2#255#14'LeftImageIndex'#2
-  +#255#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'#2#255#15'RightImageI'
-  +'ndex'#2#255#18'RightImageHotIndex'#2#255#19'RightImageDownIndex'#2#255#7'On'
-  +'KeyUp'#7#12'txtItemKeyUp'#0#0#0#0#6'TPanel'#17'pnlItensAgendados'#4'Left'#2
-  +#0#3'Top'#2#149#5'Width'#3#157#2#6'Height'#2')'#8'TabOrder'#2#0#12'DefaultWi'
-  +'dth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyl'
-  +'e'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'
-  +#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6'TBevel'#16'bsRibbonDivider4'#4'Left'#2
-  +#0#3'Top'#2#0#5'Width'#3#157#2#6'Height'#2#12#11'DividerType'#7#18'bsdtHoriz'
-  +'ontalLine'#5'Align'#7#5'alTop'#0#0#6'TPanel'#12'bsSkinPanel8'#4'Left'#2#0#3
-  +'Top'#2#12#5'Width'#3#157#2#6'Height'#2#29#8'TabOrder'#2#0#12'DefaultWidth'#2
-  +#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6
-  +'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Ali'
-  +'gn'#7#5'alTop'#0#6'TLabel'#15'bsSkinStdLabel4'#16'AlignWithMargins'#9#4'Lef'
-  +'t'#2#10#3'Top'#2#5#5'Width'#2#26#6'Height'#2#19#12'UseSkinColor'#9#5'Align'
-  +#7#6'alLeft'#7'Caption'#6#5'Item:'#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0
-  +#17'TDBLookupComboBox'#7'dblItem'#16'AlignWithMargins'#9#4'Left'#2'1'#3'Top'
-  +#2#5#5'Width'#3'b'#2#6'Height'#2#21#5'Align'#7#8'alClient'#8'KeyField'#6#2'I'
-  +'D'#9'ListField'#6#4'NOME'#10'ListSource'#7#29'DM.dsCategoriasItensAgendados'
-  +#8'TabOrder'#2#0#0#0#0#0#6'TPanel'#12'bsSkinPanel5'#4'Left'#2#0#3'Top'#3#129
-  +#0#5'Width'#3#157#2#6'Height'#2#0#8'TabOrder'#2#5#12'DefaultWidth'#2#0#13'De'
-  +'faultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#11'BorderStyle'#7#6'bvNone'
-  +#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9
-  +#5'Align'#7#8'alClient'#0#0#0#11'TDataSource'#7'dsHinos'#7'DataSet'#7#7'qrHi'
-  +'nos'#4'Left'#3#150#1#3'Top'#2'|'#0#0#7'TZQuery'#7'qrHinos'#8'Filtered'#9#10
-  +'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6']SELECT DISTINCT ID,FAIXA,NOME_'
-  +'ALBUM_COM,NOME_COM AS NOME,TIPO_HASD,TIPO_JA FROM LISTA_MUSICAS'#6#17'ORDER'
-  +' BY NOME_COM'#0#4'Left'#3'r'#1#3'Top'#2'|'#0#0#0
+  +'ownIndex'#2#255#7'OnEnter'#7#17'edtDiretorioEnter'#6'OnExit'#7#16'edtDireto'
+  +'rioExit'#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#5'TEdit'#16'edtDiretorioInfo'#16
+  +'AlignWithMargins'#9#4'Left'#2'm'#3'Top'#2#5#5'Width'#2#28#6'Height'#2#19#4
+  +'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2#0#13'DefaultHei'
+  +'ght'#2#0#10'ButtonMode'#8#5'Align'#7#6'alLeft'#12'Font.Charset'#7#15'DEFAUL'
+  +'T_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#6
+  +'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#7'Visible'#8#16
+  +'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'#2#255
+  +#18'LeftImageDownIndex'#2#255#15'RightImageIndex'#2#255#18'RightImageHotInde'
+  +'x'#2#255#19'RightImageDownIndex'#2#255#7'OnKeyUp'#7#12'txtItemKeyUp'#0#0#0#0
+  +#6'TPanel'#17'pnlItensAgendados'#4'Left'#2#0#3'Top'#2#149#5'Width'#3#157#2#6
+  +'Height'#2')'#8'TabOrder'#2#0#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11
+  +'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12
+  +'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#5'alTop'#0#6'TBevel'#16'bsRibbonDivi'
+  +'der4'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#157#2#6'Height'#2#12#11'DividerType'
+  +#7#18'bsdtHorizontalLine'#5'Align'#7#5'alTop'#0#0#6'TPanel'#12'bsSkinPanel8'
+  +#4'Left'#2#0#3'Top'#2#12#5'Width'#3#157#2#6'Height'#2#29#8'TabOrder'#2#0#12
+  +'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'Nu'
+  +'mGlyphs'#2#1#7'Spacing'#2#2#7'Caption'#6#12'bsSkinPanel1'#5'Align'#7#5'alTo'
+  +'p'#0#6'TLabel'#15'bsSkinStdLabel4'#16'AlignWithMargins'#9#4'Left'#2#10#3'To'
+  +'p'#2#5#5'Width'#2#26#6'Height'#2#19#12'UseSkinColor'#9#5'Align'#7#6'alLeft'
+  +#7'Caption'#6#5'Item:'#6'Layout'#7#8'tlCenter'#8'WordWrap'#9#0#0#17'TDBLooku'
+  +'pComboBox'#7'dblItem'#16'AlignWithMargins'#9#4'Left'#2'1'#3'Top'#2#5#5'Widt'
+  +'h'#3'b'#2#6'Height'#2#21#5'Align'#7#8'alClient'#8'KeyField'#6#2'ID'#9'ListF'
+  +'ield'#6#4'NOME'#10'ListSource'#7#29'DM.dsCategoriasItensAgendados'#8'TabOrd'
+  +'er'#2#0#0#0#0#0#6'TPanel'#12'bsSkinPanel5'#4'Left'#2#0#3'Top'#3#129#0#5'Wid'
+  +'th'#3#157#2#6'Height'#2#0#8'TabOrder'#2#5#12'DefaultWidth'#2#0#13'DefaultHe'
+  +'ight'#2#0#11'CheckedMode'#8#7'Checked'#8#9'NumGlyphs'#2#1#7'Spacing'#2#2#7
+  +'Caption'#6#12'bsSkinPanel1'#8'AutoSize'#9#5'Align'#7#8'alClient'#0#0#0#11'T'
+  +'DataSource'#7'dsHinos'#7'DataSet'#7#7'qrHinos'#4'Left'#3#150#1#3'Top'#2'|'#0
+  +#0#7'TZQuery'#7'qrHinos'#8'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Str'
+  +'ings'#1#6']SELECT DISTINCT ID,FAIXA,NOME_ALBUM_COM,NOME_COM AS NOME,TIPO_HA'
+  +'SD,TIPO_JA FROM LISTA_MUSICAS'#6#17'ORDER BY NOME_COM'#0#4'Left'#3'r'#1#3'T'
+  +'op'#2'|'#0#0#0
 ]);

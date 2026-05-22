@@ -262,6 +262,41 @@ begin
   RegisterPropertyToSkip(TComponent, 'ListBoxDefaultFont',     BSF, '');
   RegisterPropertyToSkip(TComponent, 'ListBoxFont',            BSF, '');
   RegisterPropertyToSkip(TComponent, 'MenuDefaultFont',        BSF, '');
+  // VCL-only: comportamento de seleção e controles Windows
+  RegisterPropertyToSkip(TComponent, 'HideSelection',          VCL, '');
+  RegisterPropertyToSkip(TComponent, 'OldCreateOrder',         VCL, '');
+  RegisterPropertyToSkip(TComponent, 'ShowCheckBoxes',         VCL, '');
+  RegisterPropertyToSkip(TComponent, 'HorizontalExtent',       VCL, '');
+  RegisterPropertyToSkip(TComponent, 'AutoComplete',           BSF, ''); // BSF property em TCheckListBox — TComboBox LCL tem AutoComplete real
+  RegisterPropertyToSkip(TComponent, 'RowCount',               BSF, ''); // BSF property em TCheckListBox — TStringGrid LCL tem RowCount real
+  RegisterPropertyToSkip(TComponent, 'Align',                  BSF, ''); // BSF publica Align em TTabSheet — LCL TTabSheet não publica, demais controles têm Align real
+  RegisterPropertyToSkip(TComponent, 'Title',                  BSF, ''); // BSF TButton sub-título — não existe no LCL
+  // TDBGrid: propriedades na seção public (não published) — não disponíveis via RTTI/LFM
+  RegisterPropertyToSkip(TComponent, 'GridLineColor',           VCL, ''); // TDBGrid.GridLineColor é public, não published
+  RegisterPropertyToSkip(TComponent, 'FocusColor',              VCL, '');
+  RegisterPropertyToSkip(TComponent, 'EditorBorderStyle',       VCL, '');
+  RegisterPropertyToSkip(TComponent, 'ExtendedColSizing',       VCL, '');
+  RegisterPropertyToSkip(TComponent, 'FastEditing',             VCL, '');
+  RegisterPropertyToSkip(TComponent, 'FocusRectVisible',        VCL, '');
+  RegisterPropertyToSkip(TComponent, 'Both',                    BSF, ''); // BSF TScrollBar combinado H+V — não existe no LCL
+  RegisterPropertyToSkip(TComponent, 'Caption',                 BSF, ''); // BSF publica Caption em TStatusBar/TScrollBar — LCL não publica; demais controles têm Caption real
+  RegisterPropertyToSkip(TComponent, 'Images',                  BSF, ''); // BSF TComboBox/TButton — TPopupMenu/TToolBar LCL têm Images real
+  // BSF TDBCtrlGrid properties — convertido para TScrollBox no LCL
+  RegisterPropertyToSkip(TComponent, 'DataSource',              BSF, ''); // BSF TDBCtrlGrid — TDBGrid/TDBEdit LCL têm DataSource real
+  RegisterPropertyToSkip(TComponent, 'PanelHeight',             BSF, '');
+  RegisterPropertyToSkip(TComponent, 'PanelWidth',              BSF, '');
+  RegisterPropertyToSkip(TComponent, 'OnPaintPanel',            BSF, '');
+  // BSF TProgressBar — LCL usa Min/Max/Position/Orientation em vez de MinValue/MaxValue/Value/Vertical
+  RegisterPropertyToSkip(TComponent, 'MinValue',                BSF, ''); // TSpinEdit.MinValue é published — não será afetado
+  RegisterPropertyToSkip(TComponent, 'MaxValue',                BSF, ''); // TSpinEdit.MaxValue é published — não será afetado
+  RegisterPropertyToSkip(TComponent, 'Value',                   BSF, ''); // TSpinEdit.Value é published — não será afetado
+  RegisterPropertyToSkip(TComponent, 'Vertical',                BSF, ''); // BSF TProgressBar — LCL usa Orientation
+  RegisterPropertyToSkip(TComponent, 'ShowLines',               BSF, ''); // BSF TCheckListBox — não existe no LCL
+  RegisterPropertyToSkip(TComponent, 'Checked',                 BSF, ''); // BSF TToolBar property — TToolButton tem Down, não Checked
+  RegisterPropertyToSkip(TComponent, 'Spacing',                 BSF, ''); // BSF TToolBar Spacing — não existe no LCL TToolBar
+  RegisterPropertyToSkip(TComponent, 'AllowDelete',             BSF, ''); // TbsDBCtrlGrid — convertido para TScrollBox no LCL
+  RegisterPropertyToSkip(TComponent, 'AllowInsert',             BSF, ''); // TbsDBCtrlGrid — convertido para TScrollBox no LCL
+  RegisterPropertyToSkip(TComponent, 'ColCount',                BSF, ''); // TbsDBCtrlGrid — TStringGrid LCL tem ColCount real → não afetado
 end;
 
 begin

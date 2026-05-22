@@ -727,6 +727,553 @@ object fmIndex: TfmIndex
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp
   OnResize = FormResize
+  object paramexec: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ckMonitorJanela: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMonitorJanela'
+    TabOrder = 0
+  end
+  object ckFadeForm: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckFadeForm'
+    TabOrder = 0
+  end
+  object ckMesmaJanela: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMesmaJanela'
+    TabOrder = 0
+  end
+  object ckMusicaJanela: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMusicaJanela'
+    TabOrder = 0
+  end
+  object ckMusicaTopo: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMusicaTopo'
+    TabOrder = 0
+  end
+  object ckMusicaOperador: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMusicaOperador'
+    TabOrder = 0
+  end
+  object ckMusicaRetorno: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMusicaRetorno'
+    TabOrder = 0
+  end
+  object ckMusicaTituloSlide: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMusicaTituloSlide'
+    TabOrder = 0
+  end
+  object ckVideoOnJanela: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckVideoOnJanela'
+    TabOrder = 0
+  end
+  object ckPlayerTelaCheia: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckPlayerTelaCheia'
+    TabOrder = 0
+  end
+  object ckPlayerVideo: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckPlayerVideo'
+    TabOrder = 0
+  end
+  object ckPlayerAudio: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckPlayerAudio'
+    TabOrder = 0
+  end
+  object ckSlideTxtFormatPerso: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckSlideTxtFormatPerso'
+    TabOrder = 0
+  end
+  object ckSlideImgFormatPerso: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckSlideImgFormatPerso'
+    TabOrder = 0
+  end
+  object ckSlideFormatPersoExt: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckSlideFormatPersoExt'
+    TabOrder = 0
+  end
+  object ckMusicaFundoTransparente: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckMusicaFundoTransparente'
+    TabOrder = 0
+  end
+  object ckFundoTransparente: TCheckBox
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    Caption = 'ckFundoTransparente'
+    TabOrder = 0
+  end
+  object corFundoMusica: TColorButton
+    Left = 0
+    Top = 0
+    Width = 40
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object corTituloMusica: TColorButton
+    Left = 0
+    Top = 0
+    Width = 40
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object corTextoMusica: TColorButton
+    Left = 0
+    Top = 0
+    Width = 40
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object corTextoRepetido: TColorButton
+    Left = 0
+    Top = 0
+    Width = 40
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object corTextoAuxMusica: TColorButton
+    Left = 0
+    Top = 0
+    Width = 40
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object seTamanhoTitulo: TEdit
+    Left = 0
+    Top = 0
+    Width = 60
+    Height = 21
+    Visible = False
+    TabOrder = 0
+    Text = '18'
+  end
+  object seTamanhoTexto: TEdit
+    Left = 0
+    Top = 0
+    Width = 60
+    Height = 21
+    Visible = False
+    TabOrder = 0
+    Text = '14'
+  end
+  object seTamanhoTextoAux: TEdit
+    Left = 0
+    Top = 0
+    Width = 60
+    Height = 21
+    Visible = False
+    TabOrder = 0
+    Text = '10'
+  end
+  object seTamanhoTextoRetorno: TEdit
+    Left = 0
+    Top = 0
+    Width = 60
+    Height = 21
+    Visible = False
+    TabOrder = 0
+    Text = '17'
+  end
+  object imgFundoMusica: TEdit
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    TabOrder = 0
+    Text = ''
+  end
+  object txtImgFundoMusicaInfo: TEdit
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 21
+    Visible = False
+    TabOrder = 0
+    Text = ''
+  end
+  object bsFormatSlideImgPerso2: TPanel
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 24
+    Visible = False
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
+  object bsFormatSlPerso: TPanel
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 24
+    Visible = False
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
+  object bsFormatSlImgPerso: TPanel
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 24
+    Visible = False
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
+  object bsFormatSlRetorno: TPanel
+    Left = 0
+    Top = 0
+    Width = 100
+    Height = 24
+    Visible = False
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
+  object sbMusicaAreaExtendida: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object sbMusicaRetornoAreaExtendida: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object sbVideoOnAreaExtendida: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object sbPlayerAreaExtendida: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object sbMusicaOperadorAreaExtendida: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object sbVideoOnAbreLiturgia: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object sbAlinhMusica: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object posicaoFundo: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 21
+    Visible = False
+    TabOrder = 0
+  end
+  object bsAppMenu1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+    object bsAppMenu1Page0: TTabSheet
+      Caption = 'Page0'
+    end
+  end
+  object layoutValue: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object loadCol: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object param: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object paramAtualiz: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object vlSorteioNM: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object vlSorteadosNM: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object vlSorteio: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object vlSorteados: TValueListEditor
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ScrollBox1: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ScrollBox2: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ScrollBox3: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ScrollBox5: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ScrollBox6: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object ScrollBox7: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object PageControl5: TPageControl
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+    ActivePage = PageControl5Page0
+    object PageControl5Page0: TTabSheet
+      Caption = ''
+    end
+  end
+  object corCapaPrograma: TColorButton
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object cbAlinhamentoCapaPrograma: TComboBox
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object imgCapaPrograma: TFileNameEdit
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object txtImgCapaProgramaInfo: TEdit
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object paramtemp: TMemo
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Visible = False
+    TabOrder = 0
+  end
+  object lblVersao: TLabel
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 1
+    Caption = '26.7'
+    Visible = False
+  end
+  object bsFormatSlideImgPerso: TPanel
+    Left = 0
+    Top = 0
+    Width = 1
+    Height = 24
+    Visible = False
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
   object pnlImagemCapa: TPanel
     Left = 0
     Top = 146
@@ -747,7 +1294,7 @@ object fmIndex: TfmIndex
       Transparent = True
     end
   end
-  object bsRibbon1: TPageControl
+  object RibbonPC: TPageControl
     Left = 0
     Top = 31
     Width = 1370
@@ -756,7 +1303,7 @@ object fmIndex: TfmIndex
     Visible = False
     Align = alTop
     TabIndex = 0
-    ActivePage = bsColetaneas
+    ActivePage = tsColetaneas
     object bsUtilitarios: TTabSheet
       Left = 1
       Top = 26
@@ -2908,25 +3455,16 @@ object fmIndex: TfmIndex
         Caption = 'Favoritos'
         ShowDialogButton = True
         OnDialogButtonClick = btOrdFavClick
-        object ogFavoritos: TbsSkinOfficeGallery
+        object ogFavoritos: TListView
           Left = 2
           Top = 2
           Width = 565
           Height = 65
           TabOrder = 0
-          DefaultWidth = 0
-          DefaultHeight = 0
-          PopupMaxRowCount = 8
-          ItemLayout = blGlyphLeft
-          ItemMargin = 5
-          ItemSpacing = 10
-          Items = <>
-          Images = DM.ico_16x16
-          ItemWidth = 180
-          ItemHeight = 25
-          ItemIndex = -1
+          SmallImages = DM.ico_16x16
+          ViewStyle = vsReport
           Align = alClient
-          OnItemClick = ogFavoritosItemClick
+          OnClick = ogFavoritosItemClick
         end
       end
       object bsRibbonGroup69: TPanel
@@ -3270,7 +3808,7 @@ object fmIndex: TfmIndex
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             Sorted = False
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = cbMusicaChange
           end
           object btOuvir: TSpeedButton
@@ -3423,7 +3961,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = cbFormatoChange
           end
           object cbFormatoTempoES: TComboBox
@@ -3472,7 +4010,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = cbFormatoChange
           end
           object bsSkinStdLabel131: TLabel
@@ -5192,7 +5730,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = cbFormatoChange
           end
         end
@@ -5496,7 +6034,7 @@ object fmIndex: TfmIndex
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             Sorted = True
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = fcTxtIChange
             FontName = ''
           end
@@ -5661,7 +6199,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbEditStyle
+            Style = csDropDown
             OnChange = seTxtITamanhoChange
           end
           object bsRibbonDivider22: TBevel
@@ -6290,7 +6828,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = cbFormatoChange
           end
         end
@@ -7630,7 +8168,7 @@ object fmIndex: TfmIndex
         end
       end
     end
-    object bsColetaneas: TTabSheet
+    object tsColetaneas: TTabSheet
       Left = 1
       Top = 26
       Width = 1368
@@ -8033,7 +8571,7 @@ object fmIndex: TfmIndex
         Font.Name = 'Tahoma'
         Font.Style = []
         Sorted = False
-        Style = bscbEditStyle
+        Style = csDropDown
       end
       object pnlImagemCapaModel: TPanel
         Left = 240
@@ -9576,46 +10114,16 @@ object fmIndex: TfmIndex
         Width = 1368
         Height = 21
         TabOrder = 3
-        DefaultWidth = 0
-        DefaultHeight = 0
-        CheckedMode = False
-        Checked = False
-        NumGlyphs = 1
-        Spacing = 2
-        Caption = 'stHinos'
         Align = alBottom
         SizeGrip = False
-        object stHinos0: TbsSkinStatusPanel
-          Left = 0
-          Top = 0
-          Width = 998
-          Height = 21
-          TabOrder = 0
-          DefaultWidth = 0
-          DefaultHeight = 0
-          Transparent = False
-          BorderStyle = bsSingle
-          Align = alClient
-          AutoSize = False
-          ImageIndex = -1
-          NumGlyphs = 1
-        end
-        object stHinos1: TbsSkinStatusPanel
-          Left = 998
-          Top = 0
-          Width = 370
-          Height = 21
-          TabOrder = 1
-          DefaultWidth = 0
-          DefaultHeight = 0
-          Transparent = False
-          BorderStyle = bsSingle
-          Alignment = taRightJustify
-          Align = alRight
-          AutoSize = False
-          ImageIndex = -1
-          NumGlyphs = 1
-        end
+        Panels = <
+          item
+            Width = 998
+          end
+          item
+            Alignment = taRightJustify
+            Width = 370
+          end>
       end
     end
     object tsHinarioN: TTabSheet
@@ -9857,46 +10365,16 @@ object fmIndex: TfmIndex
           Width = 1368
           Height = 21
           TabOrder = 4
-          DefaultWidth = 0
-          DefaultHeight = 0
-          CheckedMode = False
-          Checked = False
-          NumGlyphs = 1
-          Spacing = 2
-          Caption = 'stHinos'
           Align = alBottom
           SizeGrip = False
-          object stHinos0N: TbsSkinStatusPanel
-            Left = 0
-            Top = 0
-            Width = 998
-            Height = 21
-            TabOrder = 0
-            DefaultWidth = 0
-            DefaultHeight = 0
-            Transparent = False
-            BorderStyle = bsSingle
-            Align = alClient
-            AutoSize = False
-            ImageIndex = -1
-            NumGlyphs = 1
-          end
-          object stHinos1N: TbsSkinStatusPanel
-            Left = 998
-            Top = 0
-            Width = 370
-            Height = 21
-            TabOrder = 1
-            DefaultWidth = 0
-            DefaultHeight = 0
-            Transparent = False
-            BorderStyle = bsSingle
-            Alignment = taRightJustify
-            Align = alRight
-            AutoSize = False
-            ImageIndex = -1
-            NumGlyphs = 1
-          end
+          Panels = <
+            item
+              Width = 998
+            end
+            item
+              Alignment = taRightJustify
+              Width = 370
+            end>
         end
       end
       object pnlHinario1996Inativo: TPanel
@@ -10701,44 +11179,15 @@ object fmIndex: TfmIndex
           Width = 822
           Height = 19
           TabOrder = 3
-          DefaultWidth = 0
-          DefaultHeight = 0
-          CheckedMode = False
-          Checked = False
-          NumGlyphs = 1
-          Spacing = 2
           Align = alBottom
           SizeGrip = False
-          object stColetPerso_0: TbsSkinStatusPanel
-            Left = 0
-            Top = 0
-            Width = 524
-            Height = 19
-            TabOrder = 0
-            DefaultWidth = 0
-            DefaultHeight = 0
-            Transparent = False
-            BorderStyle = bsSingle
-            Align = alClient
-            AutoSize = False
-            ImageIndex = -1
-            NumGlyphs = 1
-          end
-          object stColetPerso_1: TbsSkinStatusPanel
-            Left = 524
-            Top = 0
-            Width = 298
-            Height = 19
-            TabOrder = 1
-            DefaultWidth = 0
-            DefaultHeight = 0
-            Transparent = False
-            BorderStyle = bsSingle
-            Align = alRight
-            AutoSize = False
-            ImageIndex = -1
-            NumGlyphs = 1
-          end
+          Panels = <
+            item
+              Width = 524
+            end
+            item
+              Width = 298
+            end>
         end
       end
     end
@@ -11003,7 +11452,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -11299,7 +11748,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -11646,7 +12095,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbEditStyle
+            Style = csDropDown
             OnChange = busBibliaLivroChange
             OnExit = busBibliaLivroExit
           end
@@ -11842,7 +12291,7 @@ object fmIndex: TfmIndex
             Font.Name = 'Tahoma'
             Font.Style = []
             Sorted = False
-            Style = bscbEditStyle
+            Style = csDropDown
             OnChange = busBibliaCapituloChange
             OnExit = busBibliaCapituloExit
           end
@@ -12630,7 +13079,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -12926,7 +13375,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -13248,18 +13697,6 @@ object fmIndex: TfmIndex
       Caption = 'Cron'#244'metro de Culto'
       ImageIndex = 44
       OnShow = tsCronoCultoShow
-      object mpMusica: TMediaPlayer
-        Left = 0
-        Top = 409
-        Width = 1367
-        Height = 25
-        Align = alBottom
-        VisibleButtons = [btPlay, btStop]
-        DoubleBuffered = True
-        Visible = False
-        ParentDoubleBuffered = False
-        TabOrder = 2
-      end
       object pnlFormatEscSB: TPanel
         Tag = 3
         Left = 0
@@ -13481,7 +13918,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -13966,7 +14403,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -14194,7 +14631,6 @@ object fmIndex: TfmIndex
           HeaderLeftAlignment = False
           HeaderSkinDataName = 'menuheader'
           ItemSkinDataName = 'listbox'
-          Items = <>
           ShowItemTitles = True
           ItemHeight = 30
           HeaderHeight = 20
@@ -14336,7 +14772,6 @@ object fmIndex: TfmIndex
           HeaderLeftAlignment = False
           HeaderSkinDataName = 'menuheader'
           ItemSkinDataName = 'listbox'
-          Items = <>
           ShowItemTitles = True
           ItemHeight = 30
           HeaderHeight = 20
@@ -14598,7 +15033,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -14772,7 +15207,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -14936,7 +15371,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = []
               Sorted = False
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = cbRelogioAlinhamentoChange
             end
           end
@@ -15168,7 +15603,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -15343,7 +15778,7 @@ object fmIndex: TfmIndex
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             Sorted = True
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = fcOpcFonteChange
             FontName = ''
           end
@@ -15507,7 +15942,7 @@ object fmIndex: TfmIndex
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             Sorted = False
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = cbRelogioAlinhamentoChange
           end
         end
@@ -15544,7 +15979,6 @@ object fmIndex: TfmIndex
           HeaderLeftAlignment = False
           HeaderSkinDataName = 'menuheader'
           ItemSkinDataName = 'listbox'
-          Items = <>
           ShowItemTitles = True
           ItemHeight = 30
           HeaderHeight = 20
@@ -15686,7 +16120,6 @@ object fmIndex: TfmIndex
           HeaderLeftAlignment = False
           HeaderSkinDataName = 'menuheader'
           ItemSkinDataName = 'listbox'
-          Items = <>
           ShowItemTitles = True
           ItemHeight = 30
           HeaderHeight = 20
@@ -16125,7 +16558,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -16299,7 +16732,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -16463,7 +16896,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = []
               Sorted = False
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = cbRelogioAlinhamentoChange
             end
           end
@@ -16531,7 +16964,6 @@ object fmIndex: TfmIndex
           HeaderLeftAlignment = False
           HeaderSkinDataName = 'menuheader'
           ItemSkinDataName = 'listbox'
-          Items = <>
           ShowItemTitles = True
           ItemHeight = 30
           HeaderHeight = 20
@@ -16768,7 +17200,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -16942,7 +17374,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -17106,7 +17538,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = []
               Sorted = False
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = cbRelogioAlinhamentoChange
             end
           end
@@ -17459,7 +17891,7 @@ object fmIndex: TfmIndex
                       ImageIndex = 100
                       SelectedImageIndex = 100
                     end>
-                  Style = bscbFixedStyle
+                  Style = csDropDownList
                   HideSelection = True
                   AutoComplete = True
                   ListBoxUseSkinFont = True
@@ -17633,7 +18065,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcOpcFonteChange
               FontName = ''
             end
@@ -17797,7 +18229,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = []
               Sorted = False
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = cbRelogioAlinhamentoChange
             end
           end
@@ -18800,7 +19232,7 @@ object fmIndex: TfmIndex
           Align = alTop
           OnClick = bsSkinButton25Click
         end
-        object bgOnlCanais: TbsSkinButtonGroup
+        object bgOnlCanais: TToolBar
           Left = 1
           Top = 56
           Width = 236
@@ -18813,7 +19245,6 @@ object fmIndex: TfmIndex
           ButtonHeight = 90
           ButtonOptions = [bsgboFullSize, bsgboGroupStyle, gboShowCaptions]
           Images = DM.ico_on_canais
-          Items = <>
           OnButtonClicked = bgOnlCanaisButtonClicked
         end
         object lbbgOnlCanais: TListBox
@@ -18905,7 +19336,7 @@ object fmIndex: TfmIndex
           Align = alTop
           OnClick = bsSkinButton24Click
         end
-        object bgOnlPlaylists: TbsSkinButtonGroup
+        object bgOnlPlaylists: TToolBar
           Left = 1
           Top = 56
           Width = 236
@@ -18918,7 +19349,6 @@ object fmIndex: TfmIndex
           ButtonHeight = 92
           ButtonOptions = [bsgboFullSize, bsgboGroupStyle, gboShowCaptions]
           Images = DM.ico_on_playlists
-          Items = <>
           OnButtonClicked = bgOnlPlaylistsButtonClicked
         end
         object lbbgOnlPlaylists: TListBox
@@ -19083,7 +19513,7 @@ object fmIndex: TfmIndex
           Font.Style = []
           Align = alBottom
         end
-        object bgOnlVideos: TbsSkinButtonGroup
+        object bgOnlVideos: TToolBar
           Left = 1
           Top = 56
           Width = 872
@@ -19096,7 +19526,6 @@ object fmIndex: TfmIndex
           ButtonHeight = 92
           ButtonWidth = 250
           Images = DM.ico_on_videos
-          Items = <>
           OnButtonClicked = bgOnlVideosButtonClicked
         end
       end
@@ -19183,9 +19612,9 @@ object fmIndex: TfmIndex
         Align = alRight
         Kind = sbVertical
         PageSize = 1
-        Min = 1
+        Min = 0
         Max = 0
-        Position = 1
+        Position = 0
         SmallChange = 1
         LargeChange = 1
       end
@@ -19195,29 +19624,12 @@ object fmIndex: TfmIndex
         Width = 1368
         Height = 19
         TabOrder = 2
-        DefaultWidth = 0
-        DefaultHeight = 0
-        CheckedMode = False
-        Checked = False
-        NumGlyphs = 1
-        Spacing = 2
         Align = alBottom
         SizeGrip = False
-        object stVideosOnPerso_1: TbsSkinStatusPanel
-          Left = 889
-          Top = 0
-          Width = 479
-          Height = 19
-          TabOrder = 0
-          DefaultWidth = 0
-          DefaultHeight = 0
-          Transparent = False
-          BorderStyle = bsSingle
-          Align = alRight
-          AutoSize = False
-          ImageIndex = -1
-          NumGlyphs = 1
-        end
+        Panels = <
+          item
+            Width = 479
+          end>
       end
     end
     object tsDoxologia: TTabSheet
@@ -19244,7 +19656,7 @@ object fmIndex: TfmIndex
         Sizeable = False
         Align = alLeft
         Caption = 'Categorias'
-        object bgDoxologiaCate: TbsSkinButtonGroup
+        object bgDoxologiaCate: TToolBar
           Left = 1
           Top = 21
           Width = 236
@@ -19257,7 +19669,6 @@ object fmIndex: TfmIndex
           ButtonHeight = 90
           ButtonOptions = [bsgboFullSize, bsgboGroupStyle, gboShowCaptions]
           Images = DM.ico_doxologia
-          Items = <>
           OnButtonClicked = bgDoxologiaCateButtonClicked
         end
         object lbbgDoxologiaCate: TListBox
@@ -20205,7 +20616,7 @@ object fmIndex: TfmIndex
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               Sorted = True
-              Style = bscbFixedStyle
+              Style = csDropDownList
               OnChange = fcTxtIChange
               FontName = ''
             end
@@ -20375,7 +20786,7 @@ object fmIndex: TfmIndex
               Font.Name = 'Tahoma'
               Font.Style = []
               Sorted = False
-              Style = bscbEditStyle
+              Style = csDropDown
               OnChange = seTxtITamanhoChange
             end
             object bsRibbonDivider55: TBevel
@@ -20844,7 +21255,7 @@ object fmIndex: TfmIndex
         Sizeable = False
         Align = alLeft
         Caption = 'Categorias'
-        object dbctrlCategoriasItensAgendados: TDBCtrlGrid
+        object dbctrlCategoriasItensAgendados: TScrollBox
           Left = 1
           Top = 21
           Width = 292
@@ -20983,7 +21394,7 @@ object fmIndex: TfmIndex
           BevelOuter = bvNone
           Caption = 'Panel34'
           TabOrder = 1
-          object dbctrlItensAgendados: TDBCtrlGrid
+          object dbctrlItensAgendados: TScrollBox
             Left = 0
             Top = 41
             Width = 835
@@ -21205,18 +21616,14 @@ object fmIndex: TfmIndex
             ParentFont = False
             WordWrap = True
           end
-          object MonthCalendar1: TMonthCalendar
+          object MonthCalendar1: TCalendar
             Left = 0
             Top = 38
             Width = 225
             Height = 374
             Align = alClient
-            Date = 43344.718404884260000000
-            DoubleBuffered = False
-            ParentDoubleBuffered = False
             TabOrder = 0
             OnDblClick = MonthCalendar1DblClick
-            OnGetMonthInfo = MonthCalendar1GetMonthInfo
           end
         end
       end
@@ -21225,7 +21632,7 @@ object fmIndex: TfmIndex
       Caption = 'Localizar M'#250'sicas'
       ImageIndex = 27
       OnShow = tsBuscaMusicaShow
-      object tabLetras: TPageControl
+      object tabLetras: TTabControl
         Left = 0
         Top = 57
         Width = 1368
@@ -21503,46 +21910,16 @@ object fmIndex: TfmIndex
         Width = 1368
         Height = 21
         TabOrder = 2
-        DefaultWidth = 0
-        DefaultHeight = 0
-        CheckedMode = False
-        Checked = False
-        NumGlyphs = 1
-        Spacing = 2
-        Caption = 'stHinos'
         Align = alBottom
         SizeGrip = False
-        object pnlStatusBuscaMusicas0: TbsSkinStatusPanel
-          Left = 0
-          Top = 0
-          Width = 998
-          Height = 21
-          TabOrder = 0
-          DefaultWidth = 0
-          DefaultHeight = 0
-          Transparent = False
-          BorderStyle = bsSingle
-          Align = alClient
-          AutoSize = False
-          ImageIndex = -1
-          NumGlyphs = 1
-        end
-        object pnlStatusBuscaMusicas1: TbsSkinStatusPanel
-          Left = 998
-          Top = 0
-          Width = 370
-          Height = 21
-          TabOrder = 1
-          DefaultWidth = 0
-          DefaultHeight = 0
-          Transparent = False
-          BorderStyle = bsSingle
-          Alignment = taRightJustify
-          Align = alRight
-          AutoSize = False
-          ImageIndex = -1
-          NumGlyphs = 1
-        end
+        Panels = <
+          item
+            Width = 998
+          end
+          item
+            Alignment = taRightJustify
+            Width = 370
+          end>
       end
     end
   end
@@ -21565,7 +21942,7 @@ object fmIndex: TfmIndex
     TabOrder = 1
     OnDblClick = pnlfmBarraTituloFormDblClick
     OnMouseDown = pnlfmBarraTituloFormMouseDown
-    object btwsformBotoes: TbsSkinToolBar
+    object btwsformBotoes: TToolBar
       Left = 1177
       Top = 0
       Width = 193
@@ -21658,7 +22035,7 @@ object fmIndex: TfmIndex
         OnMouseDown = btwsMouseDown
         OnMouseUp = btwsMouseUp
       end
-      object btwsspDownload: TbsSkinBevel
+      object btwsspDownload: TBevel
         Left = 46
         Top = 0
         Width = 9
@@ -21801,96 +22178,29 @@ object fmIndex: TfmIndex
     Width = 1370
     Height = 21
     TabOrder = 6
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
-    Caption = 'bsSkinStatusBar1'
     Align = alBottom
     SizeGrip = False
-    object spVersao: TbsSkinStatusPanel
-      Left = 1220
-      Top = 0
-      Width = 150
-      Height = 21
-      TabOrder = 3
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Alignment = taRightJustify
-      Align = alRight
-      AutoSize = False
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
-    object spRelogio: TbsSkinStatusPanel
-      Left = 1150
-      Top = 0
-      Width = 70
-      Height = 21
-      TabOrder = 2
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Alignment = taCenter
-      Align = alRight
-      AutoSize = False
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
-    object spData: TbsSkinStatusPanel
-      Left = 1080
-      Top = 0
-      Width = 70
-      Height = 21
-      TabOrder = 1
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Alignment = taCenter
-      Align = alRight
-      AutoSize = False
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
-    object spNomePC: TbsSkinStatusPanel
-      Left = 0
-      Top = 0
-      Width = 787
-      Height = 21
-      TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Align = alClient
-      AutoSize = False
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
-    object spServer: TbsSkinStatusPanel
-      Left = 787
-      Top = 0
-      Width = 293
-      Height = 21
-      Cursor = crHandPoint
-      TabOrder = 4
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      BorderStyle = bsSingle
-      Alignment = taCenter
-      Align = alRight
-      AutoSize = False
-      OnClick = spServerClick
-      ImageIndex = -1
-      NumGlyphs = 1
-    end
+    OnClick = spServerClick
+    Panels = <
+      item
+        Width = 787
+      end
+      item
+        Alignment = taCenter
+        Width = 293
+      end
+      item
+        Alignment = taCenter
+        Width = 70
+      end
+      item
+        Alignment = taCenter
+        Width = 70
+      end
+      item
+        Alignment = taRightJustify
+        Width = 150
+      end>
   end
   object pnlPlayer: TPanel
     Left = 0
@@ -21995,17 +22305,6 @@ object fmIndex: TfmIndex
       Align = alTop
       Caption = 'Reproduzindo:'
       AutoSize = True
-    end
-    object MediaPlayer1: TMediaPlayer
-      Left = 236
-      Top = 12
-      Width = 197
-      Height = 38
-      VisibleButtons = [btPlay, btPause, btStop, btNext, btPrev, btStep, btBack]
-      DoubleBuffered = True
-      Visible = False
-      ParentDoubleBuffered = False
-      TabOrder = 1
     end
     object pbPlayer: TProgressBar
       Left = 1

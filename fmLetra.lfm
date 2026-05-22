@@ -312,11 +312,6 @@ object fLetra: TfLetra
       'ORDER BY ORDEM')
     Left = 256
     Top = 244
-    ParamData = <
-      item
-        Name = 'MUSICA'
-        ParamType = ptInput
-      end>
   end
   object qrALBUNS: TZQuery
     Filtered = True
@@ -328,11 +323,6 @@ object fLetra: TfLetra
       'ORDER BY A.NOME')
     Left = 256
     Top = 292
-    ParamData = <
-      item
-        Name = 'MUSICA'
-        ParamType = ptInput
-      end>
   end
   object dsALBUNS: TDataSource
     DataSet = qrALBUNS

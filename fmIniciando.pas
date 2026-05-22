@@ -197,7 +197,7 @@ begin
 
 
   DM.ADO.Connected := false;
-  DM.ADO.Protocol := 'sqlite-3'; {LAZARUS: DriverName→Protocol (ZeosLib)}
+  DM.ADO.Protocol := 'sqlite'; {LAZARUS: ZeosLib SQLite3 usa protocolo 'sqlite', não 'sqlite-3'}
   DM.ADO.Database := dir_config + 'database.db'; {LAZARUS: Params.Database→Database (ZeosLib)}
   try
     DM.ADO.Connected := true;
@@ -355,16 +355,12 @@ begin
     //**CARREGA PARAMETROS DA WEB***********************************************
     fmIndex.carregaParams();
 
-
     //**CARREGA T�TULOS DO PROGRAMA
     application.Title := TITULO;
     fmIndex.Caption := TITULO;
     fmIndex.pnlTitForm.Caption := TITULO;
 
-
-    //**CARGA INICIAL DAS VARI�VEIS
     fmIndex.tCronoT := 0;
-
 
     //**CARREGA INFORMA��ES DO COMPUTADOR E REL�GIO*****************************
     DM.tmrRelogio.Enabled := True;
@@ -372,13 +368,11 @@ begin
     fmIndex.paramtemp.Text := fmIndex.GetComputerNameFunc;
     fmIndex.spNomePC.Text {LAZARUS: TStatusPanel.Caption→.Text} := ' '+trim(fmIndex.paramtemp.Lines[0]);
 
-
     //**ATUALIZA BD COM COLETANEAS ATIVAS/INATIVAS******************************
     DM.qrALBUM_ATIV.Close;
     DM.qrALBUM_ATIV.Open;
     DM.qrALBUM_INATIV.Close;
     DM.qrALBUM_INATIV.Open;
-
 
     //**ATUALIZA COLETANEAS PERSONALIZADAS**************************************
     fmIndex.importColetaneasPerso;
@@ -402,7 +396,6 @@ begin
 
     fmIndex.carrega_opc := true;
   end;
-
   fIniciando.Visible := False;
 
   if DM.tmrSair.Enabled = True then

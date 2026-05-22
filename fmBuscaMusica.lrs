@@ -45,34 +45,24 @@ LazarusResources.Add('TfBuscaMusica','FORMDATA',[
   +'t.Name'#6#13'MS Sans Serif'#10'Font.Style'#11#0#13'Title.Caption'#18#6#0#0#0
   +'M'#0#250#0's'#0'i'#0'c'#0'a'#0#5'Width'#3'o'#1#7'Visible'#9#0#0#0#0#10'TSta'
   +'tusBar'#7'stBusca'#4'Left'#2#0#3'Top'#3#21#1#5'Width'#3#189#2#6'Height'#2#19
-  +#8'TabOrder'#2#3#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#11'CheckedMode'#8
-  +#7'Checked'#8#11'BorderStyle'#7#6'bvNone'#9'NumGlyphs'#2#1#7'Spacing'#2#2#5
-  +'Align'#7#8'alBottom'#8'SizeGrip'#8#0#18'TbsSkinStatusPanel'#9'stBusca_0'#4
-  +'Left'#2#0#3'Top'#2#0#5'Width'#3'@'#1#6'Height'#2#19#8'TabOrder'#2#0#12'Defa'
-  +'ultWidth'#2#0#13'DefaultHeight'#2#0#11'Transparent'#8#11'BorderStyle'#7#7'b'
-  +'vFrame'#5'Align'#7#8'alClient'#8'AutoSize'#8#10'ImageIndex'#2#255#9'NumGlyp'
-  +'hs'#2#1#0#0#18'TbsSkinStatusPanel'#9'stBusca_1'#4'Left'#3'@'#1#3'Top'#2#0#5
-  +'Width'#3'}'#1#6'Height'#2#19#8'TabOrder'#2#1#12'DefaultWidth'#2#0#13'Defaul'
-  +'tHeight'#2#0#11'Transparent'#8#11'BorderStyle'#7#7'bvFrame'#5'Align'#7#7'al'
-  +'Right'#8'AutoSize'#8#10'ImageIndex'#2#255#9'NumGlyphs'#2#1#0#0#0#10'TScroll'
-  +'Bar'#16'bsSkinScrollBar7'#4'Left'#3#170#2#3'Top'#2'9'#5'Width'#2#19#6'Heigh'
-  +'t'#3#220#0#8'TabOrder'#2#2#7'Visible'#8#12'DefaultWidth'#2#19#13'DefaultHei'
-  +'ght'#2#0#4'Both'#8#15'BothMarkerWidth'#2#19#16'BothSkinDataName'#6#14'bothh'
-  +'scrollbar'#5'Align'#7#7'alRight'#4'Kind'#7#10'sbVertical'#8'PageSize'#2#0#3
-  +'Min'#2#0#3'Max'#2#0#8'Position'#2#0#11'SmallChange'#2#1#11'LargeChange'#2#1
-  +#0#0#7'TZQuery'#7'qrBUSCA'#8'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.S'
-  +'trings'#1#6#171'SELECT DISTINCT '''' AS ICONE1,'''' AS ICONE2,'''' AS ICONE'
-  +'3, M.ID ID, M.ID_ALBUM ID_ALBUM, M.NOME_ALBUM NOME_ALBUM, M.NOME_ALBUM_COM '
-  ,'NOME_ALBUM_COM, M.FAIXA FAIXA, M.NOME NOME,'#6#177'    M.NOME_COM NOME_COM,'
-  +' M.TIPO_HASD TIPO_HASD, M.TIPO_JA TIPO_JA, M.TIPO_BAIXADA TIPO_BAIXADA, M.T'
-  +'IPO_WEB TIPO_WEB, M.TIPO_PERSO TIPO_PERSO, M.TIPO TIPO, M.URL_ALBUM URL_ALB'
-  +'UM,'#6'B    M.ALBUM ALBUM, M.URL URL, M.URL_INSTRUMENTAL URL_INSTRUMENTAL,'
-  +#6'h    M.IDIOMA IDIOMA, M.LETRA LETRA, M.NOME_SEMAC NOME_SEMAC, M.NOME_ALBU'
-  +'M_COM_SEMAC NOME_ALBUM_COM_SEMAC'#6#20'FROM LISTA_MUSICAS M'#6#5'WHERE'#6'H'
-  +'    (CAST(:VALOR AS INTEGER) > 0 AND TIPO_HASD = ''S'' AND FAIXA = :VALOR)'
-  +#6#6'    OR'#6'K    (CAST(:VALOR AS INTEGER) <= 0 AND NOME_SEMAC LIKE ''%'' '
-  +'|| :VALOR || ''%'')'#6#0#0#4'Left'#3'b'#1#3'Top'#3#148#0#9'ParamData'#14#1#4
-  +'Name'#6#5'VALOR'#9'ParamType'#7#7'ptInput'#5'Value'#7#4'Null'#0#0#0#0#11'TD'
-  +'ataSource'#7'dsBUSCA'#7'DataSet'#7#7'qrBUSCA'#4'Left'#3#134#1#3'Top'#3#148#0
-  +#0#0#0
+  +#8'TabOrder'#2#3#5'Align'#7#8'alBottom'#8'SizeGrip'#8#6'Panels'#14#1#5'Width'
+  +#3'@'#1#0#1#5'Width'#3'}'#1#0#0#0#0#10'TScrollBar'#16'bsSkinScrollBar7'#4'Le'
+  +'ft'#3#170#2#3'Top'#2'9'#5'Width'#2#19#6'Height'#3#220#0#8'TabOrder'#2#2#7'V'
+  +'isible'#8#12'DefaultWidth'#2#19#13'DefaultHeight'#2#0#4'Both'#8#15'BothMark'
+  +'erWidth'#2#19#16'BothSkinDataName'#6#14'bothhscrollbar'#5'Align'#7#7'alRigh'
+  +'t'#4'Kind'#7#10'sbVertical'#8'PageSize'#2#0#3'Min'#2#0#3'Max'#2#0#8'Positio'
+  +'n'#2#0#11'SmallChange'#2#1#11'LargeChange'#2#1#0#0#7'TZQuery'#7'qrBUSCA'#8
+  +'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6#171'SELECT DISTI'
+  +'NCT '''' AS ICONE1,'''' AS ICONE2,'''' AS ICONE3, M.ID ID, M.ID_ALBUM ID_AL'
+  +'BUM, M.NOME_ALBUM NOME_ALBUM, M.NOME_ALBUM_COM NOME_ALBUM_COM, M.FAIXA FAIX'
+  +'A, M.NOME NOME,'#6#177'    M.NOME_COM NOME_COM, M.TIPO_HASD TIPO_HASD, M.TI'
+  +'PO_JA TIPO_JA, M.TIPO_BAIXADA TIPO_BAIXADA, M.TIPO_WEB TIPO_WEB, M.TIPO_PER'
+  +'SO TIPO_PERSO, M.TIPO TIPO, M.URL_ALBUM URL_ALBUM,'#6'B    M.ALBUM ALBUM, M'
+  +'.URL URL, M.URL_INSTRUMENTAL URL_INSTRUMENTAL,'#6'h    M.IDIOMA IDIOMA, M.L'
+  +'ETRA LETRA, M.NOME_SEMAC NOME_SEMAC, M.NOME_ALBUM_COM_SEMAC NOME_ALBUM_COM_'
+  +'SEMAC'#6#20'FROM LISTA_MUSICAS M'#6#5'WHERE'#6'H    (CAST(:VALOR AS INTEGER'
+  +') > 0 AND TIPO_HASD = ''S'' AND FAIXA = :VALOR)'#6#6'    OR'#6'K    (CAST(:'
+  +'VALOR AS INTEGER) <= 0 AND NOME_SEMAC LIKE ''%'' || :VALOR || ''%'')'#6#0#0
+  ,#4'Left'#3'b'#1#3'Top'#3#148#0#0#0#11'TDataSource'#7'dsBUSCA'#7'DataSet'#7#7
+  +'qrBUSCA'#4'Left'#3#134#1#3'Top'#3#148#0#0#0#0
 ]);

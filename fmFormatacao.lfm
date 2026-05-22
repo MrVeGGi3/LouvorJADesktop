@@ -165,7 +165,7 @@ object fFormatacao: TfFormatacao
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             Sorted = True
-            Style = bscbFixedStyle
+            Style = csDropDownList
             OnChange = fontComboBoxChange
             FontName = ''
           end

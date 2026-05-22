@@ -70,6 +70,7 @@ type
     procedure bsSkinButton2Click(Sender: TObject);
     procedure btIPRedeClick(Sender: TObject);
     procedure ckSrvAltIPPortaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btCopLinkClick(Sender: TObject);
     function geraToken():string;
@@ -241,6 +242,13 @@ begin
     fmIndex.gravaParam('Servidor', 'Conectar', '1')
   else
     fmIndex.gravaParam('Servidor', 'Conectar', '0');
+end;
+
+procedure TfTransmitir.FormCreate(Sender: TObject);
+begin
+  {LAZARUS: TIdHTTPServer removido do LFM — criar TFPHttpServer programaticamente}
+  IdHTTPServer1 := TFPHttpServer.Create(Self);
+  IdHTTPServer1.OnRequest := @IdHTTPServer1CommandGet;
 end;
 
 procedure TfTransmitir.FormActivate(Sender: TObject);

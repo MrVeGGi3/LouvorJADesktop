@@ -152,7 +152,7 @@ object fListaMusica: TfListaMusica
       end
     end
   end
-  object DBCtrlGrid: TDBCtrlGrid
+  object DBCtrlGrid: TScrollBox
     Left = 0
     Top = 137
     Width = 684

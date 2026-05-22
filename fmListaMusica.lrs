@@ -41,7 +41,7 @@ LazarusResources.Add('TfListaMusica','FORMDATA',[
   +'Spacing'#2#1#7'OnClick'#7#22'btExp_MenuMusicasClick'#8'NewStyle'#8#13'Track'
   +'Position'#7#9'bstpRight'#18'UseImagesMenuImage'#8#20'UseImagesMenuCaption'#8
   +#13'SkinPopupMenu'#7#21'fmIndex.bsPopupExpand'#15'TrackButtonMode'#9#15'OnSh'
-  +'owTrackMenu'#7#30'btExp_MenuMusicasShowTrackMenu'#0#0#0#0#0#11'TDBCtrlGrid'
+  +'owTrackMenu'#7#30'btExp_MenuMusicasShowTrackMenu'#0#0#0#0#0#10'TScrollBox'
   +#10'DBCtrlGrid'#4'Left'#2#0#3'Top'#3#137#0#5'Width'#3#172#2#6'Height'#3'K'#1
   +#6'Cursor'#7#11'crHandPoint'#5'Align'#7#8'alClient'#11'AllowDelete'#8#11'All'
   +'owInsert'#8#10'DataSource'#7#12'DM.dsMUSICAS'#11'PanelBorder'#7#6'gbNone'#11

@@ -105,7 +105,6 @@ object fMonitorCronometro: TfMonitorCronometro
       HeaderLeftAlignment = False
       HeaderSkinDataName = 'menuheader'
       ItemSkinDataName = 'listbox'
-      Items = <>
       ShowItemTitles = True
       ItemHeight = 30
       HeaderHeight = 20

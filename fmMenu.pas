@@ -2341,6 +2341,32 @@ begin
   Application.OnActivate := ApplicationActivate;
   SysUtils.FormatSettings.DecimalSeparator := '.';
 
+  {LAZARUS: conectar TStatusPanel fields ao Panels collection criado pelo LFM}
+  if stHinos.Panels.Count >= 2 then begin
+    stHinos0 := stHinos.Panels[0];
+    stHinos1 := stHinos.Panels[1];
+  end;
+  if stHinosN.Panels.Count >= 2 then begin
+    stHinos0N := stHinosN.Panels[0];
+    stHinos1N := stHinosN.Panels[1];
+  end;
+  if stColetPerso.Panels.Count >= 2 then begin
+    stColetPerso_0 := stColetPerso.Panels[0];
+    stColetPerso_1 := stColetPerso.Panels[1];
+  end;
+  if stVideosOnPerso.Panels.Count >= 1 then
+    stVideosOnPerso_1 := stVideosOnPerso.Panels[0];
+  if pnlStatusBuscaMusicas.Panels.Count >= 2 then begin
+    pnlStatusBuscaMusicas0 := pnlStatusBuscaMusicas.Panels[0];
+    pnlStatusBuscaMusicas1 := pnlStatusBuscaMusicas.Panels[1];
+  end;
+  if bsSkinStatusBar1.Panels.Count >= 5 then begin
+    spNomePC  := bsSkinStatusBar1.Panels[0];
+    spServer  := bsSkinStatusBar1.Panels[1];
+    spData    := bsSkinStatusBar1.Panels[2];
+    spRelogio := bsSkinStatusBar1.Panels[3];
+    spVersao  := bsSkinStatusBar1.Panels[4];
+  end;
   {LAZARUS: SetWindowLong/GetWindowLong removidos — Windows API}
 end;
 
@@ -2944,7 +2970,8 @@ begin
 
   if (Query.Active = false) or (Query.RecordCount > 0) then
   begin
-    Campo.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_input']);
+    if layoutValue.Strings.Values['cor_texto_input'] <> '' then
+      Campo.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_input']);
     if (DBGrid <> nil) and (Query.RecordCount > 1) then
       {LAZARUS: DBGrid.VScrollBar removido - TDBGrid nao tem VScrollBar}
   end
@@ -4906,14 +4933,17 @@ end;
 procedure TfmIndex.pnlfmSubTituloRibMouseLeave(Sender: TObject);
 begin
   pnlfmSubTituloRib.Color := pnlfmTituloRib.Color;
-  pnlfmSubTituloRib.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_marc']);
+  if layoutValue.Strings.Values['cor_texto_marc'] <> '' then
+    pnlfmSubTituloRib.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_marc']);
 end;
 
 procedure TfmIndex.pnlfmSubTituloRibMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  pnlfmSubTituloRib.Color := StringToColor(layoutValue.Strings.Values['cor_sel']);
-  pnlfmSubTituloRib.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_sel']);
+  if layoutValue.Strings.Values['cor_sel'] <> '' then
+    pnlfmSubTituloRib.Color := StringToColor(layoutValue.Strings.Values['cor_sel']);
+  if layoutValue.Strings.Values['cor_texto_sel'] <> '' then
+    pnlfmSubTituloRib.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_sel']);
 end;
 
 function TfmIndex.isFolderEmpty(szPath: string): Boolean;
@@ -8012,9 +8042,16 @@ begin
   if btwsClose.Enabled <> acao then btwsClose.Enabled := acao;
   if btwsDownload.Enabled <> acao then btwsDownload.Enabled := acao;
 
-  if acao = true
-    then pnlTitForm.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto'])
-    else pnlTitForm.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_dis']);
+  if acao = true then
+  begin
+    if layoutValue.Strings.Values['cor_texto'] <> '' then
+      pnlTitForm.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto']);
+  end
+  else
+  begin
+    if layoutValue.Strings.Values['cor_texto_dis'] <> '' then
+      pnlTitForm.Font.Color := StringToColor(layoutValue.Strings.Values['cor_texto_dis']);
+  end;
 end;
 
 procedure TfmIndex.sbClickPerso(Sender: TObject);
@@ -12491,6 +12528,8 @@ begin
         gravaParam('Config', 'UltimaConexao', formatdatetime('yyyy-mm-dd', Now()));
 
         {LAZARUS: DM.progressDialog.MaxValue := StrToInt(lerParam('Config', 'Param Buffer', '100000')); — progressDialog removido}
+        DM.FHttp.ConnectTimeout := 5000; {LAZARUS: timeout 5s para não travar inicialização}
+        DM.FHttp.IOTimeout := 5000;
         DM.FHttp.AddHeader('Api-Token', api_token); {LAZARUS: IdHTTP1.Request.CustomHeaders → FHttp.AddHeader}
 
         try
@@ -12797,8 +12836,12 @@ begin
 end;
 
 procedure TfmIndex.spServerClick(Sender: TObject);
+var
+  idx: Integer;
 begin
-  if (trim(spServer.Text {LAZARUS: TStatusPanel.Caption→.Text}) <> '') then
+  {LAZARUS: TStatusBar.OnClick — verificar qual painel foi clicado (spServer = Panels[1])}
+  idx := bsSkinStatusBar1.GetPanelIndexAt(bsSkinStatusBar1.ScreenToClient(Mouse.CursorPos).X, 5);
+  if (idx = 1) and (trim(spServer.Text {LAZARUS: TStatusPanel.Caption→.Text}) <> '') then
     OpenURL(spServer.Text {LAZARUS: TStatusPanel.Caption→.Text}); {LAZARUS: ShellExecute→OpenURL}
 end;
 

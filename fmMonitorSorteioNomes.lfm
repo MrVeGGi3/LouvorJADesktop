@@ -107,7 +107,6 @@ object fMonitorSorteioNomes: TfMonitorSorteioNomes
       HeaderLeftAlignment = False
       HeaderSkinDataName = 'menuheader'
       ItemSkinDataName = 'listbox'
-      Items = <>
       ShowItemTitles = True
       ItemHeight = 30
       HeaderHeight = 20
@@ -151,7 +150,6 @@ object fMonitorSorteioNomes: TfMonitorSorteioNomes
       HeaderLeftAlignment = False
       HeaderSkinDataName = 'menuheader'
       ItemSkinDataName = 'listbox'
-      Items = <>
       ShowItemTitles = True
       ItemHeight = 30
       HeaderHeight = 20

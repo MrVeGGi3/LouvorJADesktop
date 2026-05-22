@@ -369,7 +369,7 @@ object fEditorSlides: TfEditorSlides
                 ImageIndex = 100
                 SelectedImageIndex = 100
               end>
-            Style = bscbFixedStyle
+            Style = csDropDownList
             HideSelection = True
             AutoComplete = True
             ListBoxUseSkinFont = True

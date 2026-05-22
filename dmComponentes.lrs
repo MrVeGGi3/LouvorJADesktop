@@ -81287,5 +81287,6 @@ LazarusResources.Add('TDM','FORMDATA',[
   +'SCA_VERSAO_1'#8'Filtered'#9#10'Connection'#7#3'ADO'#11'SQL.Strings'#1#6'[SE'
   +'LECT VERSAO_BIBLICA.SIGLA VERSAO,LIVRO.LIVRO LIVRO,LIVRO.SIGLA SIGLA FROM V'
   +'ERSAO_BIBLICA,'#6#5'LIVRO'#6#16'WHERE LIVRO.ID=1'#6#7'LIMIT 1'#0#4'Left'#3#8
-  +#2#3'Top'#3#232#0#0#0#0
+  +#2#3'Top'#3#232#0#0#0#13'TFPHTTPClient'#5'FHttp'#13'AllowRedirect'#9#4'Left'
+  +#3'h'#2#3'Top'#3#24#1#0#0#0
 ]);

@@ -227,7 +227,7 @@ object fLiturgia: TfLiturgia
       Font.Name = 'Tahoma'
       Font.Style = []
       Sorted = True
-      Style = bscbFixedStyle
+      Style = csDropDownList
       OnChange = cbItensChange
       OnExit = cbItensChange
     end
@@ -552,7 +552,7 @@ object fLiturgia: TfLiturgia
           Spacing = 1
           OnClick = bsSkinSpeedButton2Click
         end
-        object urlSite: TbsSkinURLEdit
+        object urlSite: TEdit
           AlignWithMargins = True
           Left = 45
           Top = 5
