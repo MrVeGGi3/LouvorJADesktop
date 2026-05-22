@@ -3,7 +3,7 @@ object fmIndex: TfmIndex
   Top = 0
   Cursor = crHandPoint
   AlphaBlend = True
-  AlphaBlendValue = 0
+  AlphaBlendValue = 255
   BorderIcons = []
   Caption = ' '
   ClientHeight = 757

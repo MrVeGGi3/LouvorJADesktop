@@ -380,24 +380,14 @@ begin
 
     //**MOSTRA FORM*************************************************************
     fmIndex.Show;
-    if fmIndex.ckFadeForm.Checked then
-    begin
-      for i := 0 to 255 do
-      begin
-        fmIndex.AlphaBlendValue := i;
-        sleep(1);
-      end;
-    end
-    else fmIndex.AlphaBlendValue := 255;
+    Application.ProcessMessages; {LAZARUS: drena fila de eventos GTK pendentes após Show() — necessário pois o fade-in foi removido}
 
     //**CHECA VERS�O E NOVAS VERS�ES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
-
     fmIndex.carrega_opc := true;
   end;
   fIniciando.Visible := False;
-
   if DM.tmrSair.Enabled = True then
     Exit;
   Timer1.Destroy;
