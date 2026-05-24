@@ -208,6 +208,8 @@ type
     FDownloadProgress: Int64; {LAZARUS: substitui progressDialog.Value}
     FDownloadTotal: Int64; {LAZARUS: substitui progressDialog.MaxValue}
     FDownloadCanceled: Boolean;
+  protected
+    procedure Loaded; override;
   public
     property DownloadProgress: Int64 read FDownloadProgress;
     property DownloadTotal: Int64 read FDownloadTotal;
@@ -224,7 +226,41 @@ implementation
 uses fmMenu, fmArquivosFalta, fmHelp, fmIniciando, fmTransmitir,
   fmMonitorRelogio, fmMonitorCronometro, fmMonitorSorteioNomes,
   fmMonitorSorteio, fmMonitorCronometroCulto,
+  ZSqlStrings, {LAZARUS: TZSQLStrings — necessário para cast em TDM.Loaded}
   bass; {LAZARUS: BASS audio — BASS_ChannelGetPosition, BASS_ChannelGetLength, BASS_ChannelStop}
+
+procedure TDM.Loaded;
+{LAZARUS: ZeosLib param workaround.
+  Root cause: FPC calls TDM.Loaded (parent DataModule) BEFORE calling Loaded on its owned
+  child components (TZQuery). So csLoading is still set on every TZQuery when our override
+  runs. TZAbstractRODataset.UpdateSQLStrings exits early if csLoading is set, so no
+  TZParam objects are ever created from the SQL. TZSQLStrings.RebuildAll still runs and
+  populates its internal FParams: TStringList with param names — so SQL.ParamCount is
+  correct — but TZQuery.Params remains empty.
+
+  Fix: iterate all TZQuery children, cast SQL to TZSQLStrings to read the already-parsed
+  param names (ParamCount/ParamNames), then call TZQuery.Params.CreateParam directly —
+  bypassing UpdateSQLStrings entirely. No csLoading check, no SetTextStr optimization.
+  Without this fix, all ParamByName() calls raise "Parameter not found" at runtime.}
+var
+  i, j: Integer;
+  sqlStr: TZSQLStrings;
+  paramName: string;
+begin
+  inherited Loaded;
+  for i := 0 to ComponentCount - 1 do
+    if Components[i] is TZQuery then
+    begin
+      sqlStr := TZSQLStrings(TZQuery(Components[i]).SQL);
+      if sqlStr.ParamCount > 0 then
+        for j := 0 to sqlStr.ParamCount - 1 do
+        begin
+          paramName := sqlStr.ParamNames[j];
+          if TZQuery(Components[i]).Params.FindParam(paramName) = nil then
+            TZQuery(Components[i]).Params.CreateParam(ftUnknown, paramName, ptUnknown);
+        end;
+    end;
+end;
 
 procedure TDM.bsPopupMenuFavoritosPopup(Sender: TObject);
 begin

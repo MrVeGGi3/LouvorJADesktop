@@ -1815,6 +1815,7 @@ type
     procedure bsSkinSpeedButton12Click(Sender: TObject);
     procedure bsSkinSpeedButton14Click(Sender: TObject);
     procedure PageControl1Close(Sender: TObject; var CanClose: Boolean);
+    procedure PageControl1Change(Sender: TObject); {LAZARUS: TTabSheet.OnShow não dispara no LCL ao trocar aba — chamamos via OnChange}
     procedure bsSkinSpeedButton9Click(Sender: TObject);
     procedure ShowTrackMenu(Sender: TObject);
     function RemoveTags(const s: string): string;
@@ -2336,7 +2337,19 @@ begin
 end;
 
 procedure TfmIndex.FormCreate(Sender: TObject);
+var
+  iComp: Integer;
+  sb: TSpeedButton;
 begin
+  { TButtonGlyph.Draw exits early when FOriginal=nil; populate Glyph from
+    Images+ImageIndex so drawing proceeds to the ImageList path. }
+  for iComp := 0 to ComponentCount - 1 do
+    if Components[iComp] is TSpeedButton then begin
+      sb := TSpeedButton(Components[iComp]);
+      if (sb.Images <> nil) and (sb.ImageIndex >= 0)
+         and (sb.Images.Count > sb.ImageIndex) then
+        sb.Images.GetBitmap(sb.ImageIndex, sb.Glyph);
+    end;
   Application.OnDeactivate := ApplicationDeactivate;
   Application.OnActivate := ApplicationActivate;
   SysUtils.FormatSettings.DecimalSeparator := '.';
@@ -2810,10 +2823,10 @@ procedure TfmIndex.tsHinarioNShow(Sender: TObject);
 begin
   PaginaMenuAtiva(bsHinarioN,tsHinarioN);
   marcaAbaAberta(tsHinarioN);
-
   DM.qrALBUM_IGNORAR.Close;
   DM.qrALBUM_IGNORAR.ParamByName('ID').Value := 629;
   DM.qrALBUM_IGNORAR.Open;
+
   if (DM.qrALBUM_IGNORAR.RecordCount > 0) then
   begin
     pnlHinario1996Ativo.Visible := False;
@@ -2824,9 +2837,7 @@ begin
   begin
     pnlHinario1996Ativo.Visible := True;
     pnlHinario1996Inativo.Visible := False;
-
     dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
-
     txtHinoNChange(Sender);
     txtHinoN.SetFocus;
   end;
@@ -3407,6 +3418,11 @@ begin
 
   confereAbasAbertas();
   marcaAbaAberta(TabSheet);
+
+  {LAZARUS: TTabSheet.OnShow não dispara no LCL ao mudar ActivePage programaticamente.
+   Chamamos o OnShow manualmente para preservar comportamento Delphi/VCL.}
+  if Assigned(TabSheet.OnShow) then
+    TabSheet.OnShow(TabSheet);
 end;
 
 procedure TfmIndex.abreVideoOn(videoID, videoTITULO: string);
@@ -4829,6 +4845,16 @@ begin
   PageControl1.Pages[TTabSheet {LAZARUS: TbsSkinTabSheet}(Sender).PageIndex].TabVisible := False;
   bsPopupMenuRibon.Items.Delete(t);
   confereAbasAbertas();
+end;
+
+procedure TfmIndex.PageControl1Change(Sender: TObject);
+begin
+  {LAZARUS: No LCL, TTabSheet.OnShow não dispara automaticamente quando a aba ativa muda
+   via PageControl1.ActivePage := xxx. Chamamos o OnShow manualmente aqui.
+   O guard carrega_opc evita disparo durante a inicialização do formulário.}
+  if carrega_opc and (PageControl1.ActivePage <> nil) and
+     Assigned(PageControl1.ActivePage.OnShow) then
+    PageControl1.ActivePage.OnShow(Sender);
 end;
 
 procedure TfmIndex.PaginaMenuAtiva(page: TTabSheet {LAZARUS: TbsRibbonPage};tabvinc: TTabSheet {LAZARUS: TbsSkinTabSheet});

@@ -311,7 +311,8 @@ begin
     fmIndex.BorderStyle := bsSizeable;
     fmIndex.Width := Round(Screen.Width * 0.75);
     fmIndex.height := Round(Screen.height * 0.85);
-    fmIndex.btwsMaximizedClick(Sender);
+    {LAZARUS: btwsMaximizedClick removido — bsNone+wsMaximized não funciona sem skin engine (resulta em janela 1x1 em WMs tiling/compositors GTK2); forma abre maximizada via wsMaximized+bsSizeable abaixo}
+    fmIndex.WindowState := wsMaximized;
     if fmIndex.lerParam('Desenvolvedor', 'Width', '') <> ''
       then fmIndex.Width := strtoint(fmIndex.lerParam('Desenvolvedor', 'Width', ''));
     if fmIndex.lerParam('Desenvolvedor', 'Height', '') <> ''
