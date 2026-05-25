@@ -786,41 +786,57 @@ end;
 procedure TfMusica.carregaTempos;
 var
   lista,lista_img: TStringList;
+  imgName, imgPath: string;
 begin
   if (tipo <> 'BD') then Exit;
 
   lista_img := TStringList.Create;
-  lbTempos.Items.Clear;
-  DM.qrSLIDE_MUSICA_TEMPOS.Close;
-  DM.qrSLIDE_MUSICA_TEMPOS.ParamByName('MUSICA_ID').Value := musicaID;
-  DM.qrSLIDE_MUSICA_TEMPOS.Open;
-  while not DM.qrSLIDE_MUSICA_TEMPOS.eof do
-  begin
-    if (param = 'PB')
-      then lbTempos.Items.Add('0'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('TEMPO_PB').AsString)
-      else lbTempos.Items.Add('0'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('TEMPO').AsString);
-    if (DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString <> '')
-    and (not FileExists(fmIndex.dir_config+'imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString))
-    and (lista_img.IndexOf(DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString) = -1) then
-    begin
-      lista_img.Add(DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString);
-      if (application.MessageBox(PChar('Arquivo "'+fmIndex.dir_config+'imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString+'" n�o encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
+  try
+    lbTempos.Items.Clear;
+    DM.qrSLIDE_MUSICA_TEMPOS.Close;
+    DM.qrSLIDE_MUSICA_TEMPOS.ParamByName('MUSICA_ID').Value := musicaID;
+    try
+      DM.qrSLIDE_MUSICA_TEMPOS.Open;
+    except
+      on E: Exception do
       begin
-        lista := TStringList.Create;
-        lista.Clear;
-        lista.Add('config\imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString);
-
-        fIniciando.AppCreateForm(TfAtualiza, fAtualiza);
-        fAtualiza.arquivos := lista;
-        fAtualiza.ShowModal;
-
-        if not (FileExists(fmIndex.dir_config+'imagens\'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString)) then
-          application.MessageBox(PChar('N�o foi poss�vel baixar o arquivo "'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString+'"! A tela ficar� preta ao utilizar esta imagem!'), fmIndex.titulo, mb_ok + mb_iconerror);
-      end
+        raise;
+      end;
     end;
-    DM.qrSLIDE_MUSICA_TEMPOS.Next;
+    while not DM.qrSLIDE_MUSICA_TEMPOS.eof do
+    begin
+      if (param = 'PB')
+        then lbTempos.Items.Add('0'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('TEMPO_PB').AsString)
+        else lbTempos.Items.Add('0'+DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('TEMPO').AsString);
+      imgName := DM.qrSLIDE_MUSICA_TEMPOS.FieldByName('IMAGEM').AsString;
+      {LAZARUS: substituído imagens\ → imagens/ (DirectorySeparator linux)}
+      imgPath := fmIndex.dir_config + 'imagens' + DirectorySeparator + imgName;
+      if (imgName <> '')
+      and (not FileExists(imgPath))
+      and (lista_img.IndexOf(imgName) = -1) then
+      begin
+        lista_img.Add(imgName);
+        if (application.MessageBox(PChar('Arquivo "'+imgPath+'" não encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
+        begin
+          lista := TStringList.Create;
+          try
+            lista.Add('config' + DirectorySeparator + 'imagens' + DirectorySeparator + imgName);
+            fIniciando.AppCreateForm(TfAtualiza, fAtualiza);
+            fAtualiza.arquivos := lista;
+            fAtualiza.ShowModal;
+            if not FileExists(imgPath) then
+              application.MessageBox(PChar('Não foi possível baixar o arquivo "'+imgName+'"! A tela ficará preta ao utilizar esta imagem!'), fmIndex.titulo, mb_ok + mb_iconerror);
+          finally
+            lista.Free;
+          end;
+        end
+      end;
+      DM.qrSLIDE_MUSICA_TEMPOS.Next;
+    end;
+    DM.qrSLIDE_MUSICA_TEMPOS.Close;
+  finally
+    lista_img.Free;
   end;
-  DM.qrSLIDE_MUSICA_TEMPOS.Close;
 end;
 
 procedure TfMusica.converteTempos;
@@ -892,7 +908,6 @@ end;
 
 procedure TfMusica.FormActivate(Sender: TObject);
 begin
-
   ult_format := '';
 
   if fmIndex.ckMusicaTopo.Checked then
@@ -1329,12 +1344,21 @@ begin
   pnlLetra.Refresh;
   pnlLetra.Repaint;
 
-  if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1')
-    then fMusicaOperador.gSlide.Min {LAZARUS: MinValue→Min (TProgressBar)} := StrToInt(StringReplace(lbTempos.Items[DM.cdsSLIDE_MUSICA.RecNo-1],':','', [rfIgnoreCase, rfReplaceAll]));//DM.cdsSLIDE_MUSICA.FieldByName('TEMPO').AsInteger;
+  if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1') then
+  begin
+    {LAZARUS: guarda bounds — lbTempos pode estar vazio se query falhou}
+    if (lbTempos.Items.Count > DM.cdsSLIDE_MUSICA.RecNo - 1) and (DM.cdsSLIDE_MUSICA.RecNo >= 1) then
+      fMusicaOperador.gSlide.Min {LAZARUS: MinValue→Min (TProgressBar)} := StrToInt(StringReplace(lbTempos.Items[DM.cdsSLIDE_MUSICA.RecNo-1],':','', [rfIgnoreCase, rfReplaceAll])) {DM.cdsSLIDE_MUSICA.FieldByName('TEMPO').AsInteger}
+    else
+      fMusicaOperador.gSlide.Min := 0;
+  end;
 
   if (audio) and (DM.cdsSLIDE_MUSICA.RecNo < DM.cdsSLIDE_MUSICA.RecordCount) then
   begin
-    next_time := strtoint(StringReplace(lbTempos.Items[DM.cdsSLIDE_MUSICA.RecNo],':','', [rfIgnoreCase, rfReplaceAll]));
+    if lbTempos.Items.Count > DM.cdsSLIDE_MUSICA.RecNo then
+      next_time := strtoint(StringReplace(lbTempos.Items[DM.cdsSLIDE_MUSICA.RecNo],':','', [rfIgnoreCase, rfReplaceAll]))
+    else
+      next_time := 0;
     Edit2.Text := 'TEMPO ATUAL: '+inttostr(pos)+#13#10+'PROX. TEMPO: '+IntToStr(next_time);
 
     if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') = '1')

@@ -2322,8 +2322,6 @@ uses
   fmMonitorSorteio, fmMonitorCronometroCulto, fmMonitorBibliaBusca,
   fmMonitorBiblia, fmMonitorMenuMusicas, fmIdentificaMonitores;
 
-
-
 Function TfmIndex.VersaoExe: String;
 {LAZARUS: GetFileVersionInfoSize/VerQueryValue removidos — Windows API}
 begin
@@ -2837,7 +2835,9 @@ begin
   begin
     pnlHinario1996Ativo.Visible := True;
     pnlHinario1996Inativo.Visible := False;
-    dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
+    {LAZARUS: guarda bounds — Columns pode ter apenas 1 item se LFM foi parseado parcialmente}
+    if dbGrid1N.Columns.Count >= 2 then
+      dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
     txtHinoNChange(Sender);
     txtHinoN.SetFocus;
   end;
@@ -2847,7 +2847,9 @@ procedure TfmIndex.tsHinarioShow(Sender: TObject);
 begin
   PaginaMenuAtiva(bsHinario,tsHinario);
   marcaAbaAberta(tsHinario);
-  dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
+  {LAZARUS: guarda bounds — Columns pode ter apenas 1 item se LFM foi parseado parcialmente}
+  if dbGrid1.Columns.Count >= 2 then
+    dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
 
   txtHinoChange(Sender);
   txtHino.SetFocus;
@@ -2919,7 +2921,9 @@ var
 begin
   pnlreHino.Visible := False;
   bsSkinScrollBar7.Visible := true;
-  dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
+  {LAZARUS: guarda bounds}
+  if dbGrid1.Columns.Count >= 2 then
+    dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
   valor := trim(txtHino.Text);
   stHinos0.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
   if trim(valor) <> '' then
@@ -2935,16 +2939,29 @@ begin
     end;
   end;
 
-  DM.qrHINOS.Close;
-  DM.qrHINOS.ParamByName('VALOR').AsString := fmIndex.termo_busca(valor);
-  DM.qrHINOS.Open;
+  {LAZARUS: DisableControls/EnableControls evita que TDBGrid receba deLayoutChange durante Close+Open
+   (sem isso, Lazarus reconstrói Columns e acessa Columns[0] quando Count=0 → crash)}
+  DM.qrHINOS.DisableControls;
+  try
+    DM.qrHINOS.Close;
+    DM.qrHINOS.ParamByName('VALOR').AsString := fmIndex.termo_busca(valor);
+    DM.qrHINOS.Open;
+  finally
+    DM.qrHINOS.EnableControls;
+  end;
 
   if (DM.qrHINOS.RecordCount = 1) then
   begin
     reHino.Lines.Clear;
-    DM.qrLETRA.Close;
-    DM.qrLETRA.ParamByName('MUSICA').Value := DM.qrHINOS.fieldbyname('ID').AsInteger;
-    DM.qrLETRA.Open;
+    {LAZARUS: DisableControls previne eventos de layout enquanto reopen}
+    DM.qrLETRA.DisableControls;
+    try
+      DM.qrLETRA.Close;
+      DM.qrLETRA.ParamByName('MUSICA').Value := DM.qrHINOS.fieldbyname('ID').AsInteger;
+      DM.qrLETRA.Open;
+    finally
+      DM.qrLETRA.EnableControls;
+    end;
     while not DM.qrLETRA.Eof do
     begin
       letra := '';
@@ -2962,7 +2979,9 @@ begin
     formataTexto(reHino);
     pnlreHino.Visible := true;
     bsSkinScrollBar7.Visible := False;
-    dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
+    {LAZARUS: guarda bounds}
+    if dbGrid1.Columns.Count >= 2 then
+      dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
   end
   else
   begin
@@ -2971,7 +2990,9 @@ begin
 
   corCampoBusca(DM.qrHinos, txtHino, DBGrid1);
   stHinos1.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.qrHinos,'hino encontrado','hinos encontrados','Nenhum hino encontrado');;
-  dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
+  {LAZARUS: guarda bounds}
+  if dbGrid1.Columns.Count >= 2 then
+    dbGrid1.Columns[1].Width := dbGrid1.Width - dbGrid1.Columns[0].Width;
 end;
 
 procedure TfmIndex.corCampoBusca(Query: TDataSet {LAZARUS: TZQuery→TDataSet}; Campo: TEdit {LAZARUS: TbsSkinEdit}; DBGrid: TDBGrid {LAZARUS: TbsSkinDBGrid});
@@ -3072,7 +3093,9 @@ var
 begin
   pnlreHinoN.Visible := False;
   bsSkinScrollBar7N.Visible := true;
-  dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
+  {LAZARUS: guarda bounds}
+  if dbGrid1N.Columns.Count >= 2 then
+    dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
   valor := trim(txtHinoN.Text);
   stHinos0N.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
   if trim(valor) <> '' then
@@ -3088,16 +3111,28 @@ begin
     end;
   end;
 
-  DM.qrHINOSN.Close;
-  DM.qrHINOSN.ParamByName('VALOR').AsString := fmIndex.termo_busca(valor);
-  DM.qrHINOSN.Open;
+  {LAZARUS: DisableControls/EnableControls evita crash de Columns no TDBGrid durante Close+Open}
+  DM.qrHINOSN.DisableControls;
+  try
+    DM.qrHINOSN.Close;
+    DM.qrHINOSN.ParamByName('VALOR').AsString := fmIndex.termo_busca(valor);
+    DM.qrHINOSN.Open;
+  finally
+    DM.qrHINOSN.EnableControls;
+  end;
 
   if (DM.qrHINOSN.RecordCount = 1) then
   begin
     reHinoN.Lines.Clear;
-    DM.qrLETRA.Close;
-    DM.qrLETRA.ParamByName('MUSICA').Value := DM.qrHINOSN.fieldbyname('ID').AsInteger;
-    DM.qrLETRA.Open;
+    {LAZARUS: DisableControls previne eventos de layout enquanto reopen}
+    DM.qrLETRA.DisableControls;
+    try
+      DM.qrLETRA.Close;
+      DM.qrLETRA.ParamByName('MUSICA').Value := DM.qrHINOSN.fieldbyname('ID').AsInteger;
+      DM.qrLETRA.Open;
+    finally
+      DM.qrLETRA.EnableControls;
+    end;
     while not DM.qrLETRA.Eof do
     begin
       letra := '';
@@ -3115,7 +3150,9 @@ begin
     formataTexto(reHinoN);
     pnlreHinoN.Visible := true;
     bsSkinScrollBar7N.Visible := False;
-    dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
+    {LAZARUS: guarda bounds}
+    if dbGrid1N.Columns.Count >= 2 then
+      dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
   end
   else
   begin
@@ -3124,7 +3161,9 @@ begin
 
   corCampoBusca(DM.qrHinosN, txtHinoN, DBGrid1N);
   stHinos1N.Text {LAZARUS: TStatusPanel.Caption→.Text} := qtItens(DM.qrHinosN,'hino encontrado','hinos encontrados','Nenhum hino encontrado');
-  dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
+  {LAZARUS: guarda bounds}
+  if dbGrid1N.Columns.Count >= 2 then
+    dbGrid1N.Columns[1].Width := dbGrid1N.Width - dbGrid1N.Columns[0].Width;
 end;
 
 procedure TfmIndex.txtHinoNKeyPress(Sender: TObject; var Key: Char);
@@ -3275,7 +3314,6 @@ begin
     fMusica.BorderStyle := bsSizeable;
 
   fMusica.show;
-
 
   if (pnlModDes.Visible) then
   begin
@@ -5579,7 +5617,9 @@ begin
   end;
 
   carrega_opc := True;
-  ogFavoritos.ItemIndex := 0;
+  {LAZARUS: TListView.ItemIndex := 0 crasha quando Items.Count=0}
+  if ogFavoritos.Items.Count > 0 then
+    ogFavoritos.ItemIndex := 0;
   carrega_opc := False;
 
   ogFavoritos.Items.Clear;
@@ -5613,7 +5653,9 @@ begin
     DM.cdsFavoritos.Next;
   end;
 
-  ogFavoritos.ItemIndex := i;
+  {LAZARUS: TListView.ItemIndex só pode ser definido quando i < Items.Count}
+  if (i >= 0) and (i < ogFavoritos.Items.Count) then
+    ogFavoritos.ItemIndex := i;
 end;
 
 procedure TfmIndex.carregaItemLiturgia(item: string; ordem: integer);
@@ -6953,28 +6995,46 @@ begin
 end;
 
 procedure TfmIndex.marcaAbaAberta(TabSheet: TTabSheet {LAZARUS: TbsSkinTabSheet});
+var
+  favIdx: integer;
 begin
   pnlTitForm.Caption := TITULO;
   if (TabSheet.Tag > -1) then
   begin
-    bsPopupMenuRibon.Items[TabSheet.Tag].Checked := True;
+    {LAZARUS: guarda bounds — Items[Tag] pode exceder se menu não foi completamente populado}
+    if TabSheet.Tag < bsPopupMenuRibon.Items.Count then
+      bsPopupMenuRibon.Items[TabSheet.Tag].Checked := True;
 
     if not DM.cdsFavoritos.Active then
+    begin
       carregaFavoritos;
+    end;
 
     carrega_opc := True;
 
     if (DM.cdsFavoritos.Locate('NOME_ABA', TabSheet.Name, [])) then
     begin
-      ogFavoritos.ItemIndex := DM.cdsFavoritos.recno-1;
-      bsPopupMenuFavoritos.Items[DM.cdsFavoritos.recno-1].Checked := True;
+      favIdx := DM.cdsFavoritos.recno-1;
+      {LAZARUS: TListView.ItemIndex só pode ser definido quando Items.Count > 0}
+      if (favIdx >= 0) and (favIdx < ogFavoritos.Items.Count) then
+        ogFavoritos.ItemIndex := favIdx;
+      {LAZARUS: guarda bounds — menu favoritos pode estar vazio}
+      if favIdx < bsPopupMenuFavoritos.Items.Count then
+        bsPopupMenuFavoritos.Items[favIdx].Checked := True;
       botoesFavoritos('del');
     end
     else
     begin
-      ogFavoritos.ItemIndex := DM.cdsFavoritos.RecordCount;
-      bsPopupMenuFavoritos.Items[0].Checked := True;
-      bsPopupMenuFavoritos.Items[0].Checked := False;
+      favIdx := DM.cdsFavoritos.RecordCount;
+      {LAZARUS: TListView.ItemIndex só pode ser definido quando Items.Count > favIdx}
+      if (favIdx >= 0) and (favIdx < ogFavoritos.Items.Count) then
+        ogFavoritos.ItemIndex := favIdx;
+      {LAZARUS: guarda bounds — menu favoritos pode estar vazio}
+      if bsPopupMenuFavoritos.Items.Count > 0 then
+      begin
+        bsPopupMenuFavoritos.Items[0].Checked := True;
+        bsPopupMenuFavoritos.Items[0].Checked := False;
+      end;
       botoesFavoritos('add');
     end;
 
@@ -13830,7 +13890,9 @@ begin
       mnFechaAba.Enabled := True;
       mnFechaTodasAbas.Enabled := True;
       PageControl1.Pages[i].Tag := t;
-      bsPopupMenuRibon.Items[t].Tag := t;
+      {LAZARUS: guarda bounds — menu pode ter menos itens que abas abertas}
+      if t < bsPopupMenuRibon.Items.Count then
+        bsPopupMenuRibon.Items[t].Tag := t;
       t := t + 1;
     end;
   end;
@@ -13841,8 +13903,12 @@ begin
     PageControl1.Visible := false;
     botoesFavoritos('-');
     PaginaMenuAtiva(nil);
-    bsPopupMenuFavoritos.Items[0].Checked := True;
-    bsPopupMenuFavoritos.Items[0].Checked := False;
+    {LAZARUS: guarda bounds}
+    if bsPopupMenuFavoritos.Items.Count > 0 then
+    begin
+      bsPopupMenuFavoritos.Items[0].Checked := True;
+      bsPopupMenuFavoritos.Items[0].Checked := False;
+    end;
   end;
 end;
 

@@ -1333,7 +1333,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 27
@@ -1356,7 +1356,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 18
@@ -1379,7 +1379,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 47
@@ -1414,7 +1414,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 23
@@ -1437,7 +1437,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 22
@@ -1472,7 +1472,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 30
@@ -1495,7 +1495,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 29
@@ -1518,7 +1518,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 44
@@ -1553,7 +1553,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 27
@@ -1576,7 +1576,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 35
@@ -1622,7 +1622,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 7
@@ -1645,7 +1645,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 6
@@ -1692,7 +1692,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -1727,7 +1727,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 34
@@ -1803,7 +1803,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -1835,7 +1835,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 38
@@ -1947,7 +1947,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 7
@@ -1983,7 +1983,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 37
@@ -2022,7 +2022,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 14
@@ -2045,7 +2045,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 54
@@ -2068,7 +2068,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 67
@@ -2117,7 +2117,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 36
@@ -2153,7 +2153,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 38
@@ -2176,7 +2176,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -2207,7 +2207,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -2350,7 +2350,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 33
@@ -2423,7 +2423,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 55
@@ -2473,7 +2473,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 3
@@ -2552,7 +2552,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 45
@@ -2584,7 +2584,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 82
@@ -2608,7 +2608,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 77
@@ -2653,7 +2653,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 35
@@ -2677,7 +2677,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 60
@@ -2733,7 +2733,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 3
@@ -2811,7 +2811,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 45
@@ -2835,7 +2835,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 50
@@ -2875,7 +2875,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 82
@@ -2899,7 +2899,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 77
@@ -2944,7 +2944,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 35
@@ -2968,7 +2968,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 60
@@ -3005,7 +3005,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 55
@@ -3047,7 +3047,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 33
@@ -3102,7 +3102,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 3
@@ -3179,7 +3179,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 33
@@ -3215,7 +3215,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 55
@@ -3258,7 +3258,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 45
@@ -3282,7 +3282,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 50
@@ -3322,7 +3322,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 82
@@ -3346,7 +3346,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 77
@@ -3391,7 +3391,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 35
@@ -3415,7 +3415,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 60
@@ -3486,7 +3486,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 40
@@ -3518,7 +3518,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 11
@@ -3542,7 +3542,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 73
@@ -3590,7 +3590,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -3626,7 +3626,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -3650,7 +3650,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -3686,7 +3686,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -3819,7 +3819,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 7
@@ -4218,7 +4218,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -4242,7 +4242,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -4266,7 +4266,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -4290,7 +4290,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -4314,7 +4314,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -4338,7 +4338,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -4386,7 +4386,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 25
@@ -4425,7 +4425,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 66
@@ -4448,7 +4448,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 67
@@ -4484,7 +4484,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -4652,7 +4652,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -4725,7 +4725,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -4812,7 +4812,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -4836,7 +4836,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -4883,7 +4883,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 25
@@ -4922,7 +4922,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 66
@@ -4945,7 +4945,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 67
@@ -4981,7 +4981,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 26
@@ -5100,7 +5100,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 44
@@ -5135,7 +5135,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -5171,7 +5171,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -5195,7 +5195,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -5282,7 +5282,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -5368,7 +5368,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -5441,7 +5441,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -5465,7 +5465,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -5500,7 +5500,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -5523,7 +5523,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 21
@@ -5554,7 +5554,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 3
@@ -5767,7 +5767,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -5791,7 +5791,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -5827,7 +5827,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -5868,7 +5868,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -5954,7 +5954,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -6047,7 +6047,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 47
@@ -6071,7 +6071,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 48
@@ -6095,7 +6095,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 49
@@ -6119,7 +6119,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 52
@@ -6219,7 +6219,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 50
@@ -6261,7 +6261,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 51
@@ -6303,7 +6303,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 56
@@ -6345,7 +6345,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 57
@@ -6397,7 +6397,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 55
@@ -6420,7 +6420,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 54
@@ -6443,7 +6443,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 53
@@ -6480,7 +6480,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 26
@@ -6504,7 +6504,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 32
@@ -6527,7 +6527,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 9
@@ -6579,7 +6579,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 58
@@ -6600,7 +6600,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 59
@@ -6621,7 +6621,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = True
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 60
@@ -6668,7 +6668,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -6692,7 +6692,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -6728,7 +6728,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -6854,7 +6854,7 @@ object fmIndex: TfmIndex
         DefaultWidth = 0
         DefaultHeight = 0
         CheckedMode = True
-        ImageList = DM.ico_40x40
+        Images = DM.ico_40x40
         WidthWithCaption = 0
         WidthWithoutCaption = 0
         ImageIndex = 17
@@ -6888,7 +6888,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -6911,7 +6911,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 17
@@ -6934,7 +6934,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 16
@@ -6966,7 +6966,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 34
@@ -7004,7 +7004,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 53
@@ -7067,7 +7067,7 @@ object fmIndex: TfmIndex
         DefaultWidth = 0
         DefaultHeight = 0
         CheckedMode = True
-        ImageList = DM.ico_40x40
+        Images = DM.ico_40x40
         WidthWithCaption = 0
         WidthWithoutCaption = 0
         ImageIndex = 17
@@ -7101,7 +7101,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -7219,7 +7219,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 34
@@ -7250,7 +7250,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 79
@@ -7273,7 +7273,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 77
@@ -7296,7 +7296,7 @@ object fmIndex: TfmIndex
             DefaultWidth = 0
             DefaultHeight = 0
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             WidthWithCaption = 0
             WidthWithoutCaption = 0
             ImageIndex = 78
@@ -7344,7 +7344,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 9
@@ -7380,7 +7380,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -7404,7 +7404,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -7440,7 +7440,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -7580,7 +7580,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 49
@@ -7603,7 +7603,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 48
@@ -7651,7 +7651,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 9
@@ -7687,7 +7687,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 10
@@ -7729,7 +7729,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 12
@@ -7753,7 +7753,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 24
@@ -7863,7 +7863,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 49
@@ -7886,7 +7886,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 48
@@ -7932,7 +7932,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 37
@@ -7967,7 +7967,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 5
@@ -8002,7 +8002,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 39
@@ -8037,7 +8037,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 20
@@ -8060,7 +8060,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 15
@@ -8084,7 +8084,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 38
@@ -8197,7 +8197,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 1
@@ -8220,7 +8220,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 2
@@ -8255,7 +8255,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 5
@@ -8290,7 +8290,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 13
@@ -8313,7 +8313,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 18
@@ -8348,7 +8348,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 51
@@ -8371,7 +8371,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 52
@@ -8406,7 +8406,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 46
@@ -8437,7 +8437,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = False
-          ImageList = DM.ico_40x40
+          Images = DM.ico_40x40
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 42
@@ -8487,6 +8487,7 @@ object fmIndex: TfmIndex
     TabsBGTransparent = False
     DefaultItemHeight = 20
     OnClose = PageControl1Close
+    OnChange = PageControl1Change
     object TabSheet14: TTabSheet
       Caption = 'MODELOS COMPONENTES'
       ImageIndex = 14
@@ -8502,7 +8503,7 @@ object fmIndex: TfmIndex
         DefaultHeight = 0
         Transparent = False
         CheckedMode = False
-        ImageList = DM.imCapas
+        Images = DM.imCapas
         ImageIndex = 0
         TabStop = True
         Down = False
@@ -12663,7 +12664,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 68
             TabStop = True
             Down = False
@@ -12684,7 +12685,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 70
             TabStop = True
             Down = False
@@ -12705,7 +12706,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 69
             TabStop = True
             Down = False
@@ -13578,7 +13579,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_16x16
+            Images = DM.ico_16x16
             ImageIndex = 27
             TabStop = True
             Down = False
@@ -14660,7 +14661,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 68
             ShowHint = True
             TabStop = True
@@ -14683,7 +14684,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 70
             ShowHint = True
             TabStop = True
@@ -14726,7 +14727,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 69
             ShowHint = True
             TabStop = True
@@ -16008,7 +16009,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 68
             ShowHint = True
             TabStop = True
@@ -16031,7 +16032,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 70
             ShowHint = True
             TabStop = True
@@ -16074,7 +16075,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 69
             ShowHint = True
             TabStop = True
@@ -19221,7 +19222,7 @@ object fmIndex: TfmIndex
           DefaultHeight = 0
           Transparent = False
           CheckedMode = False
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           ImageIndex = 72
           TabStop = True
           Down = False
@@ -19325,7 +19326,7 @@ object fmIndex: TfmIndex
           DefaultHeight = 0
           Transparent = False
           CheckedMode = False
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           ImageIndex = 72
           TabStop = True
           Down = False
@@ -19438,7 +19439,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 72
             TabStop = True
             Down = False
@@ -19938,7 +19939,7 @@ object fmIndex: TfmIndex
             DefaultHeight = 0
             Transparent = False
             CheckedMode = False
-            ImageList = DM.ico_24x24
+            Images = DM.ico_24x24
             ImageIndex = 33
             TabStop = True
             Down = False
@@ -20285,7 +20286,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 40
@@ -20308,7 +20309,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 40
@@ -20331,7 +20332,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 43
@@ -20354,7 +20355,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 40
@@ -20377,7 +20378,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 40
@@ -20400,7 +20401,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 42
@@ -20423,7 +20424,7 @@ object fmIndex: TfmIndex
           DefaultWidth = 0
           DefaultHeight = 0
           CheckedMode = True
-          ImageList = DM.ico_24x24
+          Images = DM.ico_24x24
           WidthWithCaption = 0
           WidthWithoutCaption = 0
           ImageIndex = 39
@@ -20630,7 +20631,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 47
@@ -20655,7 +20656,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 48
@@ -20680,7 +20681,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 49
@@ -20705,7 +20706,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 52
@@ -20807,7 +20808,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = False
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 50
@@ -20850,7 +20851,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = False
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 56
@@ -20893,7 +20894,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = False
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 57
@@ -20926,7 +20927,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = False
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 102
@@ -20960,7 +20961,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 58
@@ -20982,7 +20983,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 59
@@ -21004,7 +21005,7 @@ object fmIndex: TfmIndex
               DefaultWidth = 0
               DefaultHeight = 0
               CheckedMode = True
-              ImageList = DM.ico_16x16
+              Images = DM.ico_16x16
               WidthWithCaption = 0
               WidthWithoutCaption = 0
               ImageIndex = 60
@@ -22226,7 +22227,7 @@ object fmIndex: TfmIndex
       DefaultWidth = 0
       DefaultHeight = 0
       CheckedMode = True
-      ImageList = DM.ico_24x24
+      Images = DM.ico_24x24
       WidthWithCaption = 0
       WidthWithoutCaption = 0
       ImageIndex = 8
@@ -22248,7 +22249,7 @@ object fmIndex: TfmIndex
       DefaultWidth = 0
       DefaultHeight = 0
       CheckedMode = True
-      ImageList = DM.ico_24x24
+      Images = DM.ico_24x24
       WidthWithCaption = 0
       WidthWithoutCaption = 0
       ImageIndex = 15
@@ -22278,7 +22279,7 @@ object fmIndex: TfmIndex
       DefaultWidth = 0
       DefaultHeight = 0
       CheckedMode = False
-      ImageList = DM.ico_24x24
+      Images = DM.ico_24x24
       WidthWithCaption = 0
       WidthWithoutCaption = 0
       ImageIndex = 1
