@@ -501,12 +501,12 @@ begin
     musica := DM.cdsSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString;
     musica := StringReplace(musica,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
     if (musica <> '') and (musicaID > 0) then
-      musica := fmIndex.dir_config+'musicas\'+musica
-    else if FileExists(ExtractFilePath(param)+'\'+musica) then
-      musica := ExtractFilePath(param)+'\'+musica;
+      musica := fmIndex.dir_config+'musicas'+DirectorySeparator+musica  {LAZARUS: fix path sep Windows→Linux}
+    else if FileExists(ExtractFilePath(param)+DirectorySeparator+musica) then
+      musica := ExtractFilePath(param)+DirectorySeparator+musica;
 
-    musica := StringReplace(musica,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-    musica := StringReplace(musica,'\\', '\', [rfIgnoreCase, rfReplaceAll]);
+    {LAZARUS: on Linux use forward slashes, not backslashes}
+    musica := StringReplace(musica,'\', DirectorySeparator, [rfIgnoreCase, rfReplaceAll]);
     if (Trim(musica) = '') then audio := false;
 
     if (audio) and not (FileExists(musica)) then
@@ -517,7 +517,7 @@ begin
       begin
         lista := TStringList.Create;
         lista.Clear;
-        lista.Add('config\musicas\'+StringReplace(DM.cdsSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString,'/', '\', [rfIgnoreCase, rfReplaceAll]));
+        lista.Add('config'+DirectorySeparator+'musicas'+DirectorySeparator+StringReplace(DM.cdsSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString,'\', DirectorySeparator, [rfIgnoreCase, rfReplaceAll]));  {LAZARUS: fix path sep}
 
         fIniciando.AppCreateForm(TfAtualiza, fAtualiza);
         fAtualiza.arquivos := lista;
@@ -538,37 +538,46 @@ begin
       // check the correct BASS was loaded
       if (HIWORD(BASS_GetVersion) <> BASSVERSION) then
       begin
-        application.MessageBox('A vers�o do seu arquivo "BASS.DLL" est� incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
-        audio := false;
-        //Halt;
-      end;
-
-      // Initialize audio - default device, 44100hz, stereo, 16 bits
-      try
-        BASS_Init(-1, 44100, 0, nil, nil); {LAZARUS: Handle(HWND) removido — Linux usa nil}
-      except
-        //
-      end;
-//      if not BASS_Init(-1, 44100, 0, Handle, nil) then
-//      begin
-//        Error('Erro ao iniciar �udio "'+musica+'"!');
-//        audio := false;
-//      end;
-
-      f := PChar(musica);
-      try
-        bass_musica := BASS_SampleLoad(FALSE, PChar(f), 0, 0, 3, BASS_SAMPLE_OVER_POS or BASS_UNICODE);
-        bass_channel := BASS_SampleGetChannel(bass_musica, False);
-  //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_PAN, 0);
-  //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
-        if not BASS_ChannelPlay(bass_channel, False) then
+        {LAZARUS: stub libbass.so retorna 0 → sem diálogo, apenas desabilita áudio silenciosamente}
+        if BASS_GetVersion = 0 then
+          audio := false  // stub — sem mensagem
+        else
         begin
-          Error('Erro ao reproduzir �udio "'+musica+'"!');
+          application.MessageBox('A vers�o do seu arquivo "BASS.DLL" est� incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
+          audio := false;
+          //Halt;
+        end;
+      end;
+
+      if audio then  {LAZARUS: guard BASS calls — skip if audio already disabled by version check}
+      begin
+        // Initialize audio - default device, 44100hz, stereo, 16 bits
+        try
+          BASS_Init(-1, 44100, 0, nil, nil); {LAZARUS: Handle(HWND) removido — Linux usa nil}
+        except
+          //
+        end;
+  //      if not BASS_Init(-1, 44100, 0, Handle, nil) then
+  //      begin
+  //        Error('Erro ao iniciar �udio "'+musica+'"!');
+  //        audio := false;
+  //      end;
+
+        f := PChar(musica);
+        try
+          bass_musica := BASS_SampleLoad(FALSE, PChar(f), 0, 0, 3, BASS_SAMPLE_OVER_POS or BASS_UNICODE);
+          bass_channel := BASS_SampleGetChannel(bass_musica, False);
+    //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_PAN, 0);
+    //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
+          if not BASS_ChannelPlay(bass_channel, False) then
+          begin
+            Error('Erro ao reproduzir �udio "'+musica+'"!');
+            audio := false;
+          end;
+        except
+          Application.MessageBox(PChar('O programa travou ao tentar reproduzir �udio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
           audio := false;
         end;
-      except
-        Application.MessageBox(PChar('O programa travou ao tentar reproduzir �udio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
-        audio := false;
       end;
 
       converteTempos();
