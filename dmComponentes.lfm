@@ -63970,7 +63970,6 @@ object DM: TDM
   end
   object cdsBIBLIA_HISTORICO: TBufDataset
     FieldDefs = <>
-    IndexName = 'ORDER_DATAHORA'
     Left = 232
     Top = 88
     object cdsBIBLIA_HISTORICOID: TStringField

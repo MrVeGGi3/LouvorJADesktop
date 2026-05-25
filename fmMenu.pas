@@ -12527,7 +12527,9 @@ begin
     if not DM.cdsBIBLIA_HISTORICO.Active then
     begin
       DM.cdsBIBLIA_HISTORICO.CreateDataSet;
-      DM.cdsBIBLIA_HISTORICO.IndexName := 'ORDER_DATAHORA';
+      {LAZARUS: IndexName → IndexFieldNames — TBufDataset não suporta índices nomeados criados em runtime;
+       ORDER_DATAHORA era TClientDataSet.IndexDefs; substituído por IndexFieldNames no campo DATAHORA}
+      DM.cdsBIBLIA_HISTORICO.IndexFieldNames := 'DATAHORA';
       {LAZARUS: LogChanges removido — TBufDataset nao tem LogChanges (DM.cdsBIBLIA_HISTORICO.LogChanges := False;)}
     end;
 

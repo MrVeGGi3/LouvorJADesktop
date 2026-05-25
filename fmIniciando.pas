@@ -199,6 +199,9 @@ begin
   DM.ADO.Connected := false;
   DM.ADO.Protocol := 'sqlite'; {LAZARUS: ZeosLib SQLite3 usa protocolo 'sqlite', não 'sqlite-3'}
   DM.ADO.Database := dir_config + 'database.db'; {LAZARUS: Params.Database→Database (ZeosLib)}
+  {LAZARUS: fix "(MEMO)" em views SQLite — colunas sem tipo declarado usavam TEXT→stAsciiStream;
+   Undefined_Varchar_AsString_Length≠0 muda fallback para CHAR→stString (ver ZDbcSqLiteResultSet.pas:570)}
+  DM.ADO.Properties.Values['Undefined_Varchar_AsString_Length'] := '250';
   try
     DM.ADO.Connected := true;
   except
