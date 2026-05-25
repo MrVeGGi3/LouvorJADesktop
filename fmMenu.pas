@@ -2185,6 +2185,11 @@ type
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
     procedure DBCtrlGridBibliaBuscaPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid — sem equivalente LCL, usar TScrollBox};
       Index: Integer; Cnvs: TCanvas; ClRect: TRect);
+    {LAZARUS: ajustaBibliaLayout — reposiciona painéis da aba Bíblia que originalmente usavam
+     TbsSkinExPanel com tile-grid; agora usa posicionamento explícito pois alClient em múltiplos
+     filhos do GridPanel74 faz sobreposição no LCL}
+    procedure ajustaBibliaLayout;
+    procedure GridPanel74Resize(Sender: TObject);
     procedure bsAppMenu1Click(Sender: TObject);
     procedure bsAppMenu1Items1Click(Sender: TObject);
     procedure bsAppMenu1ChangePage(Sender: TObject);
@@ -12552,6 +12557,12 @@ begin
     carregaConfiguracoes('BIBLIA');
   end;
 
+  {LAZARUS: corrige layout dos painéis da aba Bíblia — bsSkinExPanel7/8/5/bsSkinPanel4
+   todos tinham Align=alClient, sobrepondo-se; ajustaBibliaLayout usa posicionamento explícito}
+  if not Assigned(GridPanel74.OnResize) then
+    GridPanel74.OnResize := GridPanel74Resize;
+  ajustaBibliaLayout;
+
 end;
 
 procedure TfmIndex.miOpcExportar1Click(Sender: TObject);
@@ -15175,6 +15186,42 @@ begin
   except
     //
   end;
+end;
+
+procedure TfmIndex.ajustaBibliaLayout;
+{LAZARUS: os painéis da aba Bíblia (bsSkinExPanel7/8/5 + bsSkinPanel4) originalmente usavam
+ o sistema de tile/grid do bsSkinPanel. No LCL todos ficaram com Align=alClient e se sobrepõem.
+ Esta procedure reposiciona manualmente para replicar o layout original:
+   coluna esquerda: Livros (booksW px, altura total)
+   topo direito: Capítulos (metade da largura restante) | Versículos (outra metade)
+   base direita: Preview pnlBiblia (largura total restante)}
+var
+  totalW, totalH, booksW, chapW, rowH: Integer;
+begin
+  if (GridPanel74 = nil) or (GridPanel74.ClientWidth = 0) or (GridPanel74.ClientHeight = 0) then Exit;
+
+  totalW := GridPanel74.ClientWidth;
+  totalH := GridPanel74.ClientHeight;
+  booksW := 302;   {largura da coluna de livros}
+  rowH   := totalH div 2;  {altura das linhas superior e inferior}
+  chapW  := (totalW - booksW) div 2;  {largura de cada coluna no topo: capítulos|versículos}
+
+  bsSkinExPanel7.Align := alNone;
+  bsSkinExPanel7.SetBounds(0, 0, booksW, totalH);
+
+  bsSkinExPanel8.Align := alNone;
+  bsSkinExPanel8.SetBounds(booksW, 0, chapW, rowH);
+
+  bsSkinExPanel5.Align := alNone;
+  bsSkinExPanel5.SetBounds(booksW + chapW, 0, totalW - booksW - chapW, rowH);
+
+  bsSkinPanel4.Align := alNone;
+  bsSkinPanel4.SetBounds(booksW, rowH, totalW - booksW, totalH - rowH);
+end;
+
+procedure TfmIndex.GridPanel74Resize(Sender: TObject);
+begin
+  ajustaBibliaLayout;
 end;
 
 procedure TfmIndex.DBCtrlGridBibliaCapituloClick(Sender: TObject);
