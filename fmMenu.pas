@@ -3258,14 +3258,26 @@ begin
   else
     monitor_ope := monitor_ope - 1;
 
+  {LAZARUS: FreeAndNil — Close com caHide deixa forms antigas vivas causando AV na 2ª abertura.
+   Sequência correta:
+   1. fMusica: fecharSlides+fecharSlidesRetorno:=True evita que FormClose chame Close nos filhos
+   2. fMusicaOperador/Retorno: guard (fMusica=nil) já cobre o caso — FreeAndNil sai limpo}
   if fMusica <> nil then
-    fMusica.Close;
-
+  begin
+    fMusica.fecharSlides := True;
+    fMusica.fecharSlidesRetorno := True;
+    try FreeAndNil(fMusica); except fMusica := nil; end;
+  end;
   if fMusicaOperador <> nil then
-    fMusicaOperador.Close;
-
+  begin
+    fMusicaOperador.Tag := 0;
+    try FreeAndNil(fMusicaOperador); except fMusicaOperador := nil; end;
+  end;
   if fMusicaRetorno <> nil then
-    fMusicaRetorno.Close;
+  begin
+    fMusicaRetorno.Tag := 0;
+    try FreeAndNil(fMusicaRetorno); except fMusicaRetorno := nil; end;
+  end;
 
   fIniciando.AppCreateForm(TfMusicaOperador, fMusicaOperador);
   fIniciando.AppCreateForm(TfMusicaRetorno, fMusicaRetorno);

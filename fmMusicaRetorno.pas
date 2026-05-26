@@ -67,6 +67,9 @@ end;
 
 procedure TfMusicaRetorno.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  {LAZARUS: guard — evita chamar fMusica.Close se já está fechando (evita ciclo de close)}
+  if (fMusica = nil) or fMusica.closing then Exit;
+
   if (fmIndex.lerParam('Musicas', 'ModoRetorno', '1') <> '1') then
   begin
     fMusicaRetorno.Tag := 0;

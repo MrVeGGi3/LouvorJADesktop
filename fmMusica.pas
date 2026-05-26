@@ -91,6 +91,7 @@ type
     inicio: Boolean;
     audio: Boolean;
     fecharSlides,fecharSlidesRetorno: Boolean;
+    closing: Boolean; {LAZARUS: guard contra FormClose re-entrante (circular close com fMusicaOperador/fMusicaRetorno)}
     tipo,param: string;
     nslide: integer;
     nslideOrdem: integer;
@@ -1012,6 +1013,10 @@ procedure TfMusica.FormClose(Sender: TObject; var Action: TCloseAction);
 var
   i: integer;
 begin
+  {LAZARUS: guard re-entrância — fMusicaOperador/fMusicaRetorno.FormClose chamam fMusica.Close de volta}
+  if closing then Exit;
+  closing := True;
+
   if (fTransmitir.btServidor.ImageIndex <> 8) then
   begin
      fmIndex.gravaParamServer('MUSICA', 'letra', '');
