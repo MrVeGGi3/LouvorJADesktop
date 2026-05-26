@@ -302,6 +302,9 @@ begin
 
   arq := ARequest.URI;
   arq := Trim(arq);
+  {LAZARUS: ARequest.URI pode incluir query string (ex: /api/ping?token=x) — extrair só o path}
+  if Pos('?', arq) > 0 then
+    arq := Copy(arq, 1, Pos('?', arq) - 1);
   if (arq <> '/') and arq.EndsWith('/') then
     Delete(arq, Length(arq), 1);
 

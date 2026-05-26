@@ -2450,6 +2450,10 @@ begin
   else if (Key = VK_F1) then
     RibbonPCButtons5Click(Sender)
 
+  {LAZARUS: Ctrl+Shift+H abre fTransmitir (Servidor HTTP) — app menu original indisponível no port}
+  else if (((Chr(Key) = 'H') or (Chr(Key) = 'h')) and (Shift = [ssCtrl, ssShift])) then
+    bsAppMenu1Items3Click(Sender)
+
   else if ((Key = VK_F5) or (Key = VK_F9)) then
   begin
     if (fListaMusica <> nil) and (fListaMusica.Visible) and (fListaMusica.Active) and (fListaMusica.btExp_MenuMusicas.ImageIndex = 53)

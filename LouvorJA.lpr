@@ -305,6 +305,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfIniciando, fIniciando);
   Application.CreateForm(TfPlayer, fPlayer);
-  Application.CreateForm(TfTransmitir, fTransmitir);
+  {LAZARUS: TfTransmitir removido — criado em fmIniciando.pas com config carregada; AppCreateForm aqui era duplicado que causava segunda instância órfã}
   Application.Run;
 end.
