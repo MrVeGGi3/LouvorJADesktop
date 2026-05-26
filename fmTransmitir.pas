@@ -673,30 +673,41 @@ begin
             Exit;
         end;
 
-        qrBUSCA.Close;
-        qrBUSCA.ParamByName('VALOR').AsString := fmIndex.termo_busca(searchTerm);
-        qrBUSCA.Open;
+        {LAZARUS: TFPHttpServer roda em thread separada — qrBUSCA usa DM.ADO (conexão do main thread).
+         ZeosLib/SQLite não é thread-safe em conexão compartilhada; try-except previne empty reply.}
+        try
+          qrBUSCA.Close;
+          qrBUSCA.ParamByName('VALOR').AsString := fmIndex.termo_busca(searchTerm);
+          qrBUSCA.Open;
 
-        jsonResult := '{"status":"ok","musicas":[';
-        primeiro := True;
+          jsonResult := '{"status":"ok","musicas":[';
+          primeiro := True;
 
-        while not qrBUSCA.Eof do
-        begin
-            if not primeiro then
-                jsonResult := jsonResult + ',';
-            primeiro := False;
+          while not qrBUSCA.Eof do
+          begin
+              if not primeiro then
+                  jsonResult := jsonResult + ',';
+              primeiro := False;
 
-            jsonResult := jsonResult + '{';
-            jsonResult := jsonResult + '"id":' + qrBUSCA.FieldByName('ID').AsString + ',';
-            jsonResult := jsonResult + '"nome":"' + StringReplace(qrBUSCA.FieldByName('NOME').AsString, '"', '\"', [rfReplaceAll]) + '",';
-            jsonResult := jsonResult + '"album":"' + StringReplace(qrBUSCA.FieldByName('NOME_ALBUM_COM').AsString, '"', '\"', [rfReplaceAll]) + '"';
-            jsonResult := jsonResult + '}';
+              jsonResult := jsonResult + '{';
+              jsonResult := jsonResult + '"id":' + qrBUSCA.FieldByName('ID').AsString + ',';
+              jsonResult := jsonResult + '"nome":"' + StringReplace(qrBUSCA.FieldByName('NOME').AsString, '"', '\"', [rfReplaceAll]) + '",';
+              jsonResult := jsonResult + '"album":"' + StringReplace(qrBUSCA.FieldByName('NOME_ALBUM_COM').AsString, '"', '\"', [rfReplaceAll]) + '"';
+              jsonResult := jsonResult + '}';
 
-            qrBUSCA.Next;
+              qrBUSCA.Next;
+          end;
+
+          jsonResult := jsonResult + ']}';
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := jsonResult;
+        except
+          on E: Exception do
+          begin
+            AResponse.Code := 503;
+            AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
+              '{"status":"error","message":"Search temporarily unavailable (DB thread conflict)","code":"DB_THREAD_ERROR"}';
+          end;
         end;
-
-        jsonResult := jsonResult + ']}';
-        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := jsonResult;
 
         Exit;
     end;
@@ -745,6 +756,7 @@ begin
   begin
     arq := '/404.html';
     url := fmIndex.dir_config+'server'+arq;
+    AResponse.Code := 404; {LAZARUS: fix — 404 pages devem retornar HTTP 404, não 200}
   end;
   txt := TStringList.Create;
   try

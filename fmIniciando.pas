@@ -403,6 +403,15 @@ begin
       fmIndex.abreLetraMusica('BD', '', StrToIntDef(paramexec.Strings.Values['projecao'], 1), true);
     end;
 
+    {LAZARUS: parâmetro servidor=1 inicia servidor HTTP automaticamente — útil para testes headless}
+    if paramexec.Strings.Values['servidor'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fTransmitir.Show;
+      Application.ProcessMessages;
+      fTransmitir.btServidorClick(nil);
+    end;
+
     //**CHECA VERS�O E NOVAS VERS�ES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
