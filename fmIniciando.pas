@@ -396,6 +396,13 @@ begin
       fEditorSlides.BringToFront; {faz o WM focar a janela, disparando FormActivate naturalmente}
     end;
 
+    {LAZARUS: parâmetro projecao=ID projeta música automaticamente — útil para testes headless}
+    if paramexec.Strings.Values['projecao'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreLetraMusica('BD', '', StrToIntDef(paramexec.Strings.Values['projecao'], 1), true);
+    end;
+
     //**CHECA VERS�O E NOVAS VERS�ES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
