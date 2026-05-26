@@ -10,11 +10,9 @@ uses
   StrUtils, FPHTTPClient, base64, LCLIntf, LCLType, FileUtil, LResources;
 
 type
-  TWorkMode = Integer; {LAZARUS: Indy TWorkMode stub — usado só nos eventos FTP}
-
   TfAtualiza = class(TForm)
     {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
-    IdFTP1: TObject {LAZARUS: TIdFTP — FTP stub, aguardando migração para HTTPS};
+    {IdFTP1: TObject;} {LAZARUS: TIdFTP removido — substituído por HTTPS via TFPHTTPClient}
     GridPanel1: TPanel {LAZARUS: TGridPanel};
     img1: TImage {LAZARUS: TbsPngImageView};
     sTitulo: TLabel {LAZARUS: TbsSkinLabel};
@@ -30,20 +28,17 @@ type
     procedure FormActivate(Sender: TObject);
     procedure ftp_conecta();
     procedure ftp_baixa();
-    procedure IdFTP1Work(ASender: TObject; AWorkMode: TWorkMode;
-      AWorkCount: Int64);
-    procedure IdFTP1WorkEnd(ASender: TObject; AWorkMode: TWorkMode);
-    procedure IdFTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode;
-      AWorkCountMax: Int64);
     procedure bsSkinButton2Click(Sender: TObject);
     procedure tmrFechaTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure IdFTP1Disconnected(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     arquivo_temp: string;
     arq: Integer;
+    http_content_length: Int64; {LAZARUS: rastreia Content-Length para barra de progresso}
     function HttpGet(const AURL, AToken: string): string;
+    procedure HttpOnDataReceived(Sender: TObject; const ContentLength, CurrentPos: Int64);
+    {LAZARUS: TIdFTP substituído — HttpOnDataReceived substitui IdFTP1Work*}
   public
     arquivos: TStringList;
     arquivos_falha: TStringList;
@@ -74,6 +69,7 @@ begin
   try
     if AToken <> '' then
       Http.AddHeader('Api-Token', AToken);
+    Http.AllowRedirect := True;
     {LAZARUS: DM.IdHTTP1.Request.CustomHeaders + DM.IdHTTP1.Get → TFPHTTPClient local}
     Result := Http.Get(AURL);
   finally
@@ -81,76 +77,176 @@ begin
   end;
 end;
 
-procedure TfAtualiza.ftp_baixa;
+procedure TfAtualiza.HttpOnDataReceived(Sender: TObject; const ContentLength, CurrentPos: Int64);
+{LAZARUS: substitui IdFTP1Work — atualiza barra de progresso durante download HTTPS}
 begin
-  {LAZARUS: FTP não disponível — aguardando migração para HTTPS}
-  sTitulo.Caption := 'FTP não disponível nesta versão Linux.';
-  sStatus.Caption := 'Migração para HTTPS pendente.';
-  pbProgressoT.Max := 1;
-  pbProgressoT.Position := 1;
-  tmrFecha.Enabled := True;
+  if tmrFecha.Enabled then Exit;
+  if ContentLength > 0 then
+  begin
+    http_content_length := ContentLength;
+    pbProgresso.Max := ContentLength;
+    pbProgresso.Position := CurrentPos;
+    sProgresso.Caption := IntToStr(CurrentPos div 1024) + ' KB / ' +
+      IntToStr(ContentLength div 1024) + ' KB';
+  end
+  else
+  begin
+    {tamanho desconhecido — mostrar bytes baixados}
+    pbProgresso.Style := pbstMarquee;
+    sProgresso.Caption := IntToStr(CurrentPos div 1024) + ' KB';
+  end;
+  Application.ProcessMessages;
 end;
 
 procedure TfAtualiza.ftp_conecta;
+{LAZARUS: HTTPS é stateless — apenas valida presença da URL do servidor}
 begin
-  {LAZARUS: TIdFTP removido — FTP stub}
-  Application.MessageBox(
-    'Download via FTP não está disponível nesta versão Linux.'
-    + #13#10 + 'Aguardando migração para HTTPS.',
-    PChar(fmIndex.TITULO), mb_ok + MB_ICONWARNING);
-  tmrFecha.Enabled := True;
+  if ftp_url = '' then
+  begin
+    Application.MessageBox(
+      PChar('URL do servidor de atualização não encontrada nos dados de conexão.'),
+      PChar(fmIndex.TITULO), mb_ok + MB_ICONWARNING);
+    tmrFecha.Enabled := True;
+  end;
+  {sem handshake FTP — conexão HTTPS ocorre por arquivo em ftp_baixa}
 end;
 
-procedure TfAtualiza.IdFTP1Disconnected(Sender: TObject);
-begin
-  {LAZARUS: FTP stub}
-end;
-
-procedure TfAtualiza.IdFTP1Work(ASender: TObject; AWorkMode: TWorkMode;
-  AWorkCount: Int64);
-begin
-  {LAZARUS: FTP stub}
-  if tmrFecha.Enabled then Exit;
-  pbProgresso.Position := AWorkCount;
-  sProgresso.Caption := inttostr(AWorkCount div 1024) + ' KB / ' +
-    inttostr(pbProgresso.Max div 1024) + ' KB';
-end;
-
-procedure TfAtualiza.IdFTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode;
-  AWorkCountMax: Int64);
-begin
-  {LAZARUS: FTP stub}
-  if tmrFecha.Enabled then Exit;
-  pbProgresso.Position := 0;
-  if pbProgresso.Max <= 0 then
-    pbProgresso.Max := AWorkCountMax;
-end;
-
-procedure TfAtualiza.IdFTP1WorkEnd(ASender: TObject; AWorkMode: TWorkMode);
+procedure TfAtualiza.ftp_baixa;
+{LAZARUS: TIdFTP substituído por TFPHTTPClient — download HTTPS por arquivo}
 var
-  dir: string;
+  Http: TFPHTTPClient;
+  FS: TFileStream;
+  total, i: Integer; {i = contador local — arq atualizado dentro do loop para callbacks}
+  base_url, file_url, rel_path, dest_path, dest_dir: string;
+  temp_file: string;
 begin
-  {LAZARUS: FTP stub — CopyFile Windows API → FileUtil.CopyFile}
-  if tmrFecha.Enabled then Exit;
-  if (arq < 0) or (arquivo_temp = '') then Exit;
+  total := arquivos.Count;
+  if total = 0 then
+  begin
+    pbProgressoT.Max := 1;
+    pbProgressoT.Position := 1;
+    tmrFecha.Enabled := True;
+    Exit;
+  end;
 
-  pbProgresso.Position := pbProgresso.Max;
+  {construir URL base a partir do host e diretório raiz FTP/HTTPS}
+  base_url := ftp_url;
+  if Pos('://', base_url) = 0 then
+    base_url := 'https://' + base_url;
+  {remover barra final}
+  while (Length(base_url) > 0) and (base_url[Length(base_url)] = '/') do
+    Delete(base_url, Length(base_url), 1);
+  {adicionar diretório raiz}
+  if ftp_dir <> '' then
+  begin
+    rel_path := ftp_dir;
+    rel_path := StringReplace(rel_path, '\', '/', [rfReplaceAll]);
+    if (rel_path <> '') and (rel_path[1] <> '/') then
+      rel_path := '/' + rel_path;
+    while (Length(rel_path) > 0) and (rel_path[Length(rel_path)] = '/') do
+      Delete(rel_path, Length(rel_path), 1);
+    base_url := base_url + rel_path;
+  end;
 
-  dir := ExtractFilePath(ExtractFilePath(application.ExeName) + arquivos[arq]);
-  if not DirectoryExists(dir) then
-    ForceDirectories(dir);
+  fmIndex.gravaLog('HTTPS base_url: ' + base_url);
 
-  if arquivos[arq] = 'config\' + lowercase(fIniciando.LANG) + '_database.db' then
-    arquivos[arq] := 'config\database.db';
+  pbProgressoT.Max := total;
+  pbProgressoT.Position := 0;
+  sProgressoT.Caption := '0 / ' + IntToStr(total);
 
-  FileUtil.CopyFile(fmIndex.dir_temp + arquivo_temp,
-    ExtractFilePath(application.ExeName) + arquivos[arq]);
-  DeleteFile(fmIndex.dir_temp + arquivo_temp);
+  Http := TFPHTTPClient.Create(nil);
+  try
+    Http.OnDataReceived := HttpOnDataReceived; {LAZARUS: modo Delphi — sem @ para método de objeto}
+    Http.AllowRedirect := True;
+
+    for i := 0 to total - 1 do
+    begin
+      arq := i; {manter arq sincronizado para possíveis referências externas}
+      if cancela or tmrFecha.Enabled then Break;
+      Application.ProcessMessages;
+
+      {normalizar separadores de caminho para URL e para Linux}
+      rel_path := StringReplace(arquivos[arq], '\', '/', [rfReplaceAll]);
+
+      {substituição de DB específica de idioma}
+      if LowerCase(arquivos[arq]) = 'config\' + LowerCase(fIniciando.LANG) + '_database.db' then
+      begin
+        arquivos[arq] := 'config\database.db';
+        rel_path := 'config/database.db';
+      end;
+
+      arquivo_temp := ExtractFileName(rel_path);
+      file_url := base_url + '/' + rel_path;
+      temp_file := fmIndex.dir_temp + arquivo_temp;
+
+      sTitulo.Caption := 'Baixando: ' + arquivo_temp;
+      sStatus.Caption := IntToStr(arq + 1) + ' / ' + IntToStr(total);
+      pbProgresso.Style := pbstNormal;
+      pbProgresso.Max := 100;
+      pbProgresso.Position := 0;
+      http_content_length := 0;
+      sProgresso.Caption := '0 KB';
+      Application.ProcessMessages;
+
+      fmIndex.gravaLog('HTTPS GET: ' + file_url);
+      try
+        FS := TFileStream.Create(temp_file, fmCreate);
+        try
+          Http.Get(file_url, FS);
+        finally
+          FS.Free;
+        end;
+
+        pbProgresso.Position := pbProgresso.Max;
+        sProgresso.Caption := 'OK';
+
+        {copiar arquivo baixado para destino final}
+        {converter separadores para Linux}
+        dest_path := ExtractFilePath(Application.ExeName) +
+          StringReplace(arquivos[arq], '\', '/', [rfReplaceAll]);
+        dest_dir := ExtractFilePath(dest_path);
+        if (dest_dir <> '') and not DirectoryExists(dest_dir) then
+          ForceDirectories(dest_dir);
+
+        {LAZARUS: CopyFile Windows API → FileUtil.CopyFile}
+        FileUtil.CopyFile(temp_file, dest_path);
+        DeleteFile(temp_file);
+
+      except
+        on E: Exception do
+        begin
+          fmIndex.gravaLog('Erro ao baixar ' + file_url + ': ' + E.Message);
+          arquivos_falha.Add(arquivo_temp + ': ' + E.Message);
+          sStatus.Caption := 'Erro: ' + E.Message;
+          if FileExists(temp_file) then DeleteFile(temp_file);
+        end;
+      end;
+
+      pbProgressoT.Position := i + 1;
+      sProgressoT.Caption := IntToStr(i + 1) + ' / ' + IntToStr(total);
+      Application.ProcessMessages;
+    end;
+
+  finally
+    Http.Free;
+  end;
+
+  if arquivos_falha.Count > 0 then
+  begin
+    sTitulo.Caption := 'Concluído com ' + IntToStr(arquivos_falha.Count) + ' erro(s).';
+    sStatus.Caption := 'Falha em: ' + arquivos_falha.CommaText;
+  end
+  else
+  begin
+    sTitulo.Caption := 'Atualização concluída com sucesso!';
+    sStatus.Caption := 'Todos os arquivos foram baixados.';
+  end;
+  tmrFecha.Enabled := True;
 end;
 
 procedure TfAtualiza.tmrFechaTimer(Sender: TObject);
 begin
-  {LAZARUS: IdFTP1.Connected/Disconnect/Abort removidos — FTP stub}
+  {LAZARUS: IdFTP1.Connected/Disconnect/Abort removidos — sem estado FTP}
   fAtualiza.close;
 end;
 
