@@ -219,9 +219,11 @@ begin
   //DESATIVA RECURSOS "ES"
   if (LANG = 'ES') then
   begin
-    {LAZARUS: bsRibbonGroup7/9/21→TPanel — nomes atualizados após port fmMenu (Etapa 5)}
-    {TODO: fmIndex.grpHinarios.Visible := False;}
-    {TODO: fmIndex.grpHináriosN.Visible := False;}
+    {LAZARUS: grpHinarios/grpHináriosN (Delphi TbsSkinGroupBox) →
+     bsRibbonGroup21 (TPanel em tsColetaneas, Caption='Hinário Adventista').
+     No port, ambas os botões (btAbreHinos + btAbreHinosN) estão no mesmo
+     grupo bsRibbonGroup21. Esconder o grupo inteiro cobre os dois TODOs.}
+    fmIndex.bsRibbonGroup21.Visible := False;  {equivale a grpHinarios+grpHináriosN}
     fmIndex.btAbreHinosN.Visible := False;
 
     fmIndex.imgImagemCapaModel.Picture := fmIndex.imgImagemCapaModelES.Picture;

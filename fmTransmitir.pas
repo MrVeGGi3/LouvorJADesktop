@@ -635,14 +635,27 @@ begin
       end
       else if (ARequest.QueryFields.Values['action'] = 'start') then
       begin
-        fmIndex.btIniciarCronoClick(fmIndex.btIniciarCrono);
-        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"start","message":"Iniciando cronÃ´metro"}';
+        {LAZARUS: btIniciarCronoClick modifica DM.tmrCrono.Enabled e DoubleBuffered
+         — não thread-safe quando chamado de TFPHttpServer. try-except previne empty reply.}
+        try
+          fmIndex.btIniciarCronoClick(fmIndex.btIniciarCrono);
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
+            '{"status":"ok","action":"start","message":"Iniciando cron' + #$C3#$B4 + 'metro"}';
+        except
+          AResponse.Content := '{"status":"error","message":"Cron' + #$C3#$B4 + 'metro indispon' + #$C3#$AD + 'vel (thread conflict)","code":"THREAD_ERROR"}';
+        end;
         Exit;
       end
       else if (ARequest.QueryFields.Values['action'] = 'stop') then
       begin
-        fmIndex.btZerarCronoClick(fmIndex.btZerarCrono);
-        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"stop","message":"Parando e zerando cronÃ´metro"}';
+        {LAZARUS: mesmo problema de thread-safety — try-except}
+        try
+          fmIndex.btZerarCronoClick(fmIndex.btZerarCrono);
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
+            '{"status":"ok","action":"stop","message":"Parando e zerando cron' + #$C3#$B4 + 'metro"}';
+        except
+          AResponse.Content := '{"status":"error","message":"Cron' + #$C3#$B4 + 'metro indispon' + #$C3#$AD + 'vel (thread conflict)","code":"THREAD_ERROR"}';
+        end;
         Exit;
       end
       else if (ARequest.QueryFields.Values['action'] = 'note') then
