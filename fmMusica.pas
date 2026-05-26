@@ -1334,11 +1334,10 @@ begin
         uImagem := img;
         uPosicao := imgPosicao;
         img := StringReplace(img,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
-        if FileExists(ExtractFilePath(param)+'\'+img) then
-          img := ExtractFilePath(param)+'\'+img;
-
-        img := StringReplace(img,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-        img := StringReplace(img,'\\', '\', [rfIgnoreCase, rfReplaceAll]);
+        {LAZARUS: corrigido separador de path '\' → '/' para Linux}
+        if FileExists(ExtractFilePath(param)+'/'+img) then
+          img := ExtractFilePath(param)+'/'+img;
+        {LAZARUS: removidas conversões '/' → '\' — inválidas no Linux}
 
         carregaImagem(img);
       end

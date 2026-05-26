@@ -2454,6 +2454,10 @@ begin
   else if (((Chr(Key) = 'H') or (Chr(Key) = 'h')) and (Shift = [ssCtrl, ssShift])) then
     bsAppMenu1Items3Click(Sender)
 
+  {LAZARUS: Ctrl+Shift+E abre fEditorSlides — app menu original indisponível no port}
+  else if (((Chr(Key) = 'E') or (Chr(Key) = 'e')) and (Shift = [ssCtrl, ssShift])) then
+    bsSkinSpeedButton1Click(Sender)
+
   else if ((Key = VK_F5) or (Key = VK_F9)) then
   begin
     if (fListaMusica <> nil) and (fListaMusica.Visible) and (fListaMusica.Active) and (fListaMusica.btExp_MenuMusicas.ImageIndex = 53)
@@ -3207,14 +3211,14 @@ begin
     url := DM.qrMUSICA.FieldByName('URL').AsString;
     DM.qrMUSICA.Close;
   end;
-  musica := dir_config+'musicas\'+album+'\'+url;
+  musica := dir_config+'musicas/'+album+'/'+url; {LAZARUS: fix separadores Windows→Linux}
   if not (FileExists(musica)) then
   begin
     if (application.MessageBox(PChar('Arquivo "'+musica+'" não encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
     begin
       lista := TStringList.Create;
       lista.Clear;
-      lista.Add('config\musicas\'+album+'\'+url);
+      lista.Add('config/musicas/'+album+'/'+url); {LAZARUS: fix separadores Windows→Linux}
 
       fIniciando.AppCreateForm(TfAtualiza, fAtualiza);
       fAtualiza.arquivos := lista;

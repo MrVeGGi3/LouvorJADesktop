@@ -1008,12 +1008,11 @@ var
 begin
   musica := param.Values['audio'];
   musica := StringReplace(musica,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
-  musica := StringReplace(musica,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-  musica := StringReplace(musica,'\\', '\', [rfIgnoreCase, rfReplaceAll]);
+  {LAZARUS: removidas conversões '/' → '\' — inválidas no Linux}
   // check the correct BASS was loaded
   if (HIWORD(BASS_GetVersion) <> BASSVERSION) then
   begin
-    application.MessageBox('A vers�o do seu arquivo "BASS.DLL" est� incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
+    application.MessageBox('A vers�o do seu arquivo "libbass.so" est� incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
     Exit;
     //Halt;
   end;
@@ -1027,7 +1026,7 @@ begin
 
   f := PChar(musica);
   try
-    bass_musica := BASS_SampleLoad(FALSE, PChar(f), 0, 0, 3, BASS_SAMPLE_OVER_POS or BASS_UNICODE);
+    bass_musica := BASS_SampleLoad(FALSE, PChar(f), 0, 0, 3, BASS_SAMPLE_OVER_POS); {LAZARUS: removido BASS_UNICODE — flag Windows-only; Linux BASS usa UTF-8 nativo}
     bass_channel := BASS_SampleGetChannel(bass_musica, False);
 //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_PAN, 0);
 //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
@@ -1065,9 +1064,8 @@ begin
   begin
     if RecNo = 1 then
     begin
-      param.Values['audio'] := StringReplace(FieldByName('URL_MUSICA').Value,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
-      param.Values['audio'] := StringReplace(param.Values['audio'],'/', '\', [rfIgnoreCase, rfReplaceAll]);
-      param.Values['audio'] := StringReplace(param.Values['audio'],'\\', '\', [rfIgnoreCase, rfReplaceAll]);
+      param.Values['audio'] := StringReplace(FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
+      {LAZARUS: removidas conversões '/' → '\' — inválidas no Linux}
       if (btPausePlay.ImageIndex = 9)
         then btRemoveAudio.Enabled := false
         else btRemoveAudio.Enabled := (param.Values['audio'] <> '');
@@ -1091,8 +1089,7 @@ begin
       begin
         param.Values['u_imagem'] := param.Values['imagem'];
         param.Values['u_posicao'] := param.Values['posicao'];
-        param.Values['imagem'] := StringReplace(param.Values['imagem'],'/', '\', [rfIgnoreCase, rfReplaceAll]);
-        param.Values['imagem'] := StringReplace(param.Values['imagem'],'\\', '\', [rfIgnoreCase, rfReplaceAll]);
+        {LAZARUS: removidas conversões '/' → '\' — inválidas no Linux}
 
         carregaImagem(param.Values['imagem']);
       end
@@ -1643,7 +1640,7 @@ begin
   begin
     tmrTempo.Enabled := false;
     pauseplay;
-    application.MessageBox('Escolha um arquivo de �udio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
+    application.MessageBox('Escolha um arquivo de�udio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
     Exit;
   end
   else if not (FileExists(param.Values['audio'])) then

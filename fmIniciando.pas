@@ -47,7 +47,7 @@ var
 implementation
 
 
-uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir;
+uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides;
 
 procedure TfIniciando.AppCreateForm(InstanceClass: TComponentClass;
   var Reference);
@@ -385,6 +385,16 @@ begin
     //**MOSTRA FORM*************************************************************
     fmIndex.Show;
     Application.ProcessMessages; {LAZARUS: drena fila de eventos GTK pendentes após Show() — necessário pois o fade-in foi removido}
+
+    {LAZARUS: parâmetro editor=1 abre o editor de slides automaticamente — útil para testes sem XTest/xdotool}
+    if paramexec.Strings.Values['editor'] = '1' then
+    begin
+      AppCreateForm(TfEditorSlides, fEditorSlides);
+      fEditorSlides.Show;
+      fEditorSlides.WindowState := wsMaximized; {LAZARUS: LCL/GTK2 ignora wsMaximized do LFM em Show() programático; forçar aqui}
+      Application.ProcessMessages; {drena eventos GTK pendentes}
+      fEditorSlides.BringToFront; {faz o WM focar a janela, disparando FormActivate naturalmente}
+    end;
 
     //**CHECA VERS�O E NOVAS VERS�ES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);

@@ -320,78 +320,17 @@ object fEditorSlides: TfEditorSlides
             Height = 20
             Anchors = [akLeft, akTop, akRight, akBottom]
             TabOrder = 0
-            DefaultWidth = 0
-            DefaultHeight = 0
-            ToolButtonStyle = False
-            ItemsEx = <
-              item
-                Caption = 'Topo Esq.'
-                ImageIndex = 92
-                SelectedImageIndex = 92
-              end
-              item
-                Caption = 'Topo'
-                ImageIndex = 93
-                SelectedImageIndex = 93
-              end
-              item
-                Caption = 'Topo Dir.'
-                ImageIndex = 94
-                SelectedImageIndex = 94
-              end
-              item
-                Caption = 'Centro Esq.'
-                ImageIndex = 95
-                SelectedImageIndex = 95
-              end
-              item
-                Caption = 'Centro'
-                ImageIndex = 96
-                SelectedImageIndex = 96
-              end
-              item
-                Caption = 'Centro Dir.'
-                ImageIndex = 97
-                SelectedImageIndex = 97
-              end
-              item
-                Caption = 'Rodap'#233' Esq.'
-                ImageIndex = 98
-                SelectedImageIndex = 98
-              end
-              item
-                Caption = 'Rodap'#233
-                ImageIndex = 99
-                SelectedImageIndex = 99
-              end
-              item
-                Caption = 'Rodap'#233' Dir.'
-                ImageIndex = 100
-                SelectedImageIndex = 100
-              end>
+            Items.Strings = (
+              'Topo Esq.'
+              'Topo'
+              'Topo Dir.'
+              'Centro Esq.'
+              'Centro'
+              'Centro Dir.'
+              'Rodap'#233' Esq.'
+              'Rodap'#233
+              'Rodap'#233' Dir.')
             Style = csDropDownList
-            HideSelection = True
-            AutoComplete = True
-            ListBoxUseSkinFont = True
-            ListBoxUseSkinItemHeight = True
-            ListBoxWidth = 0
-            Images = DM.ico_16x16
-            AlphaBlend = False
-            AlphaBlendValue = 0
-            ListBoxCaptionMode = False
-            ListBoxDefaultFont.Charset = DEFAULT_CHARSET
-            ListBoxDefaultFont.Color = clWindowText
-            ListBoxDefaultFont.Height = 13
-            ListBoxDefaultFont.Name = 'Tahoma'
-            ListBoxDefaultFont.Style = []
-            ListBoxDefaultCaptionFont.Charset = DEFAULT_CHARSET
-            ListBoxDefaultCaptionFont.Color = clWindowText
-            ListBoxDefaultCaptionFont.Height = 13
-            ListBoxDefaultCaptionFont.Name = 'Tahoma'
-            ListBoxDefaultCaptionFont.Style = []
-            ListBoxDefaultItemHeight = 20
-            ListBoxCaptionAlignment = taLeftJustify
-            DropDownCount = 8
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = 13
@@ -1570,7 +1509,7 @@ object fEditorSlides: TfEditorSlides
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'Panel4'
+      Caption = ''
       Align = alTop
       object bsSkinStdLabel6: TLabel
         AlignWithMargins = True
@@ -1620,16 +1559,11 @@ object fEditorSlides: TfEditorSlides
         Font.Height = 13
         Font.Name = 'Tahoma'
         Font.Style = []
-        Lines.Strings = (
-          'bsSkinMemo3')
+        Lines.Strings = ()
         ParentFont = False
         ScrollBars = ssBoth
         TabOrder = 1
         OnChange = textoLetraAuxChange
-        Transparent = False
-        WallpaperStretch = False
-        BitMapBG = True
-        VScrollBar = bsSkinScrollBar1
       end
     end
     object Panel5: TPanel
@@ -1644,7 +1578,7 @@ object fEditorSlides: TfEditorSlides
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'Panel4'
+      Caption = ''
       Align = alTop
       object bsSkinStdLabel5: TLabel
         AlignWithMargins = True
@@ -1673,16 +1607,11 @@ object fEditorSlides: TfEditorSlides
         Font.Height = 13
         Font.Name = 'Tahoma'
         Font.Style = []
-        Lines.Strings = (
-          'bsSkinMemo3')
+        Lines.Strings = ()
         ParentFont = False
         ScrollBars = ssBoth
         TabOrder = 1
         OnChange = textoLetraChange
-        Transparent = False
-        WallpaperStretch = False
-        BitMapBG = True
-        VScrollBar = bsSkinScrollBar2
       end
       object bsSkinScrollBar2: TScrollBar
         Left = 281
@@ -1719,7 +1648,7 @@ object fEditorSlides: TfEditorSlides
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'Panel4'
+      Caption = ''
       Align = alTop
       object bsSkinStdLabel10: TLabel
         AlignWithMargins = True
@@ -1763,7 +1692,7 @@ object fEditorSlides: TfEditorSlides
       Height = 39
       Align = alBottom
       BevelOuter = bvNone
-      Caption = 'pnlProgress'
+      Caption = ''
       Color = clBlack
       ParentBackground = False
       TabOrder = 2
@@ -2380,7 +2309,7 @@ object fEditorSlides: TfEditorSlides
       Height = 41
       Align = alBottom
       BevelOuter = bvNone
-      Caption = 'Panel3'
+      Caption = ''
       Color = clBlack
       ParentBackground = False
       TabOrder = 1
