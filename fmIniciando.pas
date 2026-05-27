@@ -1,4 +1,5 @@
 unit fmIniciando;
+{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade com código portado}
 
 interface
 
