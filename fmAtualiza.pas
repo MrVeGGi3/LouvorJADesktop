@@ -7,7 +7,8 @@ uses
   {LAZARUS: removidos Windows/Indy/FTP/bsSkin*/VCL}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit,
-  StrUtils, FPHTTPClient, base64, LCLIntf, LCLType, FileUtil, LResources;
+  StrUtils, FPHTTPClient, base64, LCLIntf, LCLType, FileUtil, LResources,
+  Process; {LAZARUS: TProcess para download FTP via curl quando servidor é FTP puro}
 
 type
   TfAtualiza = class(TForm)
@@ -99,7 +100,7 @@ begin
 end;
 
 procedure TfAtualiza.ftp_conecta;
-{LAZARUS: HTTPS é stateless — apenas valida presença da URL do servidor}
+{LAZARUS: HTTPS/FTP é stateless — apenas valida presença da URL do servidor}
 begin
   if ftp_url = '' then
   begin
@@ -108,17 +109,20 @@ begin
       PChar(fmIndex.TITULO), mb_ok + MB_ICONWARNING);
     tmrFecha.Enabled := True;
   end;
-  {sem handshake FTP — conexão HTTPS ocorre por arquivo em ftp_baixa}
+  {sem handshake FTP — conexão ocorre por arquivo em ftp_baixa}
 end;
 
 procedure TfAtualiza.ftp_baixa;
-{LAZARUS: TIdFTP substituído por TFPHTTPClient — download HTTPS por arquivo}
+{LAZARUS: TIdFTP substituído — detecta FTP puro (usa curl) vs HTTPS (TFPHTTPClient)}
 var
   Http: TFPHTTPClient;
   FS: TFileStream;
-  total, i: Integer; {i = contador local — arq atualizado dentro do loop para callbacks}
+  Proc: TProcess;
+  total, i: Integer;
   base_url, file_url, rel_path, dest_path, dest_dir: string;
   temp_file: string;
+  is_ftp: Boolean;
+  ftp_host_bare: string; {host sem protocolo, com porta se não-padrão}
 begin
   total := arquivos.Count;
   if total = 0 then
@@ -129,80 +133,141 @@ begin
     Exit;
   end;
 
-  {construir URL base a partir do host e diretório raiz FTP/HTTPS}
-  base_url := ftp_url;
-  if Pos('://', base_url) = 0 then
-    base_url := 'https://' + base_url;
-  {remover barra final}
-  while (Length(base_url) > 0) and (base_url[Length(base_url)] = '/') do
-    Delete(base_url, Length(base_url), 1);
-  {adicionar diretório raiz}
-  if ftp_dir <> '' then
-  begin
-    rel_path := ftp_dir;
-    rel_path := StringReplace(rel_path, '\', '/', [rfReplaceAll]);
-    if (rel_path <> '') and (rel_path[1] <> '/') then
-      rel_path := '/' + rel_path;
-    while (Length(rel_path) > 0) and (rel_path[Length(rel_path)] = '/') do
-      Delete(rel_path, Length(rel_path), 1);
-    base_url := base_url + rel_path;
-  end;
+  {detectar protocolo: porta 21 ou sem porta → FTP; caso contrário → HTTPS}
+  is_ftp := (ftp_porta = 21) or (ftp_porta = 0) or
+             (LowerCase(Copy(ftp_url, 1, 6)) = 'ftp://');
 
-  fmIndex.gravaLog('HTTPS base_url: ' + base_url);
+  {montar base_url conforme protocolo}
+  if is_ftp then
+  begin
+    {LAZARUS: usar curl para FTP — TIdFTP removido, Synapse não instalado}
+    ftp_host_bare := ftp_url;
+    {remover protocolo caso já incluso}
+    if Pos('://', ftp_host_bare) > 0 then
+      ftp_host_bare := Copy(ftp_host_bare, Pos('://', ftp_host_bare) + 3, MaxInt);
+    {porta não-padrão}
+    if (ftp_porta > 0) and (ftp_porta <> 21) then
+      ftp_host_bare := ftp_host_bare + ':' + IntToStr(ftp_porta);
+    {diretório raiz}
+    base_url := ftp_host_bare;
+    if ftp_dir <> '' then
+    begin
+      rel_path := StringReplace(ftp_dir, '\', '/', [rfReplaceAll]);
+      if (rel_path <> '') and (rel_path[1] <> '/') then rel_path := '/' + rel_path;
+      while (Length(rel_path) > 0) and (rel_path[Length(rel_path)] = '/') do
+        Delete(rel_path, Length(rel_path), 1);
+      base_url := base_url + rel_path;
+    end;
+    fmIndex.gravaLog('FTP (curl) host+root: ' + base_url);
+  end
+  else
+  begin
+    {HTTPS}
+    base_url := ftp_url;
+    if Pos('://', base_url) = 0 then
+      base_url := 'https://' + base_url;
+    while (Length(base_url) > 0) and (base_url[Length(base_url)] = '/') do
+      Delete(base_url, Length(base_url), 1);
+    if ftp_dir <> '' then
+    begin
+      rel_path := ftp_dir;
+      rel_path := StringReplace(rel_path, '\', '/', [rfReplaceAll]);
+      if (rel_path <> '') and (rel_path[1] <> '/') then rel_path := '/' + rel_path;
+      while (Length(rel_path) > 0) and (rel_path[Length(rel_path)] = '/') do
+        Delete(rel_path, Length(rel_path), 1);
+      base_url := base_url + rel_path;
+    end;
+    fmIndex.gravaLog('HTTPS base_url: ' + base_url);
+  end;
 
   pbProgressoT.Max := total;
   pbProgressoT.Position := 0;
   sProgressoT.Caption := '0 / ' + IntToStr(total);
 
-  Http := TFPHTTPClient.Create(nil);
-  try
-    Http.OnDataReceived := HttpOnDataReceived; {LAZARUS: modo Delphi — sem @ para método de objeto}
+  {criar cliente HTTP apenas para HTTPS}
+  Http := nil;
+  if not is_ftp then
+  begin
+    Http := TFPHTTPClient.Create(nil);
+    Http.OnDataReceived := HttpOnDataReceived;
     Http.AllowRedirect := True;
+  end;
 
+  try
     for i := 0 to total - 1 do
     begin
-      arq := i; {manter arq sincronizado para possíveis referências externas}
+      arq := i;
       if cancela or tmrFecha.Enabled then Break;
       Application.ProcessMessages;
 
-      {normalizar separadores de caminho para URL e para Linux}
+      {normalizar separadores de caminho}
       rel_path := StringReplace(arquivos[arq], '\', '/', [rfReplaceAll]);
 
-      {substituição de DB específica de idioma}
+      {substituição de DB por idioma: FTP tem 'config/pt_database.db' mas app lê 'config/database.db'}
+      {rel_path (URL do FTP) não muda — só o destino local (arquivos[arq]) é renomeado}
       if LowerCase(arquivos[arq]) = 'config\' + LowerCase(fIniciando.LANG) + '_database.db' then
-      begin
-        arquivos[arq] := 'config\database.db';
-        rel_path := 'config/database.db';
-      end;
+        arquivos[arq] := 'config\database.db'; {destino local: renomear para database.db}
 
       arquivo_temp := ExtractFileName(rel_path);
-      file_url := base_url + '/' + rel_path;
       temp_file := fmIndex.dir_temp + arquivo_temp;
 
       sTitulo.Caption := 'Baixando: ' + arquivo_temp;
       sStatus.Caption := IntToStr(arq + 1) + ' / ' + IntToStr(total);
-      pbProgresso.Style := pbstNormal;
+      pbProgresso.Style := pbstMarquee;
       pbProgresso.Max := 100;
       pbProgresso.Position := 0;
       http_content_length := 0;
       sProgresso.Caption := '0 KB';
       Application.ProcessMessages;
 
-      fmIndex.gravaLog('HTTPS GET: ' + file_url);
       try
-        FS := TFileStream.Create(temp_file, fmCreate);
-        try
-          Http.Get(file_url, FS);
-        finally
-          FS.Free;
+        if is_ftp then
+        begin
+          {LAZARUS: download FTP via curl — modo passivo, credenciais via --user}
+          file_url := 'ftp://' + base_url + '/' + rel_path;
+          fmIndex.gravaLog('FTP GET: ' + file_url);
+          Proc := TProcess.Create(nil);
+          try
+            Proc.Executable := 'curl';
+            Proc.Parameters.Add('--silent');
+            Proc.Parameters.Add('--ftp-pasv');
+            Proc.Parameters.Add('--user');
+            Proc.Parameters.Add(ftp_usuario + ':' + ftp_senha);
+            Proc.Parameters.Add(file_url);
+            Proc.Parameters.Add('--output');
+            Proc.Parameters.Add(temp_file);
+            Proc.Options := [poWaitOnExit, poNoConsole];
+            Proc.Execute;
+            if Proc.ExitCode <> 0 then
+              raise Exception.CreateFmt(
+                'curl encerrou com código %d ao baixar %s',
+                [Proc.ExitCode, arquivo_temp]);
+          finally
+            Proc.Free;
+          end;
+          pbProgresso.Style := pbstNormal;
+          pbProgresso.Position := 100;
+          sProgresso.Caption := 'OK';
+        end
+        else
+        begin
+          {HTTPS via TFPHTTPClient}
+          file_url := base_url + '/' + rel_path;
+          pbProgresso.Style := pbstNormal;
+          fmIndex.gravaLog('HTTPS GET: ' + file_url);
+          FS := TFileStream.Create(temp_file, fmCreate);
+          try
+            Http.Get(file_url, FS);
+          finally
+            FS.Free;
+          end;
+          pbProgresso.Position := pbProgresso.Max;
+          sProgresso.Caption := 'OK';
         end;
 
-        pbProgresso.Position := pbProgresso.Max;
-        sProgresso.Caption := 'OK';
-
-        {copiar arquivo baixado para destino final}
-        {converter separadores para Linux}
-        dest_path := ExtractFilePath(Application.ExeName) +
+        {copiar para destino final}
+        {LAZARUS: pai de dir_config — suporta /opt (somente leitura) e build de desenvolvimento}
+        dest_path := ExtractFilePath(ExcludeTrailingPathDelimiter(fmIndex.dir_config)) +
           StringReplace(arquivos[arq], '\', '/', [rfReplaceAll]);
         dest_dir := ExtractFilePath(dest_path);
         if (dest_dir <> '') and not DirectoryExists(dest_dir) then
@@ -228,7 +293,7 @@ begin
     end;
 
   finally
-    Http.Free;
+    if Assigned(Http) then Http.Free;
   end;
 
   if arquivos_falha.Count > 0 then
@@ -459,6 +524,7 @@ begin
 
   fmIndex.gravaLog('ftp_url: ' + ftp_url);
   fmIndex.gravaLog('ftp_dir: ' + ftp_dir);
+  fmIndex.gravaLog('ftp_porta: ' + IntToStr(ftp_porta));
 
   sTitulo.Caption := 'Conectando ao servidor...';
   ftp_conecta();

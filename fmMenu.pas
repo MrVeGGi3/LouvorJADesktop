@@ -6005,7 +6005,8 @@ begin
       end;
 
       lista := TStringList.Create;
-      lista.Add('config\database.db');
+      {LAZARUS: FTP tem pt_database.db/es_database.db — ftp_baixa renomeia para database.db localmente}
+      lista.Add('config\' + fIniciando.LANG + '_database.db');
 
       fIniciando.AppCreateForm(TfAtualiza, fAtualiza);
       fAtualiza.arquivos := lista;
@@ -6085,7 +6086,8 @@ begin
       end;
 
       lista := TStringList.Create;
-      lista.Add('config\database.db');
+      {LAZARUS: FTP tem pt_database.db/es_database.db — ftp_baixa renomeia para database.db localmente}
+      lista.Add('config\' + fIniciando.LANG + '_database.db');
 
       fIniciando.AppCreateForm(TfAtualiza, fAtualiza);
       fAtualiza.arquivos := lista;
