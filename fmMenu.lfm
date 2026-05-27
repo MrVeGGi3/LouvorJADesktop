@@ -22217,7 +22217,7 @@ object fmIndex: TfmIndex
     BorderStyle = bsSingle
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'pnlPlayer'
+    Caption = ''
     Align = alBottom
     object btplPlay: TSpeedButton
       Left = 1

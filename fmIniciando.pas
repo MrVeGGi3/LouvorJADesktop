@@ -507,6 +507,13 @@ begin
       fFormatacao.ShowModal;
     end;
 
+    {LAZARUS: parâmetro player=URL toca arquivo de áudio e abre fmPlayer — testes headless}
+    if paramexec.Strings.Values['player'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.player(paramexec.Strings.Values['player'], False);
+    end;
+
     //**CHECA VERSÃO E NOVAS VERSÕES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
