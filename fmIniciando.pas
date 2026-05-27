@@ -165,7 +165,7 @@ begin
   //**CARREGA BANCO DE DADOS****************************************************
   if not FileExists(dir_config + 'database.db') then
   begin
-    if (application.messagebox(PChar(Translate('Banco de Dados n�o localizado! Deseja se conectar para fazer o download do banco de dados?')), TITULO, MB_yesno + mb_iconerror) <> 6) then
+    if (application.messagebox(PChar(Translate('Banco de Dados não localizado! Deseja se conectar para fazer o download do banco de dados?')), TITULO, MB_yesno + mb_iconerror) <> 6) then
     begin
       application.terminate;
       Exit;
@@ -182,7 +182,7 @@ begin
 
       if not FileExists(dir_config + 'database.db') then
       begin
-        application.messagebox(PChar(Translate('N�o foi poss�vel baixar o Banco de Dados da internet. Favor, instale seu programa novamente!')), TITULO, MB_ok + mb_iconerror);
+        application.messagebox(PChar(Translate('Não foi possível baixar o Banco de Dados da internet. Favor, instale seu programa novamente!')), TITULO, MB_ok + mb_iconerror);
         application.terminate;
         Exit;
       end
@@ -207,7 +207,7 @@ begin
   except
     on E: Exception do
     begin
-      application.messagebox(PChar(Translate('N�o foi poss�vel conectar ao Banco de Dados.')+#13#10+E.Message), TITULO, MB_OK + mb_iconerror);
+      application.messagebox(PChar(Translate('Não foi possível conectar ao Banco de Dados.')+#13#10+E.Message), TITULO, MB_OK + mb_iconerror);
       application.terminate;
     end;
   end;
@@ -240,7 +240,7 @@ begin
 
   {LAZARUS: bloco "CARREGA SKIN" removido — skin engine não portada para LCL}
 
-  //**CARREGA CONFIGURA��ES GLOBAIS*********************************************
+  //**CARREGA CONFIGURAÇÕES GLOBAIS*********************************************
   fmIndex.ckMonitorJanela.Checked := (fmIndex.lerParam('Config', 'MonitorTelaCheia', '1') = '1');
   fmIndex.ckFadeForm.Checked := (fmIndex.lerParam('Config', 'FadeForm', '1') = '1');
   fmIndex.ckMesmaJanela.Checked := false;// (fmIndex.lerParam('Config', 'ckMesmaJanela', '0') = '1');
@@ -361,14 +361,14 @@ begin
     //**CARREGA PARAMETROS DA WEB***********************************************
     fmIndex.carregaParams();
 
-    //**CARREGA T�TULOS DO PROGRAMA
+    //**CARREGA TÍTULOS DO PROGRAMA
     application.Title := TITULO;
     fmIndex.Caption := TITULO;
     fmIndex.pnlTitForm.Caption := TITULO;
 
     fmIndex.tCronoT := 0;
 
-    //**CARREGA INFORMA��ES DO COMPUTADOR E REL�GIO*****************************
+    //**CARREGA INFORMAÇÕES DO COMPUTADOR E RELÓGIO*****************************
     DM.tmrRelogio.Enabled := True;
     fmIndex.paramtemp.Lines.Clear;
     fmIndex.paramtemp.Text := fmIndex.GetComputerNameFunc;
@@ -414,7 +414,7 @@ begin
       fTransmitir.btServidorClick(nil);
     end;
 
-    //**CHECA VERS�O E NOVAS VERS�ES********************************************
+    //**CHECA VERSÃO E NOVAS VERSÕES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
     fmIndex.carrega_opc := true;
@@ -528,44 +528,44 @@ end.
 |
 |
 |---------------|
-| ATUALIZA��ES: |
+| ATUALIZAÇÕES: |
 |---------------|
 |
-|- Ajuste na letra no servidor de transmiss�o
+|- Ajuste na letra no servidor de transmissão
 |
 |------------|
-| CORRE��ES: |
+| CORREÇÕES: |
 |------------|
 |
 |- Ver erro ao desconectar monitor 2 durante musica
-|- Na liturgia, corre��o de bug ao selecionar um arquivo que tenha acentua��es e '�' pois o sistema n�o consegue fazer o encode correto
-|- Bug na tela de help. As vezes n�o fecha
+|- Na liturgia, correção de bug ao selecionar um arquivo que tenha acentuações e 'é' pois o sistema não consegue fazer o encode correto
+|- Bug na tela de help. As vezes não fecha
 |- Bug nos itens agendados - CDS
-|- Os slides com playback do cd jovem 2011 est�o todos fora de tempo!
-|- Depois de clicar no campo Geral "Ligar", com a contagem do tempo, se j� tiver tocado alguma das m�sicas, minimizando e retgornando ao programa Louvor JA, a m�sica p�ra.
-|- Bug ao fechar/minimizar algumas janela (como lista de m�sicas, por exemplo)
-|- Problema ao cancelar download (n�o fecha a janela, tendo que fechar pelo gerenciador de tarefas)
+|- Os slides com playback do cd jovem 2011 estão todos fora de tempo!
+|- Depois de clicar no campo Geral "Ligar", com a contagem do tempo, se já tiver tocado alguma das músicas, minimizando e retgornando ao programa Louvor JA, a música pára.
+|- Bug ao fechar/minimizar algumas janela (como lista de músicas, por exemplo)
+|- Problema ao cancelar download (não fecha a janela, tendo que fechar pelo gerenciador de tarefas)
 |
 |------------|
 | MELHORIAS: |
 |------------|
 |
-|- Agrupar hinos do hin�rio por temas
-|- Fazer sumir o ponteiro do mouse durante apresenta��o da musica (ser parametrizavel = sim/nao)
-|- Colocar n�mero do hino no slide e no t�tulo
+|- Agrupar hinos do hinário por temas
+|- Fazer sumir o ponteiro do mouse durante apresentação da musica (ser parametrizavel = sim/nao)
+|- Colocar número do hino no slide e no título
 |- Playlist personalizada
 |- Wallpaper agendado
-|- Mesclar m�dulos Cronometro e Escola Sabatina
-|- Dar a op��o de selecionar alguns blocos para a tela de in�cio (talvez contendo os favoritos caso n�o seja poss�vel mov�-los)
+|- Mesclar módulos Cronometro e Escola Sabatina
+|- Dar a opção de selecionar alguns blocos para a tela de início (talvez contendo os favoritos caso não seja possível movê-los)
 |- Ao abrir programa, abrir as abas favoritas
-|- As m�sicas est�o com tempo sem �udio extenso no final: Cora��o aberto e Eu sou a mensagem, principalmente, do cd jovem Eu sou a mensagem.
-|- Na liturgia, corre��o de bug ao selecionar um arquivo que tenha acentua��es e '�' pois o sistema n�o consegue fazer o encode correto
-|- Dar a op��o de selecionar alguns blocos para a tela de in�cio (talvez contendo os favoritos caso n�o seja poss�vel mov�-los)
-|- M�sica para sorteio
+|- As músicas estão com tempo sem áudio extenso no final: Coração aberto e Eu sou a mensagem, principalmente, do cd jovem Eu sou a mensagem.
+|- Na liturgia, correção de bug ao selecionar um arquivo que tenha acentuações e 'é' pois o sistema não consegue fazer o encode correto
+|- Dar a opção de selecionar alguns blocos para a tela de início (talvez contendo os favoritos caso não seja possível movê-los)
+|- Música para sorteio
 |- Criar categoria Desbravadores e Aventureiros
 |- Colocar texto no cronometro
-|- Mudar posi��o do cronometro
-|- Colocar op��o do usuario colcoar audio no sorteio
+|- Mudar posição do cronometro
+|- Colocar opção do usuario colcoar audio no sorteio
 |
 |-------------------------------------------------------------------------------
 

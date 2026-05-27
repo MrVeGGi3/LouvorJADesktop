@@ -514,7 +514,7 @@ begin
     begin
       if (musicaID <= 0) then
         audio := false
-      else if (application.MessageBox(PChar('Arquivo "'+musica+'" n�o encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
+      else if (application.MessageBox(PChar('Arquivo "'+musica+'" não encontrado! Deseja baixar este arquivo agora?'), fmIndex.titulo, mb_yesno + mb_iconerror) = 6) then
       begin
         lista := TStringList.Create;
         lista.Clear;
@@ -526,7 +526,7 @@ begin
 
         if not (FileExists(musica)) then
         begin
-          application.MessageBox(PChar('N�o foi poss�vel baixar o arquivo "'+musica+'"! Os slides ser�o executados sem �udio!'), fmIndex.titulo, mb_ok + mb_iconerror);
+          application.MessageBox(PChar('Não foi possível baixar o arquivo "'+musica+'"! Os slides serão executados sem áudio!'), fmIndex.titulo, mb_ok + mb_iconerror);
           audio := False;
         end;
       end
@@ -544,7 +544,7 @@ begin
           audio := false  // stub — sem mensagem
         else
         begin
-          application.MessageBox('A vers�o do seu arquivo "BASS.DLL" est� incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
+          application.MessageBox('A versão do seu arquivo "BASS.DLL" está incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
           audio := false;
           //Halt;
         end;
@@ -560,7 +560,7 @@ begin
         end;
   //      if not BASS_Init(-1, 44100, 0, Handle, nil) then
   //      begin
-  //        Error('Erro ao iniciar �udio "'+musica+'"!');
+  //        Error('Erro ao iniciar áudio "'+musica+'"!');
   //        audio := false;
   //      end;
 
@@ -572,11 +572,11 @@ begin
     //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
           if not BASS_ChannelPlay(bass_channel, False) then
           begin
-            Error('Erro ao reproduzir �udio "'+musica+'"!');
+            Error('Erro ao reproduzir áudio "'+musica+'"!');
             audio := false;
           end;
         except
-          Application.MessageBox(PChar('O programa travou ao tentar reproduzir �udio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
+          Application.MessageBox(PChar('O programa travou ao tentar reproduzir áudio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
           audio := false;
         end;
       end;
@@ -640,7 +640,7 @@ begin
     begin
       if (DM.qrSLIDE_MUSICA.RecNo <= 1) and (param = 'PB') and (DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString = '') then
       begin
-        application.MessageBox(PChar('Esta m�sica n�o possui playback. Ser� utilizado o �udio cantado!'), fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
+        application.MessageBox(PChar('Esta música não possui playback. Será utilizado o áudio cantado!'), fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
         param := '';
       end;
 
@@ -912,7 +912,7 @@ procedure TfMusica.Error(msg: string);
 var
 	s: string;
 begin
-	s := msg + #13#10 + 'Verifique se o dispositivo de �udio est� conectado em seu computador.' + #13#10 + '(C�digo do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
+	s := msg + #13#10 + 'Verifique se o dispositivo de áudio está conectado em seu computador.' + #13#10 + '(Código do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
   application.MessageBox(PChar(s), fmIndex.titulo, mb_ok + mb_iconerror);
 end;
 
@@ -1413,12 +1413,12 @@ begin
     end
     else if (p = 'SEM_AUDIO') then
     begin
-      fMusicaOperador.pnlInfo.Caption := 'SEM �UDIO';
+      fMusicaOperador.pnlInfo.Caption := 'SEM ÁUDIO';
       fMusicaOperador.pnlInfo.Color := clRed;
     end
     else if (p = 'COM_AUDIO') then
     begin
-      fMusicaOperador.pnlInfo.Caption := 'COM �UDIO';
+      fMusicaOperador.pnlInfo.Caption := 'COM ÁUDIO';
       fMusicaOperador.pnlInfo.Color := clNavy;
     end
     else if (p = 'CANTADO') then

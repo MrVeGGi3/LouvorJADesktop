@@ -127,11 +127,11 @@ begin
     val(txtBusca.Text, nr, c);
     if c = 0 then
     begin
-      stBusca_0.Text {LAZARUS: TStatusPanel.caption→Text} := 'Buscando hino n�: ' + valor;
+      stBusca_0.Text {LAZARUS: TStatusPanel.caption→Text} := 'Buscando hino nº: ' + valor;
     end
     else
     begin
-      stBusca_0.Text {LAZARUS: TStatusPanel.caption→Text} := 'Buscando m�sica nome: ''' + valor + '''';
+      stBusca_0.Text {LAZARUS: TStatusPanel.caption→Text} := 'Buscando música nome: ''' + valor + '''';
     end;
   end;
 
@@ -139,7 +139,7 @@ begin
   qrBUSCA.ParamByName('VALOR').AsString := fmIndex.termo_busca(valor);
   qrBUSCA.Open;
 
-  stBusca_1.Text {LAZARUS: TStatusPanel.caption→Text} := fmIndex.qtItens(qrBUSCA,'m�sica encontrada','m�sicas encontrados','Nenhuma m�sica encontrado');
+  stBusca_1.Text {LAZARUS: TStatusPanel.caption→Text} := fmIndex.qtItens(qrBUSCA,'música encontrada','músicas encontrados','Nenhuma música encontrado');
   fmIndex.corCampoBusca(qrBUSCA, txtBusca,DBGrid1);
   dbGrid1.Columns[2].Width := dbGrid1.Width - dbGrid1.Columns[0].Width - dbGrid1.Columns[1].Width;
 end;

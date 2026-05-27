@@ -66,7 +66,7 @@ begin
 
   if False then {LAZARUS: InternetGetConnectedState removido — assume conectado}
   begin
-    application.messagebox(PChar('N�o foi poss�vel conectar � internet! Verifique sua conex�o e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
+    application.messagebox(PChar('Não foi possível conectar à internet! Verifique sua conexão e tente novamente.'), fmIndex.TITULO, MB_OK + mb_iconerror);
     Exit;
   end;
 
@@ -83,7 +83,7 @@ begin
   progress.Visible := false;
   bsSkinButton3.Enabled := true;
   bsSkinButton2.Enabled := true;
-  lbl1.Caption := 'H� uma nova vers�o dispon�vel de sua colet�nea.';
+  lbl1.Caption := 'Há uma nova versão disponível de sua coletânea.';
 end;
 
 procedure TfNovaVersao.FormCreate(Sender: TObject);
@@ -121,7 +121,7 @@ begin
 
   if (not FileExists(arquivo)) or (baixado = false) then
   begin
-    Application.MessageBox('N�o foi poss�vel baixar/executar a atualiza��o do menu!'+#13#10+'Favor, acesse o site https://louvorja.com.br/ e efetue a instala��o manual da nova vers�o.',fmIndex.TITULO,mb_ok+mb_iconerror);
+    Application.MessageBox('Não foi possível baixar/executar a atualização do menu!'+#13#10+'Favor, acesse o site https://louvorja.com.br/ e efetue a instalação manual da nova versão.',fmIndex.TITULO,mb_ok+mb_iconerror);
     Exit;
   end
   else

@@ -713,7 +713,7 @@ var
 begin
   if (param.Values['modifica'] = '1') then
   begin
-    msg := application.MessageBox('Deseja salvar as modifica��es deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
+    msg := application.MessageBox('Deseja salvar as modificações deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
     if (msg = 2) then exit;
     if (msg = 6) then
     begin
@@ -723,7 +723,7 @@ begin
   end;
   try
     fmIndex.Visible := False;
-    arquivo := fmIndex.openDialog('geral', 'Apresenta��o LouvorJA (*.slja;*.lja)|*.slja;*.lja', '');
+    arquivo := fmIndex.openDialog('geral', 'Apresentação LouvorJA (*.slja;*.lja)|*.slja;*.lja', '');
     fmIndex.Visible := True;
     BringToFront;
     if arquivo <> '' then
@@ -828,7 +828,7 @@ var
 begin
   if (param.Values['modifica'] = '1') then
   begin
-    msg := application.MessageBox('Deseja salvar as modifica��es deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
+    msg := application.MessageBox('Deseja salvar as modificações deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
     if (msg = 2) then exit;
 
     if (msg = 6) then
@@ -852,17 +852,17 @@ begin
   begin
     if (Trim(param.Values['audio']) = '') then
     begin
-      application.MessageBox('Escolha um arquivo de �udio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
+      application.MessageBox('Escolha um arquivo de áudio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
       Exit;
     end
     else if not (FileExists(param.Values['audio'])) then
     begin
-      application.MessageBox('Arquivo de �udio n�o localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
+      application.MessageBox('Arquivo de áudio não localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
       Exit;
     end
     else if (StrToInt('0'+param.Values['slide']) > 1) and (StrToInt(lbTempos.Items[StrToInt('0'+param.Values['slide'])-1]) <= 0) then
     begin
-      application.MessageBox('N�o h� tempo gravado neste slide! Reproduza a partir do primeiro slide para come�ar a gravar os tempos.', fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
+      application.MessageBox('Não há tempo gravado neste slide! Reproduza a partir do primeiro slide para começar a gravar os tempos.', fmIndex.titulo, mb_ok + MB_ICONEXCLAMATION);
       Exit;
     end
   end;
@@ -958,7 +958,7 @@ var
   arquivo: string;
 begin
   fmIndex.Visible := False;
-  arquivo := fmIndex.saveDialog('geral', 'Apresenta��o LouvorJA (*.slja)|*.slja');
+  arquivo := fmIndex.saveDialog('geral', 'Apresentação LouvorJA (*.slja)|*.slja');
   fmIndex.Visible := True;
   BringToFront;
   if arquivo <> '' then
@@ -1012,7 +1012,7 @@ begin
   // check the correct BASS was loaded
   if (HIWORD(BASS_GetVersion) <> BASSVERSION) then
   begin
-    application.MessageBox('A vers�o do seu arquivo "libbass.so" est� incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
+    application.MessageBox('A versão do seu arquivo "libbass.so" está incorreta!', fmIndex.titulo, mb_ok + mb_iconerror);
     Exit;
     //Halt;
   end;
@@ -1020,7 +1020,7 @@ begin
   // Initialize audio - default device, 44100hz, stereo, 16 bits
   if not BASS_Init(-1, 44100, 0, nil, nil) {LAZARUS: Handle→nil (Linux BASS_Init)} then
   begin
-    Error('Erro ao iniciar �udio "'+musica+'"!');
+    Error('Erro ao iniciar áudio "'+musica+'"!');
     Exit;
   end;
 
@@ -1032,11 +1032,11 @@ begin
 //      BASS_ChannelSetAttribute(bass_channel, BASS_ATTRIB_VOL, 1);
     if not BASS_ChannelPlay(bass_channel, False) then
     begin
-      Error('Erro ao reproduzir �udio "'+musica+'"!');
+      Error('Erro ao reproduzir áudio "'+musica+'"!');
       Exit;
     end;
   except
-    Application.MessageBox(PChar('O programa travou ao tentar reproduzir �udio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
+    Application.MessageBox(PChar('O programa travou ao tentar reproduzir áudio "'+musica+'"'),fmIndex.TITULO,MB_OK+MB_ICONERROR);
     Exit;
   end;
 
@@ -1293,7 +1293,7 @@ procedure TfEditorSlides.Error(msg: string);
 var
 	s: string;
 begin
-	s := msg + #13#10 + 'Verifique se o dispositivo de �udio est� conectado em seu computador.' + #13#10 + '(C�digo do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
+	s := msg + #13#10 + 'Verifique se o dispositivo de áudio está conectado em seu computador.' + #13#10 + '(Código do Erro: ' + IntToStr(BASS_ErrorGetCode) + ')';
   application.MessageBox(PChar(s), fmIndex.titulo, mb_ok + mb_iconerror);
 end;
 
@@ -1341,7 +1341,7 @@ begin
 
   if (param.Values['modifica'] = '1') then
   begin
-    msg := application.MessageBox('Deseja salvar as modifica��es deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
+    msg := application.MessageBox('Deseja salvar as modificações deste arquivo?', fmIndex.titulo, mb_yesnocancel + mb_iconquestion);
     if (msg = 2) then
     begin
       Action := caNone;
@@ -1390,7 +1390,7 @@ begin
   else
     titulo := titulo + 'Novo';
 
-  titulo := titulo + ' - Editor de M�sicas';
+  titulo := titulo + ' - Editor de Músicas';
   Caption := titulo;
 end;
 
@@ -1643,14 +1643,14 @@ begin
   begin
     tmrTempo.Enabled := false;
     pauseplay;
-    application.MessageBox('Escolha um arquivo de�udio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
+    application.MessageBox('Escolha um arquivo de áudio para reproduzir!', fmIndex.titulo, mb_ok + mb_iconexclamation);
     Exit;
   end
   else if not (FileExists(param.Values['audio'])) then
   begin
     tmrTempo.Enabled := false;
     pauseplay;
-    application.MessageBox('Arquivo de �udio n�o localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
+    application.MessageBox('Arquivo de áudio não localizado!', fmIndex.titulo, mb_ok + mb_iconerror);
     Exit;
   end
   else if param.Values['audio_rep'] <> param.Values['audio'] then

@@ -79,7 +79,7 @@ begin
   DM.cdsFavoritos.Delete;
 
   fmIndex.carregaFavoritos();
-  application.messagebox(PChar('P�gina '''+nome+''' removida com sucesso dos favoritos!'), fmIndex.TITULO, MB_OK + MB_ICONINFORMATION);
+  application.messagebox(PChar('Página '''+nome+''' removida com sucesso dos favoritos!'), fmIndex.TITULO, MB_OK + MB_ICONINFORMATION);
 end;
 
 procedure TfFavoritos.imgFavBtDownClick(Sender: TObject);

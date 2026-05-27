@@ -340,13 +340,23 @@ procedure TDM.tmrCronoTimer(Sender: TObject);
 var
   MyHora, MyMinuto, MySegundo, MyMiliSegundo: Word;
   Segundos: integer;
+  dbgF_tc: TextFile; {LAZARUS: debug temp}
 begin
+  {LAZARUS: debug temp — confirmar que timer dispara}
+  AssignFile(dbgF_tc, '/tmp/louvorja_tmrcrono.txt');
+  if FileExists('/tmp/louvorja_tmrcrono.txt') then System.Append(dbgF_tc) else Rewrite(dbgF_tc);
+  WriteLn(dbgF_tc, 'tmrCronoTimer fired at '+FormatDateTime('hh:nn:ss.zzz', Now));
+  CloseFile(dbgF_tc);
   with fmIndex do
   begin
     if rbDirecao.ItemIndex = 0 then
     begin
       tCronoT := tCrono + Now - tCronoOld;
-      lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], tCrono + Now - tCronoOld);
+      {LAZARUS: guard — cbFormatoTempoCrono.ItemIndex pode ser -1 se tab nunca foi aberta}
+      if cbFormatoTempoCrono.ItemIndex >= 0 then
+        lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], tCrono + Now - tCronoOld)
+      else
+        lmdCrono.Caption := FormatDateTime('hh:nn:ss.zzz', tCrono + Now - tCronoOld);
       if (gCrono.Max <= 1) then
         gCrono.Max := 1000;
       gCrono.Position := gCrono.Position + 1;
@@ -362,7 +372,11 @@ begin
     else
     begin
       tCronoT := tCrono - (Now - tCronoOld);
-      lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], tCrono - (Now - tCronoOld));
+      {LAZARUS: guard — cbFormatoTempoCrono.ItemIndex pode ser -1}
+      if cbFormatoTempoCrono.ItemIndex >= 0 then
+        lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], tCrono - (Now - tCronoOld))
+      else
+        lmdCrono.Caption := FormatDateTime('hh:nn:ss.zzz', tCrono - (Now - tCronoOld));
 
       DecodeTime(tCrono - (Now - tCronoOld), MyHora, MyMinuto, MySegundo, MyMiliSegundo);
       Segundos := MyMiliSegundo + (MySegundo * 1000) + (MyMinuto * 60000) + (MyHora * 3600000);
@@ -387,7 +401,7 @@ begin
         if tsCronometro.TabVisible = false then
           abrePagina(tsCronometro);
         PageControl1.ActivePage := tsCronometro;
-        //application.messagebox('Tempo esgotado!', PChar(TITULO + ' - Cron�metro'), mb_ok + mb_iconinformation);
+        //application.messagebox('Tempo esgotado!', PChar(TITULO + ' - Cronômetro'), mb_ok + mb_iconinformation);
         btZerarCrono.Tag := 1;
         btZerarCronoClick(Sender);
       end;

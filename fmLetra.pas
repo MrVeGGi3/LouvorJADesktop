@@ -138,7 +138,7 @@ var
 begin
   url := fmIndex.param.Strings.Values['form'+fIniciando.LANG];
   if (url = '') then
-    Application.MessageBox(PChar('N�o foi poss�vel acessar o formul�rio de contato! Acesse o formul�rio em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
+    Application.MessageBox(PChar('Não foi possível acessar o formulário de contato! Acesse o formulário em https://louovorja.com.br!'), fmIndex.TITULO, mb_ok + mb_iconinformation)
   else
     OpenURL(url); {LAZARUS: ShellExecute→OpenURL}
 end;
