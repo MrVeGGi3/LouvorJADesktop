@@ -49,3 +49,14 @@ link*.res
 LouvorJA.or
 LouvorJA.compiled
 LouvorJA
+# Pacotes de distribuição (gerados por lazbuild + dpkg-deb)
+pkg/
+*.deb
+*.AppImage
+
+# Arquivos de dados do usuário (não devem ir para o repositório)
+config/dados.db
+config/database.db
+config/database.db.bak.old
+config/imagens/
+config/musicas/
