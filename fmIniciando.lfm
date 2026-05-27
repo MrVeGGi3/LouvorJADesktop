@@ -1,7 +1,7 @@
 object fIniciando: TfIniciando
   Left = 0
   Top = 0
-  AlphaBlend = True
+  AlphaBlend = False
   BorderStyle = bsNone
   Caption = 'Louvor JA'
   ClientHeight = 117

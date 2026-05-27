@@ -359,9 +359,6 @@ begin
       fmIndex.imgImagemCapa.Picture := fmIndex.imgImagemCapaModel.Picture;
 
 
-    //**CARREGA PARAMETROS DA WEB***********************************************
-    fmIndex.carregaParams();
-
     //**CARREGA TÍTULOS DO PROGRAMA
     application.Title := TITULO;
     fmIndex.Caption := TITULO;
@@ -388,6 +385,13 @@ begin
     //**MOSTRA FORM*************************************************************
     fmIndex.Show;
     Application.ProcessMessages; {LAZARUS: drena fila de eventos GTK pendentes após Show() — necessário pois o fade-in foi removido}
+    {LAZARUS: esconder splash ANTES de carregaParams — evita janela em branco bloqueando input
+     durante chamada de rede de até 12s (ConnectTimeout 5s + Sleep 2s + retry 5s)}
+    fIniciando.Visible := False;
+    Application.ProcessMessages;
+
+    //**CARREGA PARAMETROS DA WEB***********************************************
+    fmIndex.carregaParams();
 
     {LAZARUS: parâmetro editor=1 abre o editor de slides automaticamente — útil para testes sem XTest/xdotool}
     if paramexec.Strings.Values['editor'] = '1' then
