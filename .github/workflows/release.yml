@@ -9,6 +9,8 @@ jobs:
   release:
     name: Build, test e publicar .deb
     runs-on: self-hosted
+    permissions:
+      contents: write   # necessário para criar GitHub Releases
 
     steps:
       - name: Checkout

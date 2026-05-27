@@ -10,6 +10,8 @@ jobs:
   install-test:
     name: Instalar .deb em Ubuntu limpo
     runs-on: ubuntu-latest
+    permissions:
+      contents: read    # para baixar assets do release
     # Só roda se não for a release de dados (database-latest)
     if: ${{ !startsWith(github.event.release.tag_name, 'database') }}
 
