@@ -1318,8 +1318,11 @@ begin
     DM.cdsSLIDE_MUSICA2.First;
     while not DM.cdsSLIDE_MUSICA2.EOF do DM.cdsSLIDE_MUSICA2.Delete;
 
-    lblLetra.Font.Name := 'DIN Condensed';
-    lblLetra_aux.Font.Name := 'DIN Condensed';
+    {LAZARUS: DIN Condensed só existe no Windows; no Linux usa Fira Sans Condensed como fallback}
+    if Screen.Fonts.IndexOf('DIN Condensed') >= 0
+      then lblLetra.Font.Name := 'DIN Condensed'
+      else lblLetra.Font.Name := 'Fira Sans Condensed';
+    lblLetra_aux.Font.Name := lblLetra.Font.Name;
     carregando_slide := True;
 
     btNovoClick(Sender);
@@ -1520,7 +1523,7 @@ begin
     arquivo_tmp.Add('slides=3');
     arquivo_tmp.Add('[Slide:1]');
     arquivo_tmp.Add('tipo=CAPA');
-    arquivo_tmp.Add('letra=T�tulo');
+    arquivo_tmp.Add('letra=Título');
     arquivo_tmp.Add('fundo_letra=1');
     arquivo_tmp.Add('tamanho_letra=18');
     arquivo_tmp.Add('tamanho_letra_aux=10');
