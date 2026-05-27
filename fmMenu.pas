@@ -2276,6 +2276,7 @@ type
     function caminhoLiturgia: string;
     procedure garanteUtf8Liturgia;
     function abreIniLiturgia: TMemIniFile;
+    procedure invalidateLiturgiaCache;
 
   public
     { Public declarations }
@@ -2301,6 +2302,9 @@ type
     TITULO: PChar;
     arq_liturgia: string;
     senha_bd: string;
+
+    {LAZARUS: cache do TMemIniFile de liturgia.ja para evitar múltiplas leituras de disco}
+    FLiturgiaIniCache: TMemIniFile;
 
     externo: Boolean;
 
@@ -2414,6 +2418,7 @@ begin
   RichEdit1Exit(Sender);
   usaFontes(false);
   RecursiveDelete(dir_temp);
+  FreeAndNil(FLiturgiaIniCache); {LAZARUS: libera cache do TMemIniFile de liturgia.ja}
 end;
 
 procedure TfmIndex.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -5928,7 +5933,10 @@ begin
     then lbLiturgia.Items.Delete(lbLiturgia.Items.Count-1);
 
   for i := 0 to lbLiturgia.Items.Count-1 do
+  begin
     carregaItemLiturgia(lbLiturgia.Items[i],i+1);
+    Application.ProcessMessages; {LAZARUS: mantém UI responsiva durante carregamento}
+  end;
 end;
 
 function TfmIndex.IsNumeric(S: string): boolean;
@@ -6226,13 +6234,21 @@ begin
   try
     // Always use abreIniLiturgia for liturgia.ja to ensure UTF-8 and avoid ANSI APIs
     if Arquivo = arq_liturgia then
-      ArqIni := abreIniLiturgia
+    begin
+      {LAZARUS: cache do TMemIniFile de liturgia.ja — evita múltiplas leituras de disco
+       por chamada; invalidado por invalidateLiturgiaCache após gravações}
+      if not Assigned(FLiturgiaIniCache) then
+        FLiturgiaIniCache := abreIniLiturgia;
+      vl := FLiturgiaIniCache.ReadString(Grupo, Param, Valor);
+    end
     else
+    begin
       ArqIni := TIniFile.Create(dir + Arquivo);
-    try
-      vl := ArqIni.ReadString(Grupo, Param, Valor);
-    finally
-      ArqIni.Free;
+      try
+        vl := ArqIni.ReadString(Grupo, Param, Valor);
+      finally
+        ArqIni.Free;
+      end;
     end;
   except
     on E: Exception do
@@ -6264,6 +6280,12 @@ end;
 function TfmIndex.caminhoLiturgia: string;
 begin
   Result := dir_dados + arq_liturgia;
+end;
+
+procedure TfmIndex.invalidateLiturgiaCache;
+begin
+  {LAZARUS: descarta o TMemIniFile em cache para que a próxima leitura releia o arquivo}
+  FreeAndNil(FLiturgiaIniCache);
 end;
 
 procedure TfmIndex.garanteUtf8Liturgia;
@@ -6559,6 +6581,8 @@ begin
       if FileExists(origPath) then
         SysUtils.DeleteFile(origPath);
       RenameFile(tempPath, origPath);
+      // Invalida cache após gravação para próxima leitura refletir as mudanças
+      invalidateLiturgiaCache;
     end
     else
     begin

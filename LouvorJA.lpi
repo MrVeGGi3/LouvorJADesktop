@@ -336,7 +336,7 @@
           </Options>
         </Linking>
         <Other>
-          <CustomOptions Value="-dLCL -dLCLgtk2"/>
+          <CustomOptions Value="-dLCL -dLCLgtk2 -Xs"/>
         </Other>
       </CompilerOptions>
     </Item>
