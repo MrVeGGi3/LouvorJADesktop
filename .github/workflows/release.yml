@@ -102,6 +102,7 @@ jobs:
 
           gh release create "$TAG" \
             --repo ${{ github.repository }} \
+            --draft \
             --title "LouvorJA Desktop $TAG" \
             --notes "## LouvorJA Desktop $VERSION — Linux (amd64)
 
