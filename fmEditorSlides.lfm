@@ -61,7 +61,7 @@ object fEditorSlides: TfEditorSlides
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = '16:9'
           NumGlyphs = 1
           Align = alRight
@@ -84,7 +84,7 @@ object fEditorSlides: TfEditorSlides
           Transparent = False
           Flat = True
           Down = True
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Tela Cheia'
           NumGlyphs = 1
           Align = alClient
@@ -108,7 +108,7 @@ object fEditorSlides: TfEditorSlides
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = '4:3'
           NumGlyphs = 1
           Align = alRight

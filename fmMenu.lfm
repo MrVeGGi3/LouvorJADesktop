@@ -3597,7 +3597,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Ligar'
           NumGlyphs = 1
           Align = alClient
@@ -3657,7 +3657,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -3826,7 +3826,7 @@ object fmIndex: TfmIndex
             Transparent = True
             Flat = True
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             Caption = 'Ouvir'
             NumGlyphs = 1
             Align = alClient
@@ -4843,7 +4843,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -5202,7 +5202,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -5472,7 +5472,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -5507,7 +5507,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Iniciar'
           NumGlyphs = 1
           Align = alLeft
@@ -5798,7 +5798,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -6056,7 +6056,7 @@ object fmIndex: TfmIndex
             ShowHint = True
             ParentShowHint = False
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6080,7 +6080,7 @@ object fmIndex: TfmIndex
             ShowHint = True
             ParentShowHint = False
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6104,7 +6104,7 @@ object fmIndex: TfmIndex
             ShowHint = True
             ParentShowHint = False
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6128,7 +6128,7 @@ object fmIndex: TfmIndex
             ShowHint = True
             ParentShowHint = False
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6586,7 +6586,7 @@ object fmIndex: TfmIndex
             Transparent = True
             Flat = True
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6607,7 +6607,7 @@ object fmIndex: TfmIndex
             Transparent = True
             Flat = True
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6628,7 +6628,7 @@ object fmIndex: TfmIndex
             Transparent = True
             Flat = True
             Down = False
-            GroupIndex = -1
+            GroupIndex = 0
             NumGlyphs = 1
             Align = alClient
             Spacing = 1
@@ -6699,7 +6699,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -6861,7 +6861,7 @@ object fmIndex: TfmIndex
         Transparent = True
         Flat = True
         Down = False
-        GroupIndex = -1
+        GroupIndex = 0
         Caption = 'CLIPBOARD'
         NumGlyphs = 1
         Align = alLeft
@@ -6895,7 +6895,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Adicionar'
           NumGlyphs = 1
           Align = alLeft
@@ -6918,7 +6918,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Alterar'
           NumGlyphs = 1
           Align = alLeft
@@ -7074,7 +7074,7 @@ object fmIndex: TfmIndex
         Transparent = True
         Flat = True
         Down = False
-        GroupIndex = -1
+        GroupIndex = 0
         Caption = 'CLIPBOARD'
         NumGlyphs = 1
         Align = alLeft
@@ -7411,7 +7411,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -7760,7 +7760,7 @@ object fmIndex: TfmIndex
           Transparent = True
           Flat = True
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Formatar'
           NumGlyphs = 1
           Align = alLeft
@@ -20293,7 +20293,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Segunda'
           NumGlyphs = 1
           Align = alClient
@@ -20316,7 +20316,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Ter'#231'a'
           NumGlyphs = 1
           Align = alClient
@@ -20339,7 +20339,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Quarta'
           NumGlyphs = 1
           Align = alClient
@@ -20362,7 +20362,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Quinta'
           NumGlyphs = 1
           Align = alClient
@@ -20385,7 +20385,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Sexta'
           NumGlyphs = 1
           Align = alClient
@@ -20408,7 +20408,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'S'#225'bado'
           NumGlyphs = 1
           Align = alClient
@@ -20431,7 +20431,7 @@ object fmIndex: TfmIndex
           Transparent = False
           Flat = False
           Down = False
-          GroupIndex = -1
+          GroupIndex = 0
           Caption = 'Domingo'
           NumGlyphs = 1
           Align = alClient
@@ -20640,7 +20640,7 @@ object fmIndex: TfmIndex
               ShowHint = True
               ParentShowHint = False
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -20665,7 +20665,7 @@ object fmIndex: TfmIndex
               ShowHint = True
               ParentShowHint = False
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -20690,7 +20690,7 @@ object fmIndex: TfmIndex
               ShowHint = True
               ParentShowHint = False
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -20715,7 +20715,7 @@ object fmIndex: TfmIndex
               ShowHint = True
               ParentShowHint = False
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -20968,7 +20968,7 @@ object fmIndex: TfmIndex
               Transparent = True
               Flat = True
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -20990,7 +20990,7 @@ object fmIndex: TfmIndex
               Transparent = True
               Flat = True
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -21012,7 +21012,7 @@ object fmIndex: TfmIndex
               Transparent = True
               Flat = True
               Down = False
-              GroupIndex = -1
+              GroupIndex = 0
               NumGlyphs = 1
               Align = alClient
               Spacing = 1
@@ -22234,7 +22234,7 @@ object fmIndex: TfmIndex
       Transparent = True
       Flat = True
       Down = False
-      GroupIndex = -1
+      GroupIndex = 0
       NumGlyphs = 1
       Align = alLeft
       Spacing = 1
@@ -22256,7 +22256,7 @@ object fmIndex: TfmIndex
       Transparent = True
       Flat = True
       Down = False
-      GroupIndex = -1
+      GroupIndex = 0
       NumGlyphs = 1
       Align = alLeft
       Spacing = 1

@@ -79,6 +79,14 @@ type
   private
     { Private declarations }
     tentativaConexao: Integer;
+    syncCronoCaption: string; {LAZARUS: buffer para get-time via Synchronize}
+    {LAZARUS: métodos sync para chamar código LCL da thread do TFPHttpServer via TThread.Synchronize}
+    procedure SyncStartCrono;
+    procedure SyncStopCrono;
+    procedure SyncAnotaTempo;
+    procedure SyncNextSlide;
+    procedure SyncPreviousSlide;
+    procedure SyncGetCronoCaption;
   public
     { Public declarations }
   end;
@@ -367,7 +375,8 @@ begin
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
-          fMusica.acaoSlide('prox');
+          {LAZARUS: acaoSlide modifica UI — Synchronize garante execução na main thread}
+          TThread.Synchronize(nil, @SyncNextSlide);
           AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","message":"Advanced to the next slide","code":"ADVANCED_SLIDE"}';
           Exit;
         end
@@ -381,7 +390,8 @@ begin
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
-          fMusica.acaoSlide('ant');
+          {LAZARUS: Synchronize para thread-safety}
+          TThread.Synchronize(nil, @SyncPreviousSlide);
           AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"Reverted to the previous slide"}';
           Exit;
@@ -628,39 +638,34 @@ begin
     begin
       if (ARequest.QueryFields.Values['action'] = 'get-time') then
       begin
-        messageStopwatch := fmIndex.lmdCrono.Caption;
+        {LAZARUS: lmdCrono.Caption é uma propriedade GTK2 — leitura deve ser na main thread}
+        TThread.Synchronize(nil, @SyncGetCronoCaption);
+        messageStopwatch := syncCronoCaption;
         AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"get-time","message":"' + messageStopwatch + '"}';
         success := True;
         Exit;
       end
       else if (ARequest.QueryFields.Values['action'] = 'start') then
       begin
-        {LAZARUS: btIniciarCronoClick modifica DM.tmrCrono.Enabled e DoubleBuffered
-         — não thread-safe quando chamado de TFPHttpServer. try-except previne empty reply.}
-        try
-          fmIndex.btIniciarCronoClick(fmIndex.btIniciarCrono);
-          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
-            '{"status":"ok","action":"start","message":"Iniciando cron' + #$C3#$B4 + 'metro"}';
-        except
-          AResponse.Content := '{"status":"error","message":"Cron' + #$C3#$B4 + 'metro indispon' + #$C3#$AD + 'vel (thread conflict)","code":"THREAD_ERROR"}';
-        end;
+        {LAZARUS: TThread.Synchronize garante que btIniciarCronoClick rode na main thread
+         — DM.tmrCrono.Enabled e DoubleBuffered não são thread-safe em GTK2/LCL}
+        TThread.Synchronize(nil, @SyncStartCrono);
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
+          '{"status":"ok","action":"start","message":"Iniciando cron' + #$C3#$B4 + 'metro"}';
         Exit;
       end
       else if (ARequest.QueryFields.Values['action'] = 'stop') then
       begin
-        {LAZARUS: mesmo problema de thread-safety — try-except}
-        try
-          fmIndex.btZerarCronoClick(fmIndex.btZerarCrono);
-          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
-            '{"status":"ok","action":"stop","message":"Parando e zerando cron' + #$C3#$B4 + 'metro"}';
-        except
-          AResponse.Content := '{"status":"error","message":"Cron' + #$C3#$B4 + 'metro indispon' + #$C3#$AD + 'vel (thread conflict)","code":"THREAD_ERROR"}';
-        end;
+        {LAZARUS: mesmo — Synchronize para thread-safety}
+        TThread.Synchronize(nil, @SyncStopCrono);
+        AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
+          '{"status":"ok","action":"stop","message":"Parando e zerando cron' + #$C3#$B4 + 'metro"}';
         Exit;
       end
       else if (ARequest.QueryFields.Values['action'] = 'note') then
       begin
-        fmIndex.btAnotTempoClick(fmIndex.btAnotTempo);
+        {LAZARUS: Synchronize para thread-safety}
+        TThread.Synchronize(nil, @SyncAnotaTempo);
         AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := '{"status":"ok","action":"note","message":"Anotando tempo"}';
         Exit;
       end
@@ -792,6 +797,54 @@ begin
   //192.168.56.1
 end;
 
+
+{LAZARUS: métodos sync — executam código LCL na main thread via TThread.Synchronize.
+ Garante thread-safety quando chamados de TFPHttpServer (background thread).}
+
+procedure TfTransmitir.SyncStartCrono;
+begin
+  {LAZARUS: cbFormatoTempoCrono só é populado quando o tab Cronômetro é aberto.
+   Se o tab ainda não foi aberto, inicializa o combo com um formato padrão para
+   evitar EStringListError: List index (-1) em btZerarCronoClick/tmrCronoTimer.}
+  if fmIndex.cbFormatoTempoCrono.Items.Count = 0 then
+    fmIndex.carregaComboFormatoTempo(fmIndex.cbFormatoTempoCrono, 'hh:mm:ss.zzz');
+  fmIndex.btIniciarCronoClick(fmIndex.btIniciarCrono);
+end;
+
+procedure TfTransmitir.SyncStopCrono;
+begin
+  try
+    fmIndex.btZerarCronoClick(fmIndex.btZerarCrono);
+  except
+    {silently ignore}
+  end;
+end;
+
+procedure TfTransmitir.SyncAnotaTempo;
+begin
+  try
+    fmIndex.btAnotTempoClick(fmIndex.btAnotTempo);
+  except
+    {silently ignore}
+  end;
+end;
+
+procedure TfTransmitir.SyncGetCronoCaption;
+begin
+  syncCronoCaption := fmIndex.lmdCrono.Caption;
+end;
+
+procedure TfTransmitir.SyncNextSlide;
+begin
+  if (fMusica <> nil) and (fMusica.Visible) then
+    fMusica.acaoSlide('prox');
+end;
+
+procedure TfTransmitir.SyncPreviousSlide;
+begin
+  if (fMusica <> nil) and (fMusica.Visible) then
+    fMusica.acaoSlide('ant');
+end;
 
 initialization
   {$I fmTransmitir.lrs}

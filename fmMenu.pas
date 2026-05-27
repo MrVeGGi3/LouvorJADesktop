@@ -8621,7 +8621,11 @@ begin
   if rbDirecao.ItemIndex = 0 then
   begin
     tCronoT := 0;
-    lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], StrToTime('00:00:00'));
+    {LAZARUS: guard — cbFormatoTempoCrono.ItemIndex pode ser -1 se tab nunca foi aberta}
+    if cbFormatoTempoCrono.ItemIndex >= 0 then
+      lmdCrono.Caption := FormatDateTime(cbFormatoTempoCrono.Items[cbFormatoTempoCrono.ItemIndex], StrToTime('00:00:00'))
+    else
+      lmdCrono.Caption := '00:00:00.000';
   end
   else
   begin
