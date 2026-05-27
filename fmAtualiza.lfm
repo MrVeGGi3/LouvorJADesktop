@@ -10,142 +10,144 @@ object fAtualiza: TfAtualiza
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
   Scaled = False
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
-  object GridPanel1: TPanel
-    Left = 128
-    Top = 0
-    Width = 425
-    Height = 122
-    Align = alClient
-    BevelOuter = bvNone
-    Caption = 'GridPanel1'
-    TabOrder = 1
-    object img1: TImage
-      Left = 0
-      Top = 50
-      Width = 90
-      Height = 70
-      DoubleBuffered = False
-      ImageIndex = 3
-      Align = alClient
-      Center = True
-    end
-    object sTitulo: TLabel
-      AlignWithMargins = True
-      Left = 10
-      Top = 0
-      Width = 412
-      Height = 47
-      TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      Align = alClient
-      Caption = '..........'
-      AutoSize = False
-    end
-    object pbProgresso: TProgressBar
-      AlignWithMargins = True
-      Left = 93
-      Top = 57
-      Width = 199
-      Height = 21
-      Align = alClient
-      TabOrder = 1
-    end
-    object sProgresso: TLabel
-      AlignWithMargins = True
-      Left = 298
-      Top = 57
-      Width = 124
-      Height = 21
-      TabOrder = 2
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      Align = alClient
-      Caption = '          '
-      AutoSize = False
-    end
-    object pbProgressoT: TProgressBar
-      AlignWithMargins = True
-      Left = 93
-      Top = 92
-      Width = 199
-      Height = 21
-      Align = alClient
-      TabOrder = 3
-    end
-    object sProgressoT: TLabel
-      AlignWithMargins = True
-      Left = 298
-      Top = 92
-      Width = 124
-      Height = 21
-      TabOrder = 4
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      Align = alClient
-      Caption = '          '
-      AutoSize = False
-    end
-  end
   object bsSkinPanel1: TPanel
     Left = 0
     Top = 122
     Width = 553
     Height = 42
-    TabOrder = 2
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
-    Caption = 'bsSkinPanel1'
     Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 0
     object bsSkinButton2: TButton
-      AlignWithMargins = True
       Left = 456
       Top = 5
       Width = 92
       Height = 32
-      TabOrder = 1
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      CheckedMode = False
-      ImageList = DM.ico_24x24
-      ImageIndex = 1
-      TabStop = True
-      Down = False
-      GroupIndex = 0
-      Caption = 'Cancelar'
-      NumGlyphs = 1
-      Spacing = 1
       Align = alRight
+      Caption = 'Cancelar'
+      TabOrder = 0
       OnClick = bsSkinButton2Click
     end
     object sStatus: TLabel
-      AlignWithMargins = True
-      Left = 10
+      Left = 5
       Top = 0
-      Width = 438
-      Height = 39
-      TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
+      Width = 450
+      Height = 42
       Align = alClient
-      Caption = '..........'
+      Caption = ''
       AutoSize = False
+      Layout = tlCenter
+    end
+  end
+  object GridPanel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 553
+    Height = 122
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 1
+    object pnlIcon: TPanel
+      Left = 0
+      Top = 0
+      Width = 90
+      Height = 122
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 0
+      object img1: TImage
+        Left = 0
+        Top = 0
+        Width = 90
+        Height = 122
+        Align = alClient
+        Center = True
+        ImageIndex = 3
+        Stretch = False
+      end
+    end
+    object pnlContent: TPanel
+      Left = 90
+      Top = 0
+      Width = 463
+      Height = 122
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 1
+      object sTitulo: TLabel
+        Left = 0
+        Top = 0
+        Width = 463
+        Height = 47
+        Align = alTop
+        Caption = ''
+        AutoSize = False
+        Layout = tlCenter
+        WordWrap = True
+      end
+      object pnlProg1: TPanel
+        Left = 0
+        Top = 47
+        Width = 463
+        Height = 26
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 0
+        object sProgresso: TLabel
+          Left = 380
+          Top = 0
+          Width = 83
+          Height = 26
+          Align = alRight
+          Alignment = taRightJustify
+          Caption = ''
+          AutoSize = False
+          Layout = tlCenter
+        end
+        object pbProgresso: TProgressBar
+          Left = 0
+          Top = 0
+          Width = 380
+          Height = 26
+          Align = alClient
+          TabOrder = 0
+        end
+      end
+      object pnlProg2: TPanel
+        Left = 0
+        Top = 73
+        Width = 463
+        Height = 26
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 1
+        object sProgressoT: TLabel
+          Left = 380
+          Top = 0
+          Width = 83
+          Height = 26
+          Align = alRight
+          Alignment = taRightJustify
+          Caption = ''
+          AutoSize = False
+          Layout = tlCenter
+        end
+        object pbProgressoT: TProgressBar
+          Left = 0
+          Top = 0
+          Width = 380
+          Height = 26
+          Align = alClient
+          TabOrder = 0
+        end
+      end
     end
   end
   object ftp: TValueListEditor
@@ -153,9 +155,8 @@ object fAtualiza: TfAtualiza
     Top = 0
     Width = 128
     Height = 122
-    Align = alLeft
-    TabOrder = 0
     Visible = False
+    TabOrder = 2
     ColWidths = (
       59
       63)
