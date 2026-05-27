@@ -1,5 +1,5 @@
 LazarusResources.Add('TfIniciando','FORMDATA',[
-  'TPF0'#11'TfIniciando'#10'fIniciando'#4'Left'#2#0#3'Top'#2#0#10'AlphaBlend'#9
+  'TPF0'#11'TfIniciando'#10'fIniciando'#4'Left'#2#0#3'Top'#2#0#10'AlphaBlend'#8
   +#11'BorderStyle'#7#6'bsNone'#7'Caption'#6#9'Louvor JA'#12'ClientHeight'#2'u'
   +#11'ClientWidth'#3#252#1#5'Color'#4#8#25'-'#0#10'Font.Color'#7#12'clWindowTe'
   +'xt'#11'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#9'Ic'

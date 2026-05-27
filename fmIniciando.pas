@@ -182,7 +182,8 @@ begin
     begin
       {LAZARUS: InternetGetConnectedState removido — erro de rede tratado pela exceção no download}
       lista := TStringList.Create;
-      lista.Add('config\database.db');
+      {LAZARUS: FTP tem pt_database.db/es_database.db — ftp_baixa renomeia para database.db localmente}
+      lista.Add('config\' + LANG + '_database.db');
 
       AppCreateForm(TfAtualiza, fAtualiza);
       fAtualiza.arquivos := lista;

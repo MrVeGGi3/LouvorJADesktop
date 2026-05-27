@@ -133,9 +133,11 @@ begin
     Exit;
   end;
 
-  {detectar protocolo: porta 21 ou sem porta → FTP; caso contrário → HTTPS}
-  is_ftp := (ftp_porta = 21) or (ftp_porta = 0) or
-             (LowerCase(Copy(ftp_url, 1, 6)) = 'ftp://');
+  {detectar protocolo: URL explícita 'ftp://' ou porta 21/0 SEM prefixo HTTP → FTP; caso contrário → HTTPS}
+  {LAZARUS: ftp_porta=0 era tratado como FTP mesmo para URLs https:// — corrigido: só é FTP se URL não começa com http}
+  is_ftp := StartsText('ftp://', ftp_url) or
+             (not StartsText('http', ftp_url) and
+              ((ftp_porta = 21) or (ftp_porta = 0)));
 
   {montar base_url conforme protocolo}
   if is_ftp then
