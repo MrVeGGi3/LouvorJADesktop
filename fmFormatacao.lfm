@@ -63,7 +63,7 @@ object fFormatacao: TfFormatacao
       OnClick = bsSkinButton1Click
     end
   end
-  object tabFontes: TPageControl
+  object tabFontes: TTabControl
     Left = 0
     Top = 0
     Width = 413
@@ -77,12 +77,6 @@ object fFormatacao: TfFormatacao
     ParentFont = False
     TabOrder = 0
     OnChange = tabFontesChange
-    TabExtededDraw = False
-    TabSpacing = 1
-    TextInHorizontal = False
-    ShowCloseButtons = False
-    TabsBGTransparent = False
-    DefaultItemHeight = 20
     object pnlFonte: TPanel
       Left = 1
       Top = 1

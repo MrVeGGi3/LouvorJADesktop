@@ -4304,20 +4304,24 @@ begin;
 end;
 
 procedure TfmIndex.removeItensAgendadosPassados;
+{LAZARUS: TBufDataset nao suporta operadores '<' em Filter (interpreta como nome de campo);
+ substituido por loop manual comparando datas}
 var
-  filter: string;
+  dataItem: TDate;
 begin
-  DM.cdsItensAgendados.Filtered := true;
-  filter := DM.cdsItensAgendados.Filter;
-  DM.cdsItensAgendados.Filter := 'DATA < '''+formatdatetime('dd/mm/yyyy',now())+'''';
   DM.cdsItensAgendados.First;
-  while not DM.cdsItensAgendados.eof do
+  while not DM.cdsItensAgendados.Eof do
   begin
-    DM.cdsItensAgendados.Delete;
-    DM.cdsItensAgendados.First;
-//    DM.cdsItensAgendados.Next;
+    try
+      dataItem := StrToDate(DM.cdsItensAgendados.FieldByName('DATA').AsString);
+      if dataItem < Date then
+        DM.cdsItensAgendados.Delete
+      else
+        DM.cdsItensAgendados.Next;
+    except
+      DM.cdsItensAgendados.Next;
+    end;
   end;
-  DM.cdsItensAgendados.Filter := filter;
 end;
 
 

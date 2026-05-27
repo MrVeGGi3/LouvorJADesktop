@@ -48,7 +48,8 @@ var
 implementation
 
 
-uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides;
+uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides,
+  fmBuscaMusica, fmItensAgendados, fmFormatacao;
 
 procedure TfIniciando.AppCreateForm(InstanceClass: TComponentClass;
   var Reference);
@@ -476,6 +477,34 @@ begin
       fAtualiza.arquivos := TStringList.Create;
       fAtualiza.arquivos.Add('config\' + LANG + '_database.db');
       fAtualiza.ShowModal;
+    end;
+
+    {LAZARUS: parâmetro buscamusica=1 abre aba Busca de Músicas para testes headless}
+    if paramexec.Strings.Values['buscamusica'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsBuscaMusica);
+    end;
+
+    {LAZARUS: parâmetro itensagendados=1 abre aba Itens Agendados para testes headless}
+    if paramexec.Strings.Values['itensagendados'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsItensAgendados);
+    end;
+
+    {LAZARUS: parâmetro formatacao=1 abre fmFormatacao com fonte de teste para validação headless}
+    if paramexec.Strings.Values['formatacao'] = '1' then
+    begin
+      Application.ProcessMessages;
+      AppCreateForm(TfFormatacao, fFormatacao);
+      SetLength(fFormatacao.fonte, 1);
+      fFormatacao.fonte[0] := TFont.Create;
+      fFormatacao.fonte[0].Name := 'Sans Serif';
+      fFormatacao.fonte[0].Size := 14;
+      SetLength(fFormatacao.abas, 1);
+      fFormatacao.abas[0] := 'FONTE;Título';
+      fFormatacao.ShowModal;
     end;
 
     //**CHECA VERSÃO E NOVAS VERSÕES********************************************
