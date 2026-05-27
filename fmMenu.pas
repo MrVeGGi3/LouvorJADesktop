@@ -2343,6 +2343,8 @@ procedure TfmIndex.FormCreate(Sender: TObject);
 var
   iComp: Integer;
   sb: TSpeedButton;
+  grp: TPanel;
+  lbl: TLabel;
 begin
   { TButtonGlyph.Draw exits early when FOriginal=nil; populate Glyph from
     Images+ImageIndex so drawing proceeds to the ImageList path. }
@@ -2352,6 +2354,27 @@ begin
       if (sb.Images <> nil) and (sb.ImageIndex >= 0)
          and (sb.Images.Count > sb.ImageIndex) then
         sb.Images.GetBitmap(sb.ImageIndex, sb.Glyph);
+    end;
+
+  {LAZARUS: bsRibbonGroup* panels têm Caption que renderiza centralizado no TPanel (padrão),
+   mas no ribbon o label do grupo deve aparecer no RODAPÉ do painel (abaixo dos ícones).
+   Cria TLabel alBottom com o caption e limpa o Caption do painel.}
+  for iComp := 0 to ComponentCount - 1 do
+    if Components[iComp] is TPanel then
+    begin
+      grp := TPanel(Components[iComp]);
+      if (Pos('bsRibbonGroup', grp.Name) = 1) and (Trim(grp.Caption) <> '') then
+      begin
+        lbl := TLabel.Create(grp);
+        lbl.Parent := grp;
+        lbl.Align := alBottom;
+        lbl.Alignment := taCenter;
+        lbl.Caption := grp.Caption;
+        lbl.Font.Size := 7;
+        lbl.AutoSize := False;
+        lbl.Height := 16;
+        grp.Caption := ' '; {espaço — manter borda do TPanel consistente}
+      end;
     end;
   Application.OnDeactivate := ApplicationDeactivate;
   Application.OnActivate := ApplicationActivate;
