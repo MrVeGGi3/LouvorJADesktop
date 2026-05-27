@@ -1,0 +1,121 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'   # Disparado por: git tag v26.6.0 && git push origin v26.6.0
+
+jobs:
+  release:
+    name: Build, test e publicar .deb
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 1. Extrair versão da tag ───────────────────────────────────────────
+      - name: Extrair versão
+        id: ver
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          echo "Versão: $VERSION"
+
+      # ── 2. Compilação ─────────────────────────────────────────────────────
+      - name: Compilar em modo Release
+        run: lazbuild LouvorJA.lpi --bm=Release
+
+      # ── 3. Verificação do binário ──────────────────────────────────────────
+      - name: Verificar binário
+        run: |
+          file LouvorJA | grep -q "ELF 64-bit" || { echo "✗ Binário inválido"; exit 1; }
+          file LouvorJA | grep -q "stripped"   || { echo "✗ Binário não strippado"; exit 1; }
+          echo "✓ Binário: $(ls -lh LouvorJA | awk '{print $5}') stripped"
+
+      # ── 4. Baixar database.db da release de dados ─────────────────────────
+      # O database.db (88 MB) não está no git — está hospedado em
+      # uma release separada com tag 'database-latest'.
+      # Para publicar/atualizar o banco:
+      #   gh release create database-latest config/database.db --prerelease --title "Database"
+      #   gh release upload database-latest config/database.db --clobber   (para atualizar)
+      - name: Baixar database.db
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download database-latest \
+            --repo ${{ github.repository }} \
+            --pattern "database.db" \
+            --dir config/
+          ls -lh config/database.db
+          echo "✓ database.db baixado"
+
+      # ── 5. Teste de startup ────────────────────────────────────────────────
+      - name: Teste de startup headless
+        run: |
+          APP_PID=""
+          cleanup() { [ -n "$APP_PID" ] && kill "$APP_PID" 2>/dev/null || true; }
+          trap cleanup EXIT
+
+          DISPLAY=:0 ./LouvorJA "" "internet=0" &
+          APP_PID=$!
+
+          for i in $(seq 1 20); do
+            sleep 1
+            if ! kill -0 "$APP_PID" 2>/dev/null; then
+              echo "✗ App encerrou inesperadamente após ${i}s"
+              exit 1
+            fi
+          done
+          echo "✓ App estável por 20s"
+
+      # ── 6. Gerar pacote .deb ───────────────────────────────────────────────
+      - name: Gerar .deb
+        run: bash tools/build-deb.sh ${{ steps.ver.outputs.version }}
+
+      # ── 7. Verificar estrutura do .deb ────────────────────────────────────
+      - name: Verificar .deb
+        run: |
+          DEB="louvorja_${{ steps.ver.outputs.version }}_amd64.deb"
+          dpkg-deb --info "$DEB"
+          echo ""
+          echo "=== Conteúdo ==="
+          dpkg-deb --contents "$DEB" | grep -E "louvorja$|database\.db|louvorja\.desktop|libbass"
+          echo ""
+          dpkg-deb --contents "$DEB" | grep "opt/louvorja/louvorja$"   \
+            && echo "✓ Binário no pacote" || { echo "✗ Binário ausente"; exit 1; }
+          dpkg-deb --contents "$DEB" | grep "config/database.db"       \
+            && echo "✓ database.db no pacote" || { echo "✗ database.db ausente"; exit 1; }
+          dpkg-deb --contents "$DEB" | grep "louvorja.desktop"         \
+            && echo "✓ .desktop no pacote" || echo "⚠ .desktop ausente"
+          echo "Tamanho do .deb: $(ls -lh "$DEB" | awk '{print $5}')"
+
+      # ── 8. Publicar GitHub Release com o .deb ─────────────────────────────
+      - name: Publicar Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DEB="louvorja_${{ steps.ver.outputs.version }}_amd64.deb"
+          TAG="${{ steps.ver.outputs.tag }}"
+          VERSION="${{ steps.ver.outputs.version }}"
+
+          gh release create "$TAG" \
+            --repo ${{ github.repository }} \
+            --title "LouvorJA Desktop $TAG" \
+            --notes "## LouvorJA Desktop $VERSION — Linux (amd64)
+
+          **Instalação:**
+          \`\`\`bash
+          sudo dpkg -i louvorja_${VERSION}_amd64.deb
+          louvorja
+          \`\`\`
+
+          **Dependências instaladas automaticamente:** libgtk2.0-0, libglib2.0-0, libfontconfig1 e demais libs GTK2.
+
+          **Áudio:** inclui \`libbass.so\` (BASS library — uso não comercial gratuito).
+
+          **Dados do usuário:** salvos em \`~/.local/share/LouvorJA/\`." \
+            "$DEB"
+
+          echo "✓ Release $TAG publicada com $DEB"

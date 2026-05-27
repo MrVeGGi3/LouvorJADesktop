@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Compilar e testar
+    # Self-hosted: já tem Lazarus, FPC, ZeosLib, RichMemo e libbass.so instalados
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 1. Compilação ──────────────────────────────────────────────────────
+      - name: Compilar em modo Release
+        run: lazbuild LouvorJA.lpi --bm=Release
+
+      # ── 2. Verificação do binário ──────────────────────────────────────────
+      - name: Verificar binário ELF
+        run: |
+          echo "Tamanho: $(ls -lh LouvorJA | awk '{print $5}')"
+          file LouvorJA | grep -q "ELF 64-bit" && echo "✓ ELF 64-bit OK"
+          file LouvorJA | grep -q "stripped"   && echo "✓ Stripped OK" \
+            || echo "⚠ Binário não strippado (esperado apenas no Release com -Xs)"
+
+      # ── 3. Teste de startup headless ───────────────────────────────────────
+      - name: Teste de startup (sem internet, com display do usuário)
+        # Usa DISPLAY=:0 (sessão ativa do usuário no self-hosted runner).
+        # Para ambientes headless puros, instale o pacote xvfb e substitua por:
+        #   xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" \
+        #     timeout 25 ./LouvorJA "" "internet=0"
+        run: |
+          APP_PID=""
+          cleanup() { [ -n "$APP_PID" ] && kill "$APP_PID" 2>/dev/null || true; }
+          trap cleanup EXIT
+
+          DISPLAY=:0 ./LouvorJA "" "internet=0" &
+          APP_PID=$!
+
+          # Aguarda até 20 segundos para o app inicializar
+          for i in $(seq 1 20); do
+            sleep 1
+            if ! kill -0 "$APP_PID" 2>/dev/null; then
+              echo "✗ App encerrou antes do esperado (após ${i}s)"
+              exit 1
+            fi
+          done
+
+          echo "✓ App inicializou e manteve-se por 20s sem crash"
+
+      # ── 4. Verifica arquivos essenciais ────────────────────────────────────
+      - name: Verificar arquivos de dados
+        run: |
+          test -f config/database.db  && echo "✓ config/database.db presente" \
+            || echo "⚠ config/database.db ausente (necessário para o .deb)"
+          test -f config/server/index.html && echo "✓ server/index.html presente" \
+            || echo "⚠ config/server/index.html ausente"

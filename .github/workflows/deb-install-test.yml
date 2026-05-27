@@ -1,0 +1,62 @@
+name: Teste de instalação .deb
+
+# Roda em runner público (ubuntu-latest) quando uma release é publicada.
+# Verifica se o .deb instala corretamente em máquina limpa.
+on:
+  release:
+    types: [published]
+
+jobs:
+  install-test:
+    name: Instalar .deb em Ubuntu limpo
+    runs-on: ubuntu-latest
+    # Só roda se não for a release de dados (database-latest)
+    if: ${{ !startsWith(github.event.release.tag_name, 'database') }}
+
+    steps:
+      - name: Baixar .deb do release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download ${{ github.event.release.tag_name }} \
+            --repo ${{ github.repository }} \
+            --pattern "*.deb"
+          ls -lh *.deb
+
+      - name: Instalar dependências e o .deb
+        run: |
+          sudo apt-get update -qq
+          # Instala dependências antes (dpkg -i não resolve deps automaticamente)
+          sudo apt-get install -y \
+            libgtk2.0-0 libglib2.0-0 libfontconfig1 \
+            libx11-6 libxrender1 libxinerama1 libxi6 libxrandr2 libxcursor1
+          # Instala o pacote
+          sudo dpkg -i *.deb
+
+      - name: Verificar estrutura instalada
+        run: |
+          test -f /opt/louvorja/louvorja              && echo "✓ Binário em /opt/louvorja/" \
+            || { echo "✗ Binário ausente"; exit 1; }
+          test -f /usr/bin/louvorja                   && echo "✓ Wrapper em /usr/bin/" \
+            || { echo "✗ Wrapper ausente"; exit 1; }
+          test -f /usr/share/applications/louvorja.desktop \
+            && echo "✓ .desktop instalado" || echo "⚠ .desktop ausente"
+          test -f /opt/louvorja/libbass.so            && echo "✓ libbass.so instalado" \
+            || echo "⚠ libbass.so ausente (áudio desabilitado)"
+          test -f /opt/louvorja/config/database.db    && echo "✓ database.db instalado" \
+            || { echo "✗ database.db ausente"; exit 1; }
+
+      - name: Verificar permissões do binário
+        run: |
+          stat -c '%a %n' /opt/louvorja/louvorja | grep -q "^755" \
+            && echo "✓ Permissão 755 OK" || echo "⚠ Permissão inesperada"
+          file /opt/louvorja/louvorja | grep -q "ELF" \
+            && echo "✓ ELF válido" || { echo "✗ Não é ELF"; exit 1; }
+
+      - name: Desinstalar e verificar limpeza
+        run: |
+          sudo dpkg -r louvorja
+          test ! -f /usr/bin/louvorja       && echo "✓ Wrapper removido" \
+            || echo "⚠ Wrapper ainda presente"
+          test ! -f /etc/ld.so.conf.d/louvorja.conf && echo "✓ ld.so.conf limpo" \
+            || echo "⚠ ld.so.conf ainda presente"
