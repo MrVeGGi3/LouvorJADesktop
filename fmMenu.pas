@@ -16169,15 +16169,40 @@ begin
   if arq <> '' then TFileNameEdit {LAZARUS: TbsSkinFileEdit}(Sender).Text := arq;
 end;
 
+{LAZARUS: fontconfig API para carregar fonte TTF em runtime no Linux.
+ fontconfig é dependência transitiva do GTK2 (já carregado), portanto
+ as funções externas estáticas não causam falha de link em runtime.}
+{$IFDEF UNIX}
+function FcConfigGetCurrent: Pointer; cdecl; external 'fontconfig';
+function FcConfigAppFontAddFile(config: Pointer; const fontfile: PChar): LongBool; cdecl; external 'fontconfig';
+function FcConfigBuildFonts(config: Pointer): LongBool; cdecl; external 'fontconfig';
+{$ENDIF}
+
 procedure TfmIndex.usaFontes(usar: boolean);
 var
-  dir: string;
+  dir, fontPath: string;
+  {$IFDEF UNIX}cfg: Pointer;{$ENDIF}
 begin
-  {LAZARUS: AddFontResource/RemoveFontResource removidos — Windows GDI API nao disponivel no Linux}
-  dir := dir_config+'fontes/';
-  {Fonte customizada nao carregada no Linux — usar fc-install-conf ou fontconfig externamente}
-  //if usar then AddFontResource(PChar(dir+'din-condensed-bold.ttf'))
-  //else RemoveFontResource(PChar(dir+'din-condensed-bold.ttf'));
+  dir := dir_config + 'fontes/';
+  fontPath := dir + 'din-condensed-bold.ttf';
+  {$IFDEF UNIX}
+  {LAZARUS: AddFontResource→fontconfig para adicionar fonte TTF ao processo atual}
+  if usar and FileExists(fontPath) then
+  begin
+    cfg := FcConfigGetCurrent;
+    if cfg <> nil then
+    begin
+      FcConfigAppFontAddFile(cfg, PChar(fontPath));
+      FcConfigBuildFonts(cfg);
+      {Fallback em fmEditorSlides.pas: Screen.Fonts.IndexOf('DIN Condensed') >= 0}
+    end;
+  end;
+  {usar=false → app encerrando, fontconfig libera ao sair — nenhuma ação necessária}
+  {$ELSE}
+  {Windows: manter comportamento original AddFontResource/RemoveFontResource}
+  //if usar then AddFontResource(PChar(fontPath))
+  //else RemoveFontResource(PChar(fontPath));
+  {$ENDIF}
 end;
 
 
