@@ -414,6 +414,37 @@ begin
       fTransmitir.btServidorClick(nil);
     end;
 
+    {LAZARUS: parâmetros de aba para testes headless de funcionalidades não testadas via XTest}
+    if paramexec.Strings.Values['hinario_n'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsHinarioN);
+    end;
+
+    if paramexec.Strings.Values['sorteio'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsSorteio);
+    end;
+
+    if paramexec.Strings.Values['relogio'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsRelogio);
+    end;
+
+    if paramexec.Strings.Values['cronometro'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsCronometro);
+    end;
+
+    if paramexec.Strings.Values['liturgia'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsLiturgia);
+    end;
+
     //**CHECA VERSÃO E NOVAS VERSÕES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
