@@ -1,6 +1,11 @@
 # Configurar Self-Hosted GitHub Actions Runner
 
-Este projeto usa um **self-hosted runner** para CI/CD porque:
+> **Importante:** o runner deve ser configurado no **repositório privado**
+> (`LouvorJADesktop-dev`), não no fork público. Em repositórios públicos,
+> qualquer pessoa poderia executar código arbitrário na sua máquina via PRs
+> de forks externos.
+
+Este projeto usa um **self-hosted runner** porque:
 - Lazarus, FPC, ZeosLib e RichMemo já estão instalados na máquina local
 - `libbass.so` está disponível em `/usr/local/lib/`
 - O startup test usa `DISPLAY=:0` (sessão X11 ativa do usuário)
@@ -10,7 +15,7 @@ Este projeto usa um **self-hosted runner** para CI/CD porque:
 ### 1. Acessar a página de configuração
 
 ```
-GitHub → MrVeGGi3/LouvorJADesktop → Settings
+GitHub → MrVeGGi3/LouvorJADesktop-dev → Settings
 → Actions → Runners → New self-hosted runner
 → Selecionar: Linux / x64
 ```
@@ -71,4 +76,37 @@ sudo ./svc.sh uninstall
 ```bash
 cd /path/to/LouvorJADesktop
 gh release upload database-latest config/database.db --clobber
+```
+
+---
+
+## Fluxo de trabalho com dois remotes
+
+O repositório local está conectado a dois remotes:
+
+| Remote | URL | Uso |
+|--------|-----|-----|
+| `private` | `github.com/MrVeGGi3/LouvorJADesktop-dev` | Desenvolvimento ativo + CI/CD |
+| `origin` | `github.com/MrVeGGi3/LouvorJADesktop` | Fork público (upstream reference) |
+
+### Desenvolvimento normal
+
+```bash
+# Envia para o repo PRIVADO (ativo)
+git push private main
+
+# Quando estiver pronto para publicar (release pública):
+git push origin main
+git push origin v26.6.0   # tag do release
+```
+
+### Sincronizar com o upstream (louvorja/desktop)
+
+```bash
+# Adiciona o upstream original se ainda não tiver
+git remote add upstream https://github.com/louvorja/desktop.git
+
+# Sincroniza mudanças do upstream
+git fetch upstream
+git merge upstream/main
 ```
