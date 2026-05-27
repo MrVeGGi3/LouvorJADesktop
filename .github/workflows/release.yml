@@ -51,14 +51,25 @@ jobs:
           ls -lh config/database.db
           echo "✓ database.db baixado"
 
-      # ── 5. Teste de startup ────────────────────────────────────────────────
+      # ── 5. Teste de startup headless ──────────────────────────────────────
+      # Xvfb fornece display virtual — o runner roda como serviço sem acesso
+      # ao DISPLAY do usuário. Requer: sudo apt-get install -y xvfb
       - name: Teste de startup headless
         run: |
+          XVFB_PID=""
           APP_PID=""
-          cleanup() { [ -n "$APP_PID" ] && kill "$APP_PID" 2>/dev/null || true; }
+          cleanup() {
+            [ -n "$APP_PID"  ] && kill "$APP_PID"  2>/dev/null || true
+            [ -n "$XVFB_PID" ] && kill "$XVFB_PID" 2>/dev/null || true
+          }
           trap cleanup EXIT
 
-          DISPLAY=:0 ./LouvorJA "" "internet=0" &
+          # Inicia display virtual na porta :99
+          Xvfb :99 -screen 0 1024x768x24 &
+          XVFB_PID=$!
+          sleep 1
+
+          DISPLAY=:99 ./LouvorJA "" "internet=0" &
           APP_PID=$!
 
           for i in $(seq 1 20); do

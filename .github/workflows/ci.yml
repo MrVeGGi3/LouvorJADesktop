@@ -29,20 +29,26 @@ jobs:
             || echo "⚠ Binário não strippado (esperado apenas no Release com -Xs)"
 
       # ── 3. Teste de startup headless ───────────────────────────────────────
-      - name: Teste de startup (sem internet, com display do usuário)
-        # Usa DISPLAY=:0 (sessão ativa do usuário no self-hosted runner).
-        # Para ambientes headless puros, instale o pacote xvfb e substitua por:
-        #   xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" \
-        #     timeout 25 ./LouvorJA "" "internet=0"
+      # O runner roda como serviço do sistema sem DISPLAY do usuário.
+      # Xvfb cria um display virtual para GTK2 inicializar.
+      # Requer: sudo apt-get install -y xvfb
+      - name: Teste de startup headless (Xvfb)
         run: |
+          XVFB_PID=""
           APP_PID=""
-          cleanup() { [ -n "$APP_PID" ] && kill "$APP_PID" 2>/dev/null || true; }
+          cleanup() {
+            [ -n "$APP_PID"  ] && kill "$APP_PID"  2>/dev/null || true
+            [ -n "$XVFB_PID" ] && kill "$XVFB_PID" 2>/dev/null || true
+          }
           trap cleanup EXIT
 
-          DISPLAY=:0 ./LouvorJA "" "internet=0" &
+          Xvfb :99 -screen 0 1024x768x24 &
+          XVFB_PID=$!
+          sleep 1
+
+          DISPLAY=:99 ./LouvorJA "" "internet=0" &
           APP_PID=$!
 
-          # Aguarda até 20 segundos para o app inicializar
           for i in $(seq 1 20); do
             sleep 1
             if ! kill -0 "$APP_PID" 2>/dev/null; then
