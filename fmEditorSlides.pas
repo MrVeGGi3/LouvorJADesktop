@@ -1070,19 +1070,19 @@ begin
         then btRemoveAudio.Enabled := false
         else btRemoveAudio.Enabled := (param.Values['audio'] <> '');
     end;
-    textoLetra.Text := FieldByName('LETRA').Value;
-    textoLetraAux.Text := FieldByName('LETRA_AUX').Value;
-    tamanhoLetra.Value := FieldByName('TAMANHO_LETRA').Value;
-    tamanhoLetra_aux.Value := FieldByName('TAMANHO_LETRA_AUX').Value;
-    corLetra.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_LETRA').Value);
-    corLetra_aux.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_LETRA_AUX').Value);
-    corFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_FUNDO').Value);
-    btRemoveImagem.Enabled := (FieldByName('IMAGEM').Value <> '');
-    posicaoFundo.ItemIndex := StrToInt(FieldByName('IMAGEM_POSICAO').Value)-1;
+    textoLetra.Text := FieldByName('LETRA').AsString;
+    textoLetraAux.Text := FieldByName('LETRA_AUX').AsString;
+    tamanhoLetra.Value := FieldByName('TAMANHO_LETRA').AsInteger;
+    tamanhoLetra_aux.Value := FieldByName('TAMANHO_LETRA_AUX').AsInteger;
+    corLetra.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_LETRA').AsString);
+    corLetra_aux.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_LETRA_AUX').AsString);
+    corFundo.ButtonColor {LAZARUS: TColorButton.ColorValue->ButtonColor} := StringToColor(FieldByName('COR_FUNDO').AsString);
+    btRemoveImagem.Enabled := (FieldByName('IMAGEM').AsString <> '');
+    posicaoFundo.ItemIndex := FieldByName('IMAGEM_POSICAO').AsInteger - 1; {LAZARUS: .Value→.AsInteger evita Null variant}
     fundoTransparente.Checked := not FieldByName('FUNDO_LETRA').AsBoolean;
 
-    param.Values['imagem'] := StringReplace(FieldByName('IMAGEM').Value,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
-    param.Values['posicao'] := FieldByName('IMAGEM_POSICAO').Value;
+    param.Values['imagem'] := StringReplace(FieldByName('IMAGEM').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
+    param.Values['posicao'] := FieldByName('IMAGEM_POSICAO').AsString;
     if (param.Values['imagem'] <> '') then
     begin
       if (param.Values['imagem'] <> param.Values['u_imagem']) then
@@ -1108,7 +1108,7 @@ begin
 
     if (tamanhoLetra.Value <= 0) then
     begin
-      if FieldByName('TIPO').Value = 'CAPA'
+      if FieldByName('TIPO').AsString = 'CAPA'
         then tamanhoLetra.Value := 18
         else tamanhoLetra.Value := 14
     end;
