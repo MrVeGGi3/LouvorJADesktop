@@ -8,7 +8,7 @@ uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, DBCtrls, DB, MaskEdit,
   LCLIntf, LCLType, LMessages,
-  RichMemo, ZDataset, LResources;
+  RichMemo, ZDataset, ZSqlStrings, LResources;
 
 type
   TfLetra = class(TForm)
@@ -42,6 +42,8 @@ type
     procedure dbListaClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btErroClick(Sender: TObject);
+  protected
+    procedure Loaded; override; {LAZARUS: workaround ZeosLib params — igual TDM.Loaded}
   private
     { Private declarations }
   public
@@ -59,6 +61,29 @@ implementation
 uses
   fmMenu, fmIniciando;
 
+
+procedure TfLetra.Loaded;
+{LAZARUS: ZeosLib param workaround — mesmo problema que TDM.Loaded.
+  TZQuery em csLoading não cria params de SQL; CreateParam diretamente.}
+var
+  i, j: Integer;
+  sqlStr: TZSQLStrings;
+  paramName: string;
+begin
+  inherited Loaded;
+  for i := 0 to ComponentCount - 1 do
+    if Components[i] is TZQuery then
+    begin
+      sqlStr := TZSQLStrings(TZQuery(Components[i]).SQL);
+      if sqlStr.ParamCount > 0 then
+        for j := 0 to sqlStr.ParamCount - 1 do
+        begin
+          paramName := sqlStr.ParamNames[j];
+          if TZQuery(Components[i]).Params.FindParam(paramName) = nil then
+            TZQuery(Components[i]).Params.CreateParam(ftUnknown, paramName, ptUnknown);
+        end;
+    end;
+end;
 
 procedure TfLetra.FormActivate(Sender: TObject);
 begin

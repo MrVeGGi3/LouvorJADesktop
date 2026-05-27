@@ -211,6 +211,8 @@ begin
   {LAZARUS: fix "(MEMO)" em views SQLite — colunas sem tipo declarado usavam TEXT→stAsciiStream;
    Undefined_Varchar_AsString_Length≠0 muda fallback para CHAR→stString (ver ZDbcSqLiteResultSet.pas:570)}
   DM.ADO.Properties.Values['Undefined_Varchar_AsString_Length'] := '250';
+  {LAZARUS: evitar "database is locked" ao iniciar segunda instância — esperar até 5s pelo lock}
+  DM.ADO.Properties.Values['timeout'] := '5000';
   try
     DM.ADO.Connected := true;
   except
@@ -427,11 +429,17 @@ begin
       fTransmitir.btServidorClick(nil);
     end;
 
-    {LAZARUS: parâmetros de aba para testes headless de funcionalidades não testadas via XTest}
+    {LAZARUS: parâmetros de aba para testes headless}
     if paramexec.Strings.Values['hinario_n'] = '1' then
     begin
       Application.ProcessMessages;
       fmIndex.abrePagina(fmIndex.tsHinarioN);
+    end;
+
+    if paramexec.Strings.Values['letra'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreLetra(1, '');
     end;
 
     if paramexec.Strings.Values['sorteio'] = '1' then
