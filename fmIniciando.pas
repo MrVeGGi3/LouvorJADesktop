@@ -466,6 +466,18 @@ begin
       fmIndex.abrePagina(fmIndex.tsLiturgia);
     end;
 
+    {LAZARUS: parâmetro atualiza=1 abre fmAtualiza diretamente para testes headless}
+    if paramexec.Strings.Values['atualiza'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.carregaParams(); {garante que Param.Strings tem conn_ftp + credenciais}
+      Application.ProcessMessages;
+      AppCreateForm(TfAtualiza, fAtualiza);
+      fAtualiza.arquivos := TStringList.Create;
+      fAtualiza.arquivos.Add('config\' + LANG + '_database.db');
+      fAtualiza.ShowModal;
+    end;
+
     //**CHECA VERSÃO E NOVAS VERSÕES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;
