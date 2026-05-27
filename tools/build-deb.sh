@@ -92,9 +92,31 @@ if command -v convert &>/dev/null && [ -f "$PROJECT_DIR/louvorja.ico" ]; then
 fi
 
 # Wrapper script
+# Garante que o usuário tem uma cópia gravável do database.db em ~/.local/share/LouvorJA/config/
+# e passa o caminho absoluto como dir_config para o app (fmIniciando.pas suporta caminhos absolutos)
 cat > "$PKG_DIR/usr/bin/louvorja" << 'EOF'
 #!/bin/sh
-exec /opt/louvorja/louvorja "$@"
+SYSTEM_CONFIG="/opt/louvorja/config"
+USER_CONFIG="$HOME/.local/share/LouvorJA/config"
+
+# Na primeira execução: copia database.db e arquivos do servidor para dir gravável do usuário
+if [ ! -f "$USER_CONFIG/database.db" ]; then
+    mkdir -p "$USER_CONFIG/server/file"
+    cp "$SYSTEM_CONFIG/database.db" "$USER_CONFIG/database.db"
+    cp -r "$SYSTEM_CONFIG/server/"* "$USER_CONFIG/server/" 2>/dev/null || true
+fi
+
+# Injeta dir_config absoluto no segundo argumento (key=value params do LouvorJA)
+FIRST_ARG="${1:-}"
+SECOND_ARG="${2:-}"
+if [ -n "$SECOND_ARG" ]; then
+    PARAMS="dir_config=$USER_CONFIG;$SECOND_ARG"
+else
+    PARAMS="dir_config=$USER_CONFIG"
+fi
+shift 2 2>/dev/null || shift $# 2>/dev/null || true
+
+exec /opt/louvorja/louvorja "$FIRST_ARG" "$PARAMS" "$@"
 EOF
 chmod 755 "$PKG_DIR/usr/bin/louvorja"
 

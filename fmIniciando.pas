@@ -110,7 +110,14 @@ begin
   application.ProcessMessages;
 
   if (paramexec.Strings.Values['dir_config'] <> '') then
-    dir_config := ExtractFilePath(Application.ExeName) + paramexec.Strings.Values['dir_config'] + '\'
+  begin
+    {LAZARUS: suporte a caminho absoluto no Linux — se começa com '/', usa direto
+     em vez de concatenar com o diretório do executável (que fica em /opt/louvorja/)}
+    if (paramexec.Strings.Values['dir_config'][1] = '/') then
+      dir_config := IncludeTrailingPathDelimiter(paramexec.Strings.Values['dir_config'])
+    else
+      dir_config := ExtractFilePath(Application.ExeName) + paramexec.Strings.Values['dir_config'] + '/';
+  end
   else
     dir_config := ExtractFilePath(Application.ExeName) + 'config/';
 
