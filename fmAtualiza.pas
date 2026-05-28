@@ -349,6 +349,7 @@ begin
 
   sTitulo.Caption := 'Buscando informações...';
   pbProgresso.Style := pbstMarquee;
+  Application.ProcessMessages; {LAZARUS: forçar repaint antes de chamada HTTP bloqueante}
 
   fmIndex.gravaLog('URL: ' + fmIndex.url_params);
 
@@ -529,6 +530,7 @@ begin
   fmIndex.gravaLog('ftp_porta: ' + IntToStr(ftp_porta));
 
   sTitulo.Caption := 'Conectando ao servidor...';
+  Application.ProcessMessages; {LAZARUS: atualizar UI antes de ftp_conecta}
   ftp_conecta();
 
   if tmrFecha.Enabled = True then
@@ -538,6 +540,7 @@ begin
   end;
 
   sTitulo.Caption := 'Obtendo informações dos arquivos...';
+  Application.ProcessMessages; {LAZARUS: atualizar UI antes de ftp_baixa}
   try
     DM.qrARQUIVOS_SISTEMA.Close;
     DM.qrARQUIVOS_SISTEMA.Open;
