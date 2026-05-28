@@ -4,7 +4,7 @@ object fmIndex: TfmIndex
   Cursor = crHandPoint
   AlphaBlend = True
   AlphaBlendValue = 255
-  BorderIcons = []
+  BorderIcons = [biSystemMenu, biMinimize, biMaximize]
   Caption = ' '
   ClientHeight = 757
   ClientWidth = 1370

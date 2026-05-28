@@ -1,7 +1,7 @@
 object fHelp: TfHelp
   Left = 0
   Top = 0
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   Caption = 'O que h'#225' de novo?'
   ClientHeight = 461
   ClientWidth = 824

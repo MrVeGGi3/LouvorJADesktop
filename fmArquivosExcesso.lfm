@@ -1,7 +1,7 @@
 object fArquivosExcesso: TfArquivosExcesso
   Left = 0
   Top = 0
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   Caption = 'Verificar arquivos em excesso'
   ClientHeight = 316
   ClientWidth = 673

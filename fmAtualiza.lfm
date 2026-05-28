@@ -1,7 +1,7 @@
 object fAtualiza: TfAtualiza
   Left = 379
   Top = 277
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Download de Arquivos...'
   ClientHeight = 164

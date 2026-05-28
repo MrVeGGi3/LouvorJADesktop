@@ -1,7 +1,7 @@
 object fBuscaMusica: TfBuscaMusica
   Left = 0
   Top = 0
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   Caption = 'Busca de M'#250'sicas'
   ClientHeight = 296
   ClientWidth = 701

@@ -1,7 +1,7 @@
 object fFavoritos: TfFavoritos
   Left = 0
   Top = 0
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Alterar Ordem dos Favoritos'
   ClientHeight = 371

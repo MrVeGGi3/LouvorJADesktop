@@ -1,7 +1,7 @@
 object fLetra: TfLetra
   Left = 393
   Top = 166
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Letra da M'#250'sica'
   ClientHeight = 637

@@ -1,7 +1,7 @@
 object fLiturgia: TfLiturgia
   Left = 0
   Top = 0
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   Caption = 'fLiturgia'
   ClientHeight = 167
   ClientWidth = 686

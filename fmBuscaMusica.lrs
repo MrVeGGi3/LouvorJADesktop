@@ -1,68 +1,68 @@
 LazarusResources.Add('TfBuscaMusica','FORMDATA',[
   'TPF0'#13'TfBuscaMusica'#12'fBuscaMusica'#4'Left'#2#0#3'Top'#2#0#11'BorderIco'
-  +'ns'#11#0#7'Caption'#18#16#0#0#0'B'#0'u'#0's'#0'c'#0'a'#0' '#0'd'#0'e'#0' '#0
-  +'M'#0#250#0's'#0'i'#0'c'#0'a'#0's'#0#12'ClientHeight'#3'('#1#11'ClientWidth'
-  +#3#189#2#5'Color'#7#9'clBtnFace'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'F'
-  +'ont.Color'#7#12'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'
-  +#10'Font.Style'#11#0#10'KeyPreview'#9#6'Scaled'#8#10'OnActivate'#7#12'FormAc'
-  +'tivate'#7'OnKeyUp'#7#9'FormKeyUp'#8'OnResize'#7#10'FormResize'#0#6'TPanel'
-  +#10'GridPanel3'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#189#2#6'Height'#2'9'#5'Ali'
-  +'gn'#7#5'alTop'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#10'GridPanel2'#8'Tab'
-  +'Order'#2#0#0#5'TEdit'#8'txtBusca'#4'Left'#2#30#3'Top'#2#19#5'Width'#3#129#2
-  +#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'#12'DefaultWidth'#2
-  +#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#5'Align'#7#8'alClient'#12'Font.Cha'
-  +'rset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13
-  +#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2
-  +#0#16'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255#17'LeftImageHotIndex'
-  +#2#255#18'LeftImageDownIndex'#2#255#15'RightImageIndex'#2#255#18'RightImageH'
-  +'otIndex'#2#255#19'RightImageDownIndex'#2#255#8'OnChange'#7#14'txtBuscaChang'
-  +'e'#10'OnKeyPress'#7#16'txtBuscaKeyPress'#7'OnKeyUp'#7#13'txtBuscaKeyUp'#0#0
-  +#6'TLabel'#15'bsSkinStdLabel5'#4'Left'#2#30#3'Top'#2#0#5'Width'#3#129#2#6'He'
-  +'ight'#2#19#12'UseSkinColor'#9#5'Align'#7#8'alClient'#7'Caption'#18#17#0#0#0
-  +'L'#0'o'#0'c'#0'a'#0'l'#0'i'#0'z'#0'a'#0'r'#0' '#0'M'#0#250#0's'#0'i'#0'c'#0
-  +'a'#0':'#0#6'Layout'#7#8'tlCenter'#0#0#0#7'TDBGrid'#7'DBGrid1'#4'Left'#2#0#3
-  +'Top'#2'9'#5'Width'#3#170#2#6'Height'#3#220#0#8'TabOrder'#2#1#11'Transparent'
-  +#8#16'WallpaperStretch'#8#17'UseSkinCellHeight'#9#10'VScrollBar'#7#16'bsSkin'
-  +'ScrollBar7'#13'GridLineColor'#7#9'clBtnFace'#17'DefaultCellHeight'#2#20#12
-  +'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Fo'
-  +'nt.Height'#2#240#9'Font.Name'#6#13'MS Sans Serif'#10'Font.Style'#11#6'fsBol'
-  +'d'#0#17'ColSizingWithLine'#8#17'DrawGraphicFields'#8#14'UseColumnsFont'#8#17
-  +'MouseWheelSupport'#9#18'SaveMultiSelection'#8#23'PickListBoxSkinDataName'#6
-  +#7'listbox'#22'PickListBoxCaptionMode'#8#5'Align'#7#8'alClient'#5'Ctl3D'#8#10
-  +'DataSource'#7#7'dsBUSCA'#7'Options'#11#8'dgTitles'#10'dgRowLines'#6'dgTabs'
-  +#11'dgRowSelect'#15'dgConfirmDelete'#14'dgCancelOnExit'#0#11'ParentCtl3D'#8
-  +#10'ParentFont'#8#17'TitleFont.Charset'#7#15'DEFAULT_CHARSET'#15'TitleFont.C'
-  +'olor'#7#12'clWindowText'#16'TitleFont.Height'#2#245#14'TitleFont.Name'#6#13
-  +'MS Sans Serif'#15'TitleFont.Style'#11#6'fsBold'#0#16'OnDrawColumnCell'#7#21
-  +'DBGrid1DrawColumnCell'#10'OnDblClick'#7#15'DBGrid1DblClick'#7'Columns'#14#1
-  +#8'Expanded'#8#9'FieldName'#6#14'NOME_ALBUM_COM'#12'Font.Charset'#7#15'DEFAU'
+  +'ns'#11#12'biSystemMenu'#0#7'Caption'#18#16#0#0#0'B'#0'u'#0's'#0'c'#0'a'#0' '
+  +#0'd'#0'e'#0' '#0'M'#0#250#0's'#0'i'#0'c'#0'a'#0's'#0#12'ClientHeight'#3'('#1
+  +#11'ClientWidth'#3#189#2#5'Color'#7#9'clBtnFace'#12'Font.Charset'#7#15'DEFAU'
   +'LT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#245#9'Font.'
-  +'Name'#6#13'MS Sans Serif'#10'Font.Style'#11#6'fsBold'#0#13'Title.Caption'#18
-  +#5#0#0#0#193#0'l'#0'b'#0'u'#0'm'#0#5'Width'#3'1'#1#7'Visible'#9#0#1#8'Expand'
-  +'ed'#8#9'FieldName'#6#6'ICONE1'#13'Title.Caption'#6#2'  '#5'Width'#2#20#7'Vi'
-  +'sible'#9#0#1#8'Expanded'#8#9'FieldName'#6#4'NOME'#12'Font.Charset'#7#15'DEF'
-  +'AULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#245#9'Fon'
-  +'t.Name'#6#13'MS Sans Serif'#10'Font.Style'#11#0#13'Title.Caption'#18#6#0#0#0
-  +'M'#0#250#0's'#0'i'#0'c'#0'a'#0#5'Width'#3'o'#1#7'Visible'#9#0#0#0#0#10'TSta'
-  +'tusBar'#7'stBusca'#4'Left'#2#0#3'Top'#3#21#1#5'Width'#3#189#2#6'Height'#2#19
-  +#8'TabOrder'#2#3#5'Align'#7#8'alBottom'#8'SizeGrip'#8#6'Panels'#14#1#5'Width'
-  +#3'@'#1#0#1#5'Width'#3'}'#1#0#0#0#0#10'TScrollBar'#16'bsSkinScrollBar7'#4'Le'
-  +'ft'#3#170#2#3'Top'#2'9'#5'Width'#2#19#6'Height'#3#220#0#8'TabOrder'#2#2#7'V'
-  +'isible'#8#12'DefaultWidth'#2#19#13'DefaultHeight'#2#0#4'Both'#8#15'BothMark'
-  +'erWidth'#2#19#16'BothSkinDataName'#6#14'bothhscrollbar'#5'Align'#7#7'alRigh'
-  +'t'#4'Kind'#7#10'sbVertical'#8'PageSize'#2#0#3'Min'#2#0#3'Max'#2#0#8'Positio'
-  +'n'#2#0#11'SmallChange'#2#1#11'LargeChange'#2#1#0#0#7'TZQuery'#7'qrBUSCA'#8
-  +'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'#1#6#171'SELECT DISTI'
-  +'NCT '''' AS ICONE1,'''' AS ICONE2,'''' AS ICONE3, M.ID ID, M.ID_ALBUM ID_AL'
-  +'BUM, M.NOME_ALBUM NOME_ALBUM, M.NOME_ALBUM_COM NOME_ALBUM_COM, M.FAIXA FAIX'
-  +'A, M.NOME NOME,'#6#177'    M.NOME_COM NOME_COM, M.TIPO_HASD TIPO_HASD, M.TI'
-  +'PO_JA TIPO_JA, M.TIPO_BAIXADA TIPO_BAIXADA, M.TIPO_WEB TIPO_WEB, M.TIPO_PER'
-  +'SO TIPO_PERSO, M.TIPO TIPO, M.URL_ALBUM URL_ALBUM,'#6'B    M.ALBUM ALBUM, M'
-  +'.URL URL, M.URL_INSTRUMENTAL URL_INSTRUMENTAL,'#6'h    M.IDIOMA IDIOMA, M.L'
-  +'ETRA LETRA, M.NOME_SEMAC NOME_SEMAC, M.NOME_ALBUM_COM_SEMAC NOME_ALBUM_COM_'
-  +'SEMAC'#6#20'FROM LISTA_MUSICAS M'#6#5'WHERE'#6'H    (CAST(:VALOR AS INTEGER'
-  +') > 0 AND TIPO_HASD = ''S'' AND FAIXA = :VALOR)'#6#6'    OR'#6'K    (CAST(:'
-  +'VALOR AS INTEGER) <= 0 AND NOME_SEMAC LIKE ''%'' || :VALOR || ''%'')'#6#0#0
-  ,#4'Left'#3'b'#1#3'Top'#3#148#0#0#0#11'TDataSource'#7'dsBUSCA'#7'DataSet'#7#7
-  +'qrBUSCA'#4'Left'#3#134#1#3'Top'#3#148#0#0#0#0
+  +'Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPreview'#9#6'Scaled'#8#10'OnAct'
+  +'ivate'#7#12'FormActivate'#7'OnKeyUp'#7#9'FormKeyUp'#8'OnResize'#7#10'FormRe'
+  +'size'#0#6'TPanel'#10'GridPanel3'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#189#2#6
+  +'Height'#2'9'#5'Align'#7#5'alTop'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#10
+  +'GridPanel2'#8'TabOrder'#2#0#0#5'TEdit'#8'txtBusca'#4'Left'#2#30#3'Top'#2#19
+  +#5'Width'#3#129#2#6'Height'#2#19#4'Text'#6#0#12'DefaultColor'#7#8'clWindow'
+  +#12'DefaultWidth'#2#0#13'DefaultHeight'#2#0#10'ButtonMode'#8#5'Align'#7#8'al'
+  +'Client'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#7'clBlack'
+  +#11'Font.Height'#2#13#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'Parent'
+  +'Font'#8#8'TabOrder'#2#0#16'ButtonImageIndex'#2#255#14'LeftImageIndex'#2#255
+  +#17'LeftImageHotIndex'#2#255#18'LeftImageDownIndex'#2#255#15'RightImageIndex'
+  +#2#255#18'RightImageHotIndex'#2#255#19'RightImageDownIndex'#2#255#8'OnChange'
+  +#7#14'txtBuscaChange'#10'OnKeyPress'#7#16'txtBuscaKeyPress'#7'OnKeyUp'#7#13
+  +'txtBuscaKeyUp'#0#0#6'TLabel'#15'bsSkinStdLabel5'#4'Left'#2#30#3'Top'#2#0#5
+  +'Width'#3#129#2#6'Height'#2#19#12'UseSkinColor'#9#5'Align'#7#8'alClient'#7'C'
+  +'aption'#18#17#0#0#0'L'#0'o'#0'c'#0'a'#0'l'#0'i'#0'z'#0'a'#0'r'#0' '#0'M'#0
+  +#250#0's'#0'i'#0'c'#0'a'#0':'#0#6'Layout'#7#8'tlCenter'#0#0#0#7'TDBGrid'#7'D'
+  +'BGrid1'#4'Left'#2#0#3'Top'#2'9'#5'Width'#3#170#2#6'Height'#3#220#0#8'TabOrd'
+  +'er'#2#1#11'Transparent'#8#16'WallpaperStretch'#8#17'UseSkinCellHeight'#9#10
+  +'VScrollBar'#7#16'bsSkinScrollBar7'#13'GridLineColor'#7#9'clBtnFace'#17'Defa'
+  +'ultCellHeight'#2#20#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7
+  +#12'clWindowText'#11'Font.Height'#2#240#9'Font.Name'#6#13'MS Sans Serif'#10
+  +'Font.Style'#11#6'fsBold'#0#17'ColSizingWithLine'#8#17'DrawGraphicFields'#8
+  +#14'UseColumnsFont'#8#17'MouseWheelSupport'#9#18'SaveMultiSelection'#8#23'Pi'
+  +'ckListBoxSkinDataName'#6#7'listbox'#22'PickListBoxCaptionMode'#8#5'Align'#7
+  +#8'alClient'#5'Ctl3D'#8#10'DataSource'#7#7'dsBUSCA'#7'Options'#11#8'dgTitles'
+  +#10'dgRowLines'#6'dgTabs'#11'dgRowSelect'#15'dgConfirmDelete'#14'dgCancelOnE'
+  +'xit'#0#11'ParentCtl3D'#8#10'ParentFont'#8#17'TitleFont.Charset'#7#15'DEFAUL'
+  +'T_CHARSET'#15'TitleFont.Color'#7#12'clWindowText'#16'TitleFont.Height'#2#245
+  +#14'TitleFont.Name'#6#13'MS Sans Serif'#15'TitleFont.Style'#11#6'fsBold'#0#16
+  +'OnDrawColumnCell'#7#21'DBGrid1DrawColumnCell'#10'OnDblClick'#7#15'DBGrid1Db'
+  +'lClick'#7'Columns'#14#1#8'Expanded'#8#9'FieldName'#6#14'NOME_ALBUM_COM'#12
+  +'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Fo'
+  +'nt.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#10'Font.Style'#11#6'fsBol'
+  +'d'#0#13'Title.Caption'#18#5#0#0#0#193#0'l'#0'b'#0'u'#0'm'#0#5'Width'#3'1'#1
+  +#7'Visible'#9#0#1#8'Expanded'#8#9'FieldName'#6#6'ICONE1'#13'Title.Caption'#6
+  +#2'  '#5'Width'#2#20#7'Visible'#9#0#1#8'Expanded'#8#9'FieldName'#6#4'NOME'#12
+  +'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11'Fo'
+  +'nt.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#10'Font.Style'#11#0#13'Ti'
+  +'tle.Caption'#18#6#0#0#0'M'#0#250#0's'#0'i'#0'c'#0'a'#0#5'Width'#3'o'#1#7'Vi'
+  +'sible'#9#0#0#0#0#10'TStatusBar'#7'stBusca'#4'Left'#2#0#3'Top'#3#21#1#5'Widt'
+  +'h'#3#189#2#6'Height'#2#19#8'TabOrder'#2#3#5'Align'#7#8'alBottom'#8'SizeGrip'
+  +#8#6'Panels'#14#1#5'Width'#3'@'#1#0#1#5'Width'#3'}'#1#0#0#0#0#10'TScrollBar'
+  +#16'bsSkinScrollBar7'#4'Left'#3#170#2#3'Top'#2'9'#5'Width'#2#19#6'Height'#3
+  +#220#0#8'TabOrder'#2#2#7'Visible'#8#12'DefaultWidth'#2#19#13'DefaultHeight'#2
+  +#0#4'Both'#8#15'BothMarkerWidth'#2#19#16'BothSkinDataName'#6#14'bothhscrollb'
+  +'ar'#5'Align'#7#7'alRight'#4'Kind'#7#10'sbVertical'#8'PageSize'#2#0#3'Min'#2
+  +#0#3'Max'#2#0#8'Position'#2#0#11'SmallChange'#2#1#11'LargeChange'#2#1#0#0#7
+  +'TZQuery'#7'qrBUSCA'#8'Filtered'#9#10'Connection'#7#6'DM.ADO'#11'SQL.Strings'
+  +#1#6#171'SELECT DISTINCT '''' AS ICONE1,'''' AS ICONE2,'''' AS ICONE3, M.ID '
+  +'ID, M.ID_ALBUM ID_ALBUM, M.NOME_ALBUM NOME_ALBUM, M.NOME_ALBUM_COM NOME_ALB'
+  +'UM_COM, M.FAIXA FAIXA, M.NOME NOME,'#6#177'    M.NOME_COM NOME_COM, M.TIPO_'
+  +'HASD TIPO_HASD, M.TIPO_JA TIPO_JA, M.TIPO_BAIXADA TIPO_BAIXADA, M.TIPO_WEB '
+  +'TIPO_WEB, M.TIPO_PERSO TIPO_PERSO, M.TIPO TIPO, M.URL_ALBUM URL_ALBUM,'#6'B'
+  +'    M.ALBUM ALBUM, M.URL URL, M.URL_INSTRUMENTAL URL_INSTRUMENTAL,'#6'h    '
+  +'M.IDIOMA IDIOMA, M.LETRA LETRA, M.NOME_SEMAC NOME_SEMAC, M.NOME_ALBUM_COM_S'
+  +'EMAC NOME_ALBUM_COM_SEMAC'#6#20'FROM LISTA_MUSICAS M'#6#5'WHERE'#6'H    (CA'
+  +'ST(:VALOR AS INTEGER) > 0 AND TIPO_HASD = ''S'' AND FAIXA = :VALOR)'#6#6'  '
+  +'  OR'#6'K    (CAST(:VALOR AS INTEGER) <= 0 AND NOME_SEMAC LIKE ''%'' || :VA'
+  ,'LOR || ''%'')'#6#0#0#4'Left'#3'b'#1#3'Top'#3#148#0#0#0#11'TDataSource'#7'ds'
+  +'BUSCA'#7'DataSet'#7#7'qrBUSCA'#4'Left'#3#134#1#3'Top'#3#148#0#0#0#0
 ]);

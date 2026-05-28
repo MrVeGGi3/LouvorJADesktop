@@ -1,23 +1,23 @@
 LazarusResources.Add('TfFavoritos','FORMDATA',[
   'TPF0'#11'TfFavoritos'#10'fFavoritos'#4'Left'#2#0#3'Top'#2#0#11'BorderIcons'
-  +#11#0#11'BorderStyle'#7#8'bsDialog'#7'Caption'#6#27'Alterar Ordem dos Favori'
-  +'tos'#12'ClientHeight'#3's'#1#11'ClientWidth'#3#138#1#5'Color'#7#9'clBtnFace'
-  +#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7#12'clWindowText'#11
-  +'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0#10'KeyPrevi'
-  +'ew'#9#7'OnKeyUp'#7#9'FormKeyUp'#6'OnShow'#7#8'FormShow'#0#8'TListBox'#11'lb'
-  +'Favoritos'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#138#1#6'Height'#3'F'#1#5'Align'
-  +#7#8'alClient'#12'Font.Charset'#7#12'ANSI_CHARSET'#10'Font.Color'#7#12'clWin'
-  +'dowText'#11'Font.Height'#2#243#9'Font.Name'#6#6'Tahoma'#10'Font.Style'#11#0
-  +#10'ParentFont'#8#8'TabOrder'#2#0#0#0#6'TPanel'#9'pnlBottom'#4'Left'#2#0#3'T'
-  +'op'#3'F'#1#5'Width'#3#138#1#6'Height'#2'-'#5'Align'#7#8'alBottom'#10'BevelO'
-  +'uter'#7#6'bvNone'#7'Caption'#6#0#8'TabOrder'#2#1#0#7'TButton'#5'btnUp'#4'Le'
-  +'ft'#2#4#3'Top'#2#8#5'Width'#2'Z'#6'Height'#2#29#7'Caption'#6#13#226#134#145
-  +' Para Cima'#8'TabOrder'#2#0#7'OnClick'#7#10'btnUpClick'#0#0#7'TButton'#7'bt'
-  +'nDown'#4'Left'#2'd'#3'Top'#2#8#5'Width'#2'Z'#6'Height'#2#29#7'Caption'#6#14
-  +#226#134#147' Para Baixo'#8'TabOrder'#2#1#7'OnClick'#7#12'btnDownClick'#0#0#7
-  +'TButton'#9'btnRemove'#4'Left'#3#200#0#3'Top'#2#8#5'Width'#2'P'#6'Height'#2
-  +#29#7'Caption'#6#7'Remover'#8'TabOrder'#2#2#7'OnClick'#7#14'btnRemoveClick'#0
-  +#0#7'TButton'#8'btnClose'#4'Left'#3'.'#1#3'Top'#2#8#5'Width'#2'P'#6'Height'#2
-  +#29#7'Caption'#6#6'Fechar'#8'TabOrder'#2#3#7'OnClick'#7#13'btnCloseClick'#0#0
-  +#0#0
+  +#11#12'biSystemMenu'#0#11'BorderStyle'#7#8'bsDialog'#7'Caption'#6#27'Alterar'
+  +' Ordem dos Favoritos'#12'ClientHeight'#3's'#1#11'ClientWidth'#3#138#1#5'Col'
+  +'or'#7#9'clBtnFace'#12'Font.Charset'#7#15'DEFAULT_CHARSET'#10'Font.Color'#7
+  +#12'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#6'Tahoma'#10'Font.Sty'
+  +'le'#11#0#10'KeyPreview'#9#7'OnKeyUp'#7#9'FormKeyUp'#6'OnShow'#7#8'FormShow'
+  +#0#8'TListBox'#11'lbFavoritos'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#138#1#6'Hei'
+  +'ght'#3'F'#1#5'Align'#7#8'alClient'#12'Font.Charset'#7#12'ANSI_CHARSET'#10'F'
+  +'ont.Color'#7#12'clWindowText'#11'Font.Height'#2#243#9'Font.Name'#6#6'Tahoma'
+  +#10'Font.Style'#11#0#10'ParentFont'#8#8'TabOrder'#2#0#0#0#6'TPanel'#9'pnlBot'
+  +'tom'#4'Left'#2#0#3'Top'#3'F'#1#5'Width'#3#138#1#6'Height'#2'-'#5'Align'#7#8
+  +'alBottom'#10'BevelOuter'#7#6'bvNone'#7'Caption'#6#0#8'TabOrder'#2#1#0#7'TBu'
+  +'tton'#5'btnUp'#4'Left'#2#4#3'Top'#2#8#5'Width'#2'Z'#6'Height'#2#29#7'Captio'
+  +'n'#6#13#226#134#145' Para Cima'#8'TabOrder'#2#0#7'OnClick'#7#10'btnUpClick'
+  +#0#0#7'TButton'#7'btnDown'#4'Left'#2'd'#3'Top'#2#8#5'Width'#2'Z'#6'Height'#2
+  +#29#7'Caption'#6#14#226#134#147' Para Baixo'#8'TabOrder'#2#1#7'OnClick'#7#12
+  +'btnDownClick'#0#0#7'TButton'#9'btnRemove'#4'Left'#3#200#0#3'Top'#2#8#5'Widt'
+  +'h'#2'P'#6'Height'#2#29#7'Caption'#6#7'Remover'#8'TabOrder'#2#2#7'OnClick'#7
+  +#14'btnRemoveClick'#0#0#7'TButton'#8'btnClose'#4'Left'#3'.'#1#3'Top'#2#8#5'W'
+  +'idth'#2'P'#6'Height'#2#29#7'Caption'#6#6'Fechar'#8'TabOrder'#2#3#7'OnClick'
+  +#7#13'btnCloseClick'#0#0#0#0
 ]);
