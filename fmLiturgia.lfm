@@ -79,7 +79,7 @@ object fLiturgia: TfLiturgia
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alTop
     object csCor: TColorButton
       Tag = 7
@@ -253,8 +253,6 @@ object fLiturgia: TfLiturgia
     Height = 95
     VertScrollBar.Position = 107
     Align = alClient
-    BevelInner = bvNone
-    BevelOuter = bvNone
     BorderStyle = bsNone
     TabOrder = 1
     Visible = False
@@ -270,7 +268,7 @@ object fLiturgia: TfLiturgia
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'bsSkinPanel1'
+      Caption = ''
       AutoSize = True
       Align = alTop
       object bsRibbonDivider10: TBevel
@@ -293,7 +291,7 @@ object fLiturgia: TfLiturgia
         Checked = False
         NumGlyphs = 1
         Spacing = 2
-        Caption = 'bsSkinPanel1'
+        Caption = ''
         Align = alTop
         object opcHinosOpc1: TRadioButton
           AlignWithMargins = True
@@ -330,7 +328,7 @@ object fLiturgia: TfLiturgia
         Checked = False
         NumGlyphs = 1
         Spacing = 2
-        Caption = 'bsSkinPanel1'
+        Caption = ''
         Align = alTop
         object skLitLabel: TLabel
           AlignWithMargins = True
@@ -413,7 +411,7 @@ object fLiturgia: TfLiturgia
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'bsSkinPanel1'
+      Caption = ''
       AutoSize = True
       Align = alTop
       object bsRibbonDivider1: TBevel
@@ -436,7 +434,7 @@ object fLiturgia: TfLiturgia
         Checked = False
         NumGlyphs = 1
         Spacing = 2
-        Caption = 'bsSkinPanel1'
+        Caption = ''
         Align = alTop
         object bsSkinStdLabel1: TLabel
           AlignWithMargins = True
@@ -515,7 +513,7 @@ object fLiturgia: TfLiturgia
         Checked = False
         NumGlyphs = 1
         Spacing = 2
-        Caption = 'bsSkinPanel1'
+        Caption = ''
         Align = alTop
         object bsSkinStdLabel2: TLabel
           AlignWithMargins = True
@@ -596,7 +594,7 @@ object fLiturgia: TfLiturgia
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'bsSkinPanel1'
+      Caption = ''
       AutoSize = True
       Align = alTop
       object bsRibbonDivider3: TBevel
@@ -619,7 +617,7 @@ object fLiturgia: TfLiturgia
         Checked = False
         NumGlyphs = 1
         Spacing = 2
-        Caption = 'bsSkinPanel1'
+        Caption = ''
         Align = alTop
         object bsSkinStdLabel3: TLabel
           AlignWithMargins = True
@@ -752,7 +750,7 @@ object fLiturgia: TfLiturgia
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'bsSkinPanel1'
+      Caption = ''
       AutoSize = True
       Align = alTop
       object bsRibbonDivider4: TBevel
@@ -775,7 +773,7 @@ object fLiturgia: TfLiturgia
         Checked = False
         NumGlyphs = 1
         Spacing = 2
-        Caption = 'bsSkinPanel1'
+        Caption = ''
         Align = alTop
         object bsSkinStdLabel4: TLabel
           AlignWithMargins = True
@@ -815,7 +813,7 @@ object fLiturgia: TfLiturgia
       Checked = False
       NumGlyphs = 1
       Spacing = 2
-      Caption = 'bsSkinPanel1'
+      Caption = ''
       AutoSize = True
       Align = alClient
     end

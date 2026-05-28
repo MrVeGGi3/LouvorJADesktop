@@ -221,7 +221,7 @@ begin
       then param := ExtractFilePath(Application.ExeName)+edtDiretorio.Text
       else param := edtDiretorio.Text;
 
-    if (Copy(param,Length(param),1) = '\') then
+    if (Copy(param,Length(param),1) = PathDelim) then {LAZARUS: '\' → PathDelim}
     begin
       Add('subtipo', 'dir');
       Add('subitem', 'Pasta '+edtDiretorio.Text);
@@ -233,7 +233,7 @@ begin
     end
     else if DirectoryExists(param) then
     begin
-      edtDiretorio.Text := edtDiretorio.Text+'\';
+      edtDiretorio.Text := edtDiretorio.Text+PathDelim; {LAZARUS: '\' → PathDelim}
       Add('subtipo', 'dir');
       Add('subitem', 'Pasta '+edtDiretorio.Text);
     end

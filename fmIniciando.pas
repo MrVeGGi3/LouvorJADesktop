@@ -49,7 +49,8 @@ implementation
 
 
 uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides,
-  fmBuscaMusica, fmItensAgendados, fmFormatacao, fmVideoOn, fmNovaVersao;
+  fmBuscaMusica, fmItensAgendados, fmFormatacao, fmVideoOn, fmNovaVersao,
+  fmLiturgia;
 
 procedure TfIniciando.AppCreateForm(InstanceClass: TComponentClass;
   var Reference);
@@ -414,6 +415,57 @@ begin
       fEditorSlides.BringToFront; {faz o WM focar a janela, disparando FormActivate naturalmente}
     end;
 
+    {LAZARUS: editor_divide=1 testa btDivideSlide: coloca texto com | no slide 1 e chama divisão}
+    if paramexec.Strings.Values['editor_divide'] = '1' then
+    begin
+      if fEditorSlides = nil then
+      begin
+        AppCreateForm(TfEditorSlides, fEditorSlides);
+        fEditorSlides.Show;
+        Application.ProcessMessages;
+      end;
+      {slide 1 é CAPA — ir para slide 2 (LETRA) e dividir}
+      DM.cdsSLIDE_MUSICA2.RecNo := 2;
+      fEditorSlides.param.Values['slide'] := '2';
+      fEditorSlides.carregaSlide();
+      Application.ProcessMessages;
+      {cada linha de textoLetra vira um slide separado no btDivideSlide}
+      fEditorSlides.textoLetra.Lines.Clear;
+      fEditorSlides.textoLetra.Lines.Add('Primeira estrofe');
+      fEditorSlides.textoLetra.Lines.Add('Segunda estrofe');
+      Application.ProcessMessages;
+      fEditorSlides.btDivideSlideClick(nil);
+      Application.ProcessMessages;
+    end;
+
+    {LAZARUS: editor_save=<path> salva a apresentação atual para arquivo — testa CDS2Text sem UI}
+    if paramexec.Strings.Values['editor_save'] <> '' then
+    begin
+      if fEditorSlides = nil then
+      begin
+        AppCreateForm(TfEditorSlides, fEditorSlides);
+        fEditorSlides.Show;
+        Application.ProcessMessages;
+      end;
+      fEditorSlides.param.Values['arquivo'] := paramexec.Strings.Values['editor_save'];
+      fEditorSlides.CDS2Text();
+      Application.ProcessMessages;
+    end;
+
+    {LAZARUS: editor_load=<path> carrega arquivo de apresentação — testa Text2CDS sem UI}
+    if paramexec.Strings.Values['editor_load'] <> '' then
+    begin
+      if fEditorSlides = nil then
+      begin
+        AppCreateForm(TfEditorSlides, fEditorSlides);
+        fEditorSlides.Show;
+        Application.ProcessMessages;
+      end;
+      fEditorSlides.param.Values['arquivo'] := paramexec.Strings.Values['editor_load'];
+      fEditorSlides.Text2CDS();
+      Application.ProcessMessages;
+    end;
+
     {LAZARUS: parâmetro projecao=ID projeta música automaticamente — útil para testes headless}
     if paramexec.Strings.Values['projecao'] <> '' then
     begin
@@ -465,6 +517,32 @@ begin
     begin
       Application.ProcessMessages;
       fmIndex.abrePagina(fmIndex.tsLiturgia);
+    end;
+
+    {LAZARUS: parâmetro liturgia_form=<tipo|1> abre fmLiturgia para testes headless}
+    {tipos válidos: 1, Anotação, Arquivo/Diretório, Categoria, Itens Agendados, Música, Site}
+    if paramexec.Strings.Values['liturgia_form'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsLiturgia);
+      Application.ProcessMessages;
+      AppCreateForm(TfLiturgia, fLiturgia); {criação lazy — não está no auto-create}
+      fLiturgia.Caption := 'Adicionar Item';
+      fLiturgia.id := '';
+      fLiturgia.Show;
+      Application.ProcessMessages;
+      if paramexec.Strings.Values['liturgia_form'] <> '1' then
+      begin
+        {aceita índice numérico (0-5) ou nome do tipo}
+        if paramexec.Strings.Values['liturgia_form'][1] in ['0'..'9'] then
+          fLiturgia.cbItens.ItemIndex :=
+            StrToIntDef(paramexec.Strings.Values['liturgia_form'], 0)
+        else
+          fLiturgia.cbItens.ItemIndex :=
+            fLiturgia.cbItens.Items.IndexOf(paramexec.Strings.Values['liturgia_form']);
+        fLiturgia.cbItensChange(nil);
+        Application.ProcessMessages;
+      end;
     end;
 
     {LAZARUS: parâmetro atualiza=1 abre fmAtualiza diretamente para testes headless}

@@ -370,22 +370,22 @@ begin
   begin
     RecNo := StrToInt('0'+param.Values['slide']);
 
-    ordem := FieldByName('ORDEM').Value;
-    param.Values['_LOCAL'] := FieldByName('LOCAL').Value;
-    param.Values['_MUSICA_ID'] := FieldByName('MUSICA_ID').Value;
-    param.Values['_LETRA_ID'] := FieldByName('LETRA_ID').Value;
-    param.Values['_URL_MUSICA'] := FieldByName('URL_MUSICA').Value;
-    param.Values['_IMAGEM'] := FieldByName('IMAGEM').Value;
-    param.Values['_IMAGEM_POSICAO'] := FieldByName('IMAGEM_POSICAO').Value;
-    param.Values['_COR_FUNDO'] := FieldByName('COR_FUNDO').Value;
-    param.Values['_FUNDO_LETRA'] := FieldByName('FUNDO_LETRA').Value;
-    param.Values['_TAMANHO_LETRA'] := FieldByName('TAMANHO_LETRA').Value;
-    param.Values['_TAMANHO_LETRA_AUX'] := FieldByName('TAMANHO_LETRA_AUX').Value;
-    param.Values['_COR_LETRA'] := FieldByName('COR_LETRA').Value;
-    param.Values['_COR_LETRA_AUX'] := FieldByName('COR_LETRA_AUX').Value;
-    param.Values['_LETRA'] := FieldByName('LETRA').Value;
-    param.Values['_LETRA_UCASE'] := FieldByName('LETRA_UCASE').Value;
-    param.Values['_LETRA_AUX'] := FieldByName('LETRA_AUX').Value;
+    ordem := FieldByName('ORDEM').AsInteger; {LAZARUS: .Value→.AsInteger para NULL safety}
+    param.Values['_LOCAL'] := FieldByName('LOCAL').AsString; {LAZARUS: .Value→.AsString}
+    param.Values['_MUSICA_ID'] := FieldByName('MUSICA_ID').AsString;
+    param.Values['_LETRA_ID'] := FieldByName('LETRA_ID').AsString;
+    param.Values['_URL_MUSICA'] := FieldByName('URL_MUSICA').AsString;
+    param.Values['_IMAGEM'] := FieldByName('IMAGEM').AsString;
+    param.Values['_IMAGEM_POSICAO'] := FieldByName('IMAGEM_POSICAO').AsString;
+    param.Values['_COR_FUNDO'] := FieldByName('COR_FUNDO').AsString;
+    param.Values['_FUNDO_LETRA'] := FieldByName('FUNDO_LETRA').AsString;
+    param.Values['_TAMANHO_LETRA'] := FieldByName('TAMANHO_LETRA').AsString;
+    param.Values['_TAMANHO_LETRA_AUX'] := FieldByName('TAMANHO_LETRA_AUX').AsString;
+    param.Values['_COR_LETRA'] := FieldByName('COR_LETRA').AsString;
+    param.Values['_COR_LETRA_AUX'] := FieldByName('COR_LETRA_AUX').AsString;
+    param.Values['_LETRA'] := FieldByName('LETRA').AsString;
+    param.Values['_LETRA_UCASE'] := FieldByName('LETRA_UCASE').AsString;
+    param.Values['_LETRA_AUX'] := FieldByName('LETRA_AUX').AsString;
 
     if RecNo < RecordCount then
     begin
@@ -753,22 +753,22 @@ begin
     fmIndex.paramtemp.Lines.Clear;
     fmIndex.paramtemp.Text := textoLetra.Text;
 
-    ordem := FieldByName('ORDEM').Value;
-    param.Values['_LOCAL'] := FieldByName('LOCAL').Value;
-    param.Values['_MUSICA_ID'] := FieldByName('MUSICA_ID').Value;
-    param.Values['_LETRA_ID'] := FieldByName('LETRA_ID').Value;
-    param.Values['_URL_MUSICA'] := FieldByName('URL_MUSICA').Value;
-    param.Values['_IMAGEM'] := FieldByName('IMAGEM').Value;
-    param.Values['_IMAGEM_POSICAO'] := FieldByName('IMAGEM_POSICAO').Value;
-    param.Values['_COR_FUNDO'] := FieldByName('COR_FUNDO').Value;
-    param.Values['_FUNDO_LETRA'] := FieldByName('FUNDO_LETRA').Value;
-    param.Values['_TAMANHO_LETRA'] := FieldByName('TAMANHO_LETRA').Value;
-    param.Values['_TAMANHO_LETRA_AUX'] := FieldByName('TAMANHO_LETRA_AUX').Value;
-    param.Values['_COR_LETRA'] := FieldByName('COR_LETRA').Value;
-    param.Values['_COR_LETRA_AUX'] := FieldByName('COR_LETRA_AUX').Value;
-    param.Values['_LETRA'] := FieldByName('LETRA').Value;
-    param.Values['_LETRA_UCASE'] := FieldByName('LETRA_UCASE').Value;
-    param.Values['_LETRA_AUX'] := FieldByName('LETRA_AUX').Value;
+    ordem := FieldByName('ORDEM').AsInteger; {LAZARUS: .Value→.AsInteger para NULL safety}
+    param.Values['_LOCAL'] := FieldByName('LOCAL').AsString; {LAZARUS: .Value→.AsString}
+    param.Values['_MUSICA_ID'] := FieldByName('MUSICA_ID').AsString;
+    param.Values['_LETRA_ID'] := FieldByName('LETRA_ID').AsString;
+    param.Values['_URL_MUSICA'] := FieldByName('URL_MUSICA').AsString;
+    param.Values['_IMAGEM'] := FieldByName('IMAGEM').AsString;
+    param.Values['_IMAGEM_POSICAO'] := FieldByName('IMAGEM_POSICAO').AsString;
+    param.Values['_COR_FUNDO'] := FieldByName('COR_FUNDO').AsString;
+    param.Values['_FUNDO_LETRA'] := FieldByName('FUNDO_LETRA').AsString;
+    param.Values['_TAMANHO_LETRA'] := FieldByName('TAMANHO_LETRA').AsString;
+    param.Values['_TAMANHO_LETRA_AUX'] := FieldByName('TAMANHO_LETRA_AUX').AsString;
+    param.Values['_COR_LETRA'] := FieldByName('COR_LETRA').AsString;
+    param.Values['_COR_LETRA_AUX'] := FieldByName('COR_LETRA_AUX').AsString;
+    param.Values['_LETRA'] := FieldByName('LETRA').AsString;
+    param.Values['_LETRA_UCASE'] := FieldByName('LETRA_UCASE').AsString;
+    param.Values['_LETRA_AUX'] := FieldByName('LETRA_AUX').AsString;
 
     if RecNo < RecordCount then
     begin
