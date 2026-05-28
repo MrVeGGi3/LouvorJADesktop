@@ -2313,6 +2313,13 @@ type
     BassPreviewChannel: HCHANNEL;
     BassPreviewFile: string; {LAZARUS: mpMusica.FileName substituido}
 
+    {LAZARUS: métodos públicos para testes headless}
+    procedure abreHelp;
+    procedure abreArquivosExcesso;
+    procedure abreArquivosFalta;
+    procedure abreFavoritosManager;
+    procedure abreMonitorHeadless(botao: string);
+
   end;
 
 var
@@ -14141,7 +14148,7 @@ procedure TfmIndex.copiaDadosTelaExtendida;
 var
   Stream: TStringStream;
 begin
-  if (fMonitorMenuMusicas <> nil) then
+  if (fMonitorMenuMusicas <> nil) and (fListaMusica <> nil) then
   begin
     fMonitorMenuMusicas.lblTitulo.Caption := fListaMusica.lblTitulo.Caption;
     fMonitorMenuMusicas.lblSubtitulo.Caption := fListaMusica.lblSubtitulo.Caption;
@@ -16255,6 +16262,153 @@ begin
   {$ENDIF}
 end;
 
+
+procedure TfmIndex.abreHelp;
+begin
+  if (fHelp <> nil) and (fHelp.Visible) then
+  begin
+    fHelp.Close;
+    Refresh;
+  end;
+  fIniciando.AppCreateForm(TfHelp, fHelp);
+  fHelp.tabPage := '';
+  fHelp.ShowModal;
+end;
+
+procedure TfmIndex.abreArquivosExcesso;
+begin
+  fIniciando.AppCreateForm(TfArquivosExcesso, fArquivosExcesso);
+  fArquivosExcesso.ShowModal;
+end;
+
+procedure TfmIndex.abreArquivosFalta;
+begin
+  fIniciando.AppCreateForm(TfArquivosFalta, fArquivosFalta);
+  fArquivosFalta.ShowModal;
+end;
+
+procedure TfmIndex.abreFavoritosManager;
+begin
+  fIniciando.AppCreateForm(TfFavoritos, fFavoritos);
+  fFavoritos.ShowModal;
+end;
+
+procedure TfmIndex.abreMonitorHeadless(botao: string);
+var
+  mon: TMonitor;
+begin
+  mon := Screen.Monitors[0];
+  if botao = 'sorteio' then
+  begin
+    if fMonitorSorteio <> nil then fMonitorSorteio.Close;
+    fIniciando.AppCreateForm(TfMonitorSorteio, fMonitorSorteio);
+    fMonitorSorteio.AlphaBlend := False;
+    fMonitorSorteio.BorderStyle := bsSizeable;
+    fMonitorSorteio.Left := mon.Left; fMonitorSorteio.Top := mon.Top;
+    fMonitorSorteio.Width := mon.Width; fMonitorSorteio.Height := mon.Height;
+    fMonitorSorteio.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'sorteio_nomes' then
+  begin
+    if fMonitorSorteioNomes <> nil then fMonitorSorteioNomes.Close;
+    fIniciando.AppCreateForm(TfMonitorSorteioNomes, fMonitorSorteioNomes);
+    fMonitorSorteioNomes.AlphaBlend := False;
+    fMonitorSorteioNomes.BorderStyle := bsSizeable;
+    fMonitorSorteioNomes.Left := mon.Left; fMonitorSorteioNomes.Top := mon.Top;
+    fMonitorSorteioNomes.Width := mon.Width; fMonitorSorteioNomes.Height := mon.Height;
+    fMonitorSorteioNomes.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'cronometro' then
+  begin
+    if fMonitorCronometro <> nil then fMonitorCronometro.Close;
+    fIniciando.AppCreateForm(TfMonitorCronometro, fMonitorCronometro);
+    fMonitorCronometro.AlphaBlend := False;
+    fMonitorCronometro.BorderStyle := bsSizeable;
+    fMonitorCronometro.Left := mon.Left; fMonitorCronometro.Top := mon.Top;
+    fMonitorCronometro.Width := mon.Width; fMonitorCronometro.Height := mon.Height;
+    fMonitorCronometro.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'relogio' then
+  begin
+    if fMonitorRelogio <> nil then fMonitorRelogio.Close;
+    fIniciando.AppCreateForm(TfMonitorRelogio, fMonitorRelogio);
+    fMonitorRelogio.AlphaBlend := False;
+    fMonitorRelogio.BorderStyle := bsSizeable;
+    fMonitorRelogio.Left := mon.Left; fMonitorRelogio.Top := mon.Top;
+    fMonitorRelogio.Width := mon.Width; fMonitorRelogio.Height := mon.Height;
+    fMonitorRelogio.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'painel' then
+  begin
+    if fMonitorPainelDinamico <> nil then fMonitorPainelDinamico.Close;
+    fIniciando.AppCreateForm(TfMonitorPainelDinamico, fMonitorPainelDinamico);
+    fMonitorPainelDinamico.AlphaBlend := False;
+    fMonitorPainelDinamico.BorderStyle := bsSizeable;
+    fMonitorPainelDinamico.Left := mon.Left; fMonitorPainelDinamico.Top := mon.Top;
+    fMonitorPainelDinamico.Width := mon.Width; fMonitorPainelDinamico.Height := mon.Height;
+    fMonitorPainelDinamico.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'texto' then
+  begin
+    if fMonitorTextoInterativo <> nil then fMonitorTextoInterativo.Close;
+    fIniciando.AppCreateForm(TfMonitorTextoInterativo, fMonitorTextoInterativo);
+    fMonitorTextoInterativo.AlphaBlend := False;
+    fMonitorTextoInterativo.BorderStyle := bsSizeable;
+    fMonitorTextoInterativo.Left := mon.Left; fMonitorTextoInterativo.Top := mon.Top;
+    fMonitorTextoInterativo.Width := mon.Width; fMonitorTextoInterativo.Height := mon.Height;
+    fMonitorTextoInterativo.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'biblia' then
+  begin
+    if fMonitorBiblia <> nil then fMonitorBiblia.Close;
+    fIniciando.AppCreateForm(TfMonitorBiblia, fMonitorBiblia);
+    fMonitorBiblia.AlphaBlend := False;
+    fMonitorBiblia.BorderStyle := bsSizeable;
+    fMonitorBiblia.Left := mon.Left; fMonitorBiblia.Top := mon.Top;
+    fMonitorBiblia.Width := mon.Width; fMonitorBiblia.Height := mon.Height;
+    fMonitorBiblia.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'biblia_busca' then
+  begin
+    if fMonitorBibliaBusca <> nil then fMonitorBibliaBusca.Close;
+    fIniciando.AppCreateForm(TfMonitorBibliaBusca, fMonitorBibliaBusca);
+    fMonitorBibliaBusca.AlphaBlend := False;
+    fMonitorBibliaBusca.BorderStyle := bsSizeable;
+    fMonitorBibliaBusca.Left := mon.Left; fMonitorBibliaBusca.Top := mon.Top;
+    fMonitorBibliaBusca.Width := mon.Width; fMonitorBibliaBusca.Height := mon.Height;
+    fMonitorBibliaBusca.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'crono_culto' then
+  begin
+    if fMonitorCronometroCulto <> nil then fMonitorCronometroCulto.Close;
+    fIniciando.AppCreateForm(TfMonitorCronometroCulto, fMonitorCronometroCulto);
+    fMonitorCronometroCulto.AlphaBlend := False;
+    fMonitorCronometroCulto.BorderStyle := bsSizeable;
+    fMonitorCronometroCulto.Left := mon.Left; fMonitorCronometroCulto.Top := mon.Top;
+    fMonitorCronometroCulto.Width := mon.Width; fMonitorCronometroCulto.Height := mon.Height;
+    fMonitorCronometroCulto.Show;
+    copiaDadosTelaExtendida;
+  end
+  else if botao = 'menu_musicas' then
+  begin
+    if fMonitorMenuMusicas <> nil then fMonitorMenuMusicas.Close;
+    fIniciando.AppCreateForm(TfMonitorMenuMusicas, fMonitorMenuMusicas);
+    fMonitorMenuMusicas.AlphaBlend := False;
+    fMonitorMenuMusicas.BorderStyle := bsSizeable;
+    fMonitorMenuMusicas.Left := mon.Left; fMonitorMenuMusicas.Top := mon.Top;
+    fMonitorMenuMusicas.Width := mon.Width; fMonitorMenuMusicas.Height := mon.Height;
+    fMonitorMenuMusicas.Show;
+    copiaDadosTelaExtendida;
+  end;
+end;
 
 initialization
   {$I fmMenu.lrs}

@@ -14,98 +14,65 @@ object fFavoritos: TfFavoritos
   Font.Style = []
   KeyPreview = True
   OnKeyUp = FormKeyUp
-  object dbcFavoritos: TScrollBox
+  OnShow = FormShow
+  object lbFavoritos: TListBox
     Left = 0
     Top = 0
     Width = 394
-    Height = 371
+    Height = 326
     Align = alClient
-    Color = clWhite
-    DataSource = DM.dsFavoritos
-    PanelHeight = 26
-    PanelWidth = 375
-    ParentColor = False
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
-    RowCount = 14
-    SelectedColor = clSkyBlue
-    object Image1: TImage
-      Left = 348
-      Top = 1
-      Width = 26
-      Height = 23
-      DoubleBuffered = False
-      AutoSize = False
-      ImageIndex = 14
-      Align = alRight
-      Center = True
-      OnClick = Image1Click
-    end
-    object imgFavBtDown: TImage
-      Left = 322
-      Top = 1
-      Width = 26
-      Height = 23
-      DoubleBuffered = False
-      AutoSize = False
-      ImageIndex = 18
-      Align = alRight
-      Center = True
-      OnClick = imgFavBtDownClick
-    end
-    object imgFavBtUp: TImage
-      Left = 296
-      Top = 1
-      Width = 26
-      Height = 23
-      DoubleBuffered = False
-      AutoSize = False
-      ImageIndex = 17
-      Align = alRight
-      Center = True
-      OnClick = imgFavBtUpClick
-    end
-    object skLitItem: TDBText
-      Left = 27
-      Top = 1
-      Width = 269
-      Height = 23
-      UseSkinColor = True
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      Align = alClient
-      Caption = 'skLitItem'
-      ParentFont = False
-      ShowAccelChar = False
-      Layout = tlCenter
-      DataField = 'NOME'
-      DataSource = DM.dsFavoritos
-      Transparent = True
-    end
-    object imFavIcon: TImage
-      Left = 1
-      Top = 1
-      Width = 26
-      Height = 23
-      DoubleBuffered = False
-      AutoSize = False
-      ImageIndex = -1
-      Align = alLeft
-      Center = True
-    end
-    object Panel1: TPanel
-      Left = 1
-      Top = 24
-      Width = 373
-      Height = 1
-      Align = alBottom
-      BevelOuter = bvNone
-      Caption = 'Panel1'
-      Color = 15263976
-      ParentBackground = False
+  end
+  object pnlBottom: TPanel
+    Left = 0
+    Top = 326
+    Width = 394
+    Height = 45
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = ''
+    TabOrder = 1
+    object btnUp: TButton
+      Left = 4
+      Top = 8
+      Width = 90
+      Height = 29
+      Caption = '↑ Para Cima'
       TabOrder = 0
+      OnClick = btnUpClick
+    end
+    object btnDown: TButton
+      Left = 100
+      Top = 8
+      Width = 90
+      Height = 29
+      Caption = '↓ Para Baixo'
+      TabOrder = 1
+      OnClick = btnDownClick
+    end
+    object btnRemove: TButton
+      Left = 200
+      Top = 8
+      Width = 80
+      Height = 29
+      Caption = 'Remover'
+      TabOrder = 2
+      OnClick = btnRemoveClick
+    end
+    object btnClose: TButton
+      Left = 302
+      Top = 8
+      Width = 80
+      Height = 29
+      Caption = 'Fechar'
+      TabOrder = 3
+      OnClick = btnCloseClick
     end
   end
 end

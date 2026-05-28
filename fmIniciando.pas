@@ -521,6 +521,50 @@ begin
       fmIndex.player(paramexec.Strings.Values['player'], False);
     end;
 
+    {LAZARUS: parâmetro help=1 abre fmHelp para testes headless}
+    if paramexec.Strings.Values['help'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreHelp;
+    end;
+
+    {LAZARUS: parâmetro arquivos_excesso=1 abre fmArquivosExcesso para testes headless}
+    if paramexec.Strings.Values['arquivos_excesso'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreArquivosExcesso;
+    end;
+
+    {LAZARUS: parâmetro arquivos_falta=1 abre fmArquivosFalta para testes headless}
+    if paramexec.Strings.Values['arquivos_falta'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreArquivosFalta;
+    end;
+
+    {LAZARUS: parâmetro favoritos=1 abre fmFavoritos para testes headless}
+    if paramexec.Strings.Values['favoritos'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreFavoritosManager;
+    end;
+
+    {LAZARUS: parâmetro identifica=1 abre fmIdentificaMonitores para testes headless}
+    if paramexec.Strings.Values['identifica'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.identifica_monitores(nil);
+    end;
+
+    {LAZARUS: parâmetro monitor=nome abre formulário de monitor headless — testes}
+    {  Valores: sorteio, sorteio_nomes, cronometro, relogio, painel, texto,  }
+    {           biblia, biblia_busca, crono_culto, menu_musicas              }
+    if paramexec.Strings.Values['monitor'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreMonitorHeadless(paramexec.Strings.Values['monitor']);
+    end;
+
     //**CHECA VERSÃO E NOVAS VERSÕES********************************************
     fmIndex.gravaParam('Config','VersaoExe',fmIndex.VersaoExe);
     DM.tmrVersao.Enabled := True;

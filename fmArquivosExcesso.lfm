@@ -27,7 +27,7 @@ object fArquivosExcesso: TfArquivosExcesso
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alTop
     object lbl1: TLabel
       AlignWithMargins = True
@@ -134,7 +134,7 @@ object fArquivosExcesso: TfArquivosExcesso
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alBottom
     object lblStatus: TLabel
       AlignWithMargins = True

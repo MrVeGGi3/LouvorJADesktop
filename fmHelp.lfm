@@ -19,28 +19,14 @@ object fHelp: TfHelp
     Top = 0
     Width = 824
     Height = 461
-    TabOrder = 0
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
-    Caption = 'bsSkinPanel2'
+    Caption = ''
     Align = alClient
     object bsSkinPanel1: TPanel
       Left = 0
       Top = 419
       Width = 824
       Height = 42
-      TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
-      CheckedMode = False
-      Checked = False
-      NumGlyphs = 1
-      Spacing = 2
-      Caption = 'bsSkinPanel1'
+      Caption = ''
       Align = alBottom
       object lblStatus: TLabel
         AlignWithMargins = True
@@ -48,7 +34,6 @@ object fHelp: TfHelp
         Top = 3
         Width = 574
         Height = 36
-        UseSkinColor = True
         Align = alClient
         Layout = tlCenter
       end
@@ -59,18 +44,7 @@ object fHelp: TfHelp
         Width = 125
         Height = 32
         TabOrder = 0
-        DefaultWidth = 0
-        DefaultHeight = 0
-        Transparent = False
-        CheckedMode = False
-        ImageList = DM.ico_24x24
-        ImageIndex = 108
-        TabStop = True
-        Down = False
-        GroupIndex = 0
         Caption = 'Acessar Ajuda'
-        NumGlyphs = 1
-        Spacing = 1
         Align = alRight
         OnClick = bsSkinButton2Click
       end
@@ -81,21 +55,19 @@ object fHelp: TfHelp
         Width = 92
         Height = 32
         TabOrder = 1
-        DefaultWidth = 0
-        DefaultHeight = 0
-        Transparent = False
-        CheckedMode = False
-        ImageList = DM.ico_24x24
-        ImageIndex = 1
-        TabStop = True
-        Down = False
-        GroupIndex = 0
         Caption = 'Fechar'
-        NumGlyphs = 1
-        Spacing = 1
         Align = alRight
         OnClick = bsSkinButton1Click
       end
+    end
+    object wbNew: TMemo
+      Left = 0
+      Top = 0
+      Width = 824
+      Height = 419
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssVertical
     end
   end
 end

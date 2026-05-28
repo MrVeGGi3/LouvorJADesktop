@@ -1,34 +1,30 @@
 unit fmFavoritos;
-{$mode delphi}{$H+} {LAZARUS: modo Delphi para compatibilidade}
+{$mode delphi}{$H+} {LAZARUS: reescrito com TListBox — TbsSkinDBCtrlGrid não disponível no LCL}
 
 interface
 
 uses
-  {LAZARUS: removidos Windows/Messages/VCL/bsSkin*/FireDAC/Indy/Delphi-specific}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids,
-  DBCtrls, DB, Menus, ValEdit, MaskEdit, IniFiles, StrUtils,
-  CheckLst, Spin, EditBtn, ColorBox, LCLIntf, LCLType, LResources;
+  Dialogs, StdCtrls, ExtCtrls, LCLIntf, LCLType, LResources;
 
 type
   TfFavoritos = class(TForm)
-    {bsBusinessSkinForm1: TbsBusinessSkinForm;} {LAZARUS: removido}
-    dbcFavoritos: TScrollBox {LAZARUS: TbsSkinDBCtrlGrid};
-    Panel1: TPanel;
-    Image1: TImage {LAZARUS: TbsPngImageView};
-    imgFavBtDown: TImage {LAZARUS: TbsPngImageView};
-    imgFavBtUp: TImage {LAZARUS: TbsPngImageView};
-    skLitItem: TDBText {LAZARUS: TbsSkinDBText};
-    imFavIcon: TImage {LAZARUS: TbsPngImageView};
+    lbFavoritos: TListBox;
+    pnlBottom: TPanel;
+    btnUp: TButton;
+    btnDown: TButton;
+    btnRemove: TButton;
+    btnClose: TButton;
+    procedure FormShow(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbcFavoritosPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid}; Index: Integer);
-    procedure Image1Click(Sender: TObject);
-    procedure imgFavBtUpClick(Sender: TObject);
-    procedure imgFavBtDownClick(Sender: TObject);
+    procedure btnUpClick(Sender: TObject);
+    procedure btnDownClick(Sender: TObject);
+    procedure btnRemoveClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure populaListbox;
+    procedure atualizaOrdem;
   public
-    { Public declarations }
   end;
 
 var
@@ -36,108 +32,107 @@ var
 
 implementation
 
-
 uses fmMenu, dmComponentes;
 
-procedure TfFavoritos.dbcFavoritosPaintPanel(DBCtrlGrid: TScrollBox {LAZARUS: TDBCtrlGrid};
-  Index: Integer);
-var
-  icon: Integer;
+procedure TfFavoritos.populaListbox;
 begin
-  icon := DM.cdsFavoritos.FieldByName('IMAGEM').AsInteger;
-
-  imFavIcon.ImageIndex := icon;
-
-  imFavIcon.Visible := (DM.cdsFavoritos.RecordCount > 0);
-  skLitItem.Visible := (DM.cdsFavoritos.RecordCount > 0);
-  imgFavBtUp.Visible := (DM.cdsFavoritos.RecordCount > 0);
-  imgFavBtDown.Visible := (DM.cdsFavoritos.RecordCount > 0);
-  Image1.Visible := (DM.cdsFavoritos.RecordCount > 0);
-
-  if (DM.cdsFavoritos.RecordCount > 0) then
+  if not DM.cdsFavoritos.Active then
+    fmIndex.carregaFavoritos;
+  if not DM.cdsFavoritos.Active then Exit;
+  lbFavoritos.Items.Clear;
+  DM.cdsFavoritos.First;
+  while not DM.cdsFavoritos.EOF do
   begin
-    imgFavBtUp.Visible := (DM.cdsFavoritos.RecNo > 1);
-    imgFavBtDown.Visible := (DM.cdsFavoritos.RecNo < DM.cdsFavoritos.RecordCount);
+    lbFavoritos.Items.Add(DM.cdsFavoritos.FieldByName('NOME').AsString);
+    DM.cdsFavoritos.Next;
   end;
 end;
 
-procedure TfFavoritos.FormKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfFavoritos.atualizaOrdem;
+var
+  i: Integer;
+begin
+  DM.cdsFavoritos.First;
+  for i := 0 to lbFavoritos.Items.Count - 1 do
+  begin
+    if DM.cdsFavoritos.FieldByName('NOME').AsString <> lbFavoritos.Items[i] then
+    begin
+      if DM.cdsFavoritos.Locate('NOME', lbFavoritos.Items[i], []) then
+      begin
+        DM.cdsFavoritos.Edit;
+        DM.cdsFavoritos.FieldByName('ORDEM').Value := i + 1;
+        DM.cdsFavoritos.Post;
+      end;
+    end
+    else
+    begin
+      DM.cdsFavoritos.Edit;
+      DM.cdsFavoritos.FieldByName('ORDEM').Value := i + 1;
+      DM.cdsFavoritos.Post;
+    end;
+    DM.cdsFavoritos.Next;
+  end;
+end;
+
+procedure TfFavoritos.FormShow(Sender: TObject);
+begin
+  populaListbox;
+end;
+
+procedure TfFavoritos.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   fmIndex.FormKeyUp(Sender, Key, Shift);
 end;
 
-procedure TfFavoritos.Image1Click(Sender: TObject);
+procedure TfFavoritos.btnUpClick(Sender: TObject);
 var
+  idx: Integer;
   nome: string;
 begin
-  if DM.cdsFavoritos.RecordCount <= 0 then
-    Exit;
-
-  nome := DM.cdsFavoritos.FieldByName('NOME').AsString;
-
-  DM.cdsFavoritos.Delete;
-
-  fmIndex.carregaFavoritos();
-  application.messagebox(PChar('Página '''+nome+''' removida com sucesso dos favoritos!'), fmIndex.TITULO, MB_OK + MB_ICONINFORMATION);
+  idx := lbFavoritos.ItemIndex;
+  if idx <= 0 then Exit;
+  nome := lbFavoritos.Items[idx];
+  lbFavoritos.Items[idx] := lbFavoritos.Items[idx - 1];
+  lbFavoritos.Items[idx - 1] := nome;
+  lbFavoritos.ItemIndex := idx - 1;
+  atualizaOrdem;
+  fmIndex.carregaFavoritos;
 end;
 
-procedure TfFavoritos.imgFavBtDownClick(Sender: TObject);
+procedure TfFavoritos.btnDownClick(Sender: TObject);
 var
-  id, nid: string;
-  ordem, nordem: integer;
+  idx: Integer;
+  nome: string;
 begin
-  if DM.cdsFavoritos.RecordCount <= 0 then
-    Exit;
-  if DM.cdsFavoritos.RecNo >= DM.cdsFavoritos.RecordCount then
-    Exit;
-
-  id := DM.cdsFavoritos.FieldByName('ID').AsString;
-  ordem := DM.cdsFavoritos.fieldbyname('ORDEM').AsInteger;
-
-  DM.cdsFavoritos.Next;
-  nid := DM.cdsFavoritos.fieldbyname('ID').AsString;
-  nordem := DM.cdsFavoritos.fieldbyname('ORDEM').AsInteger;
-
-  DM.cdsFavoritos.Edit;
-  DM.cdsFavoritos.FieldByName('ORDEM').Value := ordem;
-  DM.cdsFavoritos.Post;
-
-  DM.cdsFavoritos.Locate('ID', id, []);
-  DM.cdsFavoritos.Edit;
-  DM.cdsFavoritos.FieldByName('ORDEM').Value := nordem;
-  DM.cdsFavoritos.Post;
-
-  fmIndex.carregaFavoritos();
+  idx := lbFavoritos.ItemIndex;
+  if (idx < 0) or (idx >= lbFavoritos.Items.Count - 1) then Exit;
+  nome := lbFavoritos.Items[idx];
+  lbFavoritos.Items[idx] := lbFavoritos.Items[idx + 1];
+  lbFavoritos.Items[idx + 1] := nome;
+  lbFavoritos.ItemIndex := idx + 1;
+  atualizaOrdem;
+  fmIndex.carregaFavoritos;
 end;
 
-procedure TfFavoritos.imgFavBtUpClick(Sender: TObject);
+procedure TfFavoritos.btnRemoveClick(Sender: TObject);
 var
-  id, nid: string;
-  ordem, nordem: integer;
+  idx: Integer;
+  nome: string;
 begin
-  if DM.cdsFavoritos.RecordCount <= 0 then
-    Exit;
-  if DM.cdsFavoritos.RecNo <= 1 then
-    Exit;
+  idx := lbFavoritos.ItemIndex;
+  if idx < 0 then Exit;
+  nome := lbFavoritos.Items[idx];
+  if DM.cdsFavoritos.Locate('NOME', nome, []) then
+    DM.cdsFavoritos.Delete;
+  lbFavoritos.Items.Delete(idx);
+  fmIndex.carregaFavoritos;
+  Application.MessageBox(PChar('Página ''' + nome + ''' removida com sucesso dos favoritos!'),
+    fmIndex.TITULO, MB_OK + MB_ICONINFORMATION);
+end;
 
-  id := DM.cdsFavoritos.FieldByName('ID').AsString;
-  ordem := DM.cdsFavoritos.fieldbyname('ORDEM').AsInteger;
-
-  DM.cdsFavoritos.Prior;
-  nid := DM.cdsFavoritos.fieldbyname('ID').AsString;
-  nordem := DM.cdsFavoritos.fieldbyname('ORDEM').AsInteger;
-
-  DM.cdsFavoritos.Edit;
-  DM.cdsFavoritos.FieldByName('ORDEM').Value := ordem;
-  DM.cdsFavoritos.Post;
-
-  DM.cdsFavoritos.Locate('ID', id, []);
-  DM.cdsFavoritos.Edit;
-  DM.cdsFavoritos.FieldByName('ORDEM').Value := nordem;
-  DM.cdsFavoritos.Post;
-
-  fmIndex.carregaFavoritos();
+procedure TfFavoritos.btnCloseClick(Sender: TObject);
+begin
+  Close;
 end;
 
 
