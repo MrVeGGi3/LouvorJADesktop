@@ -717,6 +717,7 @@ object fmIndex: TfmIndex
     E0000007FFFFFFFFFC00003FFFFF}
   KeyPreview = True
   Position = poDesigned
+  AutoScroll = False
   Scaled = False
   Visible = True
   OnActivate = FormActivate
