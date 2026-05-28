@@ -24,13 +24,7 @@ object fNovaVersao: TfNovaVersao
     Width = 588
     Height = 42
     TabOrder = 2
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alBottom
     object bsSkinButton2: TButton
       AlignWithMargins = True
@@ -39,18 +33,8 @@ object fNovaVersao: TfNovaVersao
       Width = 110
       Height = 32
       TabOrder = 1
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      CheckedMode = False
-      ImageList = DM.ico_24x24
-      ImageIndex = 1
       TabStop = True
-      Down = False
-      GroupIndex = 0
       Caption = ' N'#227'o'
-      NumGlyphs = 1
-      Spacing = 1
       Align = alRight
       OnClick = bsSkinButton2Click
     end
@@ -61,18 +45,8 @@ object fNovaVersao: TfNovaVersao
       Width = 110
       Height = 32
       TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
-      Transparent = False
-      CheckedMode = False
-      ImageList = DM.ico_24x24
-      ImageIndex = 0
       TabStop = True
-      Down = False
-      GroupIndex = 0
       Caption = ' Sim'
-      NumGlyphs = 1
-      Spacing = 1
       Align = alRight
       OnClick = bsSkinButton3Click
     end
@@ -83,21 +57,13 @@ object fNovaVersao: TfNovaVersao
     Width = 105
     Height = 154
     TabOrder = 0
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alLeft
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 105
       Height = 154
-      DoubleBuffered = False
-      ImageIndex = 4
       Align = alClient
       Center = True
     end
@@ -108,13 +74,7 @@ object fNovaVersao: TfNovaVersao
     Width = 483
     Height = 154
     TabOrder = 1
-    DefaultWidth = 0
-    DefaultHeight = 0
-    CheckedMode = False
-    Checked = False
-    NumGlyphs = 1
-    Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alClient
     object lbl1: TLabel
       AlignWithMargins = True
@@ -122,7 +82,6 @@ object fNovaVersao: TfNovaVersao
       Top = 15
       Width = 473
       Height = 13
-      UseSkinColor = True
       Align = alTop
       Caption = 'H'#225' uma nova vers'#227'o dispon'#237'vel de sua colet'#226'nea.'
       Layout = tlCenter
@@ -133,7 +92,6 @@ object fNovaVersao: TfNovaVersao
       Top = 103
       Width = 473
       Height = 13
-      UseSkinColor = True
       Align = alTop
       Caption = 'Deseja baixar e atualizar sua colet'#226'nea?'
       Layout = tlCenter
@@ -153,7 +111,6 @@ object fNovaVersao: TfNovaVersao
         Top = 0
         Width = 110
         Height = 22
-        UseSkinColor = True
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -169,7 +126,6 @@ object fNovaVersao: TfNovaVersao
         Top = 0
         Width = 363
         Height = 22
-        UseSkinColor = True
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -186,7 +142,6 @@ object fNovaVersao: TfNovaVersao
         Top = 22
         Width = 110
         Height = 23
-        UseSkinColor = True
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -202,7 +157,6 @@ object fNovaVersao: TfNovaVersao
         Top = 22
         Width = 363
         Height = 23
-        UseSkinColor = True
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -227,23 +181,6 @@ object fNovaVersao: TfNovaVersao
     Visible = False
   end
   object OpenDialog1: TOpenDialog
-    ShowThumbnails = True
-    ShowHiddenFiles = False
-    ToolButtonsTransparent = False
-    OverwritePromt = False
-    DialogWidth = 0
-    DialogHeight = 0
-    DialogMinWidth = 0
-    DialogMinHeight = 0
-    CheckFileExists = True
-    MultiSelection = False
-    AlphaBlend = False
-    AlphaBlendValue = 225
-    CtrlAlphaBlend = False
-    CtrlAlphaBlendValue = 225
-    CtrlAlphaBlendAnimation = False
-    LVHeaderSkinDataName = 'header'
-    Title = 'Open file'
     Filter = 'All files|*.*'
     FilterIndex = 1
     Left = 496

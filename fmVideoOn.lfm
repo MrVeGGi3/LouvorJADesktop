@@ -93,7 +93,7 @@ object fVideoOn: TfVideoOn
     Height = 184
     Align = alClient
     BevelOuter = bvNone
-    Caption = 'pnlLoading'
+    Caption = ''
     Color = clBlack
     ParentBackground = False
     TabOrder = 0
@@ -102,9 +102,6 @@ object fVideoOn: TfVideoOn
       Top = 0
       Width = 945
       Height = 184
-      TabOrder = 0
-      DefaultWidth = 0
-      DefaultHeight = 0
       Transparent = True
       Alignment = taCenter
       Align = alClient

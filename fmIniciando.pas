@@ -49,7 +49,7 @@ implementation
 
 
 uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides,
-  fmBuscaMusica, fmItensAgendados, fmFormatacao;
+  fmBuscaMusica, fmItensAgendados, fmFormatacao, fmVideoOn, fmNovaVersao;
 
 procedure TfIniciando.AppCreateForm(InstanceClass: TComponentClass;
   var Reference);
@@ -563,6 +563,27 @@ begin
     begin
       Application.ProcessMessages;
       fmIndex.abreMonitorHeadless(paramexec.Strings.Values['monitor']);
+    end;
+
+    {LAZARUS: parâmetro nova_versao=1 abre fmNovaVersao para testes headless}
+    if paramexec.Strings.Values['nova_versao'] = '1' then
+    begin
+      Application.ProcessMessages;
+      AppCreateForm(TfNovaVersao, fNovaVersao);
+      fNovaVersao.lblVAtu.Caption := '26.6';
+      fNovaVersao.lblVNova.Caption := '99.0';
+      fNovaVersao.ShowModal;
+    end;
+
+    {LAZARUS: parâmetro videoon=1 abre fmVideoOn stub para testes headless}
+    if paramexec.Strings.Values['videoon'] = '1' then
+    begin
+      Application.ProcessMessages;
+      AppCreateForm(TfVideoOn, fVideoOn);
+      fVideoOn.videoID := 'dQw4w9WgXcQ';
+      fVideoOn.Caption := 'Teste VideoOn';
+      fVideoOn.AlphaBlendValue := 255;
+      fVideoOn.Show;
     end;
 
     //**CHECA VERSÃO E NOVAS VERSÕES********************************************
