@@ -479,6 +479,13 @@ begin
       fAtualiza.ShowModal;
     end;
 
+    {LAZARUS: parâmetro biblia=1 abre aba Bíblia para testes headless}
+    if paramexec.Strings.Values['biblia'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsBiblia);
+    end;
+
     {LAZARUS: parâmetro buscamusica=1 abre aba Busca de Músicas para testes headless}
     if paramexec.Strings.Values['buscamusica'] = '1' then
     begin
