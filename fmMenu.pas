@@ -12635,9 +12635,11 @@ begin
   end;
 
   {LAZARUS: corrige layout dos painéis da aba Bíblia — bsSkinExPanel7/8/5/bsSkinPanel4
-   todos tinham Align=alClient, sobrepondo-se; ajustaBibliaLayout usa posicionamento explícito}
+   todos tinham Align=alClient, sobrepondo-se; ajustaBibliaLayout usa posicionamento explícito.
+   ProcessMessages garante que o GTK2 processe o layout antes de ler ClientWidth/ClientHeight.}
   if not Assigned(GridPanel74.OnResize) then
     GridPanel74.OnResize := GridPanel74Resize;
+  Application.ProcessMessages;
   ajustaBibliaLayout;
 
 end;
@@ -15275,7 +15277,25 @@ procedure TfmIndex.ajustaBibliaLayout;
 var
   totalW, totalH, booksW, chapW, rowH: Integer;
 begin
-  if (GridPanel74 = nil) or (GridPanel74.ClientWidth = 0) or (GridPanel74.ClientHeight = 0) then Exit;
+  if GridPanel74 = nil then Exit;
+
+  {LAZARUS: desalinhar sempre para evitar sobreposição no LCL mesmo quando ClientWidth=0.
+   Os painéis têm Align=alClient no LFM; se saímos antes de setar alNone eles se sobrepõem.
+   Quando ClientWidth=0 o LCL pode ter redimensionado os painéis para 0x0 — restaurar bounds
+   do LFM como fallback para que fiquem visíveis até GridPanel74Resize refinar o layout.}
+  bsSkinExPanel7.Align := alNone;
+  bsSkinExPanel8.Align := alNone;
+  bsSkinExPanel5.Align := alNone;
+  bsSkinPanel4.Align   := alNone;
+
+  if (GridPanel74.ClientWidth = 0) or (GridPanel74.ClientHeight = 0) then
+  begin
+    bsSkinExPanel7.SetBounds(3,   0,   296, 434);
+    bsSkinExPanel8.SetBounds(305, 0,   294, 217);
+    bsSkinExPanel5.SetBounds(605, 0,   294, 217);
+    bsSkinPanel4.SetBounds(302,   217, 600, 217);
+    Exit;
+  end;
 
   totalW := GridPanel74.ClientWidth;
   totalH := GridPanel74.ClientHeight;
