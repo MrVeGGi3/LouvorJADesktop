@@ -12278,6 +12278,7 @@ begin
   Http := TFPHTTPClient.Create(nil);
   try
     try
+      Http.AllowRedirect := True;
       Http.Get(Origem, Destino);
       Result := True;
     except
