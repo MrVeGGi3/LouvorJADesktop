@@ -26,7 +26,7 @@ object fListaMusica: TfListaMusica
     Height = 137
     Align = alTop
     BevelOuter = bvNone
-    Caption = 'Panel1'
+    Caption = ''
     Color = 2302755
     ParentBackground = False
     TabOrder = 0
@@ -44,7 +44,7 @@ object fListaMusica: TfListaMusica
       Height = 137
       Align = alClient
       BevelOuter = bvNone
-      Caption = 'GridPanel1'
+      Caption = ''
       Color = 2302755
       ParentBackground = False
       TabOrder = 0
@@ -61,7 +61,7 @@ object fListaMusica: TfListaMusica
         Font.Style = []
         Align = alClient
         Alignment = taCenter
-        Caption = 'lblTitulo'
+        Caption = 'Album'
         ParentFont = False
         Layout = tlBottom
         WordWrap = True
@@ -79,7 +79,7 @@ object fListaMusica: TfListaMusica
         Font.Style = []
         Align = alClient
         Alignment = taCenter
-        Caption = 'lblSubtitulo'
+        Caption = ''
         ParentFont = False
         Layout = tlCenter
         WordWrap = True
@@ -91,7 +91,7 @@ object fListaMusica: TfListaMusica
         Height = 32
         Align = alClient
         BevelOuter = bvNone
-        Caption = 'pnlBotoes'
+        Caption = ''
         TabOrder = 0
         object bsSkinSpeedButton6: TSpeedButton
           AlignWithMargins = True
@@ -178,7 +178,7 @@ object fListaMusica: TfListaMusica
       Cursor = crHandPoint
       Align = alClient
       BevelOuter = bvNone
-      Caption = 'Panel2'
+      Caption = ''
       Color = 3487029
       ParentBackground = False
       TabOrder = 0
@@ -191,7 +191,7 @@ object fListaMusica: TfListaMusica
         Cursor = crHandPoint
         Align = alClient
         BevelOuter = bvNone
-        Caption = 'GridPanel2'
+        Caption = ''
         Color = 2302755
         Ctl3D = False
         ParentBackground = False
@@ -212,7 +212,7 @@ object fListaMusica: TfListaMusica
           Font.Style = []
           Align = alClient
           Alignment = taRightJustify
-          Caption = 'bsSkinDBText1'
+          Caption = ''
           Color = clBtnFace
           ParentColor = False
           ParentFont = False
@@ -250,7 +250,7 @@ object fListaMusica: TfListaMusica
           Font.Name = 'Arial'
           Font.Style = [fsBold]
           Align = alClient
-          Caption = 'bsSkinDBText2'
+          Caption = ''
           Color = clBtnFace
           ParentColor = False
           ParentFont = False
@@ -368,7 +368,7 @@ object fListaMusica: TfListaMusica
       Cursor = crHandPoint
       Align = alBottom
       BevelOuter = bvNone
-      Caption = 'Panel3'
+      Caption = ''
       Color = 5395026
       Ctl3D = False
       Font.Charset = DEFAULT_CHARSET

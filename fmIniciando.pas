@@ -653,6 +653,15 @@ begin
       fNovaVersao.ShowModal;
     end;
 
+    {LAZARUS: parâmetro lista_musica=N abre fmListaMusica com id_album=N para testes headless}
+    if paramexec.Strings.Values['lista_musica'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreListaMusicaHeadless(
+        StrToIntDef(paramexec.Strings.Values['lista_musica'], 1),
+        'Teste ListaMusica (album=' + paramexec.Strings.Values['lista_musica'] + ')');
+    end;
+
     {LAZARUS: parâmetro videoon=1 abre fmVideoOn stub para testes headless}
     if paramexec.Strings.Values['videoon'] = '1' then
     begin

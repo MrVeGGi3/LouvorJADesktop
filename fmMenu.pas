@@ -1728,6 +1728,7 @@ type
     procedure fExibeColetaneasPerso(ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
     procedure sbClick(Sender: TObject);
     procedure sbClickPerso(Sender: TObject);
+    procedure abreListaMusicaHeadless(id_album: integer; titulo: string = 'Álbum');
     procedure FormActivate(Sender: TObject);
     procedure tsHinarioShow(Sender: TObject);
     procedure txtHinoChange(Sender: TObject);
@@ -2846,6 +2847,30 @@ begin
   fListaMusica.pnlBotoes.Visible := True;
   {LAZARUS: TbsSkinButtonEx.ImageList.GetBitmap removido - TSpeedButton nao tem ImageList}
   fListaMusica.showmodal;
+end;
+
+procedure TfmIndex.abreListaMusicaHeadless(id_album: integer; titulo: string);
+var
+  dbgF: TextFile;
+begin
+  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Rewrite(dbgF);
+  WriteLn(dbgF, 'pre-AppCreateForm id=' + IntToStr(id_album)); CloseFile(dbgF);
+  fIniciando.AppCreateForm(TfListaMusica, fListaMusica);
+  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Append(dbgF);
+  WriteLn(dbgF, 'post-AppCreateForm'); CloseFile(dbgF);
+  fListaMusica.id_album := id_album;
+  fListaMusica.inicio := false;
+  fListaMusica.Caption := titulo;
+  fListaMusica.lblTitulo.Caption := titulo;
+  fListaMusica.lblSubtitulo.Caption := '';
+  fListaMusica.dir := '';
+  fListaMusica.DataSource := DM.dsMUSICAS;
+  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Append(dbgF);
+  WriteLn(dbgF, 'pre-ShowModal'); CloseFile(dbgF);
+  fListaMusica.pnlBotoes.Visible := True;
+  fListaMusica.ShowModal;
+  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Append(dbgF);
+  WriteLn(dbgF, 'post-ShowModal'); CloseFile(dbgF);
 end;
 
 function TfmIndex.FonteExiste(Fonte: STring): Boolean;
