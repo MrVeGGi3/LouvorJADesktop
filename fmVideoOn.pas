@@ -43,21 +43,27 @@ end;
 
 procedure TfVideoOn.FormActivate(Sender: TObject);
 var
-  dir: string;
+  dir, url: string;
 begin
   if (Trim(videoID) = '') then
     Exit;
 
   id := videoID;
-  videoID := '';
+  videoID := ''; {garante que o fallback só dispara uma vez por abertura}
 
-  wbVideo.Visible := false;
-  pnlLoading.Visible := not wbVideo.Visible;
+  wbVideo.Visible := True;
+  pnlLoading.Visible := False;
 
   dir := fmIndex.dir_temp + 'video.html';
   mmHTML.Lines.SaveToFile(dir);
-  {LAZARUS: wbVideo.Navigate removido — TWebBrowser OLE não disponível no Linux}
-  wbVideo.Lines.Text := 'Vídeo: ' + id; {LAZARUS: placeholder — usar WebKitGTK futuramente}
+
+  {LAZARUS: TWebBrowser (OLE/COM) indisponível no Linux — embed não renderiza in-process.
+   Fallback funcional: abre o vídeo no navegador padrão (mesma URL usada em fmMenu:11992).}
+  url := 'https://www.youtube.com/watch?v=' + id;
+  wbVideo.Lines.Text :=
+    'A reprodução de vídeo embutida não está disponível nesta versão (Linux).' + sLineBreak +
+    'Abrindo no navegador padrão:' + sLineBreak + url;
+  OpenURL(url);
 end;
 
 procedure TfVideoOn.FormClose(Sender: TObject; var Action: TCloseAction);
