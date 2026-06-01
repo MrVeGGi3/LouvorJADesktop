@@ -47,10 +47,10 @@ type
     procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure btExp_MenuMusicasShowTrackMenu(Sender: TObject);
+    procedure lstMusicasClick(Sender: TObject);
   private
-    { Private declarations }
+    lstMusicas: TListBox;
   public
-    { Public declarations }
     id_album: integer;
     dir: string;
     inicio: Boolean;
@@ -135,6 +135,34 @@ begin
       DM.qrMUSICAS.ParamByName('ID_ALBUM').Value := id_album;
       DM.qrMUSICAS.Open;
 
+      // Build scrollable list of all songs (TDBCtrlGrid iterava registros; TScrollBox não)
+      if lstMusicas = nil then
+      begin
+        Panel2.Parent := Self;
+        Panel2.Align := alBottom;
+        DBCtrlGrid.Visible := False;
+        lstMusicas := TListBox.Create(Self);
+        lstMusicas.Parent := Self;
+        lstMusicas.Align := alClient;
+        lstMusicas.Color := $232323;
+        lstMusicas.Font.Color := clWhite;
+        lstMusicas.Font.Height := 20;
+        lstMusicas.Font.Name := 'Arial';
+        lstMusicas.ItemHeight := 40;
+        lstMusicas.OnClick := lstMusicasClick;
+      end;
+      lstMusicas.Items.Clear;
+      DM.qrMUSICAS.First;
+      while not DM.qrMUSICAS.EOF do
+      begin
+        lstMusicas.Items.AddObject(
+          DM.qrMUSICAS.FieldByName('FAIXA').AsString + '  ' + DM.qrMUSICAS.FieldByName('NOME').AsString,
+          TObject(PtrInt(DM.qrMUSICAS.FieldByName('ID').AsInteger))
+        );
+        DM.qrMUSICAS.Next;
+      end;
+      DM.qrMUSICAS.First;
+
       if (fMonitorMenuMusicas <> nil) then
       begin
         fmIndex.copiaDadosTelaExtendida();
@@ -205,6 +233,16 @@ procedure TfListaMusica.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
   fmIndex.MouseWheel('Up', Sender, Shift, MousePos, Handled);
+end;
+
+procedure TfListaMusica.lstMusicasClick(Sender: TObject);
+var
+  id: Integer;
+begin
+  if lstMusicas.ItemIndex < 0 then Exit;
+  id := PtrInt(lstMusicas.Items.Objects[lstMusicas.ItemIndex]);
+  if not DM.qrMUSICAS.Locate('ID', id, []) then Exit;
+  fmIndex.dbctrlMusicasClick(lstMusicas);
 end;
 
 procedure TfListaMusica.FormResize(Sender: TObject);
