@@ -340,13 +340,7 @@ procedure TDM.tmrCronoTimer(Sender: TObject);
 var
   MyHora, MyMinuto, MySegundo, MyMiliSegundo: Word;
   Segundos: integer;
-  dbgF_tc: TextFile; {LAZARUS: debug temp}
 begin
-  {LAZARUS: debug temp — confirmar que timer dispara}
-  AssignFile(dbgF_tc, '/tmp/louvorja_tmrcrono.txt');
-  if FileExists('/tmp/louvorja_tmrcrono.txt') then System.Append(dbgF_tc) else Rewrite(dbgF_tc);
-  WriteLn(dbgF_tc, 'tmrCronoTimer fired at '+FormatDateTime('hh:nn:ss.zzz', Now));
-  CloseFile(dbgF_tc);
   with fmIndex do
   begin
     if rbDirecao.ItemIndex = 0 then

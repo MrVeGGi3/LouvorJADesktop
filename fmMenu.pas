@@ -2697,7 +2697,7 @@ begin
     try
       Button := TSpeedButton {LAZARUS: TbsSkinButtonEx}.Create(ScrollBox);
       Button.Visible := False;
-      dirIMG := dir_config + 'capas\' + DM.qrALBUNS.FieldByName('IMAGEM').AsString;
+      dirIMG := dir_config + 'capas/' {LAZARUS: '\' → '/' separador Linux} + DM.qrALBUNS.FieldByName('IMAGEM').AsString;
       with Button do
       begin
         Parent := ScrollBox;
@@ -2850,14 +2850,8 @@ begin
 end;
 
 procedure TfmIndex.abreListaMusicaHeadless(id_album: integer; titulo: string);
-var
-  dbgF: TextFile;
 begin
-  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Rewrite(dbgF);
-  WriteLn(dbgF, 'pre-AppCreateForm id=' + IntToStr(id_album)); CloseFile(dbgF);
   fIniciando.AppCreateForm(TfListaMusica, fListaMusica);
-  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Append(dbgF);
-  WriteLn(dbgF, 'post-AppCreateForm'); CloseFile(dbgF);
   fListaMusica.id_album := id_album;
   fListaMusica.inicio := false;
   fListaMusica.Caption := titulo;
@@ -2865,12 +2859,8 @@ begin
   fListaMusica.lblSubtitulo.Caption := '';
   fListaMusica.dir := '';
   fListaMusica.DataSource := DM.dsMUSICAS;
-  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Append(dbgF);
-  WriteLn(dbgF, 'pre-ShowModal'); CloseFile(dbgF);
   fListaMusica.pnlBotoes.Visible := True;
   fListaMusica.ShowModal;
-  AssignFile(dbgF, '/tmp/lj_lm_dbg.txt'); Append(dbgF);
-  WriteLn(dbgF, 'post-ShowModal'); CloseFile(dbgF);
 end;
 
 function TfmIndex.FonteExiste(Fonte: STring): Boolean;
@@ -3872,7 +3862,7 @@ begin
     DM.ico_doxologia.Clear;
     while not DM.qrDOXOLOGIA_CATE.eof do
     begin
-      dir := dir_config + 'capas\';
+      dir := dir_config + 'capas/' {LAZARUS: '\' → '/' separador Linux};
       {LAZARUS: bgDoxologiaCate.Items.Add.Caption — TToolBar nao tem Items.Add.Caption}
       lbbgDoxologiaCate.Items.Add(DM.qrDOXOLOGIA_CATE.FieldByName('ID').AsString);
       i := lbbgDoxologiaCate.Items.Count - 1; {LAZARUS: bgDoxologiaCate.Items.Count -> lbbgDoxologiaCate.Items.Count}
@@ -9274,8 +9264,9 @@ begin
   while not DM.qrARQUIVOS_SISTEMA.eof do
   begin
     url := DM.qrARQUIVOS_SISTEMA.FieldByName('URL').AsString;
+    url := StringReplace(url, '\', PathDelim, [rfReplaceAll]); {LAZARUS: normaliza separador Windows→OS p/ acesso ao FS local}
     if (fIniciando.paramexec.Strings.Values['dir_config'] <> '') then
-      url := StringReplace(url,'config\',fIniciando.paramexec.Strings.Values['dir_config']+'\',[rfIgnoreCase, rfReplaceAll]);
+      url := StringReplace(url,'config'+PathDelim,fIniciando.paramexec.Strings.Values['dir_config']+PathDelim,[rfIgnoreCase, rfReplaceAll]);
     existe := (FileExists(ExtractFilePath(application.ExeName)+'/'+url));
 
     if not existe then
@@ -9488,14 +9479,14 @@ begin
 
   lblStatusHlp.Caption := 'Buscando Arquivos de Ajuda...';
   Application.ProcessMessages;
-  if not FileExists(dir_config+'help\menu.hja') then
+  if not FileExists(dir_config+'help/menu.hja' {LAZARUS: '\' → '/' separador Linux}) then
   begin
     lbHlpFalta.Items.Add('menu.hja');
     lblStatusHlp.Caption := 'Arquivo de Menu não encontrado. Finalizado!';
     Exit;
   end;
 
-  lbHlpTemp.lines.LoadFromFile(dir_config+'help\menu.hja');
+  lbHlpTemp.lines.LoadFromFile(dir_config+'help/menu.hja' {LAZARUS: '\' → '/' separador Linux});
   lbHlpArquivos.Items.Add('menu.hja');
   for i := 0 to lbHlpTemp.lines.Count-1 do
   begin
@@ -9504,7 +9495,7 @@ begin
 
     if item[1] = '_' then Continue;
 
-    if not FileExists(dir_config+'help\'+item[1]) then
+    if not FileExists(dir_config+'help/'+item[1]) then {LAZARUS: '\' → '/' separador Linux}
     begin
       if lbHlpFalta.Items.IndexOf(item[1]) < 0
         then lbHlpFalta.Items.Add(item[1]);
@@ -9525,7 +9516,7 @@ begin
     Application.ProcessMessages;
 
     lbHlpTemp.Lines.Clear;
-    lbHlpTemp.Lines.LoadFromFile(dir_config+'help\'+lbHlpArquivos.Items[i]);
+    lbHlpTemp.Lines.LoadFromFile(dir_config+'help/'+lbHlpArquivos.Items[i]); {LAZARUS: '\' → '/' separador Linux}
     lbHlpTemp.Text := StringReplace(lbHlpTemp.Text, #13#10, '', [rfIgnoreCase, rfReplaceAll]);
     lbHlpTemp.Text := StringReplace(lbHlpTemp.Text, ' ', '', [rfIgnoreCase, rfReplaceAll]);
     lbHlpTemp.Text := StringReplace(lbHlpTemp.Text, '[DIR_HLP]', '', [rfIgnoreCase, rfReplaceAll]);
@@ -9535,7 +9526,7 @@ begin
       str := Copy(lbHlpTemp.Text,0,pos('''',lbHlpTemp.Text)-1);
       lbHlpTemp.Text := Copy(lbHlpTemp.Text,pos('''',lbHlpTemp.Text)+1,length(lbHlpTemp.Text));
 
-      if not FileExists(dir_config+'help\imgs\'+str) then
+      if not FileExists(dir_config+'help/imgs/'+str) then {LAZARUS: '\' → '/' separador Linux}
       begin
         if lbHlpFalta.Items.IndexOf(str) < 0
           then lbHlpFalta.Items.Add(str);
@@ -13137,7 +13128,7 @@ begin
       else
         input.Text := 'I';
     end
-    else if (FileExists(dirCol + '\' + dirArqPart)) then
+    else if (FileExists(dirCol + dirArqPart)) then {LAZARUS: removido '\' redundante — dirCol já termina em separador}
       input.Text := 'I'
     else
       input.Text := 'E';

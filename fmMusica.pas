@@ -739,7 +739,7 @@ begin
           uimg := aimg;
           upos := apos;
         end;
-        DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM').Value := fmIndex.dir_config+'imagens\'+aimg;
+        DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM').Value := fmIndex.dir_config+'imagens/'+aimg; {LAZARUS: '\' → '/' separador Linux}
         DM.cdsSLIDE_MUSICA.FieldByName('IMAGEM_POSICAO').Value := '0'+apos;
       end;
 

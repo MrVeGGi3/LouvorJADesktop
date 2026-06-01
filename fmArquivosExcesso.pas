@@ -136,10 +136,10 @@ begin
     begin
       if DirectoryExists(raiz + dir + SearchRec.Name) then
       begin
-        if (dir+SearchRec.Name <> 'config\imagens_hlp') then //ignorar diretorio
+        if (dir+SearchRec.Name <> 'config'+PathDelim+'imagens_hlp') then //ignorar diretorio {LAZARUS: '\' → PathDelim}
         begin
           subitems.Clear;
-          subitems := listaArquivos(raiz,dir + SearchRec.Name + '\');
+          subitems := listaArquivos(raiz,dir + SearchRec.Name + PathDelim); {LAZARUS: '\' → PathDelim}
           if subitems.Count <= 0
             then RemoveDir(dir + SearchRec.Name)
             else items.AddStrings(subitems);
@@ -187,8 +187,9 @@ begin
   while not qrVERIFICA.eof do
   begin
     url := qrVERIFICA.FieldByName('URL').AsString;
+    url := StringReplace(url, '\', PathDelim, [rfReplaceAll]); {LAZARUS: normaliza separador Windows→OS p/ casar com listaArquivos}
     if (fIniciando.paramexec.Strings.Values['dir_config'] <> '') then
-      url := StringReplace(url,'config\',fIniciando.paramexec.Strings.Values['dir_config']+'\',[rfIgnoreCase, rfReplaceAll]);
+      url := StringReplace(url,'config'+PathDelim,fIniciando.paramexec.Strings.Values['dir_config']+PathDelim,[rfIgnoreCase, rfReplaceAll]);
 
     gProgresso.Position := qrVERIFICA.RecNo;
     i := lbArquivos.Items.IndexOf(url);

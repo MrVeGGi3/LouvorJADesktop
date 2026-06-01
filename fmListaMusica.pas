@@ -180,8 +180,8 @@ begin
       DM.cdsArquivos.First;
       while not DM.cdsArquivos.EOF do DM.cdsArquivos.Delete;
 
-      dir := dir+'\';
-      dir := StringReplace(dir,'\\','\',[rfIgnoreCase, rfReplaceAll]);
+      dir := StringReplace(dir,'\',PathDelim,[rfIgnoreCase, rfReplaceAll]); {LAZARUS: normaliza separador Windows→OS}
+      dir := IncludeTrailingPathDelimiter(dir);
 
       if not(DirectoryExists(dir)) then
         Exit;

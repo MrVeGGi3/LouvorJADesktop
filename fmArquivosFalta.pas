@@ -219,8 +219,9 @@ begin
   while not DM.qrARQUIVOS_SISTEMA.eof do
   begin
     url := DM.qrARQUIVOS_SISTEMA.FieldByName('URL').AsString;
+    url := StringReplace(url, '\', PathDelim, [rfReplaceAll]); {LAZARUS: normaliza separador Windows→OS (FileExists local + download tolera '/')}
     if (fIniciando.paramexec.Strings.Values['dir_config'] <> '') then
-      url := StringReplace(url,'config\',fIniciando.paramexec.Strings.Values['dir_config']+'\',[rfIgnoreCase, rfReplaceAll]);
+      url := StringReplace(url,'config'+PathDelim,fIniciando.paramexec.Strings.Values['dir_config']+PathDelim,[rfIgnoreCase, rfReplaceAll]);
 //      showmessage(url);
     lblStatus.Caption := 'Verificando... '+inttostr(DM.qrARQUIVOS_SISTEMA.RecNo)+' / '+inttostr(DM.qrARQUIVOS_SISTEMA.RecordCount);
     existe := (FileExists(ExtractFilePath(application.ExeName)+'/'+url));

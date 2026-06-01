@@ -91,12 +91,12 @@ var
   Result : Integer;
   SearchRec: TSearchRec;
 begin
-  if (DirectoryExists(ExtractFilePath(application.ExeName)+'setup\Output')) then
+  if (DirectoryExists(ExtractFilePath(application.ExeName)+'setup/Output')) then {LAZARUS: '\' → '/' separador Linux}
   begin
-    result := FindFirst(ExtractFilePath(application.ExeName)+'setup\Output\*.*', faAnyFile, SearchRec);
+    result := FindFirst(ExtractFilePath(application.ExeName)+'setup/Output/*.*', faAnyFile, SearchRec);
     While Result = 0 do
     begin
-      DeleteFile(ExtractFilePath(application.ExeName)+'setup\Output\' + SearchRec.Name);
+      DeleteFile(ExtractFilePath(application.ExeName)+'setup/Output/' + SearchRec.Name);
       Result := FindNext(SearchRec);
     end;
   end;
@@ -115,7 +115,7 @@ begin
   timer1.Enabled := false;
 
 
-  arquivo := fmIndex.dir_temp + '\'+LowerCase(fIniciando.LANG)+'_'+fmIndex.param.Strings.Values['setup_name'];
+  arquivo := fmIndex.dir_temp + LowerCase(fIniciando.LANG)+'_'+fmIndex.param.Strings.Values['setup_name']; {LAZARUS: dir_temp já termina em separador — removido '\'}
   baixado := fmIndex.DownloadArquivo(fmIndex.param.Strings.Values[LowerCase(fIniciando.LANG)+'_download']+'?lang='+fIniciando.LANG,arquivo);
 
 
