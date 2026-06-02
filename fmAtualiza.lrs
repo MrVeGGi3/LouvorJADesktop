@@ -38,5 +38,6 @@ LazarusResources.Add('TfAtualiza','FORMDATA',[
   +'ftp'#4'Left'#2#0#3'Top'#2#0#5'Width'#3#128#0#6'Height'#2'z'#7'Visible'#8#8
   +'TabOrder'#2#2#9'ColWidths'#1#2';'#2'?'#0#0#0#6'TTimer'#8'tmrFecha'#7'Enable'
   +'d'#8#8'Interval'#2#10#7'OnTimer'#7#13'tmrFechaTimer'#4'Left'#2'h'#3'Top'#2
-  +#24#0#0#0
+  +#24#0#0#6'TTimer'#9'tmrInicio'#7'Enabled'#8#8'Interval'#3#150#0#7'OnTimer'#7
+  +#14'tmrInicioTimer'#4'Left'#2'h'#3'Top'#2'8'#0#0#0
 ]);

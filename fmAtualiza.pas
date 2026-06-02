@@ -24,6 +24,7 @@ type
     bsSkinPanel1: TPanel {LAZARUS: TbsSkinPanel};
     bsSkinButton2: TButton {LAZARUS: TbsSkinButton};
     tmrFecha: TTimer;
+    tmrInicio: TTimer;
     ftp: TValueListEditor;
     sStatus: TLabel {LAZARUS: TbsSkinLabel};
     procedure FormActivate(Sender: TObject);
@@ -31,6 +32,7 @@ type
     procedure ftp_baixa();
     procedure bsSkinButton2Click(Sender: TObject);
     procedure tmrFechaTimer(Sender: TObject);
+    procedure tmrInicioTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
@@ -330,6 +332,21 @@ begin
 end;
 
 procedure TfAtualiza.FormActivate(Sender: TObject);
+begin
+  {LAZARUS: todo o trabalho bloqueante (HTTP/FTP) movido para tmrInicioTimer.
+   FormActivate retorna imediatamente para o GTK poder pintar a janela antes
+   de qualquer chamada de rede travar a thread principal.}
+  cancela := False;
+  erro := False;
+  tmrFecha.Enabled := False;
+  arquivos_falha := TStringList.Create;
+  sStatus.Caption := '';
+  sTitulo.Caption := 'Buscando informações...';
+  pbProgresso.Style := pbstMarquee;
+  tmrInicio.Enabled := True;
+end;
+
+procedure TfAtualiza.tmrInicioTimer(Sender: TObject);
 var
   lParams: string;
   ret_ftp: string;
@@ -338,19 +355,9 @@ var
   dados_ftp: Boolean;
   tentat: Integer;
 begin
-  cancela := False;
-  erro := False;
-
-  tmrFecha.Enabled := False;
-  arquivos_falha := TStringList.Create;
-  sStatus.Caption := '';
+  tmrInicio.Enabled := False;
 
   fmIndex.gravaLog('Conectando FTP');
-
-  sTitulo.Caption := 'Buscando informações...';
-  pbProgresso.Style := pbstMarquee;
-  Application.ProcessMessages; {LAZARUS: forçar repaint antes de chamada HTTP bloqueante}
-
   fmIndex.gravaLog('URL: ' + fmIndex.url_params);
 
   try
@@ -547,10 +554,11 @@ begin
   except
   end;
   ftp_baixa();
-end;
+end; {tmrInicioTimer}
 
 procedure TfAtualiza.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  tmrInicio.Enabled := False;
   tmrFecha.Enabled := False;
 end;
 

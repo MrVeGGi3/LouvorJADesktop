@@ -168,4 +168,11 @@ object fAtualiza: TfAtualiza
     Left = 104
     Top = 24
   end
+  object tmrInicio: TTimer
+    Enabled = False
+    Interval = 150
+    OnTimer = tmrInicioTimer
+    Left = 104
+    Top = 56
+  end
 end
