@@ -399,6 +399,14 @@ begin
     Application.ProcessMessages; {LAZARUS: drena fila de eventos GTK pendentes após Show() — necessário pois o fade-in foi removido}
     {LAZARUS: esconder splash ANTES de carregaParams — evita janela em branco bloqueando input
      durante chamada de rede de até 12s (ConnectTimeout 5s + Sleep 2s + retry 5s)}
+    {LAZARUS: fIniciando é o Application.MainForm (1ª form visível criada). Em compositores
+     Wayland/COSMIC (XWayland), uma janela bsNone só com Visible:=False permanece como janela
+     vazia fantasma (o compositor remapeia a janela do MainForm). Encolhe p/ 1x1 fora da tela
+     ENQUANTO ainda visível (para o widget GTK aplicar o novo tamanho) e só então oculta —
+     assim, mesmo que o compositor a remapeie, ela fica 1x1 invisível.}
+    fIniciando.ShowInTaskBar := stNever;
+    fIniciando.SetBounds(-30000, -30000, 1, 1);
+    Application.ProcessMessages;
     fIniciando.Visible := False;
     Application.ProcessMessages;
 
