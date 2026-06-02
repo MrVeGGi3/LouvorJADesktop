@@ -2347,7 +2347,12 @@ end;
 
 procedure TfmIndex.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  RichEdit1Exit(RichEdit1);
+  {LAZARUS: proteger o save das anotações — se SaveToFile falhar, NÃO pode bloquear o
+   encerramento do app (era causa de "o botão fechar não funciona")}
+  try
+    RichEdit1Exit(RichEdit1);
+  except
+  end;
   DM.tmrSair.Enabled := true;
 end;
 

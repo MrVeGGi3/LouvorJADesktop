@@ -487,7 +487,12 @@ end;
 
 procedure TDM.tmrSairTimer(Sender: TObject);
 begin
+  tmrSair.Enabled := False;
+  {LAZARUS: Application.Terminate sozinho NÃO encerra o processo quando o MainForm é o
+   splash (fIniciando) oculto — o loop GTK2 continua vivo. Halt(0) garante o encerramento.
+   Estado crítico (config/anotações) já foi salvo em FormClose antes do timer disparar.}
   Application.Terminate;
+  Halt(0);
 end;
 
 procedure TDM.tmrSortearNMTimer(Sender: TObject);
