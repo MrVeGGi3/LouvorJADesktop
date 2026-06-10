@@ -1952,6 +1952,7 @@ type
     procedure bsSkinSpeedButton53Click(Sender: TObject);
     procedure bsSkinSpeedButton54Click(Sender: TObject);
     procedure bsSkinSpeedButton55Click(Sender: TObject);
+    procedure btCopiaLitSelClick(Sender: TObject); {LAZARUS: port upstream 1570e57}
     procedure btApagaLitSelClick(Sender: TObject);
     procedure bsSkinSpeedButton58Click(Sender: TObject);
     procedure bsSkinButton25Click(Sender: TObject);
@@ -2307,6 +2308,12 @@ type
     arq_liturgia: string;
     senha_bd: string;
 
+    {LAZARUS: port upstream 1570e57 — copiar itens da liturgia p/ outros dias.
+     btCopiaLitSel é criado em runtime (LFM é gerado pela IDE; ver FormCreate)}
+    FLitClipboard: TStringList;
+    FLitClipboardSemana: Integer;
+    btCopiaLitSel: TSpeedButton;
+
     {LAZARUS: cache do TMemIniFile de liturgia.ja para evitar múltiplas leituras de disco}
     FLiturgiaIniCache: TMemIniFile;
 
@@ -2316,6 +2323,8 @@ type
     PlayerStream: HSTREAM;
     BassPreviewChannel: HCHANNEL;
     BassPreviewFile: string; {LAZARUS: mpMusica.FileName substituido}
+
+    procedure criaBotaoCopiaLiturgia; {LAZARUS: port 1570e57 — botão runtime no ribbon}
 
     {LAZARUS: métodos públicos para testes headless}
     procedure abreHelp;
@@ -2340,7 +2349,8 @@ uses
   fmTransmitir, fmMusicaRetorno, fmMonitorRelogio, fmMonitorTextoInterativo,
   fmMonitorPainelDinamico, fmMonitorCronometro, fmMonitorSorteioNomes,
   fmMonitorSorteio, fmMonitorCronometroCulto, fmMonitorBibliaBusca,
-  fmMonitorBiblia, fmMonitorMenuMusicas, fmIdentificaMonitores;
+  fmMonitorBiblia, fmMonitorMenuMusicas, fmIdentificaMonitores,
+  fmCopiaLiturgiaDia;
 
 Function TfmIndex.VersaoExe: String;
 {LAZARUS: GetFileVersionInfoSize/VerQueryValue removidos — Windows API}
@@ -2432,6 +2442,69 @@ begin
    AllowDropFiles+OnDropFiles (LCL, cross-platform)}
   Self.AllowDropFiles := True;
   Self.OnDropFiles := FormDropFiles;
+
+  {LAZARUS: port upstream 1570e57 — botão "Copiar Selecionados" no ribbon da
+   liturgia. No upstream o botão vem do DFM; aqui é criado em runtime (LFM é
+   gerado pela IDE). Ícone 056.png embutido via icone056.lrs → DM.ico_40x40.}
+  FLitClipboard := TStringList.Create;
+  FLitClipboardSemana := 0;
+  criaBotaoCopiaLiturgia;
+end;
+
+{LAZARUS: port upstream 1570e57 — cria btCopiaLitSel espelhando btApagaLitSel}
+procedure TfmIndex.criaBotaoCopiaLiturgia;
+var
+  png: TPortableNetworkGraphic;
+  bmp: Graphics.TBitmap;
+  idx: Integer;
+begin
+  idx := -1;
+  png := TPortableNetworkGraphic.Create;
+  try
+    try
+      png.LoadFromLazarusResource('056');
+      {ícone é 40x39 — centraliza num bitmap 40x40 do tamanho do ImageList}
+      bmp := Graphics.TBitmap.Create;
+      try
+        bmp.PixelFormat := pf32bit;
+        bmp.SetSize(DM.ico_40x40.Width, DM.ico_40x40.Height);
+        bmp.Canvas.Brush.Color := clFuchsia;
+        bmp.Canvas.FillRect(0, 0, bmp.Width, bmp.Height);
+        bmp.Canvas.Draw((bmp.Width - png.Width) div 2,
+                        (bmp.Height - png.Height) div 2, png);
+        idx := DM.ico_40x40.AddMasked(bmp, clFuchsia);
+      finally
+        bmp.Free;
+      end;
+    except
+      idx := -1; {sem ícone — botão só com caption}
+    end;
+  finally
+    png.Free;
+  end;
+
+  btCopiaLitSel := TSpeedButton.Create(Self);
+  btCopiaLitSel.Name := 'btCopiaLitSel';
+  btCopiaLitSel.Parent := btApagaLitSel.Parent;
+  btCopiaLitSel.Width := btApagaLitSel.Width;
+  btCopiaLitSel.Left := btApagaLitSel.Left - 1; {antes do Apagar na pilha alRight}
+  btCopiaLitSel.Top := btApagaLitSel.Top;
+  btCopiaLitSel.Height := btApagaLitSel.Height;
+  btCopiaLitSel.Caption := 'Copiar Selecionados';
+  btCopiaLitSel.Layout := blGlyphTop;
+  btCopiaLitSel.Spacing := 1;
+  btCopiaLitSel.Flat := btApagaLitSel.Flat;
+  btCopiaLitSel.Transparent := btApagaLitSel.Transparent;
+  if idx >= 0 then
+  begin
+    btCopiaLitSel.Images := DM.ico_40x40;
+    btCopiaLitSel.ImageIndex := idx;
+    DM.ico_40x40.GetBitmap(idx, btCopiaLitSel.Glyph); {mesmo workaround do FormCreate}
+  end;
+  btCopiaLitSel.OnClick := btCopiaLitSelClick;
+  btCopiaLitSel.Align := alRight;
+  {alarga o grupo do ribbon para caber o novo botão (235→342 no upstream)}
+  btApagaLitSel.Parent.Width := btApagaLitSel.Parent.Width + btCopiaLitSel.Width;
 end;
 
 procedure TfmIndex.FormDestroy(Sender: TObject);
@@ -2440,6 +2513,7 @@ begin
   usaFontes(false);
   RecursiveDelete(dir_temp);
   FreeAndNil(FLiturgiaIniCache); {LAZARUS: libera cache do TMemIniFile de liturgia.ja}
+  FreeAndNil(FLitClipboard); {LAZARUS: port 1570e57}
 end;
 
 procedure TfmIndex.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -11720,6 +11794,130 @@ begin
   end;
 end;
 
+{LAZARUS: port upstream 1570e57 — copia os itens selecionados da liturgia para
+ outros dias da semana, com opção de sobrescrever o conteúdo do dia destino}
+procedure TfmIndex.btCopiaLitSelClick(Sender: TObject);
+var
+  i, k, dia: Integer;
+  item, novoId, semanaStr: string;
+  checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
+  dlg: TfCopiaLiturgiaDia;
+  diaOrigem: Integer;
+  diasDestino: TArray<Integer>;
+  itensExistentes, existingIds, keys: TStringList;
+  iniRead: TMemIniFile;
+  params: array of TParamItem;
+
+  procedure AddParam(const grupo, param, valor: string);
+  begin
+    SetLength(params, Length(params) + 1);
+    params[High(params)].Grupo := grupo;
+    params[High(params)].Param := param;
+    params[High(params)].Valor := valor;
+  end;
+begin
+  FLitClipboard.Clear;
+  for i := 0 to lbLiturgia.Items.Count - 1 do
+  begin
+    item := lbLiturgia.Items[i];
+    checkbox := TCheckBox(FindComponent(item + '_checkb'));
+    if Assigned(checkbox) and checkbox.Checked then
+      FLitClipboard.Add(item);
+  end;
+
+  if FLitClipboard.Count = 0 then
+  begin
+    Application.MessageBox('Selecione ao menos um item para copiar!', TITULO, MB_OK + MB_ICONINFORMATION);
+    Exit;
+  end;
+
+  diaOrigem := StrToIntDef(loadCol.Strings.Values['LITURGIA:SEMANA'], DayOfWeek(Now));
+  FLitClipboardSemana := diaOrigem;
+
+  dlg := TfCopiaLiturgiaDia.CreateDialog(Self, diaOrigem);
+  try
+    if dlg.ShowModal <> mrOk then Exit;
+    diasDestino := dlg.GetDiasSelecionados;
+
+    if Length(diasDestino) = 0 then
+    begin
+      Application.MessageBox('Selecione ao menos um dia de destino!', TITULO, MB_OK + MB_ICONINFORMATION);
+      Exit;
+    end;
+
+    for dia in diasDestino do
+    begin
+      semanaStr := IntToStr(dia);
+      itensExistentes := TStringList.Create;
+      try
+        if dlg.GetSobrescrever then
+        begin
+          existingIds := TStringList.Create;
+          try
+            existingIds.Delimiter := ';';
+            existingIds.DelimitedText := lerParam('Geral', semanaStr, '', arq_liturgia);
+            for k := 0 to existingIds.Count - 1 do
+              if Trim(existingIds[k]) <> '' then
+                apagaParam(existingIds[k], '', arq_liturgia);
+          finally
+            existingIds.Free;
+          end;
+        end
+        else
+        begin
+          itensExistentes.Delimiter := ';';
+          itensExistentes.DelimitedText := lerParam('Geral', semanaStr, '', arq_liturgia);
+          for k := itensExistentes.Count - 1 downto 0 do
+            if Trim(itensExistentes[k]) = '' then
+              itensExistentes.Delete(k);
+        end;
+
+        for i := 0 to FLitClipboard.Count - 1 do
+        begin
+          item := FLitClipboard[i];
+          novoId := 'item_' + FormatDateTime('yyyymmddhhnnsszzz', Now)
+                    + '_d' + semanaStr + '_i' + IntToStr(i);
+          SetLength(params, 0);
+
+          keys := TStringList.Create;
+          try
+            iniRead := abreIniLiturgia;
+            try
+              iniRead.ReadSection(item, keys);
+              for k := 0 to keys.Count - 1 do
+                if keys[k] <> 'checked' then
+                  AddParam(novoId, keys[k], iniRead.ReadString(item, keys[k], ''));
+            finally
+              iniRead.Free;
+            end;
+          finally
+            keys.Free;
+          end;
+
+          if Length(params) > 0 then
+            gravaParamLote(arq_liturgia, params);
+          itensExistentes.Add(novoId);
+        end;
+
+        gravaParam('Geral', semanaStr,
+          StringReplace(itensExistentes.Text, #13#10, ';', [rfIgnoreCase, rfReplaceAll]),
+          arq_liturgia);
+        gravaParam('Geral', 'AlteraOrdem-' + semanaStr,
+          FormatDateTime('dd/mm/yyyy hh:mm:ss', Now), arq_liturgia);
+      finally
+        itensExistentes.Free;
+      end;
+    end;
+
+    Application.MessageBox(
+      PChar('Itens copiados com sucesso para ' + IntToStr(Length(diasDestino)) + ' dia(s)!'),
+      TITULO, MB_OK + MB_ICONINFORMATION);
+
+  finally
+    dlg.Free;
+  end;
+end;
+
 procedure TfmIndex.btApagaLitSelClick(Sender: TObject);
 var
   i: integer;
@@ -16474,5 +16672,6 @@ end;
 
 initialization
   {$I fmMenu.lrs}
+  {$I icone056.lrs} {LAZARUS: ícone 40x40 "Copiar Selecionados" (upstream 1570e57)}
 
 end.
