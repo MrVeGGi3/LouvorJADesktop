@@ -1730,6 +1730,7 @@ type
     procedure sbClick(Sender: TObject);
     procedure sbClickPerso(Sender: TObject);
     procedure abreListaMusicaHeadless(id_album: integer; titulo: string = 'Álbum');
+    procedure abreListaDirHeadless(dir: string); {LAZARUS: param headless lista_dir=}
     procedure avancaSlideHeadless(Sender: TObject); {LAZARUS: param headless autoslide=1}
     procedure FormActivate(Sender: TObject);
     procedure tsHinarioShow(Sender: TObject);
@@ -2948,6 +2949,21 @@ begin
   fListaMusica.dir := '';
   fListaMusica.DataSource := DM.dsMUSICAS;
   fListaMusica.pnlBotoes.Visible := True;
+  fListaMusica.ShowModal;
+end;
+
+{LAZARUS: abre fmListaMusica em modo arquivo (dsArquivos) — param headless lista_dir=}
+procedure TfmIndex.abreListaDirHeadless(dir: string);
+begin
+  fIniciando.AppCreateForm(TfListaMusica, fListaMusica);
+  fListaMusica.id_album := 0;
+  fListaMusica.inicio := false;
+  fListaMusica.Caption := 'Teste ListaDir';
+  fListaMusica.lblTitulo.Caption := 'Teste ListaDir';
+  fListaMusica.lblSubtitulo.Caption := '';
+  fListaMusica.dir := dir;
+  fListaMusica.DataSource := DM.dsArquivos;
+  fListaMusica.pnlBotoes.Visible := False;
   fListaMusica.ShowModal;
 end;
 

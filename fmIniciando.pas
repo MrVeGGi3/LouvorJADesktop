@@ -691,6 +691,13 @@ begin
         'Teste ListaMusica (album=' + paramexec.Strings.Values['lista_musica'] + ')');
     end;
 
+    {LAZARUS: parâmetro lista_dir=/caminho abre fmListaMusica em modo arquivo p/ testes headless}
+    if paramexec.Strings.Values['lista_dir'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abreListaDirHeadless(paramexec.Strings.Values['lista_dir']);
+    end;
+
     {LAZARUS: parâmetro videoon=1 abre fmVideoOn stub para testes headless}
     if paramexec.Strings.Values['videoon'] = '1' then
     begin

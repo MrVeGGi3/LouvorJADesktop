@@ -50,11 +50,14 @@ type
     procedure lstMusicasClick(Sender: TObject);
   private
     lstMusicas: TListBox;
+    FArqPaths: TStringList; {LAZARUS: caminhos paralelos aos itens no modo arquivo}
+    procedure garanteListaMusicas;
   public
     id_album: integer;
     dir: string;
     inicio: Boolean;
     DataSource: TDataSource; {LAZARUS: campo manual — TScrollBox nao tem DataSource como TDBCtrlGrid}
+    destructor Destroy; override;
   end;
 
 var
@@ -64,6 +67,32 @@ implementation
 
 
 uses fmMenu, dmComponentes, fmMonitorMenuMusicas;
+
+destructor TfListaMusica.Destroy;
+begin
+  FArqPaths.Free;
+  inherited Destroy;
+end;
+
+{LAZARUS: o TDBCtrlGrid original iterava os registros; o TScrollBox substituto
+ mostrava só o registro corrente. Lista todas as entradas num TListBox criado
+ em runtime — usado pelos modos BD (dsMUSICAS) e arquivo (dsArquivos).}
+procedure TfListaMusica.garanteListaMusicas;
+begin
+  if lstMusicas <> nil then Exit;
+  Panel2.Parent := Self;
+  Panel2.Align := alBottom;
+  DBCtrlGrid.Visible := False;
+  lstMusicas := TListBox.Create(Self);
+  lstMusicas.Parent := Self;
+  lstMusicas.Align := alClient;
+  lstMusicas.Color := $232323;
+  lstMusicas.Font.Color := clWhite;
+  lstMusicas.Font.Height := 20;
+  lstMusicas.Font.Name := 'Arial';
+  lstMusicas.ItemHeight := 40;
+  lstMusicas.OnClick := lstMusicasClick;
+end;
 
 procedure TfListaMusica.bsSkinSpeedButton6Click(Sender: TObject);
 begin
@@ -136,21 +165,7 @@ begin
       DM.qrMUSICAS.Open;
 
       // Build scrollable list of all songs (TDBCtrlGrid iterava registros; TScrollBox não)
-      if lstMusicas = nil then
-      begin
-        Panel2.Parent := Self;
-        Panel2.Align := alBottom;
-        DBCtrlGrid.Visible := False;
-        lstMusicas := TListBox.Create(Self);
-        lstMusicas.Parent := Self;
-        lstMusicas.Align := alClient;
-        lstMusicas.Color := $232323;
-        lstMusicas.Font.Color := clWhite;
-        lstMusicas.Font.Height := 20;
-        lstMusicas.Font.Name := 'Arial';
-        lstMusicas.ItemHeight := 40;
-        lstMusicas.OnClick := lstMusicasClick;
-      end;
+      garanteListaMusicas;
       lstMusicas.Items.Clear;
       DM.qrMUSICAS.First;
       while not DM.qrMUSICAS.EOF do
@@ -204,7 +219,23 @@ begin
       end;
       FindClose(sr);
       DM.cdsArquivos.First;
-      DBCtrlGrid.Visible := True;
+
+      {LAZARUS: lista TODOS os arquivos no TListBox (o TScrollBox mostrava só o
+       registro corrente — limitação conhecida do substituto do TDBCtrlGrid)}
+      garanteListaMusicas;
+      lstMusicas.Items.Clear;
+      if FArqPaths = nil then FArqPaths := TStringList.Create;
+      FArqPaths.Clear;
+      DM.cdsArquivos.First;
+      while not DM.cdsArquivos.EOF do
+      begin
+        lstMusicas.Items.Add(
+          DM.cdsArquivos.FieldByName('FAIXA').AsString + '  ' +
+          DM.cdsArquivos.FieldByName('NOME').AsString);
+        FArqPaths.Add(DM.cdsArquivos.FieldByName('DIR').AsString);
+        DM.cdsArquivos.Next;
+      end;
+      DM.cdsArquivos.First;
     end;
 
     FormResize(Sender);
@@ -238,11 +269,23 @@ end;
 procedure TfListaMusica.lstMusicasClick(Sender: TObject);
 var
   id: Integer;
+  caminho: string;
 begin
   if lstMusicas.ItemIndex < 0 then Exit;
-  id := PtrInt(lstMusicas.Items.Objects[lstMusicas.ItemIndex]);
-  if not DM.qrMUSICAS.Locate('ID', id, []) then Exit;
-  fmIndex.dbctrlMusicasClick(lstMusicas);
+  if DataSource = DM.dsMUSICAS then
+  begin
+    id := PtrInt(lstMusicas.Items.Objects[lstMusicas.ItemIndex]);
+    if not DM.qrMUSICAS.Locate('ID', id, []) then Exit;
+    fmIndex.dbctrlMusicasClick(lstMusicas);
+  end
+  else
+  begin
+    {LAZARUS: modo arquivo (dsArquivos) — abre o arquivo clicado}
+    if (FArqPaths = nil) or (lstMusicas.ItemIndex >= FArqPaths.Count) then Exit;
+    caminho := FArqPaths[lstMusicas.ItemIndex];
+    DM.cdsArquivos.Locate('DIR', caminho, []);
+    fmIndex.abrirArquivo(caminho);
+  end;
 end;
 
 procedure TfListaMusica.FormResize(Sender: TObject);
