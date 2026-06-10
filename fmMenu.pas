@@ -1724,6 +1724,7 @@ type
     bsPngImageView70: TImage {LAZARUS: TbsPngImageView};
     function VersaoExe: String;
     procedure FormCreate(Sender: TObject);
+    procedure FormDropFiles(Sender: TObject; const FileNames: array of String); {LAZARUS: port b09c49b}
     procedure fExibeColetaneas(Tipo: string; ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
     procedure fExibeColetaneasPerso(ScrollBox: TScrollBox {LAZARUS: TbsSkinScrollBox});
     procedure sbClick(Sender: TObject);
@@ -2426,6 +2427,11 @@ begin
     spVersao  := bsSkinStatusBar1.Panels[4];
   end;
   {LAZARUS: SetWindowLong/GetWindowLong removidos — Windows API}
+
+  {LAZARUS: port upstream b09c49b — DragAcceptFiles/WM_DROPFILES (ShellApi) →
+   AllowDropFiles+OnDropFiles (LCL, cross-platform)}
+  Self.AllowDropFiles := True;
+  Self.OnDropFiles := FormDropFiles;
 end;
 
 procedure TfmIndex.FormDestroy(Sender: TObject);
@@ -12113,6 +12119,25 @@ begin
   fLiturgia.Caption := 'Adicionar Item';
   fLiturgia.id := '';
   fLiturgia.ShowModal;
+end;
+
+{LAZARUS: port upstream b09c49b — arquivos arrastados p/ a aba Liturgia abrem o
+ modal de adição com tipo "Arquivo" pré-selecionado; múltiplos arquivos em sequência}
+procedure TfmIndex.FormDropFiles(Sender: TObject; const FileNames: array of String);
+var
+  i: Integer;
+begin
+  if not ((PageControl1.Visible) and (PageControl1.ActivePage = tsLiturgia)) then
+    Exit;
+
+  for i := 0 to High(FileNames) do
+  begin
+    fIniciando.AppCreateForm(TfLiturgia, fLiturgia);
+    fLiturgia.Caption := 'Adicionar Item';
+    fLiturgia.id := '';
+    fLiturgia.arquivoInicial := FileNames[i];
+    fLiturgia.ShowModal;
+  end;
 end;
 
 procedure TfmIndex.bsSkinSpeedButton8Click(Sender: TObject);

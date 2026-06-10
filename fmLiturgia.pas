@@ -81,6 +81,7 @@ type
   public
     { Public declarations }
     id: string;
+    arquivoInicial: string; {LAZARUS: port upstream b09c49b — drag-and-drop na liturgia}
   end;
 
 var
@@ -99,6 +100,9 @@ end;
 procedure TfLiturgia.edtDiretorioExit(Sender: TObject);
 begin
   edtDiretorio.Text := fmIndex.verificaURL(edtDiretorio.Text, edtDiretorioInfo, false);
+  {LAZARUS: port b09c49b — rola para o fim p/ nome do arquivo ficar visível
+   (EM_SCROLLCARET é Windows-only; no GTK2 o SelStart já rola o caret)}
+  edtDiretorio.SelStart := Length(edtDiretorio.Text);
 end;
 
 procedure TfLiturgia.bsSkinSpeedButton1Click(Sender: TObject);
@@ -448,6 +452,8 @@ begin
     begin
       edtDiretorio.Text := fmIndex.lerParam(id, 'dir', '', fmIndex.arq_liturgia);
       edtDiretorioInfo.Text := fmIndex.lerParam(id, 'dir_info', '', fmIndex.arq_liturgia);
+      {LAZARUS: port b09c49b — caminho longo: deixa o nome do arquivo visível}
+      edtDiretorio.SelStart := Length(edtDiretorio.Text);
     end
     else
     begin
@@ -488,6 +494,17 @@ begin
   except
     cbItens.ItemIndex := -1;
     try fmIndex.gravaLog('FormActivate: excecao ao carregar item ' + id); except end;
+  end;
+
+  {LAZARUS: port b09c49b — pré-preenchimento via drag-and-drop de arquivo na liturgia}
+  if (Trim(arquivoInicial) <> '') and (Trim(id) = '') then
+  begin
+    cbItens.ItemIndex := 1; // Arquivo
+    cbItensChange(nil);
+    edtDiretorio.Text := arquivoInicial;
+    edtDiretorioExit(nil);
+    arquivoInicial := '';
+    if txtItem.CanFocus then txtItem.SetFocus;
   end;
 end;
 
