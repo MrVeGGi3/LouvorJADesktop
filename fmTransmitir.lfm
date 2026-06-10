@@ -198,7 +198,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object ckSrvConectar: TCheckBox
       AlignWithMargins = True
@@ -257,7 +257,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object bsSkinLabel1: TLabel
       AlignWithMargins = True
@@ -300,7 +300,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object lblLinkMus1: TLabel
       AlignWithMargins = True
@@ -373,7 +373,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object lblLinkMus2: TLabel
       AlignWithMargins = True
@@ -446,7 +446,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object bsSkinLabel4: TLabel
       AlignWithMargins = True
@@ -475,7 +475,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object bsSkinLabel5: TLabel
       AlignWithMargins = True
@@ -504,7 +504,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object lblLinkBib1: TLabel
       AlignWithMargins = True
@@ -577,7 +577,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel1'
+    Caption = ''
     Align = alBottom
     object bsSkinButton2: TButton
       AlignWithMargins = True
@@ -614,7 +614,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel8'
+    Caption = ''
     Align = alTop
     object btServidor: TSpeedButton
       AlignWithMargins = True
@@ -699,7 +699,7 @@ object fTransmitir: TfTransmitir
     Checked = False
     NumGlyphs = 1
     Spacing = 2
-    Caption = 'bsSkinPanel10'
+    Caption = ''
     Align = alTop
     object btCopLink: TSpeedButton
       Left = 537

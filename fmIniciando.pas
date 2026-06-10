@@ -491,6 +491,17 @@ begin
       fmIndex.abreLetraMusica('BD', '', StrToIntDef(paramexec.Strings.Values['projecao'], 1), true);
     end;
 
+    {LAZARUS: parâmetro autoslide=1 avança slide a cada 6s via main thread — teste headless de repaint}
+    if paramexec.Strings.Values['autoslide'] <> '' then
+    begin
+      with TTimer.Create(fIniciando) do
+      begin
+        Interval := 6000;
+        OnTimer := fmIndex.avancaSlideHeadless;
+        Enabled := True;
+      end;
+    end;
+
     {LAZARUS: parâmetro servidor=1 inicia servidor HTTP automaticamente — útil para testes headless}
     if paramexec.Strings.Values['servidor'] = '1' then
     begin

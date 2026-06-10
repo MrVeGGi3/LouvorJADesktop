@@ -7,10 +7,23 @@ uses
   {LAZARUS: removidos Winapi.*/Vcl.*/bsSkin*/Indy/FireDAC}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Buttons, Menus, Spin, DB, Clipbrd, Grids,
-  FPHTTPServer, FPHTTPClient, ZDataset,
+  FPHTTPServer, FPHTTPClient, ZDataset, ZSqlStrings,
   LCLIntf, LCLType, LMessages, LResources;
 
 type
+  {LAZARUS: TFPHttpServer.Active:=True BLOQUEIA a thread chamadora no accept loop.
+   No Indy original o TIdHTTPServer criava threads internamente; aqui é preciso
+   uma thread dedicada, senão a main thread congela (sem repaint/TTimer) com o
+   servidor ligado.}
+  THttpServerThread = class(TThread)
+  private
+    FServer: TFPHttpServer;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(AServer: TFPHttpServer);
+  end;
+
   TfTransmitir = class(TForm)
     {LAZARUS: bsBusinessSkinForm1 removido — componente de skin}
     GridPanel77: TPanel {LAZARUS: TGridPanel};
@@ -80,7 +93,20 @@ type
   private
     { Private declarations }
     tentativaConexao: Integer;
+    serverThread: THttpServerThread; {LAZARUS: thread do accept loop do TFPHttpServer}
     syncCronoCaption: string; {LAZARUS: buffer para get-time via Synchronize}
+    {LAZARUS: parâmetros para SyncOpenSong (FPC 3.2 não tem closures p/ Synchronize)}
+    syncSongId: Integer;
+    syncTxtModo: string;
+    syncTocarAudio: Boolean;
+    syncSearchTerm: string;   {LAZARUS: in — termo da busca p/ SyncSearchSongs}
+    syncSearchJson: string;   {LAZARUS: out — JSON resultado de SyncSearchSongs}
+    syncSearchOk: Boolean;    {LAZARUS: out — sucesso de SyncSearchSongs}
+    procedure pararServidor;
+    function aguardaServidorAtivo: Boolean;
+  protected
+    procedure Loaded; override; {LAZARUS: workaround ZeosLib params — igual TfLetra.Loaded}
+  private
     {LAZARUS: métodos sync para chamar código LCL da thread do TFPHttpServer via TThread.Synchronize}
     procedure SyncStartCrono;
     procedure SyncStopCrono;
@@ -88,6 +114,11 @@ type
     procedure SyncNextSlide;
     procedure SyncPreviousSlide;
     procedure SyncGetCronoCaption;
+    procedure SyncOpenSong;
+    procedure SyncCloseSong;
+    procedure SyncSortear;
+    procedure SyncSortearNM;
+    procedure SyncSearchSongs;
   public
     { Public declarations }
   end;
@@ -149,7 +180,7 @@ begin
   btIPRede.Enabled := True;
   fmIndex.spServer.Text {LAZARUS: TStatusPanel.Caption→.Text} := '';
   btServidor.Enabled := False;
-  IdHTTPServer1.Active := False;
+  pararServidor; {LAZARUS: Active:=False + unblock do accept loop na thread}
   {LAZARUS: IdHTTPServer1.Bindings.Clear — TFPHttpServer não usa Bindings}
   lblStatus.Caption := 'Desconectado';
 
@@ -184,7 +215,11 @@ begin
     IdHTTPServer1.Port := StrToInt(seSrvPorta.Text); {LAZARUS: DefaultPort→Port}
     {LAZARUS: Bindings removido — TFPHttpServer usa Port somente}
     try
-      IdHTTPServer1.Active := True;
+      {LAZARUS: Active:=True bloqueia a thread chamadora — subir em thread dedicada
+       e validar via probe HTTP (bind/porta ocupada cai no except → retry existente)}
+      serverThread := THttpServerThread.Create(IdHTTPServer1);
+      if not aguardaServidorAtivo then
+        raise Exception.Create('Servidor nao respondeu na porta '+seSrvPorta.Text);
       btServidor.Enabled := True;
       btServidor.ImageIndex := 9;
       btServidor.Caption := 'Desconectar Servidor';
@@ -211,7 +246,7 @@ begin
 
       memo1.lines.savetofile(fmIndex.dir_config+'server/file/file.ja');
     except
-      IdHTTPServer1.Active := False;
+      pararServidor;
       {LAZARUS: IdHTTPServer1.Bindings.Clear — TFPHttpServer não usa Bindings}
       btServidor.Enabled := True;
 
@@ -253,11 +288,101 @@ begin
     fmIndex.gravaParam('Servidor', 'Conectar', '0');
 end;
 
+procedure TfTransmitir.Loaded;
+{LAZARUS: ZeosLib param workaround — TZQuery em csLoading não cria params de SQL.
+ Mesmo padrão de TDM.Loaded/TfLetra.Loaded.}
+var
+  i, j: Integer;
+  sqlStr: TZSQLStrings;
+  paramName: string;
+begin
+  inherited Loaded;
+  for i := 0 to ComponentCount - 1 do
+    if Components[i] is TZQuery then
+    begin
+      sqlStr := TZSQLStrings(TZQuery(Components[i]).SQL);
+      if sqlStr.ParamCount > 0 then
+        for j := 0 to sqlStr.ParamCount - 1 do
+        begin
+          paramName := sqlStr.ParamNames[j];
+          if TZQuery(Components[i]).Params.FindParam(paramName) = nil then
+            TZQuery(Components[i]).Params.CreateParam(ftUnknown, paramName, ptUnknown);
+        end;
+    end;
+end;
+
+constructor THttpServerThread.Create(AServer: TFPHttpServer);
+begin
+  inherited Create(False);
+  FServer := AServer;
+  FreeOnTerminate := True;
+end;
+
+procedure THttpServerThread.Execute;
+begin
+  try
+    FServer.Active := True; {bloqueia até Active:=False/erro — por isso a thread}
+  except
+    {socket fechado na desativação — ignorar}
+  end;
+end;
+
 procedure TfTransmitir.FormCreate(Sender: TObject);
 begin
   {LAZARUS: TIdHTTPServer removido do LFM — criar TFPHttpServer programaticamente}
   IdHTTPServer1 := TFPHttpServer.Create(Self);
   IdHTTPServer1.OnRequest := @IdHTTPServer1CommandGet;
+  serverThread := nil;
+end;
+
+procedure TfTransmitir.pararServidor;
+var
+  cli: TFPHTTPClient;
+begin
+  if serverThread = nil then Exit;
+  IdHTTPServer1.Active := False;
+  {LAZARUS: o accept bloqueante só percebe Active=False na próxima conexão —
+   conexão dummy desbloqueia a thread, que termina sozinha (FreeOnTerminate)}
+  cli := TFPHTTPClient.Create(nil);
+  try
+    try
+      cli.ConnectTimeout := 500;
+      cli.IOTimeout := 500;
+      cli.Get('http://127.0.0.1:'+IntToStr(IdHTTPServer1.Port)+'/api/ping');
+    except
+      {esperado — servidor desativando}
+    end;
+  finally
+    cli.Free;
+  end;
+  serverThread := nil;
+end;
+
+function TfTransmitir.aguardaServidorAtivo: Boolean;
+var
+  cli: TFPHTTPClient;
+  i: Integer;
+begin
+  Result := False;
+  for i := 1 to 20 do
+  begin
+    Sleep(100);
+    Application.ProcessMessages;
+    cli := TFPHTTPClient.Create(nil);
+    try
+      try
+        cli.ConnectTimeout := 500;
+        cli.IOTimeout := 500;
+        cli.Get('http://127.0.0.1:'+seSrvPorta.Text+'/api/ping');
+        Result := True;
+      except
+        {servidor ainda subindo — tentar de novo}
+      end;
+    finally
+      cli.Free;
+    end;
+    if Result then Exit;
+  end;
 end;
 
 procedure TfTransmitir.FormActivate(Sender: TObject);
@@ -456,7 +581,8 @@ begin
       begin
         if (fMusica <> nil) and (fMusica.Visible) then
         begin
-          fMusica.Close;
+          {LAZARUS: Close mexe em forms/GTK2 — rodar na main thread}
+          TThread.Synchronize(nil, @SyncCloseSong);
           AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
             '{"status":"ok","message":"Song closed","code":"SONG_CLOSED"}';
           Exit;
@@ -527,7 +653,8 @@ begin
           Exit;
         end;
 
-        fmIndex.btSortearClick(fmIndex.btSortear);
+        {LAZARUS: btSortearClick mexe na UI — rodar na main thread}
+        TThread.Synchronize(nil, @SyncSortear);
 
         AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"ok","message":"Sorteando número"}';
@@ -601,7 +728,8 @@ begin
           Exit;
         end;
 
-        fmIndex.btSortearNMClick(fmIndex.btSortear);
+        {LAZARUS: btSortearNMClick mexe na UI — rodar na main thread}
+        TThread.Synchronize(nil, @SyncSortearNM);
 
         AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"ok","message":"Sorteando nome"}';
@@ -692,40 +820,15 @@ begin
             Exit;
         end;
 
-        {LAZARUS: TFPHttpServer roda em thread separada — qrBUSCA usa DM.ADO (conexão do main thread).
-         ZeosLib/SQLite não é thread-safe em conexão compartilhada; try-except previne empty reply.}
-        try
-          qrBUSCA.Close;
-          qrBUSCA.ParamByName('VALOR').AsString := fmIndex.termo_busca(searchTerm);
-          qrBUSCA.Open;
-
-          jsonResult := '{"status":"ok","musicas":[';
-          primeiro := True;
-
-          while not qrBUSCA.Eof do
-          begin
-              if not primeiro then
-                  jsonResult := jsonResult + ',';
-              primeiro := False;
-
-              jsonResult := jsonResult + '{';
-              jsonResult := jsonResult + '"id":' + qrBUSCA.FieldByName('ID').AsString + ',';
-              jsonResult := jsonResult + '"nome":"' + StringReplace(qrBUSCA.FieldByName('NOME').AsString, '"', '\"', [rfReplaceAll]) + '",';
-              jsonResult := jsonResult + '"album":"' + StringReplace(qrBUSCA.FieldByName('NOME_ALBUM_COM').AsString, '"', '\"', [rfReplaceAll]) + '"';
-              jsonResult := jsonResult + '}';
-
-              qrBUSCA.Next;
-          end;
-
-          jsonResult := jsonResult + ']}';
-          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := jsonResult;
-        except
-          on E: Exception do
-          begin
-            AResponse.Code := 503;
-            AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
-              '{"status":"error","message":"Search temporarily unavailable (DB thread conflict)","code":"DB_THREAD_ERROR"}';
-          end;
+        {LAZARUS: qrBUSCA usa DM.ADO (ZeosLib, main thread) — query roda via Synchronize}
+        syncSearchTerm := searchTerm;
+        TThread.Synchronize(nil, @SyncSearchSongs);
+        if syncSearchOk then
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := syncSearchJson
+        else
+        begin
+          AResponse.Code := 503;
+          AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} := syncSearchJson;
         end;
 
         Exit;
@@ -747,9 +850,15 @@ begin
 
         tocarAudio := tagValue < 3;
 
-        {LAZARUS: TThread.Queue proc anônima → chamada direta (FPC 3.2.2 não suporta TProc overload)}
+        {LAZARUS: abreLetraMusica cria forms/toca GTK2 — precisa rodar na main thread.
+         FPC 3.2 não tem closures p/ Synchronize: parâmetros vão em campos sync*}
         if Assigned(fmIndex) then
-          fmIndex.abreLetraMusica('BD', txtModo, songId, tocarAudio);
+        begin
+          syncSongId := songId;
+          syncTxtModo := txtModo;
+          syncTocarAudio := tocarAudio;
+          TThread.Synchronize(nil, @SyncOpenSong);
+        end;
         AResponse.Content {LAZARUS: ContentText→Content (TFPHTTPConnectionResponse)} :=
           '{"status":"ok","action":"open-song","id":' + IntToStr(songId) + '}';
       end
@@ -810,12 +919,16 @@ begin
   if fmIndex.cbFormatoTempoCrono.Items.Count = 0 then
     fmIndex.carregaComboFormatoTempo(fmIndex.cbFormatoTempoCrono, 'hh:mm:ss.zzz');
   fmIndex.btIniciarCronoClick(fmIndex.btIniciarCrono);
+  {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+  Application.ProcessMessages;
 end;
 
 procedure TfTransmitir.SyncStopCrono;
 begin
   try
     fmIndex.btZerarCronoClick(fmIndex.btZerarCrono);
+    {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+    Application.ProcessMessages;
   except
     {silently ignore}
   end;
@@ -825,6 +938,8 @@ procedure TfTransmitir.SyncAnotaTempo;
 begin
   try
     fmIndex.btAnotTempoClick(fmIndex.btAnotTempo);
+    {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+    Application.ProcessMessages;
   except
     {silently ignore}
   end;
@@ -835,16 +950,92 @@ begin
   syncCronoCaption := fmIndex.lmdCrono.Caption;
 end;
 
+procedure TfTransmitir.SyncOpenSong;
+begin
+  fmIndex.abreLetraMusica('BD', syncTxtModo, syncSongId, syncTocarAudio);
+  {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+  Application.ProcessMessages;
+end;
+
+procedure TfTransmitir.SyncCloseSong;
+begin
+  if (fMusica <> nil) and (fMusica.Visible) then
+    fMusica.Close;
+  {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+  Application.ProcessMessages;
+end;
+
+procedure TfTransmitir.SyncSortear;
+begin
+  fmIndex.btSortearClick(fmIndex.btSortear);
+  {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+  Application.ProcessMessages;
+end;
+
+procedure TfTransmitir.SyncSortearNM;
+begin
+  fmIndex.btSortearNMClick(fmIndex.btSortear);
+  {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+  Application.ProcessMessages;
+end;
+
+procedure TfTransmitir.SyncSearchSongs;
+var
+  primeiro: Boolean;
+begin
+  syncSearchOk := False;
+  try
+    qrBUSCA.Close;
+    qrBUSCA.ParamByName('VALOR').AsString := fmIndex.termo_busca(syncSearchTerm);
+    qrBUSCA.Open;
+
+    syncSearchJson := '{"status":"ok","musicas":[';
+    primeiro := True;
+
+    while not qrBUSCA.Eof do
+    begin
+      if not primeiro then
+        syncSearchJson := syncSearchJson + ',';
+      primeiro := False;
+
+      syncSearchJson := syncSearchJson + '{';
+      syncSearchJson := syncSearchJson + '"id":' + qrBUSCA.FieldByName('ID').AsString + ',';
+      syncSearchJson := syncSearchJson + '"nome":"' + StringReplace(qrBUSCA.FieldByName('NOME').AsString, '"', '\"', [rfReplaceAll]) + '",';
+      syncSearchJson := syncSearchJson + '"album":"' + StringReplace(qrBUSCA.FieldByName('NOME_ALBUM_COM').AsString, '"', '\"', [rfReplaceAll]) + '"';
+      syncSearchJson := syncSearchJson + '}';
+
+      qrBUSCA.Next;
+    end;
+
+    syncSearchJson := syncSearchJson + ']}';
+    syncSearchOk := True;
+  except
+    on E: Exception do
+      syncSearchJson := '{"status":"error","message":"' +
+        StringReplace(E.Message, '"', '\"', [rfReplaceAll]) +
+        '","code":"SEARCH_ERROR"}';
+  end;
+end;
+
 procedure TfTransmitir.SyncNextSlide;
 begin
   if (fMusica <> nil) and (fMusica.Visible) then
+  begin
     fMusica.acaoSlide('prox');
+    {LAZARUS: dentro de Synchronize o GTK2 não processa a fila de paint sozinho —
+     sem isso a projeção só repinta no próximo evento de input do usuário}
+    Application.ProcessMessages;
+  end;
 end;
 
 procedure TfTransmitir.SyncPreviousSlide;
 begin
   if (fMusica <> nil) and (fMusica.Visible) then
+  begin
     fMusica.acaoSlide('ant');
+    {LAZARUS: ver SyncNextSlide — flush da fila de paint do GTK2}
+    Application.ProcessMessages;
+  end;
 end;
 
 initialization

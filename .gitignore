@@ -61,3 +61,6 @@ config/database.db
 config/database.db.bak.old
 config/imagens/
 config/musicas/
+
+# gerado em runtime pelo fmTransmitir ao iniciar o servidor
+config/server/file/

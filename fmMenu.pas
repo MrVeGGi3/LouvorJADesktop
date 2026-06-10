@@ -1729,6 +1729,7 @@ type
     procedure sbClick(Sender: TObject);
     procedure sbClickPerso(Sender: TObject);
     procedure abreListaMusicaHeadless(id_album: integer; titulo: string = 'Álbum');
+    procedure avancaSlideHeadless(Sender: TObject); {LAZARUS: param headless autoslide=1}
     procedure FormActivate(Sender: TObject);
     procedure tsHinarioShow(Sender: TObject);
     procedure txtHinoChange(Sender: TObject);
@@ -2867,6 +2868,13 @@ begin
   fListaMusica.DataSource := DM.dsMUSICAS;
   fListaMusica.pnlBotoes.Visible := True;
   fListaMusica.ShowModal;
+end;
+
+{LAZARUS: avança slide via TTimer da main thread — usado pelo parâmetro headless autoslide=1}
+procedure TfmIndex.avancaSlideHeadless(Sender: TObject);
+begin
+  if (fMusica <> nil) and fMusica.Visible then
+    fMusica.acaoSlide('prox');
 end;
 
 function TfmIndex.FonteExiste(Fonte: STring): Boolean;
