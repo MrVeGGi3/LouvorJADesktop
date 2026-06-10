@@ -5,7 +5,7 @@ interface
 
 uses
   {LAZARUS: removidos System.*/Vcl.*/SHDocVw/OleCtrls — TWebBrowser OLE indisponivel no Linux}
-  SysUtils, Classes, Controls, Forms, StdCtrls, ExtCtrls, LCLIntf, LCLType, LResources;
+  SysUtils, Classes, Controls, Forms, StdCtrls, ExtCtrls, LCLIntf, LCLType, LResources, Graphics;
 
 type
   TfVideoOn = class(TForm)
@@ -43,7 +43,7 @@ end;
 
 procedure TfVideoOn.FormActivate(Sender: TObject);
 var
-  dir, url: string;
+  url: string;
 begin
   if (Trim(videoID) = '') then
     Exit;
@@ -51,18 +51,13 @@ begin
   id := videoID;
   videoID := ''; {garante que o fallback só dispara uma vez por abertura}
 
-  wbVideo.Visible := True;
-  pnlLoading.Visible := False;
-
-  dir := fmIndex.dir_temp + 'video.html';
-  mmHTML.Lines.SaveToFile(dir);
-
-  {LAZARUS: TWebBrowser (OLE/COM) indisponível no Linux — embed não renderiza in-process.
-   Fallback funcional: abre o vídeo no navegador padrão (mesma URL usada em fmMenu:11992).}
+  {LAZARUS: wbVideo (TWebBrowser OLE) não existe no LFM/Linux. Usa lblLoading para exibir
+   mensagem de fallback. pnlLoading permanece visível (já é padrão).}
   url := 'https://www.youtube.com/watch?v=' + id;
-  wbVideo.Lines.Text :=
-    'A reprodução de vídeo embutida não está disponível nesta versão (Linux).' + sLineBreak +
-    'Abrindo no navegador padrão:' + sLineBreak + url;
+  lblLoading.Font.Color := clWhite;
+  lblLoading.Caption :=
+    'A reprodução de vídeo embutida não está disponível nesta versão (Linux).' + LineEnding +
+    'Abrindo no navegador padrão:' + LineEnding + url;
   OpenURL(url);
 end;
 
@@ -82,7 +77,7 @@ begin
     end
     else fVideoOn.AlphaBlendValue := 0;
   end;
-  wbVideo.Lines.Clear; {LAZARUS: wbVideo.Navigate('about:blank') removido}
+  lblLoading.Caption := ''; {LAZARUS: wbVideo nil — limpa label de fallback}
 end;
 
 procedure TfVideoOn.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
