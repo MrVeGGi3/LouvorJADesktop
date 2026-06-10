@@ -2227,6 +2227,7 @@ type
     procedure ckMusicaRetornoClick(Sender: TObject);
     procedure sbMusicaRetornoAreaExtendidaChange(Sender: TObject);
     function GetIP(): string;
+    function enumerarInterfacesRede: TStringList; {LAZARUS: port 32c09b8 — pares nome=ip}
     procedure Button2Click(Sender: TObject);
     procedure monitores(padrao: integer = -1);
     procedure monitor_bt_label(botao: TSpeedButton {LAZARUS: TbsSkinMenuSpeedButton});
@@ -13183,10 +13184,58 @@ begin
   Result := SysUtils.GetEnvironmentVariable(VarName);
 end;
 
-function TfmIndex.GetIP: string;
+{LAZARUS: port upstream 32c09b8 — GetAdaptersInfo (iphlpapi, Windows-only) →
+ `ip -4 -o addr show up` via RunCommand. Retorna pares nome=ip das interfaces
+ IPv4 ativas, excluindo loopback. Lista vazia em qualquer falha — o chamador
+ trata caindo no GetIP.}
+function TfmIndex.enumerarInterfacesRede: TStringList;
+var
+  saida, linha, nome, ip: string;
+  linhas: TStringList;
+  i, p: Integer;
 begin
-  {LAZARUS: TIdStack/GStack removidos — Indy; retornando localhost}
+  Result := TStringList.Create;
+  try
+    if not RunCommand('ip', ['-4', '-o', 'addr', 'show', 'up'], saida) then
+      Exit;
+    linhas := TStringList.Create;
+    try
+      linhas.Text := saida;
+      for i := 0 to linhas.Count - 1 do
+      begin
+        linha := linhas[i];
+        {formato: "3: wlp0s20f3    inet 192.168.15.19/24 brd ..."}
+        nome := ExtractWord(2, linha, [' ', #9]);
+        ip := ExtractWord(4, linha, [' ', #9]);
+        p := Pos('/', ip);
+        if p > 0 then
+          ip := Copy(ip, 1, p - 1);
+        if (nome = '') or (nome = 'lo') or (ip = '') or (Pos('127.', ip) = 1) then
+          Continue;
+        Result.Add(nome + '=' + ip);
+      end;
+    finally
+      linhas.Free;
+    end;
+  except
+    {sem o comando `ip` ou erro de parse — lista vazia, chamador usa GetIP}
+  end;
+end;
+
+function TfmIndex.GetIP: string;
+var
+  ifaces: TStringList;
+begin
+  {LAZARUS: port 32c09b8 — antes stub '127.0.0.1' (TIdStack/GStack removidos).
+   Retorna o IP da primeira interface não-loopback ativa.}
   Result := '127.0.0.1';
+  ifaces := enumerarInterfacesRede;
+  try
+    if ifaces.Count > 0 then
+      Result := ifaces.ValueFromIndex[0];
+  finally
+    ifaces.Free;
+  end;
 end;
 
 function TfmIndex.GetStrNumber(const S: string): string;

@@ -94,6 +94,7 @@ type
     { Private declarations }
     tentativaConexao: Integer;
     serverThread: THttpServerThread; {LAZARUS: thread do accept loop do TFPHttpServer}
+    FIPMenu: TPopupMenu; {LAZARUS: port 32c09b8 — menu de interfaces de rede}
     syncCronoCaption: string; {LAZARUS: buffer para get-time via Synchronize}
     {LAZARUS: parâmetros para SyncOpenSong (FPC 3.2 não tem closures p/ Synchronize)}
     syncSongId: Integer;
@@ -104,6 +105,7 @@ type
     syncSearchOk: Boolean;    {LAZARUS: out — sucesso de SyncSearchSongs}
     procedure pararServidor;
     function aguardaServidorAtivo: Boolean;
+    procedure IPMenuItemClick(Sender: TObject); {LAZARUS: port 32c09b8}
   protected
     procedure Loaded; override; {LAZARUS: workaround ZeosLib params — igual TfLetra.Loaded}
   private
@@ -137,9 +139,46 @@ begin
   close;
 end;
 
+{LAZARUS: port upstream 32c09b8 — em vez de preencher direto com o primeiro IP,
+ lista as interfaces IPv4 ativas (nome + IP) num popup para o usuário escolher.
+ GetAdaptersInfo/TrackPopupMenu (Windows) → enumerarInterfacesRede + TPopupMenu.}
 procedure TfTransmitir.btIPRedeClick(Sender: TObject);
+var
+  ifaces: TStringList;
+  item: TMenuItem;
+  i: Integer;
+  pt: TPoint;
 begin
-  seSrvUrl.Text := fmIndex.GetIP;
+  ifaces := fmIndex.enumerarInterfacesRede;
+  try
+    if ifaces.Count <= 1 then
+    begin
+      {0 ou 1 interface — sem escolha a fazer; fallback GetIP como antes}
+      seSrvUrl.Text := fmIndex.GetIP;
+      Exit;
+    end;
+
+    if FIPMenu = nil then
+      FIPMenu := TPopupMenu.Create(Self);
+    FIPMenu.Items.Clear;
+    for i := 0 to ifaces.Count - 1 do
+    begin
+      item := TMenuItem.Create(FIPMenu);
+      item.Caption := ifaces.Names[i] + ' - ' + ifaces.ValueFromIndex[i];
+      item.Hint := ifaces.ValueFromIndex[i]; {IP puro para o OnClick}
+      item.OnClick := @IPMenuItemClick;
+      FIPMenu.Items.Add(item);
+    end;
+    pt := btIPRede.ClientOrigin;
+    FIPMenu.Popup(pt.X, pt.Y + btIPRede.Height);
+  finally
+    ifaces.Free;
+  end;
+end;
+
+procedure TfTransmitir.IPMenuItemClick(Sender: TObject);
+begin
+  seSrvUrl.Text := TMenuItem(Sender).Hint;
 end;
 
 procedure TfTransmitir.bsSkinSpeedButton1Click(Sender: TObject);
