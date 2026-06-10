@@ -2070,6 +2070,7 @@ type
     procedure ExportarMusicaClick(Sender: TObject);
     procedure miOpcExportar1Click(Sender: TObject);
     procedure exportarMusica(id:integer;audio:boolean;nome:string = '';param:string = '');
+    procedure exportarMusicaParaArquivo(id:integer;audio:boolean;url:string;param:string = ''); {LAZARUS: corpo do export sem dialog (testável headless)}
     function SegundosToTime( Segundos : Cardinal ) : String;
     procedure gravaLog(txt:string);
     procedure corFundoMusicaChangeColor(Sender: TObject);
@@ -13818,19 +13819,24 @@ end;
 
 procedure TfmIndex.ExportarMusica(id: integer;audio:boolean;nome:string;param:string);
 var
-  arquivo : TMemIniFile;
-  slide: string;
-  tempo: string;
   url: string;
-  ZipFile: TZipper; {LAZARUS: TZipFile zmWrite→TZipper}
-  arq: string;
-  arq_e: string;
-  imgList: TStringList;
 begin
   url := saveDialog('arquivo', 'Apresentação LouvorJA (*.slja)|*.slja','','','',trim(nome)+'.slja');
   if url <> '' then
-  begin
+    exportarMusicaParaArquivo(id, audio, url, param);
+end;
 
+procedure TfmIndex.exportarMusicaParaArquivo(id: integer;audio:boolean;url:string;param:string);
+var
+  arquivo : TMemIniFile;
+  slide: string;
+  tempo: string;
+  ZipFile: TZipper; {LAZARUS: TZipFile zmWrite→TZipper}
+  arq: string;
+  arq_e: string;
+  arq_d: string; {LAZARUS: path de disco normalizado (\ do DB → /)}
+  imgList: TStringList;
+begin
     ZipFile := TZipper.Create; {LAZARUS: TZipper}
     imgList := TStringList.Create;
 
@@ -13858,10 +13864,10 @@ begin
           begin
             if Trim(DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString) <> '' then
             begin
-              arq_e := dir_config+'musicas\'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString;
-              arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-              arq_e := 'audio\'+ExtractFileName(arq_e);
-              ZipFile.Entries.AddFileEntry(dir_config+'musicas/'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString,arq_e); {LAZARUS: Add→AddFileEntry, slash}
+              {LAZARUS: normaliza \ do DB → / no acesso ao FS; entrada ZIP com / (zip spec, compatível Windows)}
+              arq_d := StringReplace(dir_config+'musicas/'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA_PB').AsString,'\','/',[rfReplaceAll]);
+              arq_e := 'audio/'+ExtractFileName(arq_d);
+              ZipFile.Entries.AddFileEntry(arq_d,arq_e); {LAZARUS: Add→AddFileEntry}
               arquivo.writeString('Geral', 'url_musica', arq_e);
             end
             else
@@ -13874,10 +13880,10 @@ begin
           begin
             if Trim(DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString) <> '' then
             begin
-              arq_e := dir_config+'musicas\'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString;
-              arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-              arq_e := 'audio\'+ExtractFileName(arq_e);
-              ZipFile.Entries.AddFileEntry(dir_config+'musicas/'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString,arq_e); {LAZARUS: Add→AddFileEntry, slash}
+              {LAZARUS: normaliza \ do DB → / no acesso ao FS; entrada ZIP com / (zip spec, compatível Windows)}
+              arq_d := StringReplace(dir_config+'musicas/'+DM.qrSLIDE_MUSICA.FieldByName('URL_MUSICA').AsString,'\','/',[rfReplaceAll]);
+              arq_e := 'audio/'+ExtractFileName(arq_d);
+              ZipFile.Entries.AddFileEntry(arq_d,arq_e); {LAZARUS: Add→AddFileEntry}
               arquivo.writeString('Geral', 'url_musica', arq_e);
             end;
           end;
@@ -13910,13 +13916,13 @@ begin
 
             if Trim(DM.qrSLIDE_MUSICA.FieldByName('IMAGEM').AsString) <> '' then
             begin
-              arq_e := dir_config+'imagens\'+DM.qrSLIDE_MUSICA.FieldByName('IMAGEM').AsString;
-              arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-              arq_e := 'imagens\'+ExtractFileName(arq_e);
+              {LAZARUS: normaliza \ do DB → / no acesso ao FS; entrada ZIP com / (zip spec, compatível Windows)}
+              arq_d := StringReplace(dir_config+'imagens/'+DM.qrSLIDE_MUSICA.FieldByName('IMAGEM').AsString,'\','/',[rfReplaceAll]);
+              arq_e := 'imagens/'+ExtractFileName(arq_d);
               if imgList.IndexOf(arq_e) < 0 then
               begin
                 imgList.Add(arq_e);
-                ZipFile.Entries.AddFileEntry(dir_config+'imagens/'+DM.qrSLIDE_MUSICA.FieldByName('IMAGEM').AsString,arq_e); {LAZARUS: Add→AddFileEntry, slash}
+                ZipFile.Entries.AddFileEntry(arq_d,arq_e); {LAZARUS: Add→AddFileEntry}
               end;
               arquivo.writeString(slide, 'imagem', arq_e);
             end;
@@ -13947,8 +13953,6 @@ begin
     end;
 
     Application.MessageBox('Slides exportados com sucesso!', TITULO, mb_ok + mb_iconinformation);
-
-  end;
 end;
 
 procedure TfmIndex.ExportarMusicaClick(Sender: TObject);
@@ -14486,6 +14490,7 @@ var
   ZipFile: TZipper; {LAZARUS: TZipFile zmWrite→TZipper}
   arq: string;
   arq_e: string;
+  arq_d: string; {LAZARUS: path de disco normalizado (\ do DB → /)}
   imgList: TStringList;
 
   bass_musica: HSAMPLE;
@@ -14516,10 +14521,11 @@ begin
 
         if Trim(cds.FieldByName('URL_MUSICA').AsString) <> '' then
         begin
-          arq_e := StringReplace(cds.FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
-          arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-          arq_e := 'audio\'+ExtractFileName(arq_e);
-          ZipFile.Entries.AddFileEntry(StringReplace(cds.FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]),arq_e); {LAZARUS: Add→AddFileEntry}
+          {LAZARUS: normaliza \ → / no acesso ao FS; entrada ZIP com / (zip spec, compatível Windows)}
+          arq_d := StringReplace(cds.FieldByName('URL_MUSICA').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
+          arq_d := StringReplace(arq_d,'\','/',[rfReplaceAll]);
+          arq_e := 'audio/'+ExtractFileName(arq_d);
+          ZipFile.Entries.AddFileEntry(arq_d,arq_e); {LAZARUS: Add→AddFileEntry}
           arquivo.writeString('Geral', 'url_musica', arq_e);
           arquivo.writeString('Geral', 'audio', '1');
 
@@ -14529,7 +14535,7 @@ begin
             //
           end;
           try
-            bass_musica := BASS_SampleLoad(FALSE, PChar(cds.FieldByName('URL_MUSICA').AsString), 0, 0, 3, BASS_SAMPLE_OVER_POS or BASS_UNICODE);
+            bass_musica := BASS_SampleLoad(FALSE, PChar(arq_d), 0, 0, 3, BASS_SAMPLE_OVER_POS or BASS_UNICODE); {LAZARUS: path normalizado}
             bass_channel := BASS_SampleGetChannel(bass_musica, False);
             if not BASS_ChannelPlay(bass_channel, False) then
             begin
@@ -14577,13 +14583,14 @@ begin
 
           if Trim(cds.FieldByName('IMAGEM').AsString) <> '' then
           begin
-            arq_e := StringReplace(cds.FieldByName('IMAGEM').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
-            arq_e := StringReplace(arq_e,'/', '\', [rfIgnoreCase, rfReplaceAll]);
-            arq_e := 'imagens\'+ExtractFileName(arq_e);
+            {LAZARUS: normaliza \ → / no acesso ao FS; entrada ZIP com / (zip spec, compatível Windows)}
+            arq_d := StringReplace(cds.FieldByName('IMAGEM').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]);
+            arq_d := StringReplace(arq_d,'\','/',[rfReplaceAll]);
+            arq_e := 'imagens/'+ExtractFileName(arq_d);
             if imgList.IndexOf(arq_e) < 0 then
             begin
               imgList.Add(arq_e);
-              ZipFile.Entries.AddFileEntry(StringReplace(cds.FieldByName('IMAGEM').AsString,'*', ExtractFilePath(application.ExeName), [rfIgnoreCase, rfReplaceAll]),arq_e); {LAZARUS: Add→AddFileEntry}
+              ZipFile.Entries.AddFileEntry(arq_d,arq_e); {LAZARUS: Add→AddFileEntry}
             end;
             arquivo.writeString(slide, 'imagem', arq_e);
           end;

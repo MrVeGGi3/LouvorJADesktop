@@ -474,6 +474,16 @@ begin
       Application.ProcessMessages;
     end;
 
+    {LAZARUS: parâmetro exportar=ID exporta música para /tmp/lj_export_test.slja — teste headless do export}
+    if paramexec.Strings.Values['exportar'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.exportarMusicaParaArquivo(
+        StrToIntDef(paramexec.Strings.Values['exportar'], 1),
+        true, '/tmp/lj_export_test.slja', '');
+      Application.ProcessMessages;
+    end;
+
     {LAZARUS: parâmetro projecao=ID projeta música automaticamente — útil para testes headless}
     if paramexec.Strings.Values['projecao'] <> '' then
     begin
