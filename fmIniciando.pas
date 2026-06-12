@@ -29,6 +29,7 @@ type
     function Translate(txt: string):string;
     procedure FormCreate(Sender: TObject);
   private
+    procedure testaCopiaLiturgia; {LAZARUS: teste headless do fluxo copiar itens da liturgia}
 
   const
     arq_liturgia: string = 'liturgia.ja';
@@ -50,7 +51,7 @@ implementation
 
 uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides,
   fmBuscaMusica, fmItensAgendados, fmFormatacao, fmVideoOn, fmNovaVersao,
-  fmLiturgia;
+  fmLiturgia, fmCopiaLiturgiaDia;
 
 procedure TfIniciando.AppCreateForm(InstanceClass: TComponentClass;
   var Reference);
@@ -77,6 +78,85 @@ begin
   begin
     vLang.Strings.LoadFromFile(arq);
     LANG := vLang.Strings.Values['_'];
+  end;
+end;
+
+{LAZARUS: teste headless do fluxo copiar itens da liturgia (port 1570e57).
+ Cria 2 itens de anotação no dia origem, copia p/ outro dia (sem e com
+ sobrescrever) e grava o resultado em /tmp/lj_copia_lit_result.txt.
+ ATENÇÃO: altera o liturgia.ja real — o script de teste deve fazer backup/restore}
+procedure TfIniciando.testaCopiaLiturgia;
+var
+  origem, destino: Integer;
+  origemStr, destinoStr, id1, id2: string;
+  itens: array of TParamItem;
+  ids, saida: TStringList;
+
+  procedure AddParam(const grupo, param, valor: string);
+  begin
+    SetLength(itens, Length(itens) + 1);
+    itens[High(itens)].Grupo := grupo;
+    itens[High(itens)].Param := param;
+    itens[High(itens)].Valor := valor;
+  end;
+
+  procedure DumpDestino(const titulo: string);
+  var
+    k: Integer;
+  begin
+    ids.DelimitedText := fmIndex.lerParam('Geral', destinoStr, '', fmIndex.arq_liturgia);
+    for k := ids.Count - 1 downto 0 do
+      if Trim(ids[k]) = '' then ids.Delete(k);
+    saida.Add(titulo + '=' + IntToStr(ids.Count));
+    for k := 0 to ids.Count - 1 do
+      saida.Add('  ' + ids[k]
+        + ' tipo=' + fmIndex.lerParam(ids[k], 'tipo', '', fmIndex.arq_liturgia)
+        + ' item=' + fmIndex.lerParam(ids[k], 'item', '', fmIndex.arq_liturgia));
+  end;
+begin
+  origem := StrToIntDef(fmIndex.loadCol.Strings.Values['LITURGIA:SEMANA'], DayOfWeek(Now));
+  destino := (origem mod 7) + 1;
+  origemStr := IntToStr(origem);
+  destinoStr := IntToStr(destino);
+
+  {cria 2 itens de anotação no dia origem (mesma estrutura do fmLiturgia.btAddClick)}
+  id1 := 'item_teste_copia_1';
+  id2 := 'item_teste_copia_2';
+  SetLength(itens, 0);
+  AddParam(id1, 'tipo', 'anotacao');
+  AddParam(id1, 'item', 'Teste Cópia 1');
+  AddParam(id1, 'subitem', 'Anotação de teste 1');
+  AddParam(id1, 'cor', '$004F0000');
+  AddParam(id2, 'tipo', 'anotacao');
+  AddParam(id2, 'item', 'Teste Cópia 2');
+  AddParam(id2, 'subitem', 'Anotação de teste 2');
+  AddParam(id2, 'cor', '$004F0000');
+  AddParam('Geral', origemStr, id1 + ';' + id2);
+  fmIndex.gravaParamLote(fmIndex.arq_liturgia, itens);
+
+  saida := TStringList.Create;
+  ids := TStringList.Create;
+  try
+    ids.Delimiter := ';';
+    saida.Add('origem=' + origemStr);
+    saida.Add('destino=' + destinoStr);
+    DumpDestino('destino_itens_antes');
+
+    {simula a seleção dos 2 itens e copia p/ o dia destino (sem sobrescrever)}
+    fmIndex.FLitClipboard.Clear;
+    fmIndex.FLitClipboard.Add(id1);
+    fmIndex.FLitClipboard.Add(id2);
+    fmIndex.copiaItensLiturgiaParaDias([destino], False);
+    DumpDestino('destino_itens_apos_copia');
+
+    {segunda cópia sobrescrevendo: destino deve ficar só com os 2 itens novos}
+    fmIndex.copiaItensLiturgiaParaDias([destino], True);
+    DumpDestino('destino_itens_apos_sobrescrever');
+
+    saida.SaveToFile('/tmp/lj_copia_lit_result.txt');
+  finally
+    ids.Free;
+    saida.Free;
   end;
 end;
 
@@ -542,10 +622,19 @@ begin
       fmIndex.abrePagina(fmIndex.tsCronometro);
     end;
 
-    if paramexec.Strings.Values['liturgia'] = '1' then
+    if paramexec.Strings.Values['liturgia'] <> '' then
     begin
       Application.ProcessMessages;
       fmIndex.abrePagina(fmIndex.tsLiturgia);
+      {LAZARUS: liturgia=N (2..7) também clica no dia N do calendário — teste headless
+       do LiturgiaCalendarClick (1=Domingo é o comportamento legado: só abre a aba)}
+      i := StrToIntDef(paramexec.Strings.Values['liturgia'], 1);
+      if (i >= 2) and (i <= 7) then
+      begin
+        Application.ProcessMessages;
+        fmIndex.LiturgiaCalendarClick(fmIndex.FindComponent('lcal_' + IntToStr(i)));
+        Application.ProcessMessages;
+      end;
     end;
 
     {LAZARUS: parâmetro liturgia_form=<tipo|1> abre fmLiturgia para testes headless}
@@ -572,6 +661,40 @@ begin
         fLiturgia.cbItensChange(nil);
         Application.ProcessMessages;
       end;
+    end;
+
+    {LAZARUS: parâmetro copia_liturgia=1 — exercita o fluxo completo de copiar
+     itens da liturgia p/ outro dia (port 1570e57) sem o modal;
+     resultado verificável em /tmp/lj_copia_lit_result.txt}
+    if paramexec.Strings.Values['copia_liturgia'] = '1' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsLiturgia);
+      Application.ProcessMessages;
+      testaCopiaLiturgia;
+      Application.ProcessMessages;
+    end;
+
+    {LAZARUS: copia_liturgia=dlg — só mostra o modal de seleção de dias (não-modal,
+     p/ screenshot headless); dia origem = dia atual, desabilitado no diálogo}
+    if paramexec.Strings.Values['copia_liturgia'] = 'dlg' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsLiturgia);
+      Application.ProcessMessages;
+      TfCopiaLiturgiaDia.CreateDialog(fmIndex, DayOfWeek(Now)).Show;
+      Application.ProcessMessages;
+    end;
+
+    {LAZARUS: parâmetro dropfile=<path> — invoca o handler de drag-and-drop da
+     Liturgia (port b09c49b) diretamente; deve abrir o modal "Adicionar Item"
+     com tipo Arquivo e o path pré-preenchido}
+    if paramexec.Strings.Values['dropfile'] <> '' then
+    begin
+      Application.ProcessMessages;
+      fmIndex.abrePagina(fmIndex.tsLiturgia);
+      Application.ProcessMessages;
+      fmIndex.FormDropFiles(fmIndex, [paramexec.Strings.Values['dropfile']]);
     end;
 
     {LAZARUS: parâmetro atualiza=1 abre fmAtualiza diretamente para testes headless}
