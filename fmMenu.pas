@@ -1954,6 +1954,8 @@ type
     procedure bsSkinSpeedButton54Click(Sender: TObject);
     procedure bsSkinSpeedButton55Click(Sender: TObject);
     procedure btCopiaLitSelClick(Sender: TObject); {LAZARUS: port upstream 1570e57}
+    procedure copiaItensLiturgiaParaDias(const diasDestino: array of Integer; sobrescrever: Boolean); {LAZARUS: port upstream 1570e57}
+    procedure GridPanel23Resize(Sender: TObject); {LAZARUS: distribui lcal_1..7 (ex-TGridPanel)}
     procedure btApagaLitSelClick(Sender: TObject);
     procedure bsSkinSpeedButton58Click(Sender: TObject);
     procedure bsSkinButton25Click(Sender: TObject);
@@ -2451,6 +2453,10 @@ begin
   FLitClipboard := TStringList.Create;
   FLitClipboardSemana := 0;
   criaBotaoCopiaLiturgia;
+
+  {LAZARUS: layout das 7 colunas do calendário da liturgia (ex-TGridPanel)}
+  GridPanel23.OnResize := GridPanel23Resize;
+  GridPanel23Resize(nil);
 end;
 
 {LAZARUS: port upstream 1570e57 — cria btCopiaLitSel espelhando btApagaLitSel}
@@ -2507,6 +2513,22 @@ begin
   btCopiaLitSel.Align := alRight;
   {alarga o grupo do ribbon para caber o novo botão (235→342 no upstream)}
   btApagaLitSel.Parent.Width := btApagaLitSel.Parent.Width + btCopiaLitSel.Width;
+end;
+
+{LAZARUS: TGridPanel → TPanel perdeu as células; os 7 botões lcal_* ficavam com
+ Align=alClient sobrepostos (só o último, "Domingo", aparecia). Distribui em 7 colunas}
+procedure TfmIndex.GridPanel23Resize(Sender: TObject);
+var
+  i, w: Integer;
+  bt: TSpeedButton;
+begin
+  w := GridPanel23.ClientWidth div 7;
+  for i := 1 to 7 do
+  begin
+    bt := TSpeedButton(FindComponent('lcal_' + IntToStr(i)));
+    if bt <> nil then
+      bt.SetBounds((i - 1) * w + 5, 10, w - 10, 29);
+  end;
 end;
 
 procedure TfmIndex.FormDestroy(Sender: TObject);
@@ -2849,7 +2871,9 @@ begin
 
   itens[0].Grupo := 'Geral';
   itens[0].Param := semana;
-  itens[0].Valor := StringReplace(lbLiturgia.Items.Text, #13#10, ';', [rfIgnoreCase, rfReplaceAll]);
+  {LAZARUS: #13#10 → LineEnding — no Linux TStringList.Text usa #10; com #13#10 o
+   replace não achava nada e o INI só persistia o primeiro item da lista}
+  itens[0].Valor := StringReplace(lbLiturgia.Items.Text, LineEnding, ';', [rfIgnoreCase, rfReplaceAll]);
 
   itens[1].Grupo := 'Geral';
   itens[1].Param := 'AlteraOrdem-' + semana;
@@ -3849,7 +3873,10 @@ begin
     cbBloqItens.Checked := (lerParam('Liturgia', 'BloquearItens', '0') = '1');
     cbAnotacoesLiturgia.Checked := (lerParam('Liturgia', 'ExibirAnotacoes', '1') = '1');
 
-//    LiturgiaCalendarClick(nil); //ESTÁ DENTRO DE BLOQUEAR ITENS
+    {LAZARUS: chamada explícita — o original dependia do OnClick disparado por
+     cbBloqItens.Checked:=... ("ESTÁ DENTRO DE BLOQUEAR ITENS"); no LCL o evento
+     não dispara quando o valor não muda e a liturgia do dia nunca era carregada}
+    LiturgiaCalendarClick(nil);
   end;
 end;
 
@@ -11815,23 +11842,12 @@ end;
  outros dias da semana, com opção de sobrescrever o conteúdo do dia destino}
 procedure TfmIndex.btCopiaLitSelClick(Sender: TObject);
 var
-  i, k, dia: Integer;
-  item, novoId, semanaStr: string;
+  i: Integer;
+  item: string;
   checkbox: TCheckBox {LAZARUS: TbsSkinCheckBox};
   dlg: TfCopiaLiturgiaDia;
   diaOrigem: Integer;
   diasDestino: TArray<Integer>;
-  itensExistentes, existingIds, keys: TStringList;
-  iniRead: TMemIniFile;
-  params: array of TParamItem;
-
-  procedure AddParam(const grupo, param, valor: string);
-  begin
-    SetLength(params, Length(params) + 1);
-    params[High(params)].Grupo := grupo;
-    params[High(params)].Param := param;
-    params[High(params)].Valor := valor;
-  end;
 begin
   FLitClipboard.Clear;
   for i := 0 to lbLiturgia.Items.Count - 1 do
@@ -11862,12 +11878,41 @@ begin
       Exit;
     end;
 
+    copiaItensLiturgiaParaDias(diasDestino, dlg.GetSobrescrever);
+
+    Application.MessageBox(
+      PChar('Itens copiados com sucesso para ' + IntToStr(Length(diasDestino)) + ' dia(s)!'),
+      TITULO, MB_OK + MB_ICONINFORMATION);
+
+  finally
+    dlg.Free;
+  end;
+end;
+
+{LAZARUS: lógica de cópia extraída de btCopiaLitSelClick — copia os itens em
+ FLitClipboard para os dias informados; reutilizável em teste headless}
+procedure TfmIndex.copiaItensLiturgiaParaDias(const diasDestino: array of Integer; sobrescrever: Boolean);
+var
+  i, k, dia: Integer;
+  item, novoId, semanaStr: string;
+  itensExistentes, existingIds, keys: TStringList;
+  iniRead: TMemIniFile;
+  params: array of TParamItem;
+
+  procedure AddParam(const grupo, param, valor: string);
+  begin
+    SetLength(params, Length(params) + 1);
+    params[High(params)].Grupo := grupo;
+    params[High(params)].Param := param;
+    params[High(params)].Valor := valor;
+  end;
+begin
     for dia in diasDestino do
     begin
       semanaStr := IntToStr(dia);
       itensExistentes := TStringList.Create;
       try
-        if dlg.GetSobrescrever then
+        if sobrescrever then
         begin
           existingIds := TStringList.Create;
           try
@@ -11917,7 +11962,8 @@ begin
         end;
 
         gravaParam('Geral', semanaStr,
-          StringReplace(itensExistentes.Text, #13#10, ';', [rfIgnoreCase, rfReplaceAll]),
+          {LAZARUS: #13#10 → LineEnding — no Linux Text usa #10; só o 1º item persistia}
+          StringReplace(itensExistentes.Text, LineEnding, ';', [rfIgnoreCase, rfReplaceAll]),
           arq_liturgia);
         gravaParam('Geral', 'AlteraOrdem-' + semanaStr,
           FormatDateTime('dd/mm/yyyy hh:mm:ss', Now), arq_liturgia);
@@ -11925,14 +11971,6 @@ begin
         itensExistentes.Free;
       end;
     end;
-
-    Application.MessageBox(
-      PChar('Itens copiados com sucesso para ' + IntToStr(Length(diasDestino)) + ' dia(s)!'),
-      TITULO, MB_OK + MB_ICONINFORMATION);
-
-  finally
-    dlg.Free;
-  end;
 end;
 
 procedure TfmIndex.btApagaLitSelClick(Sender: TObject);

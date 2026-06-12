@@ -20114,7 +20114,7 @@ object fmIndex: TfmIndex
             Cursor = crHandPoint
             Align = alRight
             BevelOuter = bvNone
-            Caption = 'Panel9'
+            Caption = ''
             Color = clBlack
             ParentBackground = False
             TabOrder = 2
@@ -20146,7 +20146,7 @@ object fmIndex: TfmIndex
             Cursor = crHandPoint
             Align = alLeft
             BevelOuter = bvNone
-            Caption = 'Panel12'
+            Caption = ''
             Color = 5177344
             ParentBackground = False
             TabOrder = 0
@@ -20199,7 +20199,7 @@ object fmIndex: TfmIndex
             Checked = False
             NumGlyphs = 1
             Spacing = 2
-            Caption = 'Panel10'
+            Caption = ''
             Align = alClient
             OnClick = lit_modItem_textoClick
             object lit_modItem_subtitulo: TLabel
@@ -20297,7 +20297,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'Segunda'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end
@@ -20320,7 +20319,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'Ter'#231'a'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end
@@ -20343,7 +20341,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'Quarta'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end
@@ -20366,7 +20363,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'Quinta'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end
@@ -20389,7 +20385,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'Sexta'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end
@@ -20412,7 +20407,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'S'#225'bado'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end
@@ -20435,7 +20429,6 @@ object fmIndex: TfmIndex
           GroupIndex = 0
           Caption = 'Domingo'
           NumGlyphs = 1
-          Align = alClient
           Spacing = 1
           OnClick = LiturgiaCalendarClick
         end

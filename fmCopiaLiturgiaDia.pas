@@ -21,9 +21,10 @@ type
 implementation
 
 const
+  {LAZARUS: literais #231/#225 (Latin-1) renderizavam vazio no LCL (espera UTF-8)}
   NOMES_DIAS: array[1..7] of string = (
-    'Domingo', 'Segunda-feira', 'Ter'#231'a-feira',
-    'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S'#225'bado'
+    'Domingo', 'Segunda-feira', 'Terça-feira',
+    'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'
   );
 
 constructor TfCopiaLiturgiaDia.CreateDialog(AOwner: TComponent; ADiaOrigem: Integer);
@@ -38,8 +39,9 @@ begin
   FDiaOrigem := ADiaOrigem;
 
   Caption := 'Colar Itens em Outros Dias';
-  Width := 330;
-  Height := 340;
+  {LAZARUS: 330x340 cortava o 7º dia (Sábado) e o texto do "Sobrescrever" no GTK2}
+  Width := 380;
+  Height := 370;
   BorderStyle := bsDialog;
   Position := poOwnerFormCenter;
 
@@ -49,7 +51,7 @@ begin
   lbl.Left := 12;
   lbl.Top := 12;
   lbl.Width := Width - 24;
-  lbl.Height := 32;
+  lbl.Height := 36; {LAZARUS: 32 cortava a 2ª linha do texto no GTK2}
   lbl.WordWrap := True;
   lbl.Caption := 'Selecione os dias para colar os itens copiados:';
 
@@ -57,8 +59,8 @@ begin
   grp.Parent := Self;
   grp.Left := 12;
   grp.Top := 50;
-  grp.Width := 295;
-  grp.Height := 168;
+  grp.Width := Width - 24;
+  grp.Height := 196; {LAZARUS: 168 cortava o 7º checkbox no GTK2 (caption do groupbox ocupa área cliente)}
   grp.Caption := 'Dias da Semana';
 
   for i := 1 to 7 do
@@ -66,8 +68,8 @@ begin
     FCbDias[i] := TCheckBox.Create(Self);
     FCbDias[i].Parent := grp;
     FCbDias[i].Left := 16;
-    FCbDias[i].Top := 18 + (i - 1) * 21;
-    FCbDias[i].Width := 240;
+    FCbDias[i].Top := 12 + (i - 1) * 23;
+    FCbDias[i].Width := 280;
     FCbDias[i].Caption := NOMES_DIAS[i];
     FCbDias[i].Tag := i;
     if i = ADiaOrigem then
@@ -83,9 +85,9 @@ begin
   FCbSobrescrever := TCheckBox.Create(Self);
   FCbSobrescrever.Parent := Self;
   FCbSobrescrever.Left := 12;
-  FCbSobrescrever.Top := 228;
-  FCbSobrescrever.Width := 295;
-  FCbSobrescrever.Caption := 'Sobrescrever todo o conte'#250'do dos dias selecionados';
+  FCbSobrescrever.Top := 256;
+  FCbSobrescrever.Width := Width - 24;
+  FCbSobrescrever.Caption := 'Sobrescrever todo o conteúdo dos dias selecionados'; {LAZARUS: #250 → UTF-8}
   FCbSobrescrever.Checked := False;
 
   pnlBotoes := TPanel.Create(Self);
@@ -99,7 +101,7 @@ begin
 
   btn := TButton.Create(Self);
   btn.Parent := pnlBotoes;
-  btn.Left := 146;
+  btn.Left := Width - 196;
   btn.Top := 8;
   btn.Width := 80;
   btn.Height := 28;
@@ -109,7 +111,7 @@ begin
 
   btn := TButton.Create(Self);
   btn.Parent := pnlBotoes;
-  btn.Left := 234;
+  btn.Left := Width - 104;
   btn.Top := 8;
   btn.Width := 80;
   btn.Height := 28;
