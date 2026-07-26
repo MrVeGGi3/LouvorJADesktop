@@ -51,7 +51,8 @@ implementation
 
 uses fmMenu, fmAtualiza, dmComponentes, fmTransmitir, fmEditorSlides,
   fmBuscaMusica, fmItensAgendados, fmFormatacao, fmVideoOn, fmNovaVersao,
-  fmLiturgia, fmCopiaLiturgiaDia;
+  fmLiturgia, fmCopiaLiturgiaDia
+  {$IFDEF LCLGTK2}, gtk2, glib2{$ENDIF};
 
 procedure TfIniciando.AppCreateForm(InstanceClass: TComponentClass;
   var Reference);
@@ -159,6 +160,37 @@ begin
     saida.Free;
   end;
 end;
+
+{$IFDEF LCLGTK2}
+{LAZARUS/COSMIC: o widgetset GTK2 cria GtkWindows internas (hint/popup) que, no COSMIC/Wayland,
+ o compositor mapeia como janela normal — surge uma janela cinza vazia (~76x32) a sessão toda.
+ Essas janelas não têm wrapper LCL, título, nem são forms. Aqui escondemos qualquer toplevel
+ GTK visível, SEM título e pequena (<=200x200) que não seja uma das nossas janelas reais.}
+procedure EscondeFantasmasGtk;
+var
+  lst, p: PGList;
+  w: PGtkWidget;
+  title: PgChar;
+  ww, hh: Integer;
+begin
+  lst := gtk_window_list_toplevels;
+  p := lst;
+  while p <> nil do
+  begin
+    w := PGtkWidget(p^.data);
+    if (w <> nil) and GTK_WIDGET_VISIBLE(w) then
+    begin
+      title := gtk_window_get_title(PGtkWindow(w));
+      ww := w^.allocation.width;
+      hh := w^.allocation.height;
+      if (title = nil) and (ww <= 200) and (hh <= 200) then
+        gtk_widget_hide(w);
+    end;
+    p := p^.next;
+  end;
+  g_list_free(lst);
+end;
+{$ENDIF}
 
 procedure TfIniciando.Timer1Timer(Sender: TObject);
 var
@@ -837,6 +869,10 @@ begin
     DM.tmrVersao.Enabled := True;
     fmIndex.carrega_opc := true;
   end;
+  {LAZARUS/COSMIC: esconde a janela fantasma cinza (GtkWindow interna mapeada pelo compositor)}
+  {$IFDEF LCLGTK2}
+  EscondeFantasmasGtk;
+  {$ENDIF}
   fIniciando.Visible := False;
   if DM.tmrSair.Enabled = True then
     Exit;

@@ -302,6 +302,12 @@ end;
 begin
   RegisterLegacySkipProperties;
   Application.Initialize;
+  {LAZARUS: fIniciando (splash) é o Application.MainForm (1ª TForm criada). No COSMIC/Wayland
+   o compositor remapeia a janela do MainForm mesmo após Visible:=False, deixando uma janela
+   vazia fantasma a sessão inteira. ShowMainForm:=False impede que o LCL mapeie o splash:
+   ele é criado (Timer1 roda a inicialização e mostra fmIndex normalmente) mas NUNCA aparece.
+   O encerramento já é garantido por TDM.tmrSairTimer→Halt(0) (não depende do MainForm).}
+  Application.ShowMainForm := False;
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfIniciando, fIniciando);
   Application.CreateForm(TfPlayer, fPlayer);

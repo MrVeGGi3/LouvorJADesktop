@@ -3489,9 +3489,13 @@ begin
     fMusicaOperador.Top := monitorInfo(monitor_ope).Top;
     fMusicaOperador.Width := monitorInfo(monitor_ope).Width;
     fMusicaOperador.Height := monitorInfo(monitor_ope).Height;
+    fMusicaOperador.ajustaColunaTrecho; {LAZARUS: ajusta coluna do trecho à largura visível}
   end;
 
-  if (lerParam('Musicas', 'ModoRetorno', '1') = '1') then
+  {LAZARUS: no monitor único, a tela de retorno abriria fullscreen empilhada sobre a projeção
+   (Wayland/COSMIC ignora o posicionamento por monitor) — janela preta redundante. Só exibe o
+   retorno com 2+ monitores. fMusicaRetorno continua criada (3476): equivale a ModoRetorno=0.}
+  if (Screen.MonitorCount > 1) and (lerParam('Musicas', 'ModoRetorno', '1') = '1') then
   begin
     fMusicaRetorno.lblTempo.Caption := '';
     fMusicaRetorno.gSlide.Position {LAZARUS: TProgressBar.Value->Position} := 0;
@@ -3507,8 +3511,13 @@ begin
   end;
 
   fIniciando.AppCreateForm(TfMusica, fMusica);
-  fMusica.AlphaBlend := True;
-  fMusica.AlphaBlendValue := 0;
+  {LAZARUS: AlphaBlend só quando o fade é realmente pedido. AlphaBlend:=True força o
+   GTK2 a recriar o handle com visual RGBA; no XWayland/COSMIC (sem composição alfa via
+   XLib) isso faz a janela de projeção piscar/abrir em branco ao selecionar a música.
+   Mesma causa raiz do splash em branco (fmIniciando.lfm AlphaBlend=False).}
+  fMusica.AlphaBlend := ckFadeForm.Checked;
+  if ckFadeForm.Checked then
+    fMusica.AlphaBlendValue := 0;
 
   fMusica.tipo := tipo;
   fMusica.param := param;
@@ -3592,11 +3601,17 @@ begin
     fMusicaOperador.pnlProgress.Visible := true;
     fMusicaOperador.btPausePlay.Visible := true;
     fMusicaOperador.Show;
+    fMusicaOperador.ajustaColunaTrecho; {LAZARUS: ajusta coluna do trecho à largura visível}
   end;
 
   fIniciando.AppCreateForm(TfMusica, fMusica);
-  fMusica.AlphaBlend := True;
-  fMusica.AlphaBlendValue := 0;
+  {LAZARUS: AlphaBlend só quando o fade é realmente pedido. AlphaBlend:=True força o
+   GTK2 a recriar o handle com visual RGBA; no XWayland/COSMIC (sem composição alfa via
+   XLib) isso faz a janela de projeção piscar/abrir em branco ao selecionar a música.
+   Mesma causa raiz do splash em branco (fmIniciando.lfm AlphaBlend=False).}
+  fMusica.AlphaBlend := ckFadeForm.Checked;
+  if ckFadeForm.Checked then
+    fMusica.AlphaBlendValue := 0;
 
   fMusica.musicaID := musicaID;
   fMusica.albumID := albumID;

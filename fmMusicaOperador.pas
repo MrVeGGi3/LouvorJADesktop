@@ -56,6 +56,10 @@ type
     { Public declarations }
     inicio: Boolean;
     recno: Integer;
+    {LAZARUS: ajusta a coluna do texto do trecho à largura visível do grid (evita truncar).
+     Público pois é chamado por fmMenu após mostrar o operador (FormActivate não dispara em
+     modo projeção — a janela de projeção rouba o foco).}
+    procedure ajustaColunaTrecho;
   end;
 
 var
@@ -151,6 +155,20 @@ begin
   Key := #0;
 end;
 
+{LAZARUS: a coluna LETRA_UCASE vinha com Width fixo (387) maior que o grid (~281), truncando
+ o texto do trecho e gerando scrollbar horizontal. Ajusta a coluna à largura visível do grid,
+ descontando a coluna do número e ~22px reservados à bsSkinScrollBar7 (sobreposta à direita).}
+procedure TfMusicaOperador.ajustaColunaTrecho;
+var
+  w: Integer;
+begin
+  if DBGrid1.Columns.Count < 2 then
+    Exit;
+  w := DBGrid1.ClientWidth - DBGrid1.Columns[0].Width - 22;
+  if w > 0 then
+    DBGrid1.Columns[1].Width := w;
+end;
+
 procedure TfMusicaOperador.FormActivate(Sender: TObject);
 begin
   if (fmIndex.lerParam('Musicas', 'ModoOperador', '1') <> '1') then
@@ -165,6 +183,7 @@ begin
     recno := 0;
     fMusicaOperador.Tag := 1;
   end;
+  ajustaColunaTrecho; {refit ao ativar — complementa a chamada de fmMenu pós-Show}
 end;
 
 procedure TfMusicaOperador.FormClose(Sender: TObject; var Action: TCloseAction);
